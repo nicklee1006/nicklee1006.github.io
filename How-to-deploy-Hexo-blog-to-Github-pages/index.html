@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>How to build a blog with hexo | Nick Li</title>
+	<title>How to deploy Hexo blog to Github pages | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="How to build a blog with hexo | Nick Li">
+	<meta property="og:title" content="How to deploy Hexo blog to Github pages | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/How-to-build-a-blog-with-hexo/">
+	<meta property="og:url" content="http://nicklee1006.github.io/How-to-deploy-Hexo-blog-to-Github-pages/">
 
 	
-	<meta property="article:published_time" content="2019-11-03T15:11:00+08:00"> 
+	<meta property="article:published_time" content="2019-11-05T21:11:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /How-to-build-a-blog-with-hexo/">
+	<meta property="article:published_first" content="Nick Li, /How-to-deploy-Hexo-blog-to-Github-pages/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-11-03T05:23:03.000Z">
-                    2019-11-3
+                <time class="post-full-meta-date" datetime="2019-11-05T11:02:16.000Z">
+                    2019-11-5
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,55 +148,38 @@
                 
                 
             </div>
-            <h1 class="post-full-title">How to build a blog with hexo</h1>
+            <h1 class="post-full-title">How to deploy Hexo blog to Github pages</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/03/3qjGwSvU4bOA57W.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/05/2urMaVxoQC8DROZ.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <p>Hexo is a blog framework powered by Node.js. I recently built my blog with it and found it extremely easy and fast. The posts are written in Markdown and Hexo will generates static files in seconds. </p>
-<p>In this post I will walk through the steps to setup a blog running locally. There will be another post discussing deploy the blog site to Github page. Here I will only discuss how to install Hexo blog on MacOS. For installation on other platforms such as Windows, please refer to other online posts like <a href="https://www.how2shout.com/how-to/install-hexo-nodejs-blog-on-windows-10-with-github.html" target="_blank" rel="noopener">https://www.how2shout.com/how-to/install-hexo-nodejs-blog-on-windows-10-with-github.html</a></p>
-<h2 id="Requirems-to-install-Hexo"><a href="#Requirems-to-install-Hexo" class="headerlink" title="Requirems to install Hexo"></a>Requirems to install Hexo</h2><ul>
-<li><a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js</a></li>
-<li><a href="https://git-scm.com" target="_blank" rel="noopener">Git</a></li>
+                    <p>Hexo provides fast and easy one-click deployment, supporting <a href="https://pages.github.com" target="_blank" rel="noopener">Github Pages</a>, <a href="https://www.netlify.com" target="_blank" rel="noopener">Netlify</a>, <a href="https://www.openshift.com" target="_blank" rel="noopener">OpenShift</a> etc. In this post, I will walk through the process of deploying Hexo blog site to <a href="https://pages.github.com" target="_blank" rel="noopener">Github Pages</a>.</p>
+<h2 id="Folder-structure-of-Hexo"><a href="#Folder-structure-of-Hexo" class="headerlink" title="Folder structure of Hexo"></a>Folder structure of Hexo</h2><p>Before discussing the process, I think it is important to understand the folder structure of Hexo. Basically, a Hexo blog site contains the following folders:</p>
+<ul>
+<li><strong>scaffolds:</strong> Template folder. When you create a new post, Hexo will create a “.md” file under <code>source</code> based on scaffold.</li>
+<li><strong>source:</strong> The Resource folder. It is where the user resources are stored. It stores all “.md” files which would be rendered to html pages.</li>
+<li><strong>themes:</strong> Stores all theme files.</li>
+<li><strong>public</strong> This is where all rendered files comes in. When deploying, we need this folder to get to the Github repository so that Github pages can host it.</li>
 </ul>
-<h2 id="Install-Node-js"><a href="#Install-Node-js" class="headerlink" title="Install Node.js"></a>Install Node.js</h2><p>Run this script in the terminal:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | sh</span><br></pre></td></tr></table></figure>
+<p>Now let’s look at how to deploy the blog site to Github Pages.</p>
+<h2 id="Install-hexo-deployer-git"><a href="#Install-hexo-deployer-git" class="headerlink" title="Install hexo-deployer-git"></a>Install hexo-deployer-git</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
 
-<p>Edit zsh config to load nvm each time:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h2 id="Setup-Github-repository"><a href="#Setup-Github-repository" class="headerlink" title="Setup Github repository"></a>Setup Github repository</h2><p>Login GitHub account and create a new repository named username.github.io, where username is the username on GitHub.</p>
+<ul>
+<li>Note that the first part of the repository must exactly match the username, otherwise it won’t work.</li>
+</ul>
+<p>Refer to <a href="https://pages.github.com" target="_blank" rel="noopener">https://pages.github.com</a> for more details.</p>
+<h2 id="Change-config-file"><a href="#Change-config-file" class="headerlink" title="Change config file"></a>Change config file</h2><p>Add the following lines to <code>_config.yml</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type:    git</span><br><span class="line">  repo:    &lt;repository url&gt; #e.g. https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io</span><br><span class="line">  branch:  [branch]         #branch name, default is &apos;master&apos;</span><br><span class="line">  message: [message]        #commit message, default is &apos;Site updated: &#123;&#123; now(&apos;YYYY-MM-DD HH:mm:ss&apos;) &#125;&#125;&apos;</span><br></pre></td></tr></table></figure>
 
-<p>Add: <code>[[ -s $HOME/.nvm/nvm.sh ]] &amp;&amp; . $HOME/.nvm/nvm.sh</code> to the end of the file</p>
-<p>Then run the command to install node.js</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install node</span><br></pre></td></tr></table></figure>
+<h2 id="Generate-site-files-and-push-to-remote-repository"><a href="#Generate-site-files-and-push-to-remote-repository" class="headerlink" title="Generate site files and push to remote repository"></a>Generate site files and push to remote repository</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
 
-<p>After the script finishes running, you should see the following output, which means node.js is all set. Great!</p>
-<img class="post-img b-lazy" data-img="/How-to-build-a-blog-with-hexo/node-success.png" data-index="0" data-src="/How-to-build-a-blog-with-hexo/node-success.png">
-
-<h2 id="Install-Git"><a href="#Install-Git" class="headerlink" title="Install Git"></a>Install Git</h2><p>Next is install Git so you can checkout code from source repositry. On Mac the easiest way is to use <a href="https://brew.sh" target="_blank" rel="noopener">HomeBrew</a>. You can install Brew with one line of command:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></span><br></pre></td></tr></table></figure>
-
-<p>After Brew is installed, use it to install Git:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Brew install git</span><br></pre></td></tr></table></figure>
-
-<h2 id="Install-Hexo"><a href="#Install-Hexo" class="headerlink" title="Install Hexo"></a>Install Hexo</h2><p>With Node.js and Git all set, you can install Hexo run the following  command</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-
-<h2 id="Create-a-blog-site"><a href="#Create-a-blog-site" class="headerlink" title="Create a blog site"></a>Create a blog site</h2><p>Now it comes to the moment when you are able to create the blog site. Simply run:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init my-blog</span><br><span class="line"><span class="built_in">cd</span> my-blog</span><br><span class="line">hexo install</span><br></pre></td></tr></table></figure>
-
-<p>Hexo will download and create all necessary files to ‘my-blog’ folder. </p>
-<h2 id="Run-the-Hexo-server"><a href="#Run-the-Hexo-server" class="headerlink" title="Run the Hexo server"></a>Run the Hexo server</h2><p>Everything is ready and you can run the Hexo server to view your blog site!</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
-<p>Visit <a href="http://localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a> and you should be able to see the webpage show up</p>
-<img class="post-img b-lazy" data-img="/How-to-build-a-blog-with-hexo/blog-page.png" data-index="1" data-src="/How-to-build-a-blog-with-hexo/blog-page.png">
-
-
-<p>Congraturations! You have a blog site up and running. You can create a post using <code>hexo new post &quot;Blog title&quot;</code>. You can also change the themes and add plugins to the site.</p>
+<p>Wait for a couple of minutes, then visit username.github.io, the blog site should be visiable!</p>
+<h2 id="How-does-it-works"><a href="#How-does-it-works" class="headerlink" title="How does it works"></a>How does it works</h2><p>When hexo deploy is executed, Hexo pushes the files and directories in the <code>public</code> folder to the remote repositories and branches specified in <code>_config.yml</code> and completely overwrites the existing content under that branch.</p>
 
                 </article>
                 <ul class="tags-postTags">
@@ -213,11 +196,11 @@
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="How to deploy Hexo blog to Github pages" href="/How-to-deploy-Hexo-blog-to-Github-pages/">
-            ← How to deploy Hexo blog to Github pages
-        </a>
-        
         <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="How to build a blog with hexo" href="/How-to-build-a-blog-with-hexo/">
+            How to build a blog with hexo →
+        </a>
         
     </nav>
 
@@ -242,7 +225,7 @@
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Requirems-to-install-Hexo"><span class="toc-text">Requirems to install Hexo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-Node-js"><span class="toc-text">Install Node.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-Git"><span class="toc-text">Install Git</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-Hexo"><span class="toc-text">Install Hexo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Create-a-blog-site"><span class="toc-text">Create a blog site</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Run-the-Hexo-server"><span class="toc-text">Run the Hexo server</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Folder-structure-of-Hexo"><span class="toc-text">Folder structure of Hexo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-hexo-deployer-git"><span class="toc-text">Install hexo-deployer-git</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Setup-Github-repository"><span class="toc-text">Setup Github repository</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Change-config-file"><span class="toc-text">Change config file</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generate-site-files-and-push-to-remote-repository"><span class="toc-text">Generate site files and push to remote repository</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-does-it-works"><span class="toc-text">How does it works</span></a></li></ol>
     </div>
 </div>
 
@@ -413,7 +396,7 @@
 			<a href="/" title="Nick Li">Nick Li &copy; 2019</a>
 			
 				
-			        <span hidden="true" id="/How-to-build-a-blog-with-hexo/" class="leancloud-visitors" data-flag-title="How to build a blog with hexo">
+			        <span hidden="true" id="/How-to-deploy-Hexo-blog-to-Github-pages/" class="leancloud-visitors" data-flag-title="How to deploy Hexo blog to Github pages">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
