@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="preconnect" href="//www.googletagmanager.com">
+	<link rel="preconnect" href="//zz.bdstatic.com">
+	<link rel="preconnect" href="//sp0.baidu.com">
+	<link rel="preconnect" href="//www.google-analytics.com">
+	<link rel="preconnect" href="//cdn1.lncld.net">
+	<link rel="preconnect" href="//unpkg.com">
+	<link rel="preconnect" href="//app-router.leancloud.cn">
+	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
+	<link rel="preconnect" href="//gravatar.loli.net">
+
+	<title>Java 8 Streams Operations | Nick Li</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="Nick Li">
+	<meta name="description" content>
+
+	
+
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="Nick Li">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Java 8 Streams Operations | Nick Li">
+	<meta property="og:description" content>
+	<meta property="og:url" content="http://nicklee1006.github.io/Java-8-Streams-Operations/">
+
+	
+	<meta property="article:published_time" content="2019-11-07T22:11:00+08:00"> 
+	<meta property="article:author" content="Nick Li">
+	<meta property="article:published_first" content="Nick Li, /Java-8-Streams-Operations/">
+	
+
+	
+	
+	<link rel="stylesheet" href="/css/allinonecss.min.css">
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151447201-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-151447201-1');
+	</script>
+	
+	
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header post-site-header outer">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/archives" title="ARCHIVES">ARCHIVES</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button-area">
+        <a href="#search" class="search-button">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="search-button">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    <a class="social-link" title="linkedin" href="https://www.linkedin.com/in/chenzhang-li/" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<div id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <div class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2019-11-07T12:07:45.000Z">
+                    2019-11-7
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
+                
+                
+            </div>
+            <h1 class="post-full-title">Java 8 Streams Operations</h1>
+        </header>
+        <div class="post-full ">
+            
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/07/PzxHEvdLS4hAVeK.jpg)">
+            </figure>
+            
+            <div class="post-full-content">
+                <article id="photoswipe" class="markdown-body">
+                    <p>Stream operation is one of the main feature of Java 8. I have met these code a lot recently in the work. So I thought it would be good to write it up and summarize the key point of the knowledge.</p>
+<h2 id="Creation-of-stream"><a href="#Creation-of-stream" class="headerlink" title="Creation of stream"></a>Creation of stream</h2><p>There are multiple different ways to create steams:</p>
+<h3 id="Stream-of"><a href="#Stream-of" class="headerlink" title="Stream.of()"></a>Stream.of()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &lt;T&gt; <span class="function">Stream&lt;T&gt; <span class="title">of</span><span class="params">(T... values)</span></span></span><br></pre></td></tr></table></figure>
+<p>Example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; stringStream = Stream.of(<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>);</span><br><span class="line">stringStream.forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// a</span></span><br><span class="line"><span class="comment">// b</span></span><br><span class="line"><span class="comment">// c</span></span><br><span class="line"><span class="comment">// d</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Stream-iterate"><a href="#Stream-iterate" class="headerlink" title="Stream.iterate()"></a>Stream.iterate()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &lt;T&gt; <span class="function">Stream&lt;T&gt; <span class="title">iterate</span><span class="params">(T seed, UnaryOperator&lt;T&gt; f)</span></span></span><br></pre></td></tr></table></figure>
+<p>Create a stream start with a value, and iterate through by a certain operator.</p>
+<p>Example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Stream.iterate(<span class="number">10</span>, n -&gt; n + <span class="number">1</span>)</span><br><span class="line">                .limit(<span class="number">10</span>)</span><br><span class="line">                .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 10</span></span><br><span class="line"><span class="comment">// 11</span></span><br><span class="line"><span class="comment">// 12</span></span><br><span class="line"><span class="comment">// 13</span></span><br><span class="line"><span class="comment">// 14</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Stream-generate"><a href="#Stream-generate" class="headerlink" title="Stream.generate()"></a>Stream.generate()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &lt;T&gt; <span class="function">Stream&lt;T&gt; <span class="title">generate</span><span class="params">(Supplier&lt;T&gt; s)</span></span></span><br></pre></td></tr></table></figure>
+<p>Create a stream based on the value generate function. The generate function returns 1 value each time</p>
+<p>Example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Stream.generate(Math::random)</span><br><span class="line">                .limit(<span class="number">5</span>)</span><br><span class="line">                .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 0.09623470299238657</span></span><br><span class="line"><span class="comment">// 0.8470095359492898</span></span><br><span class="line"><span class="comment">// 0.20505426293183482</span></span><br><span class="line"><span class="comment">// 0.8112754654328852</span></span><br><span class="line"><span class="comment">// 0.009673283068063365</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Create-a-stream-from-an-existing-collection"><a href="#Create-a-stream-from-an-existing-collection" class="headerlink" title="Create a stream from an existing collection"></a>Create a stream from an existing collection</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(<span class="string">"hello"</span>, <span class="string">"world"</span>, <span class="string">"Java8"</span>);</span><br><span class="line">strings.stream().forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// hello</span></span><br><span class="line"><span class="comment">// world</span></span><br><span class="line"><span class="comment">// Java8</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Stream-operation"><a href="#Stream-operation" class="headerlink" title="Stream operation"></a>Stream operation</h2><p>Now we know how to create stream, let’s look at what operations can be applied to stream</p>
+<h3 id="Filter-and-slice"><a href="#Filter-and-slice" class="headerlink" title="Filter and slice"></a>Filter and slice</h3><h4 id="filter"><a href="#filter" class="headerlink" title="filter()"></a>filter()</h4><p>The filter method accepts a function that returns a boolean as a parameter, and returns a stream containing all the elements that match the condition. </p>
+<p>For example, you can select all words starting with the letter w and print them like this:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = Arrays.asList(<span class="string">"random"</span>, <span class="string">"hello"</span>, <span class="string">"wow"</span>, <span class="string">"world"</span>, <span class="string">"java"</span>);</span><br><span class="line">words.stream()</span><br><span class="line">    .filter(word -&gt; word.startsWith(<span class="string">"w"</span>))</span><br><span class="line">    .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// wow</span></span><br><span class="line"><span class="comment">// world</span></span><br></pre></td></tr></table></figure>
+
+<p>Or you can get the list that match those condition like this:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = Arrays.asList(<span class="string">"random"</span>, <span class="string">"hello"</span>, <span class="string">"wow"</span>, <span class="string">"world"</span>, <span class="string">"java"</span>);</span><br><span class="line">List&lt;String&gt; filtered = words.stream()</span><br><span class="line">                            .filter(word -&gt; word.startsWith(<span class="string">"w"</span>))</span><br><span class="line">                            .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+
+<h4 id="distince"><a href="#distince" class="headerlink" title="distince()"></a>distince()</h4><p>The distinct method will return a stream of elements that are unique. </p>
+<p>For example, the following code returns the list that has no duplicates:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">numbers.stream()</span><br><span class="line">    .distinct()</span><br><span class="line">    .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line"><span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="skip"><a href="#skip" class="headerlink" title="skip()"></a>skip()</h4><p>The skip(n) method returns a stream that throws away the first n elements. If there are fewer than n elements in the stream, an empty stream is returned.</p>
+<h3 id="Mapping"><a href="#Mapping" class="headerlink" title="Mapping"></a>Mapping</h3><p>A very common data processing method is to select information from certain objects. For example, in SQL, you can select a column from the table, and the Stream API also provides similar tools through the <code>map</code> and <code>flatMap</code> methods.</p>
+<h4 id="map"><a href="#map" class="headerlink" title="map()"></a>map()</h4><p>Before Java8, we  need to take out one field of a collection object and then save it to another collection. With stream map, we can simply use map function to map out the field we want, then use collect them to new collection</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    List&lt;Person&gt; persons = Arrays.asList(<span class="keyword">new</span> Person(<span class="number">20</span>, <span class="string">"Nick Li"</span>),</span><br><span class="line">        <span class="keyword">new</span> Person(<span class="number">30</span>, <span class="string">"Mike"</span>), <span class="keyword">new</span> Person(<span class="number">40</span>, <span class="string">"Peter"</span>));</span><br><span class="line"></span><br><span class="line">    persons.stream()</span><br><span class="line">        .map(Person::getAge)</span><br><span class="line">        .forEach(System.out::println);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 20</span></span><br><span class="line"><span class="comment">// 30</span></span><br><span class="line"><span class="comment">// 40</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// skip constructor and other set, get methods</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap()"></a>flatMap()</h4><p>If we want to know how many unique character in a list of words,  what should we do?</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = Arrays.asList(<span class="string">"Hello"</span>, <span class="string">"World"</span>);</span><br><span class="line">words.stream()</span><br><span class="line">     .map(s -&gt; s.split(<span class="string">""</span>))</span><br><span class="line">     .distinct()</span><br><span class="line">     .collect(Collectors.toList())</span><br><span class="line">     .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// [Ljava.lang.String;@312b1dae</span></span><br><span class="line"><span class="comment">// [Ljava.lang.String;@7530d0a</span></span><br></pre></td></tr></table></figure>
+
+<p>This is wrong because the map function returns a <code>String[]</code>. So we get a <code>Stream&lt;String[]&gt;</code> instead of <code>Stream&lt;String&gt;</code>. To solve this problem, we can use flatMap:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = Arrays.asList(<span class="string">"Hello"</span>, <span class="string">"World"</span>);</span><br><span class="line">words.stream()</span><br><span class="line">     .map(s -&gt; s.split(<span class="string">""</span>))</span><br><span class="line">     .flatMap(Arrays::stream)</span><br><span class="line">     .distinct()</span><br><span class="line">     .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// H</span></span><br><span class="line"><span class="comment">// e</span></span><br><span class="line"><span class="comment">// l</span></span><br><span class="line"><span class="comment">// o</span></span><br><span class="line"><span class="comment">// W</span></span><br><span class="line"><span class="comment">// r</span></span><br><span class="line"><span class="comment">// d</span></span><br></pre></td></tr></table></figure>
+
+<p>The effect of using flatMap method is that each array is not mapped to a stream, but to the contents of the stream. In a nutshell, flatMap lets you convert each value in a stream to another stream, then join all the streams into one stream.</p>
+<h3 id="Find-and-match"><a href="#Find-and-match" class="headerlink" title="Find and match"></a>Find and match</h3><p>Another common data processing method is to see if certain elements in the dataset match a given condition. The Stream API provides such tools through <code>allMatch</code>, <code>anyMatch</code>, <code>noneMatch</code>, <code>findFirst</code>, and <code>findAny</code> methods.</p>
+<p>The function name is very self-explanatory. Let see some examples</p>
+<p>To check if a collection contains even numbers:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (numbers.stream().anyMatch(x -&gt; x % <span class="number">2</span> == <span class="number">0</span>)) &#123;</span><br><span class="line">    System.out.println(<span class="string">"Yes"</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">"No"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// Yes</span></span><br></pre></td></tr></table></figure>
+
+<p>To find the first number in the list that it’s square can be divided by 3</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers2 = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>);</span><br><span class="line">Optional&lt;Integer&gt; goodNumber = numbers2.stream()</span><br><span class="line">    .map(x -&gt; x * x)</span><br><span class="line">    .filter(x -&gt; x % <span class="number">3</span> == <span class="number">0</span>)</span><br><span class="line">    .findFirst();</span><br><span class="line"></span><br><span class="line">System.out.println(goodNumber.get()); </span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 9</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Reduce"><a href="#Reduce" class="headerlink" title="Reduce"></a>Reduce</h3><p>We might need to complete more complext task, such as “Choose the longest word in a word” or “Calculate the total length of all words”. Such queries need to repeatedly combine the elements in the stream to get the final value. Such a query can be classified as a reduction operation (reducing the stream to a value).</p>
+<p>To calculate the sum of an array:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>);</span><br><span class="line"><span class="keyword">int</span> sum = numbers.stream().reduce(<span class="number">0</span>, (a, b) -&gt; a + b);</span><br><span class="line">        </span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 15</span></span><br></pre></td></tr></table></figure>
+
+<p>Reduce returns the result every time and operates the result with the next element, such as the first time when traversing to element 1, returning the initial value 0 + 1 = 1, then using the return value of 1 and the second element 2, and so on, until the summation of the list of numbers is completed.</p>
+<h3 id="Intermediate-and-terminal-operation"><a href="#Intermediate-and-terminal-operation" class="headerlink" title="Intermediate and terminal operation"></a>Intermediate and terminal operation</h3><p>All operations on the Stream API fall into two categories: intermediate operations and terminal operations. The intermediate operation is just a kind of markup, and only the terminal operation will trigger the actual calculation.</p>
+<p><strong>Intermediate operations</strong> can be divided into <em>stateless</em> and <em>stateful</em>. <em>Stateless</em> intermediate operations mean that the processing of elements is not affected by the previous elements, and <em>stateful</em> intermediate operations must wait until all elements are processed. For example, sorting is a stateful operation, and the sorting result cannot be determined until all elements are read.</p>
+<p><strong>The terminal operation</strong> can be divided into <em>short-circuit</em> operation and <em>non-short-circuit</em> operation. The short-circuit operation means that the result can be returned without processing all the elements, such as finding the first element that satisfies the condition.</p>
+<p>A stream pipeline consists of a stream source, followed by zero or more intermediate operations, and a terminal operation.</p>
+<h2 id="To-summarize-the-Stream-API"><a href="#To-summarize-the-Stream-API" class="headerlink" title="To summarize the Stream API:"></a>To summarize the Stream API:</h2><p>A stream pipeline consists of a stream source, followed by zero or more intermediate operations, and a terminal operation.</p>
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg .tg-zlqz{font-weight:bold;background-color:#c0c0c0;border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-rq3n{background-color:#ffffff;border-color:inherit;text-align:center;vertical-align:middle}
+.tg .tg-c6of{background-color:#ffffff;border-color:inherit;text-align:left;vertical-align:top}
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg .tg-axxb{font-weight:bold;background-color:#c0c0c0;color:#000000;border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-n9g5{background-color:#ffffff;color:#000000;border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-x5q1{background-color:#ffffff;color:#000000;border-color:inherit;text-align:center;vertical-align:middle}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg-axxb" colspan="6">Stream API</th>
+  </tr>
+  <tr>
+    <td class="tg-x5q1" rowspan="2">Intermediate<br>Operation</td>
+    <td class="tg-n9g5">Stateless</td>
+    <td class="tg-n9g5" colspan="4">unordered(), filter(), map(), mapToInt(), mapToLong(), mapToDouble(), <br>flatMap(),flatMapToInt(), flatMapToLong(), flatMapToDouble(), peek()</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">Stateful</td>
+    <td class="tg-n9g5" colspan="4">distinct(), sorted(), limit(), skip()</td>
+  </tr>
+  <tr>
+    <td class="tg-x5q1" rowspan="2">Terminal<br>Operation</td>
+    <td class="tg-n9g5">short-circuit</td>
+    <td class="tg-n9g5" colspan="4">anyMatch(), allMatch(), noneMatch(), findFirst(), findAny()</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">non-short-circuit</td>
+    <td class="tg-n9g5" colspan="4">forEach(),forEachOrdered(), toArray(), reduce(), collect(), max(), min(), count()</td>
+  </tr>
+</table>
+                </article>
+                <ul class="tags-postTags">
+                    
+                    <li>
+                        <a href="/tags/Stream/" rel="tag"># Stream</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="How to deploy Hexo blog to Github pages" href="/How-to-deploy-Hexo-blog-to-Github-pages/">
+            How to deploy Hexo blog to Github pages →
+        </a>
+        
+    </nav>
+
+    
+    <div class="inner">
+        <div id="comment"></div>
+    </div>
+    
+</div>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Creation-of-stream"><span class="toc-text">Creation of stream</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Stream-of"><span class="toc-text">Stream.of()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stream-iterate"><span class="toc-text">Stream.iterate()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stream-generate"><span class="toc-text">Stream.generate()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-stream-from-an-existing-collection"><span class="toc-text">Create a stream from an existing collection</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stream-operation"><span class="toc-text">Stream operation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Filter-and-slice"><span class="toc-text">Filter and slice</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#filter"><span class="toc-text">filter()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#distince"><span class="toc-text">distince()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#skip"><span class="toc-text">skip()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mapping"><span class="toc-text">Mapping</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#map"><span class="toc-text">map()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#flatMap"><span class="toc-text">flatMap()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Find-and-match"><span class="toc-text">Find and match</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reduce"><span class="toc-text">Reduce</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Intermediate-and-terminal-operation"><span class="toc-text">Intermediate and terminal operation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#To-summarize-the-Stream-API"><span class="toc-text">To summarize the Stream API:</span></a></li></ol>
+    </div>
+</div>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+  <header class="read-next-card-header">
+    <small class="read-next-card-header-sitetitle">&mdash; Nick Li &mdash;</small>
+    <h3 class="read-next-card-header-title">Recent Posts</h3>
+  </header>
+  <div class="read-next-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+      <path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/>
+    </svg>
+  </div>
+  <div class="read-next-card-content">
+    <ul>
+      
+      
+      
+      <li>
+        <a href="/Java-8-Streams-Operations/">Java 8 Streams Operations</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/How-to-deploy-Hexo-blog-to-Github-pages/">How to deploy Hexo blog to Github pages</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/How-to-build-a-blog-with-hexo/">How to build a blog with hexo</a>
+      </li>
+      
+      
+    </ul>
+  </div>
+  <footer class="read-next-card-footer">
+    <a href="/archives">  MORE  → </a>
+  </footer>
+</article>
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+    <header class="read-next-card-header tagcloud-card">
+        <h3 class="read-next-card-header-title">Categories</h3>
+    </header>
+    <div class="read-next-card-content">
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/how-to-guide/">how-to guide</a></li></ul>
+    </div>
+</article>
+
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+	<header class="read-next-card-header tagcloud-card">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/Stream/" style="font-size: 14px;">Stream</a> <a href="/tags/hexo/" style="font-size: 24px;">hexo</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay">
+    <div class="search-form">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<div class="copyright">
+			<a href="/" title="Nick Li">Nick Li &copy; 2019</a>
+			
+				
+			        <span hidden="true" id="/Java-8-Streams-Operations/" class="leancloud-visitors" data-flag-title="Java 8 Streams Operations">
+			            <span>阅读量 </span>
+			            <span class="leancloud-visitors-count">0</span>
+			        </span>
+	    		
+    		
+		</div>
+		<nav class="site-footer-nav">
+			
+			<a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+			<a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+		</nav>
+	</div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister()
+            }
+        })
+    }
+</script>
+
+
+<script id="scriptLoad" src="/js/allinone.min.js" async></script>
+
+
+<script>
+    document.getElementById('scriptLoad').addEventListener('load', function () {
+        
+        
+            var bLazy = new Blazy();
+        
+
+        
+        
+
+        
+        
+        
+            searchFunc("/");
+        
+        
+    })
+</script>
+
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+
+
+<script id="valineScript" src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+<script>
+    document.getElementById('valineScript').addEventListener("load", function() {
+        new Valine({
+            el: '#comment' ,
+            verify: false,
+            notify: false,
+            appId: '3TACGUnsSRuWgqCn3pRpLVwQ-MdYXbMMI',
+            appKey: 'JTo5iyjOyGTEXzAwjaTNqcY0',
+            placeholder: 'Please leave a comment',
+            pageSize: 10,
+            avatar: 'mm',
+            visitor: true,
+            lang: 'en'
+        })
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
