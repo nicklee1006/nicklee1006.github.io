@@ -144,8 +144,6 @@
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
-                
                 
             </div>
             <h1 class="post-full-title">Java 8 Streams Operations</h1>
@@ -161,31 +159,31 @@
 <h2 id="Creation-of-stream"><a href="#Creation-of-stream" class="headerlink" title="Creation of stream"></a>Creation of stream</h2><p>There are multiple different ways to create steams:</p>
 <h3 id="Stream-of"><a href="#Stream-of" class="headerlink" title="Stream.of()"></a>Stream.of()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &lt;T&gt; <span class="function">Stream&lt;T&gt; <span class="title">of</span><span class="params">(T... values)</span></span></span><br></pre></td></tr></table></figure>
 <p>Example:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; stringStream = Stream.of(<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>);</span><br><span class="line">stringStream.forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// a</span></span><br><span class="line"><span class="comment">// b</span></span><br><span class="line"><span class="comment">// c</span></span><br><span class="line"><span class="comment">// d</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; stringStream = Stream.of(<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>);</span><br><span class="line"></span><br><span class="line">stringStream.forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// a</span></span><br><span class="line"><span class="comment">// b</span></span><br><span class="line"><span class="comment">// c</span></span><br><span class="line"><span class="comment">// d</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="Stream-iterate"><a href="#Stream-iterate" class="headerlink" title="Stream.iterate()"></a>Stream.iterate()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &lt;T&gt; <span class="function">Stream&lt;T&gt; <span class="title">iterate</span><span class="params">(T seed, UnaryOperator&lt;T&gt; f)</span></span></span><br></pre></td></tr></table></figure>
 <p>Create a stream start with a value, and iterate through by a certain operator.</p>
 <p>Example:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Stream.iterate(<span class="number">10</span>, n -&gt; n + <span class="number">1</span>)</span><br><span class="line">                .limit(<span class="number">10</span>)</span><br><span class="line">                .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 10</span></span><br><span class="line"><span class="comment">// 11</span></span><br><span class="line"><span class="comment">// 12</span></span><br><span class="line"><span class="comment">// 13</span></span><br><span class="line"><span class="comment">// 14</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Stream.iterate(<span class="number">10</span>, n -&gt; n + <span class="number">1</span>)</span><br><span class="line">    .limit(<span class="number">5</span>)</span><br><span class="line">    .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 10</span></span><br><span class="line"><span class="comment">// 11</span></span><br><span class="line"><span class="comment">// 12</span></span><br><span class="line"><span class="comment">// 13</span></span><br><span class="line"><span class="comment">// 14</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="Stream-generate"><a href="#Stream-generate" class="headerlink" title="Stream.generate()"></a>Stream.generate()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &lt;T&gt; <span class="function">Stream&lt;T&gt; <span class="title">generate</span><span class="params">(Supplier&lt;T&gt; s)</span></span></span><br></pre></td></tr></table></figure>
 <p>Create a stream based on the value generate function. The generate function returns 1 value each time</p>
 <p>Example:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Stream.generate(Math::random)</span><br><span class="line">                .limit(<span class="number">5</span>)</span><br><span class="line">                .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 0.09623470299238657</span></span><br><span class="line"><span class="comment">// 0.8470095359492898</span></span><br><span class="line"><span class="comment">// 0.20505426293183482</span></span><br><span class="line"><span class="comment">// 0.8112754654328852</span></span><br><span class="line"><span class="comment">// 0.009673283068063365</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Stream.generate(Math::random)</span><br><span class="line">    .limit(<span class="number">5</span>)</span><br><span class="line">    .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 0.09623470299238657</span></span><br><span class="line"><span class="comment">// 0.8470095359492898</span></span><br><span class="line"><span class="comment">// 0.20505426293183482</span></span><br><span class="line"><span class="comment">// 0.8112754654328852</span></span><br><span class="line"><span class="comment">// 0.009673283068063365</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="Create-a-stream-from-an-existing-collection"><a href="#Create-a-stream-from-an-existing-collection" class="headerlink" title="Create a stream from an existing collection"></a>Create a stream from an existing collection</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(<span class="string">"hello"</span>, <span class="string">"world"</span>, <span class="string">"Java8"</span>);</span><br><span class="line">strings.stream().forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// hello</span></span><br><span class="line"><span class="comment">// world</span></span><br><span class="line"><span class="comment">// Java8</span></span><br></pre></td></tr></table></figure>
+<h3 id="Create-a-stream-from-an-existing-collection"><a href="#Create-a-stream-from-an-existing-collection" class="headerlink" title="Create a stream from an existing collection"></a>Create a stream from an existing collection</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(<span class="string">"hello"</span>, <span class="string">"world"</span>, <span class="string">"Java8"</span>);</span><br><span class="line"></span><br><span class="line">strings.stream().forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// hello</span></span><br><span class="line"><span class="comment">// world</span></span><br><span class="line"><span class="comment">// Java8</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="Stream-operation"><a href="#Stream-operation" class="headerlink" title="Stream operation"></a>Stream operation</h2><p>Now we know how to create stream, let’s look at what operations can be applied to stream</p>
 <h3 id="Filter-and-slice"><a href="#Filter-and-slice" class="headerlink" title="Filter and slice"></a>Filter and slice</h3><h4 id="filter"><a href="#filter" class="headerlink" title="filter()"></a>filter()</h4><p>The filter method accepts a function that returns a boolean as a parameter, and returns a stream containing all the elements that match the condition. </p>
 <p>For example, you can select all words starting with the letter w and print them like this:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = Arrays.asList(<span class="string">"random"</span>, <span class="string">"hello"</span>, <span class="string">"wow"</span>, <span class="string">"world"</span>, <span class="string">"java"</span>);</span><br><span class="line">words.stream()</span><br><span class="line">    .filter(word -&gt; word.startsWith(<span class="string">"w"</span>))</span><br><span class="line">    .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// wow</span></span><br><span class="line"><span class="comment">// world</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = Arrays.asList(<span class="string">"random"</span>, <span class="string">"hello"</span>, <span class="string">"wow"</span>, <span class="string">"world"</span>, <span class="string">"java"</span>);</span><br><span class="line"></span><br><span class="line">words.stream()</span><br><span class="line">    .filter(word -&gt; word.startsWith(<span class="string">"w"</span>))</span><br><span class="line">    .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// wow</span></span><br><span class="line"><span class="comment">// world</span></span><br></pre></td></tr></table></figure>
 
 <p>Or you can get the list that match those condition like this:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = Arrays.asList(<span class="string">"random"</span>, <span class="string">"hello"</span>, <span class="string">"wow"</span>, <span class="string">"world"</span>, <span class="string">"java"</span>);</span><br><span class="line">List&lt;String&gt; filtered = words.stream()</span><br><span class="line">                            .filter(word -&gt; word.startsWith(<span class="string">"w"</span>))</span><br><span class="line">                            .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = Arrays.asList(<span class="string">"random"</span>, <span class="string">"hello"</span>, <span class="string">"wow"</span>, <span class="string">"world"</span>, <span class="string">"java"</span>);</span><br><span class="line"></span><br><span class="line">List&lt;String&gt; filtered = words.stream()</span><br><span class="line">    .filter(word -&gt; word.startsWith(<span class="string">"w"</span>))</span><br><span class="line">    .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
 
 <h4 id="distince"><a href="#distince" class="headerlink" title="distince()"></a>distince()</h4><p>The distinct method will return a stream of elements that are unique. </p>
 <p>For example, the following code returns the list that has no duplicates:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">numbers.stream()</span><br><span class="line">    .distinct()</span><br><span class="line">    .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line"><span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">numbers.stream()</span><br><span class="line">    .distinct()</span><br><span class="line">    .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line"><span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="skip"><a href="#skip" class="headerlink" title="skip()"></a>skip()</h4><p>The skip(n) method returns a stream that throws away the first n elements. If there are fewer than n elements in the stream, an empty stream is returned.</p>
 <h3 id="Mapping"><a href="#Mapping" class="headerlink" title="Mapping"></a>Mapping</h3><p>A very common data processing method is to select information from certain objects. For example, in SQL, you can select a column from the table, and the Stream API also provides similar tools through the <code>map</code> and <code>flatMap</code> methods.</p>
@@ -193,10 +191,10 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    List&lt;Person&gt; persons = Arrays.asList(<span class="keyword">new</span> Person(<span class="number">20</span>, <span class="string">"Nick Li"</span>),</span><br><span class="line">        <span class="keyword">new</span> Person(<span class="number">30</span>, <span class="string">"Mike"</span>), <span class="keyword">new</span> Person(<span class="number">40</span>, <span class="string">"Peter"</span>));</span><br><span class="line"></span><br><span class="line">    persons.stream()</span><br><span class="line">        .map(Person::getAge)</span><br><span class="line">        .forEach(System.out::println);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 20</span></span><br><span class="line"><span class="comment">// 30</span></span><br><span class="line"><span class="comment">// 40</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// skip constructor and other set, get methods</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap()"></a>flatMap()</h4><p>If we want to know how many unique character in a list of words,  what should we do?</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = Arrays.asList(<span class="string">"Hello"</span>, <span class="string">"World"</span>);</span><br><span class="line">words.stream()</span><br><span class="line">     .map(s -&gt; s.split(<span class="string">""</span>))</span><br><span class="line">     .distinct()</span><br><span class="line">     .collect(Collectors.toList())</span><br><span class="line">     .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// [Ljava.lang.String;@312b1dae</span></span><br><span class="line"><span class="comment">// [Ljava.lang.String;@7530d0a</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = Arrays.asList(<span class="string">"Hello"</span>, <span class="string">"World"</span>);</span><br><span class="line"></span><br><span class="line">words.stream()</span><br><span class="line">    .map(s -&gt; s.split(<span class="string">""</span>))</span><br><span class="line">    .distinct()</span><br><span class="line">    .collect(Collectors.toList())</span><br><span class="line">    .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// [Ljava.lang.String;@312b1dae</span></span><br><span class="line"><span class="comment">// [Ljava.lang.String;@7530d0a</span></span><br></pre></td></tr></table></figure>
 
 <p>This is wrong because the map function returns a <code>String[]</code>. So we get a <code>Stream&lt;String[]&gt;</code> instead of <code>Stream&lt;String&gt;</code>. To solve this problem, we can use flatMap:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = Arrays.asList(<span class="string">"Hello"</span>, <span class="string">"World"</span>);</span><br><span class="line">words.stream()</span><br><span class="line">     .map(s -&gt; s.split(<span class="string">""</span>))</span><br><span class="line">     .flatMap(Arrays::stream)</span><br><span class="line">     .distinct()</span><br><span class="line">     .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// H</span></span><br><span class="line"><span class="comment">// e</span></span><br><span class="line"><span class="comment">// l</span></span><br><span class="line"><span class="comment">// o</span></span><br><span class="line"><span class="comment">// W</span></span><br><span class="line"><span class="comment">// r</span></span><br><span class="line"><span class="comment">// d</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = Arrays.asList(<span class="string">"Hello"</span>, <span class="string">"World"</span>);</span><br><span class="line"></span><br><span class="line">words.stream()</span><br><span class="line">     .map(s -&gt; s.split(<span class="string">""</span>))</span><br><span class="line">     .flatMap(Arrays::stream)</span><br><span class="line">     .distinct()</span><br><span class="line">     .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// H</span></span><br><span class="line"><span class="comment">// e</span></span><br><span class="line"><span class="comment">// l</span></span><br><span class="line"><span class="comment">// o</span></span><br><span class="line"><span class="comment">// W</span></span><br><span class="line"><span class="comment">// r</span></span><br><span class="line"><span class="comment">// d</span></span><br></pre></td></tr></table></figure>
 
 <p>The effect of using flatMap method is that each array is not mapped to a stream, but to the contents of the stream. In a nutshell, flatMap lets you convert each value in a stream to another stream, then join all the streams into one stream.</p>
 <h3 id="Find-and-match"><a href="#Find-and-match" class="headerlink" title="Find and match"></a>Find and match</h3><p>Another common data processing method is to see if certain elements in the dataset match a given condition. The Stream API provides such tools through <code>allMatch</code>, <code>anyMatch</code>, <code>noneMatch</code>, <code>findFirst</code>, and <code>findAny</code> methods.</p>
@@ -205,11 +203,11 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (numbers.stream().anyMatch(x -&gt; x % <span class="number">2</span> == <span class="number">0</span>)) &#123;</span><br><span class="line">    System.out.println(<span class="string">"Yes"</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">"No"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// Yes</span></span><br></pre></td></tr></table></figure>
 
 <p>To find the first number in the list that it’s square can be divided by 3</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers2 = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>);</span><br><span class="line">Optional&lt;Integer&gt; goodNumber = numbers2.stream()</span><br><span class="line">    .map(x -&gt; x * x)</span><br><span class="line">    .filter(x -&gt; x % <span class="number">3</span> == <span class="number">0</span>)</span><br><span class="line">    .findFirst();</span><br><span class="line"></span><br><span class="line">System.out.println(goodNumber.get()); </span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 9</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers2 = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>);</span><br><span class="line"></span><br><span class="line">Optional&lt;Integer&gt; goodNumber = numbers2.stream()</span><br><span class="line">    .map(x -&gt; x * x)</span><br><span class="line">    .filter(x -&gt; x % <span class="number">3</span> == <span class="number">0</span>)</span><br><span class="line">    .findFirst();</span><br><span class="line"></span><br><span class="line">System.out.println(goodNumber.get()); </span><br><span class="line"></span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 9</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="Reduce"><a href="#Reduce" class="headerlink" title="Reduce"></a>Reduce</h3><p>We might need to complete more complext task, such as “Choose the longest word in a word” or “Calculate the total length of all words”. Such queries need to repeatedly combine the elements in the stream to get the final value. Such a query can be classified as a reduction operation (reducing the stream to a value).</p>
 <p>To calculate the sum of an array:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>);</span><br><span class="line"><span class="keyword">int</span> sum = numbers.stream().reduce(<span class="number">0</span>, (a, b) -&gt; a + b);</span><br><span class="line">        </span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 15</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> sum = numbers.stream().reduce(<span class="number">0</span>, (a, b) -&gt; a + b);</span><br><span class="line">        </span><br><span class="line"><span class="comment">// ============== Output：===============</span></span><br><span class="line"><span class="comment">// 15</span></span><br></pre></td></tr></table></figure>
 
 <p>Reduce returns the result every time and operates the result with the next element, such as the first time when traversing to element 1, returning the initial value 0 + 1 = 1, then using the return value of 1 and the second element 2, and so on, until the summation of the list of numbers is completed.</p>
 <h3 id="Intermediate-and-terminal-operation"><a href="#Intermediate-and-terminal-operation" class="headerlink" title="Intermediate and terminal operation"></a>Intermediate and terminal operation</h3><p>All operations on the Stream API fall into two categories: intermediate operations and terminal operations. The intermediate operation is just a kind of markup, and only the terminal operation will trigger the actual calculation.</p>
@@ -221,45 +219,127 @@
 .tg  {border-collapse:collapse;border-spacing:0;}
 .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
 .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
-.tg .tg-zlqz{font-weight:bold;background-color:#c0c0c0;border-color:inherit;text-align:center;vertical-align:top}
-.tg .tg-rq3n{background-color:#ffffff;border-color:inherit;text-align:center;vertical-align:middle}
-.tg .tg-c6of{background-color:#ffffff;border-color:inherit;text-align:left;vertical-align:top}
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
 .tg .tg-axxb{font-weight:bold;background-color:#c0c0c0;color:#000000;border-color:inherit;text-align:center;vertical-align:top}
-.tg .tg-n9g5{background-color:#ffffff;color:#000000;border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-n9g5{background-color:#ffffff;color:#000000;border-color:inherit;text-align:left;vertical-align:middle}
 .tg .tg-x5q1{background-color:#ffffff;color:#000000;border-color:inherit;text-align:center;vertical-align:middle}
+.tg .tg-mq6t{background-color:#ffffff;color:#000000;border-color:inherit;text-align:left;vertical-align:middle}
 </style>
 <table class="tg">
   <tr>
-    <th class="tg-axxb" colspan="6">Stream API</th>
+    <th class="tg-axxb" colspan="4">Stream API</th>
   </tr>
   <tr>
-    <td class="tg-x5q1" rowspan="2">Intermediate<br>Operation</td>
-    <td class="tg-n9g5">Stateless</td>
-    <td class="tg-n9g5" colspan="4">unordered(), filter(), map(), mapToInt(), mapToLong(), mapToDouble(), <br>flatMap(),flatMapToInt(), flatMapToLong(), flatMapToDouble(), peek()</td>
+    <td class="tg-x5q1" rowspan="11">Intermediate<br>Operation</td>
+    <td class="tg-x5q1" rowspan="7">Stateless</td>
+    <td class="tg-n9g5">unordered()<br></td>
+    <td class="tg-n9g5">If order doesn't matter, then can use unordered() together with parallel() to speed up</td>
   </tr>
   <tr>
-    <td class="tg-n9g5">Stateful</td>
-    <td class="tg-n9g5" colspan="4">distinct(), sorted(), limit(), skip()</td>
+    <td class="tg-n9g5">filter()</td>
+    <td class="tg-n9g5">Filter out elements in the stream based on a filter function</td>
   </tr>
   <tr>
-    <td class="tg-x5q1" rowspan="2">Terminal<br>Operation</td>
-    <td class="tg-n9g5">short-circuit</td>
-    <td class="tg-n9g5" colspan="4">anyMatch(), allMatch(), noneMatch(), findFirst(), findAny()</td>
+    <td class="tg-n9g5">map()</td>
+    <td class="tg-n9g5">Map stream to another stream based on a map function</td>
   </tr>
   <tr>
-    <td class="tg-n9g5">non-short-circuit</td>
-    <td class="tg-n9g5" colspan="4">forEach(),forEachOrdered(), toArray(), reduce(), collect(), max(), min(), count()</td>
+    <td class="tg-n9g5">mapToInt()<br>mapToLong()<br>mapToDouble()</td>
+    <td class="tg-mq6t">Map to int, long or double</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">flatMap()</td>
+    <td class="tg-n9g5">Make [["ABC", "DEF"], ["FGH", "IJK"]] into ["ABC", "DEF", "FGH", "IJK"]：</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">flatMapToInt()<br>flatMapToLong()<br>flatMapToDouble()</td>
+    <td class="tg-mq6t">Similar to mapToInt(), mapToLong(), mapToDouble()</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">peek()</td>
+    <td class="tg-n9g5">Performs specified operation on each element of the stream and returns a new stream which can be used further.</td>
+  </tr>
+  <tr>
+    <td class="tg-x5q1" rowspan="4">Stateful</td>
+    <td class="tg-n9g5">distinct()</td>
+    <td class="tg-n9g5">Filter out duplicate element in the stream</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">sorted()</td>
+    <td class="tg-n9g5">Sort the stream</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">limit()</td>
+    <td class="tg-n9g5">Limit the number of elements in the stream</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">skip()</td>
+    <td class="tg-n9g5">Skip certain number of elements in the stream</td>
+  </tr>
+  <tr>
+    <td class="tg-x5q1" rowspan="13">Terminal<br>Operation</td>
+    <td class="tg-x5q1" rowspan="5">short-circuit<br></td>
+    <td class="tg-n9g5">anyMatch()</td>
+    <td class="tg-n9g5">Return if any element in the stream that satisfies the condition</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">allMatch()</td>
+    <td class="tg-n9g5">Return if all element in the stream that satisfies the condition </td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">noneMatch()</td>
+    <td class="tg-n9g5">Return if no element in the stream that satisfies the condition</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">findFirst()</td>
+    <td class="tg-n9g5">Find first element in the stream that satisfies the condition</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">findAny()</td>
+    <td class="tg-n9g5">Find any element in the stream that satisfies the condition</td>
+  </tr>
+  <tr>
+    <td class="tg-x5q1" rowspan="8">non-short-circuit</td>
+    <td class="tg-n9g5">forEach()</td>
+    <td class="tg-n9g5">Iterate all elements in the stream</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">forEachOrdered()</td>
+    <td class="tg-n9g5">Iterate all elements in the stream by order. Can't make use of parallel()</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">toArray()</td>
+    <td class="tg-n9g5">Return an array of all elements in the stream</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">reduce()</td>
+    <td class="tg-n9g5">Reduce all elements to one results based on given function</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">collect()</td>
+    <td class="tg-n9g5">Process the elements in the stream and get all values</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">max()</td>
+    <td class="tg-n9g5">Find max element in the stream</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">min()</td>
+    <td class="tg-n9g5">Find min element in the stream</td>
+  </tr>
+  <tr>
+    <td class="tg-n9g5">count()</td>
+    <td class="tg-n9g5">Get number of element in the stream</td>
   </tr>
 </table>
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Stream/" rel="tag"># Stream</a>
+                        <a href="/tags/Java/" rel="tag"># Java</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/Stream-API/" rel="tag"># Stream API</a>
                     </li>
                     
                 </ul>
@@ -269,6 +349,10 @@
 
     
     <nav id="gobottom" class="pagination">
+        
+        <a class="prev-post" title="Use Intellij to visualize debugging Stream operation" href="/Use-Intellij-to-visualize-debugging-Stream-operation/">
+            ← Use Intellij to visualize debugging Stream operation
+        </a>
         
         <span class="prev-next-post">·</span>
         
@@ -401,6 +485,12 @@
       
       
       <li>
+        <a href="/Use-Intellij-to-visualize-debugging-Stream-operation/">Use Intellij to visualize debugging Stream operation</a>
+      </li>
+      
+      
+      
+      <li>
         <a href="/Java-8-Streams-Operations/">Java 8 Streams Operations</a>
       </li>
       
@@ -411,10 +501,6 @@
       </li>
       
       
-      
-      <li>
-        <a href="/How-to-build-a-blog-with-hexo/">How to build a blog with hexo</a>
-      </li>
       
       
     </ul>
@@ -427,19 +513,6 @@
             
             
             
-
-<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
-    <header class="read-next-card-header tagcloud-card">
-        <h3 class="read-next-card-header-title">Categories</h3>
-    </header>
-    <div class="read-next-card-content">
-        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/how-to-guide/">how-to guide</a></li></ul>
-    </div>
-</article>
-
-
-            
-            
             
 
 <article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
@@ -447,7 +520,7 @@
 		<h3 class="read-next-card-header-title">Tag Cloud</h3>
 	</header>
 	<div class="read-next-card-content-ext">
-		<a href="/tags/Stream/" style="font-size: 14px;">Stream</a> <a href="/tags/hexo/" style="font-size: 24px;">hexo</a>
+		<a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Java/" style="font-size: 24px;">Java</a> <a href="/tags/Stream-API/" style="font-size: 24px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 24px;">hexo</a> <a href="/tags/how-to-guide/" style="font-size: 24px;">how-to guide</a>
 	</div>
 </article>
 
