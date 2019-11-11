@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Use Intellij to visualize debugging Stream operation | Nick Li</title>
+	<title>How to force Github Pages rebuild | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Use Intellij to visualize debugging Stream operation | Nick Li">
+	<meta property="og:title" content="How to force Github Pages rebuild | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Use-Intellij-to-visualize-debugging-Stream-operation/">
+	<meta property="og:url" content="http://nicklee1006.github.io/How-to-force-Github-Pages-rebuild/">
 
 	
-	<meta property="article:published_time" content="2019-11-08T21:11:00+08:00"> 
+	<meta property="article:published_time" content="2019-11-09T18:11:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Use-Intellij-to-visualize-debugging-Stream-operation/">
+	<meta property="article:published_first" content="Nick Li, /How-to-force-Github-Pages-rebuild/">
 	
 
 	
@@ -138,50 +138,53 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-11-08T11:50:12.000Z">
-                    2019-11-8
+                <time class="post-full-meta-date" datetime="2019-11-09T08:52:43.000Z">
+                    2019-11-9
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
+                <a href="/categories/how-to-guide/">how-to-guide</a>&nbsp;&nbsp;
                 
                 
             </div>
-            <h1 class="post-full-title">Use Intellij to visualize debugging Stream operation</h1>
+            <h1 class="post-full-title">How to force Github Pages rebuild</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/08/dQUmtgX6T5wvZRF.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/09/FRwq95MLrfzV8HY.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <p>Last time I talked about the stream API feature in Java 8. It is a very good new feature, but unlike previously looping code, single-step debugging does not work for stream API. Luckily, IntelliJ IDEA provides a tool for us to visualize the stream code.</p>
-<p>Example code:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers2 = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>);</span><br><span class="line"></span><br><span class="line">numbers2.stream()</span><br><span class="line">    .map(x -&gt; x * x)</span><br><span class="line">    .filter(x -&gt; x % <span class="number">3</span> == <span class="number">0</span>)</span><br><span class="line">    .forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+                    <p>Github Pages has a nice feature that whenever you made a new commit, it will automatically build the page and publish the new changes. However, I ran into a strange situation that Github Pages didn’t build my new commit. I could have just make another commit to trigger the build, but I’d rather have a nicer solution which can force Github Pages to build my site. After a bit of google search, turned out that Github provides an API to request a page build. Let’s look at how to do this.</p>
+<h2 id="How-to-check-the-build-status-of-Github-Pages"><a href="#How-to-check-the-build-status-of-Github-Pages" class="headerlink" title="How to check the build status of Github Pages"></a>How to check the build status of Github Pages</h2><p>Firstly, let’s look at how to check the build status of Github Pages. The easiest way is to check the commit history of your repository:</p>
+<img class="post-img b-lazy" data-img="/How-to-force-Github-Pages-rebuild/commit.png" data-index="0" data-src="/How-to-force-Github-Pages-rebuild/commit.png">
+<br>
+<br>
+If the build fails due to some errors, then you will see something like this:
+<img class="post-img b-lazy" data-img="/How-to-force-Github-Pages-rebuild/commit-fail.png" data-index="1" data-src="/How-to-force-Github-Pages-rebuild/commit-fail.png">
+<br>
+<br>
+Then you should be able to check the error message by click on the red cross
+<img class="post-img b-lazy" data-img="/How-to-force-Github-Pages-rebuild/check.gif" data-index="2" data-src="/How-to-force-Github-Pages-rebuild/check.gif">
 
-<br>
-Add a break point at the last line of stream
-<img class="post-img b-lazy" data-img="/Use-Intellij-to-visualize-debugging-Stream-operation/breakpoint.png" data-index="0" data-src="/Use-Intellij-to-visualize-debugging-Stream-operation/breakpoint.png">
-<br>
-<br>
-Start debug, and find the button in debug interface
-<img class="post-img b-lazy" data-img="/Use-Intellij-to-visualize-debugging-Stream-operation/button.png" data-index="1" data-src="/Use-Intellij-to-visualize-debugging-Stream-operation/button.png">
-<br>
-<br>
-Wait for a few seconds, you can see the results of each step of the stream operation
-<img class="post-img b-lazy" data-img="/Use-Intellij-to-visualize-debugging-Stream-operation/result.png" data-index="2" data-src="/Use-Intellij-to-visualize-debugging-Stream-operation/result.png">
+<p>(GIF taken from <a href="https://github.blog/2019-09-13-github-pages-builds-now-use-the-checks-api/" target="_blank" rel="noopener">https://github.blog/2019-09-13-github-pages-builds-now-use-the-checks-api/</a>)</p>
+<h2 id="Use-Github-API-to-force-Github-Pages-rebuild-site"><a href="#Use-Github-API-to-force-Github-Pages-rebuild-site" class="headerlink" title="Use Github API to force Github Pages rebuild site"></a>Use Github API to force Github Pages rebuild site</h2><p>I found the solution here: <a href="https://stackoverflow.com/questions/24098792/how-to-force-github-pages-build" target="_blank" rel="noopener">https://stackoverflow.com/questions/24098792/how-to-force-github-pages-build</a></p>
+<h3 id="Create-a-personal-access-token"><a href="#Create-a-personal-access-token" class="headerlink" title="Create a personal access token"></a>Create a personal access token</h3><p>Follow the instructions here: <a href="https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line" target="_blank" rel="noopener">https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line</a></p>
+<p>Log in Github account and navigate to: <em>Settings</em> -&gt; <em>Developer settings</em> -&gt; <em>Personal access tokens</em> -&gt; <em>Generate new token</em></p>
+<p>Select <em>repo</em> scope</p>
+<img class="post-img b-lazy" data-img="/How-to-force-Github-Pages-rebuild/repo.png" data-index="3" data-src="/How-to-force-Github-Pages-rebuild/repo.png">
+
+<h3 id="Call-the-Github-API"><a href="#Call-the-Github-API" class="headerlink" title="Call the Github API"></a>Call the Github API</h3><p>Run the script from command line or terminal:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -u username:token -X POST https://api.github.com/repos/username/reponame/pages/builds -H <span class="string">"Accept: application/vnd.github.mister-fantastic-preview+json"</span></span><br></pre></td></tr></table></figure>
+
+<p>Replace <code>username</code> with Github username<br>Replace <code>token</code> with access token<br>Replace <code>reponame</code> with repository name</p>
+<p>Check detailed API documentation here: <a href="https://developer.github.com/v3/repos/pages/#request-a-page-build" target="_blank" rel="noopener">https://developer.github.com/v3/repos/pages/#request-a-page-build</a></p>
+<p>You should be able to see the result like this:</p>
+<img class="post-img b-lazy" data-img="/How-to-force-Github-Pages-rebuild/result.png" data-index="4" data-src="/How-to-force-Github-Pages-rebuild/result.png">
                 </article>
                 <ul class="tags-postTags">
-                    
-                    <li>
-                        <a href="/tags/Stream-API/" rel="tag"># Stream API</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/tags/Intellij/" rel="tag"># Intellij</a>
-                    </li>
                     
                 </ul>
             </div>
@@ -191,14 +194,10 @@ Wait for a few seconds, you can see the results of each step of the stream opera
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="How to force Github Pages rebuild" href="/How-to-force-Github-Pages-rebuild/">
-            ← How to force Github Pages rebuild
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Java 8 Streams Operations" href="/Java-8-Streams-Operations/">
-            Java 8 Streams Operations →
+        <a class="next-post" title="Use Intellij to visualize debugging Stream operation" href="/Use-Intellij-to-visualize-debugging-Stream-operation/">
+            Use Intellij to visualize debugging Stream operation →
         </a>
         
     </nav>
@@ -224,7 +223,7 @@ Wait for a few seconds, you can see the results of each step of the stream opera
         </a>
     </div>
     <div class="toc-main">
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to-check-the-build-status-of-Github-Pages"><span class="toc-text">How to check the build status of Github Pages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Use-Github-API-to-force-Github-Pages-rebuild-site"><span class="toc-text">Use Github API to force Github Pages rebuild site</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-personal-access-token"><span class="toc-text">Create a personal access token</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Call-the-Github-API"><span class="toc-text">Call the Github API</span></a></li></ol></li></ol>
     </div>
 </div>
 
@@ -405,7 +404,7 @@ Wait for a few seconds, you can see the results of each step of the stream opera
 			<a href="/" title="Nick Li">Nick Li &copy; 2019</a>
 			
 				
-			        <span hidden="true" id="/Use-Intellij-to-visualize-debugging-Stream-operation/" class="leancloud-visitors" data-flag-title="Use Intellij to visualize debugging Stream operation">
+			        <span hidden="true" id="/How-to-force-Github-Pages-rebuild/" class="leancloud-visitors" data-flag-title="How to force Github Pages rebuild">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
