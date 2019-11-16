@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 11: Container With Most Water | Nick Li</title>
+	<title>Leetcode 15: 3Sum | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 11: Container With Most Water | Nick Li">
+	<meta property="og:title" content="Leetcode 15: 3Sum | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-11-Container-With-Most-Water/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-15-3Sum/">
 
 	
-	<meta property="article:published_time" content="2019-11-11T12:11:00+08:00"> 
+	<meta property="article:published_time" content="2019-11-15T21:11:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-11-Container-With-Most-Water/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-15-3Sum/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-11-11T02:21:36.000Z">
-                    2019-11-11
+                <time class="post-full-meta-date" datetime="2019-11-15T11:19:25.000Z">
+                    2019-11-15
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 11: Container With Most Water</h1>
+            <h1 class="post-full-title">Leetcode 15: 3Sum</h1>
         </header>
         <div class="post-full ">
             
@@ -157,35 +157,23 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-11-Container-With-Most-Water/Question.png" data-index="0" data-src="/Leetcode-11-Container-With-Most-Water/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-15-3Sum/Question.png" data-index="0" data-src="/Leetcode-15-3Sum/Question.png">
 <br>
 <br>
-Each element of the array represents a height of a column. We want to pick 2 columns that can hold the most amount of water (shorter column height * distance between 2 columns).
+Given an array, find all unique triplets that add up to 0
 
-<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution 1"></a>Solution 1</h2><p>The most naive method is brute force. Check each pair of elements and calculate the result. Use a variable to store the largest one. We need 2 for loops, so the time complexity is O(n<sup>2</sup>). The good thing is that no extra space required. Thus space complexity is O(1).</p>
-<h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution 2"></a>Solution 2</h2><p>The amount of water is determined by shorter column height and distance between 2 columns. If we start from maximun distance (in the following example, index 0 and 8). Then the height is column 0 as we are getting the shorter column height.</p>
-<img class="post-img b-lazy" data-img="/Leetcode-11-Container-With-Most-Water/1.png" data-index="1" data-src="/Leetcode-11-Container-With-Most-Water/1.png">
-<br>
-<br>
-
-<p>If we want to have a larger area, we can only reduce the distance and increase the height. So do we move the column 0 to column 1 ? Or column 8 to column 7? Of course, we will move the column that is shorter, so that the height might be increased.</p>
-<p>In this example, if we change the column 8 to column 7, the distance is reduced, but the height is still unchanged (column 0 is still shorter), so the area will be reduced. But if we move column 0 to column 1, then column 8 becomes the shorter column and the area may increase.</p>
-<p>What if 2 columns have the same height? Well, in this case it doesn’t matter which one we move. There will be 2 Circumstances.</p>
+<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution 1"></a>Solution 1</h2><p>Brute force solution. We need 3 nested for loops. If we found that <code>nums[i] + nums[j] + nums[k] == target</code>, then need to check if the solution already exist (which takes O(n)). So the overall complexity is O(n<sup>3</sup>). Space complexity O(1).</p>
+<h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution 2"></a>Solution 2</h2><p>Reference <a href="https://leetcode.com/problems/3sum/discuss/7380/Concise-O(N2)" target="_blank" rel="noopener">https://leetcode.com/problems/3sum/discuss/7380/Concise-O(N2)</a> as a O(n<sup>2</sup>) solution.</p>
+<p>The main idea is to iterate through the array, fix one number as sum, and find another 2 numbers that add up to -sum. The clever thing is how to find the other two numbers in O(n).</p>
+<p>The achieve that, first we need to sort the array.</p>
+<p>Then we get <code>num[i]</code> as target , and try to find if there are 2 element add up to <code>-num[i]</code>. As the array is sorted, we can use 2 pointers (low and high) at head and tail, so find 2 elements takes O(n).</p>
 <ul>
-<li>There are 0 or 1 column between the 2 columns that is higher. Then the maximun area is when we choose these 2 same height column. As no matter how we move, the height is always less than these 2 columns, and distance is also smaller.</li>
-<li>There are 2 or more columns between the 2 columns that is higher. These 2 columns will move to higher columns eventually, no matter which one moves first. </li>
+<li><code>num[low] + num[high] &gt; target</code>, high = high -1. As we are greater than target, we need to decrease the high pointer to make sum smaller.</li>
+<li><code>num[low] + num[high] &lt; target</code>, low++. As we are smaller than target, we need to increase the low pointer to make sum larger.</li>
 </ul>
-<p>So the algorithm goes as follows:</p>
-<ol>
-<li>Have 2 pointers. one at start of array and one at the end of array.</li>
-<li>Each time move one pointer with smaller height inward</li>
-<li>Use a variable to record the area each time</li>
-<li>Loop until 2 pointers cross</li>
-</ol>
-<p>Code</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> right = height.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">    result = Math.max(result, (right - left) * Math.min(height[left], height[right]));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (height[left] &lt; height[right]) &#123;</span><br><span class="line">        left++;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        right--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
-
-<p>We only loop the array once, so time complexity O(n). Space complexity O(1)</p>
+<p>To avoid add duplicate result, we need to move the pointer to point to different number with <code>num[low]</code> and <code>num[high]</code>. For example, let’s say the array is <code>[-2, -1, 0, 0, 1, 1, 2, 3]</code>. The <code>num[i] = -2</code>. We found that <code>num[1] + num[5] + num[i] = 0</code>. To continue the loop, we need to move <code>high = 5</code> to <code>high = 3</code>. If we don’t have this step, then when the loop continues, we will have <code>num[1] + num[4] + num[i] = 0</code> and this result is duplicate with the result we already have.</p>
+<p>Code:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">List&lt;List&lt;Integer&gt;&gt; results = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// sort the array</span></span><br><span class="line">Arrays.sort(nums);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="comment">// skip the same number in array when we choose the number as sum target</span></span><br><span class="line">    <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// start the loop to find remaining 2 numbers</span></span><br><span class="line">    <span class="keyword">int</span> low = i + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> high = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> target = -nums[i];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (low &lt; high) &#123;</span><br><span class="line">        <span class="comment">// find the 2 numbers</span></span><br><span class="line">        <span class="keyword">if</span> (nums[low] + nums[high] == target) &#123;</span><br><span class="line">            results.add(Arrays.asList(nums[low], nums[high], nums[i]));</span><br><span class="line"></span><br><span class="line">            low++;</span><br><span class="line">            high--;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// skip same number to avoid duplicate</span></span><br><span class="line">            <span class="keyword">while</span> (low &lt; high &amp;&amp; nums[low] == nums[low - <span class="number">1</span>]) &#123;</span><br><span class="line">                low++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// skip same number to avoid duplicate</span></span><br><span class="line">            <span class="keyword">while</span> (low &lt; high &amp;&amp; nums[high] == nums[high + <span class="number">1</span>]) &#123;</span><br><span class="line">                high--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[low] + nums[high] &gt; target) &#123;</span><br><span class="line">            high--;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            low++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> results;</span><br></pre></td></tr></table></figure>
 
                 </article>
                 <ul class="tags-postTags">
@@ -206,14 +194,10 @@ Each element of the array represents a height of a column. We want to pick 2 col
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="How to deserialize Json content with unknown property when using Jackson" href="/How-to-deserialize-Json-content-with-unknown-property-when-using-Jackson/">
-            ← How to deserialize Json content with unknown property when using Jackson
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="How to force Github Pages rebuild" href="/How-to-force-Github-Pages-rebuild/">
-            How to force Github Pages rebuild →
+        <a class="next-post" title="How to deserialize Json content with unknown property when using Jackson" href="/How-to-deserialize-Json-content-with-unknown-property-when-using-Jackson/">
+            How to deserialize Json content with unknown property when using Jackson →
         </a>
         
     </nav>
@@ -426,7 +410,7 @@ Each element of the array represents a height of a column. We want to pick 2 col
 			<a href="/" title="Nick Li">Nick Li &copy; 2019</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-11-Container-With-Most-Water/" class="leancloud-visitors" data-flag-title="Leetcode 11: Container With Most Water">
+			        <span hidden="true" id="/Leetcode-15-3Sum/" class="leancloud-visitors" data-flag-title="Leetcode 15: 3Sum">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
