@@ -5,6 +5,8 @@
 
 
 
+
+
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,13 +20,13 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>about | Nick Li</title>
+	<title>Leetcode 16: 3Sum Closest | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 	<meta name="generator" content="hexo">
 	<meta name="author" content="Nick Li">
-	<meta name="description" content="Software engineer">
+	<meta name="description" content>
 
 	
 
@@ -40,11 +42,15 @@
 	
 
 	<meta property="og:site_name" content="Nick Li">
-	<meta property="og:type" content="blog">
-	<meta property="og:title" content="about | Nick Li">
-	<meta property="og:description" content="Software engineer">
-	<meta property="og:url" content="http://nicklee1006.github.io/about/index.html">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Leetcode 16: 3Sum Closest | Nick Li">
+	<meta property="og:description" content>
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-16-3Sum-Closest/">
 
+	
+	<meta property="article:published_time" content="2019-11-16T13:11:00+08:00"> 
+	<meta property="article:author" content="Nick Li">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-16-3Sum-Closest/">
 	
 
 	
@@ -63,11 +69,14 @@
 	
 	
 </head>
-<body class="tag-template">
+<body class="post-template">
 	<div class="site-wrapper">
 		
 
-<header class="site-header outer " style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+
+
+
+<header class="site-header post-site-header outer">
     <div class="inner">
         
 <nav class="site-nav"> 
@@ -101,7 +110,7 @@
         <a href="#search" class="search-button">Search ...</a>
          
         
-<div class="social-links" style="display: none;">
+<div class="social-links">
     
     
     <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
@@ -121,59 +130,105 @@
 </div>
     </div>
 </nav>
-        <div class="site-header-content">
-            
-            <img class="author-profile-image" src="/images/photo.jpg" alt="Nick Li">
-            
-            <h1 class="site-title">Nick Li</h1>
-            
-            <div class="author-meta">
-                
-                <a class="author-stats" href="/archives" title="Total: 9">
-                    Total: 9
-                    <span class="bull">&bull;</span>
-                </a>
-                
-                
-                <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
-                    <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
-                </a>
-                
-                
-                
-                
-                
-                
-                
-                <a class="social-link" title="linkedin" href="https://www.linkedin.com/in/chenzhang-li/" target="_blank" rel="noopener">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                </a>
-                
-            </div>
-        </div>
     </div>
 </header>
 
 
 <div id="site-main" class="site-main outer" role="main">
-	<div class="inner">
-		<div class="post-feed">
-			<article class="post-card post no-image custom-page">
-				<article class="post-full no-image">
-					<section class="post-full-content page-full-content">
-						<div id="photoswipe" class="markdown-body">
-							<h2 id="About-the-blog"><a href="#About-the-blog" class="headerlink" title="About the blog"></a>About the blog</h2><p>Hi I’m Nick Li. Thank you for visiting my blog! I will publish articles from time to time. The articles will be more tech-oriented, such as algorithm problems I have practiced (mostly from Leetcode), technical problems I have met and how did I solved them, or just some interesting stuff I come across. There might be some articles on some random topics as well (travel, games, movies etc.)</p>
-<p>Feel free to send me an email <a href="mailto:nicklee1006@gmail.com" target="_blank" rel="noopener">nicklee1006@gmail.com</a> regarding my articles or anything. </p>
-<h2 id="About-me"><a href="#About-me" class="headerlink" title="About me"></a>About me</h2><p>I am a confident and highly-motivated software engineer. I enjoy developing software to make life easier. My passion lies in applying my technical skills to solve real world problems and working on impactful softwares that can make meaningful change.</p>
-<p>My technical strengths revolve around the Java technology stack, although I’m a quick learner and enjoy picking up new technologies. I have 2 years of developer experience from work, university and personal projects. I have fundamental knowledge of SQL scripting, database design, object-oriented design, bash script, HTML, CSS, and Linux server management. I am familiar with using source control systems (e.g. Git, SVN). I have experience adopting Agile Methodologies like Scrum, and have delivered several projects in this manner.</p>
+    <div class="inner">
+        <header class="post-full-header">
+            <div class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2019-11-16T03:12:47.000Z">
+                    2019-11-16
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a>&nbsp;&nbsp;
+                
+                
+            </div>
+            <h1 class="post-full-title">Leetcode 16: 3Sum Closest</h1>
+        </header>
+        <div class="post-full ">
+            
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
+            </figure>
+            
+            <div class="post-full-content">
+                <article id="photoswipe" class="markdown-body">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-16-3Sum-Closest/Question.png" data-index="0" data-src="/Leetcode-16-3Sum-Closest/Question.png">
+<br>
+<br>
+Similar to <a href="/Leetcode-15-3Sum/" title="Question 15: 3Sum">Question 15: 3Sum</a>. This time we want to find the 3 sum that is closest to the target value.
 
-						</div>
-					</section>
-				</article>
-			</article>
-		</div>
-	</div>
+<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution 1"></a>Solution 1</h2><p>Brute force. We need 3 nested loop to get all possible sums, and then get the sum that is closest to the target. Time  complexity is O(n<sup>3</sup>). Space complexity O(1).</p>
+<h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution 2"></a>Solution 2</h2><p>We can make use of the similar idea of <a href="/Leetcode-15-3Sum/" title="Question 15: 3Sum">Question 15: 3Sum</a>.</p>
+<ol>
+<li>Sort the array</li>
+<li>Loop the array to get the first number <code>nums[i]</code></li>
+<li>Use 2 pointers <code>head</code> and <code>tail</code> to loop the remaining array (<code>head = i + 1</code>)</li>
+<li><code>sum = nums[i] + nums[head] + nums[tail]</code></li>
+<li>Depending on the comparison of sum and target:<br>5.1 sum = target: then we can return the value as it as closest to the target<br>5.2 sum &lt; target: <code>head++</code><br>5.3 sum &gt; target: <code>tail--</code></li>
+<li>Use a variable to keep track of the smallest distance</li>
+</ol>
+<p>Code:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// keep trakc of minimun distance</span></span><br><span class="line"><span class="keyword">int</span> distance = Integer.MAX_VALUE;</span><br><span class="line"><span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// sort the array</span></span><br><span class="line">Arrays.sort(nums);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> low = i + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> high = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// another loop with 2 pointers</span></span><br><span class="line">    <span class="keyword">while</span> (low &lt; high) &#123;</span><br><span class="line">        <span class="keyword">int</span> tempSum = nums[i] + nums[low] + nums[high];</span><br><span class="line">        <span class="keyword">if</span> (tempSum == target) &#123;</span><br><span class="line">            <span class="keyword">return</span> tempSum;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tempSum &gt; target) &#123;</span><br><span class="line">            high--;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            low++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (Math.abs(tempSum - target) &lt; distance) &#123;</span><br><span class="line">            distance = Math.abs(tempSum - target);</span><br><span class="line">            result = tempSum;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
+
+<p>We are running 2 loops (O(n<sup>2</sup>)), and space complexity O(1).</p>
+
+                </article>
+                <ul class="tags-postTags">
+                    
+                    <li>
+                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/Leetcode-Two-Pointers/" rel="tag"># Leetcode - Two Pointers</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="Leetcode 15: 3Sum" href="/Leetcode-15-3Sum/">
+            Leetcode 15: 3Sum →
+        </a>
+        
+    </nav>
+
+    
+    <div class="inner">
+        <div id="comment"></div>
+    </div>
+    
 </div>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-1"><span class="toc-text">Solution 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-2"><span class="toc-text">Solution 2</span></a></li></ol>
+    </div>
+</div>
+
 
 
 <!-- Root element of PhotoSwipe. Must have class pswp. -->
@@ -358,6 +413,13 @@
 		<div class="copyright">
 			<a href="/" title="Nick Li">Nick Li &copy; 2019</a>
 			
+				
+			        <span hidden="true" id="/Leetcode-16-3Sum-Closest/" class="leancloud-visitors" data-flag-title="Leetcode 16: 3Sum Closest">
+			            <span>阅读量 </span>
+			            <span class="leancloud-visitors-count">0</span>
+			        </span>
+	    		
+    		
 		</div>
 		<nav class="site-footer-nav">
 			
@@ -411,6 +473,24 @@
 
 
 
+
+<script id="valineScript" src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+<script>
+    document.getElementById('valineScript').addEventListener("load", function() {
+        new Valine({
+            el: '#comment' ,
+            verify: false,
+            notify: false,
+            appId: '3TACGUnsSRuWgqCn3pRpLVwQ-MdYXbMMI',
+            appKey: 'JTo5iyjOyGTEXzAwjaTNqcY0',
+            placeholder: 'Please leave a comment',
+            pageSize: 10,
+            avatar: 'mm',
+            visitor: true,
+            lang: 'en'
+        })
+    });
+</script>
 
 
 
