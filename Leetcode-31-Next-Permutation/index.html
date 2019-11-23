@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Java 8 Optional | Nick Li</title>
+	<title>Leetcode 31: Next Permutation | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Java 8 Optional | Nick Li">
+	<meta property="og:title" content="Leetcode 31: Next Permutation | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Java-8-Optional/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-31-Next-Permutation/">
 
 	
-	<meta property="article:published_time" content="2019-11-18T21:11:00+08:00"> 
+	<meta property="article:published_time" content="2019-11-19T23:11:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Java-8-Optional/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-31-Next-Permutation/">
 	
 
 	
@@ -138,68 +138,79 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-11-18T11:33:42.000Z">
-                    2019-11-18
+                <time class="post-full-meta-date" datetime="2019-11-19T13:03:29.000Z">
+                    2019-11-19
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
+                <a href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a>&nbsp;&nbsp;
                 
                 
             </div>
-            <h1 class="post-full-title">Java 8 Optional</h1>
+            <h1 class="post-full-title">Leetcode 31: Next Permutation</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/18/guN6JxdHO7G2WDf.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <p>Java 8 introduced <code>Optional</code> class to avoid <code>NullPointerException</code>. Basically <code>Optional</code> class is a container to represent if an object exist or not. Use <code>Optional</code> make <code>null</code> value handling more elegant. See the example:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(user == <span class="keyword">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Unkown"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> user.getUsername();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-31-Next-Permutation/Question.png" data-index="0" data-src="/Leetcode-31-Next-Permutation/Question.png">
+<br>
+<br>
 
-<p>With <code>Optional</code>:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Optional.ofNullable(user).map(u -&gt; u.getUsername()).orElse(<span class="string">"Unkown"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Create-Optional-object"><a href="#Create-Optional-object" class="headerlink" title="Create Optional object"></a>Create Optional object</h2><p>There are 3 ways to create an <code>Optional</code> object:</p>
+<p>This problem is a bit hard to understand. Suppose we have number 123, then the permutation has 132，213，231，312，321. Sort them in order gives us: <strong>123</strong> 132 213 231 312 321. So what we are looking for is <code>132</code>.</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Solution referenced from here: <a href="https://leetcode.com/articles/next-permutation/" target="_blank" rel="noopener">31. Next Permutation</a></p>
+<p>In normal cases, to make the number bigger, we need any digit to become larger. If we want to get a number that is just larger than the original one, we need to change the ones digit. For example, change 123 to 124.</p>
+<p>Since we are dealing with permutation, we can only exchange the digits.</p>
+<p>If we start from the ones digit and proceed from right to left, find a larger one than the ones digit, and exchange them. The ones digit are exchanged to a higher position. After exchange the number become smaller because the ones digit is smaller. For example, number 132, we swap 2 and 3 and get 123, the ones digit become larger, but the overall number becomes smaller.</p>
+<p>So ones digit is a no-go. Lets look at tens digti. If we exchange the first larger number that is left to the tens digit, the situation is the same. We will have a smaller number. For example, number 4123, we exchange 2 and 4, get 2143, smaller number!</p>
+<p>If for a digit, we proceed from left to right, and exhange a number to the right that is larger. For 4123, we exchange 2 and 3, get 4132 which is larger. If for a certain digit (i.e tens digit), there is no digit to the right that is larger than it, then we move towards left until we get a number that has a digit to the right that is larger.</p>
+<p>Another question is what if there are many digits to the right that are larger than it? In this case we want the one that is just larger to make sure the final number is as small as possible.</p>
+<p>At this point we have a rough algorithm:</p>
 <ol>
-<li><p>Create an <code>Optional</code> that has no value</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;String&gt; optional = Optional.empty();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Create an <code>Optional</code> that the object must not be null</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;String&gt; optional1 = Optional.of(<span class="string">"optional object"</span>);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Create an <code>Optional</code>. The object could be null. In this case the <code>Optional</code> has no value</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;String&gt; optional2 = Optional.ofNullable(<span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
-
-</li>
+<li>Scan from right to left, find the digit that is smaller than it’s right digit. We make the index of this digit <code>i</code></li>
+<li>Scan from <code>i</code> to <code>end</code>, find the digit that is just larger than <code>i</code> digit. We make the index of this digit <code>j</code></li>
+<li>Exhange <code>i</code> and <code>j</code></li>
 </ol>
-<h2 id="get-Method"><a href="#get-Method" class="headerlink" title="get() Method"></a>get() Method</h2><p>It is used to return the value of the wrapper object. But if the wrapper object value is null, a <code>NoSuchElementException</code> will be thrown.</p>
-<h2 id="isPresent-Method"><a href="#isPresent-Method" class="headerlink" title="isPresent() Method"></a>isPresent() Method</h2><p>Used to determined the if the object is not null. Using it is not a good behavior as the logic would be excatly the same if we do a null check. And we are introducing an extra step to wrap the object with <code>Optional</code></p>
-<h2 id="ifPresent-Method"><a href="#ifPresent-Method" class="headerlink" title="ifPresent() Method"></a>ifPresent() Method</h2><p>The <code>ifPresent()</code> accept a <code>Consumer Interface</code> as parameter. If the object is not null then the <code>Consumer Interface</code> will be called to perform a specific action.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;User&gt; optionalUser = Optional.ofNullable(user);</span><br><span class="line"></span><br><span class="line"><span class="comment">// if user exist then print the username</span></span><br><span class="line">optionalUser.ifPresent(user -&gt; System.out.println(user.getUsername()));</span><br></pre></td></tr></table></figure>
+<p>But is it over? No. Although the number is larger, it may not be the next larger number. For example <code>158476531</code>, we start from tens digit <code>3</code>, no number to the right of <code>3</code> is larger than it. We move to <code>5</code>, <code>6</code>, <code>7</code>, the same. Until <code>4</code>. Then we look back from, and find <code>5</code> that is just larger than <code>4</code>. Exchange <code>5</code> and <code>4</code>, get <code>158576431</code>. We have a larger number, but it’s not the one that is just larger. We need to reverse the digits that is right to <code>5</code> and get <code>158513467</code>, which is the just larger number.</p>
+<p>Look at the gif from <a href="https://leetcode.com/problems/next-permutation/solution/" target="_blank" rel="noopener">Leetcode</a> might help to understand to process:</p>
+<img class="post-img b-lazy" data-img="/Leetcode-31-Next-Permutation/example.gif" data-index="1" data-src="/Leetcode-31-Next-Permutation/example.gif">
+<br>
+<br>
+Now we have our algorithm:
 
-<h2 id="filter-Method"><a href="#filter-Method" class="headerlink" title="filter() Method"></a>filter() Method</h2><p>The <code>filter()</code>method accepts a <code>Predicate</code> interface, which is used to filter the <code>Optional</code> object. If the condition of <code>Predicate</code> is met, the <code>Optional</code> object itself is returned. Otherwise, an empty <code>Optional</code> object is returned.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional.ofNullable(item).filter( i -&gt; i.getPrice() &gt; <span class="number">100</span>).ifPresent(i -&gt;  System.out.println(<span class="string">"The item cost over $100"</span>));</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Scan from right to left, find the first digit that is smaller than it’s right digit</li>
+</ol>
+<ul>
+<li>index <code>i</code></li>
+<li><code>num[i] &lt; num[i+1]</code></li>
+</ul>
+<ol start="2">
+<li>Scan from <code>i</code> to <code>end</code>, find the element that is immediately bigger than <code>nums[i]</code></li>
+</ol>
+<ul>
+<li>index <code>j</code></li>
+<li>From <code>i</code> to <code>end</code>, the order is guaranteed to be descending</li>
+</ul>
+<ol start="3">
+<li>Exchange <code>nums[i]</code> and <code>nums[j]</code></li>
+<li>Reverse elements from <code>i + 1</code> to <code>end</code></li>
+</ol>
+<p>Code:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">nextPermutation</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// start from tens digit</span></span><br><span class="line">    <span class="keyword">int</span> firstSmallerIndex = nums.length - <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find the first element that is smaller than it's right element</span></span><br><span class="line">    <span class="keyword">while</span> (firstSmallerIndex &gt;= <span class="number">0</span> &amp;&amp; nums[firstSmallerIndex + <span class="number">1</span>] &lt;= nums[firstSmallerIndex]) &#123;</span><br><span class="line">        firstSmallerIndex--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// in this case all digit are in descending order (87654321), we just need to reverse all</span></span><br><span class="line">    <span class="keyword">if</span> (firstSmallerIndex == -<span class="number">1</span>) &#123;</span><br><span class="line">        reverse(nums, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// from firstSmallerIndex to nums.length - 1, it's guaranteed to be in descending order</span></span><br><span class="line">    <span class="comment">// find the index that is just bigger than firstSmallerIndex</span></span><br><span class="line">    <span class="keyword">int</span> j = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; nums[j] &lt;= nums[firstSmallerIndex]) &#123;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// swap firstSmallerIndex and j</span></span><br><span class="line">    swap(nums, firstSmallerIndex, j);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// reverse elements to the right of firstSmallerIndex</span></span><br><span class="line">    reverse(nums, firstSmallerIndex + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// helper method to swap 2 digits in the array</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> temp = nums[i];</span><br><span class="line">    nums[i] = nums[j];</span><br><span class="line">    nums[j] = temp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// helper method to reverse all elements starting from start, in the array</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> start)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = start;</span><br><span class="line">    <span class="keyword">int</span> j = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (i &lt;= j) &#123;</span><br><span class="line">        swap(nums, i, j);</span><br><span class="line">        i++;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="map-Method"><a href="#map-Method" class="headerlink" title="map() Method"></a>map() Method</h2><p>The <code>map()</code> method takes a <code>Function</code> object. It uses the <code>Function</code> to the <code>Optional</code> and wrap it into a new <code>Optional</code> object (the type of the wrapper object may change).</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional.ofNullable(user).map(u -&gt; u.getUsername());</span><br></pre></td></tr></table></figure>
+<p>Time Complexity: the wrost case is to scan all digit, so that is O(n). Space complexity: O(1)</p>
+<p>To be honest, I think this question should be a <code>hard</code> level rather than a <code>medium</code>.</p>
 
-<h2 id="orElse-Method"><a href="#orElse-Method" class="headerlink" title="orElse() Method"></a>orElse() Method</h2><p>If the <code>Optional</code> object is not null, then return it’s value. Otherwise return the default value specified as the function parameter.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional.ofNullable(user).map(u -&gt; u.getUsername()).orElse(<span class="string">"Unkown"</span>);</span><br></pre></td></tr></table></figure>
-
-<h2 id="orElseGet-Method"><a href="#orElseGet-Method" class="headerlink" title="orElseGet() Method"></a>orElseGet() Method</h2><p>Similar to <code>orElse()</code>, except that the parameter of the <code>orElseGet()</code> is a <code>Supplier</code> object. The return value of the <code>get()</code> of the <code>Supplier</code> object is used as the default value.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional.ofNullable(user).map(u -&gt; u.getUsername()).orElseGet(() -&gt; <span class="string">"Unkown"</span>);</span><br></pre></td></tr></table></figure>
-
-<h2 id="orElseThrow-Method"><a href="#orElseThrow-Method" class="headerlink" title="orElseThrow() Method"></a>orElseThrow() Method</h2><p>Similar to <code>orElseGet()</code>. The parameters are all <code>Supplier</code> objects, except that the <code>Supplier</code> object of <code>orElseThrow()</code> must return a <code>Throwable</code> exception. The <code>orElseThrow()</code> method is useful for scenarios where a specific exception needs to be thrown when the wrapped object value is null.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional.ofNullable(user).map(u -&gt; u.getUsername()).orElseThrow(() -&gt; <span class="keyword">new</span> RuntimeException(<span class="string">"Unkown"</span>))</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Java-8-New-Features/" rel="tag"># Java 8 New Features</a>
+                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
                     </li>
                     
                 </ul>
@@ -210,14 +221,10 @@
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 31: Next Permutation" href="/Leetcode-31-Next-Permutation/">
-            ← Leetcode 31: Next Permutation
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 18: 4Sum" href="/Leetcode-18-4Sum/">
-            Leetcode 18: 4Sum →
+        <a class="next-post" title="Java 8 Optional" href="/Java-8-Optional/">
+            Java 8 Optional →
         </a>
         
     </nav>
@@ -243,7 +250,7 @@
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Create-Optional-object"><span class="toc-text">Create Optional object</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#get-Method"><span class="toc-text">get() Method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#isPresent-Method"><span class="toc-text">isPresent() Method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ifPresent-Method"><span class="toc-text">ifPresent() Method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#filter-Method"><span class="toc-text">filter() Method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#map-Method"><span class="toc-text">map() Method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#orElse-Method"><span class="toc-text">orElse() Method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#orElseGet-Method"><span class="toc-text">orElseGet() Method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#orElseThrow-Method"><span class="toc-text">orElseThrow() Method</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
     </div>
 </div>
 
@@ -438,7 +445,7 @@
 			<a href="/" title="Nick Li">Nick Li &copy; 2019</a>
 			
 				
-			        <span hidden="true" id="/Java-8-Optional/" class="leancloud-visitors" data-flag-title="Java 8 Optional">
+			        <span hidden="true" id="/Leetcode-31-Next-Permutation/" class="leancloud-visitors" data-flag-title="Leetcode 31: Next Permutation">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
