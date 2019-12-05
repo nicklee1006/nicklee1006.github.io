@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 34. Find First and Last Position of Element in Sorted Array | Nick Li</title>
+	<title>Leetcode 53. Maximum Subarray | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 34. Find First and Last Position of Element in Sorted Array | Nick Li">
+	<meta property="og:title" content="Leetcode 53. Maximum Subarray | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-34-Find-First-and-Last-Position-of-Element-in-Sorted-Array/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-53-Maximum-Subarray/">
 
 	
-	<meta property="article:published_time" content="2019-11-24T13:11:00+08:00"> 
+	<meta property="article:published_time" content="2019-12-04T21:12:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-34-Find-First-and-Last-Position-of-Element-in-Sorted-Array/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-53-Maximum-Subarray/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-11-24T03:43:42.000Z">
-                    2019-11-24
+                <time class="post-full-meta-date" datetime="2019-12-04T11:07:22.000Z">
+                    2019-12-4
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 34. Find First and Last Position of Element in Sorted Array</h1>
+            <h1 class="post-full-title">Leetcode 53. Maximum Subarray</h1>
         </header>
         <div class="post-full ">
             
@@ -157,30 +157,32 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-34-Find-First-and-Last-Position-of-Element-in-Sorted-Array/Question.png" data-index="0" data-src="/Leetcode-34-Find-First-and-Last-Position-of-Element-in-Sorted-Array/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-53-Maximum-Subarray/Question.png" data-index="0" data-src="/Leetcode-53-Maximum-Subarray/Question.png">
 <br>
 <br>
-Find the first and last location of target value in a sorted array. Algorithm need to run in O(logn).
+Find a contiguous subarray in an array that has the largest sum.
 
 <h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Easy - <a href="https://leetcode.com/problems/first-bad-version/" target="_blank" rel="noopener">278. First Bad Version</a></li>
+<li>Easy - <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121. Best Time to Buy and Sell Stock</a></li>
+<li>Medium - <a href="https://leetcode.com/problems/maximum-product-subarray/" target="_blank" rel="noopener">152. Maximum Product Subarray</a></li>
+<li>Easy - <a href="https://leetcode.com/problems/degree-of-an-array/" target="_blank" rel="noopener">697. Degree of an Array</a></li>
+<li>Medium - <a href="https://leetcode.com/problems/longest-turbulent-subarray/" target="_blank" rel="noopener">978. Longest Turbulent Subarray</a></li>
 </ul>
-<h2 id="Solution-1-Linear-Scan"><a href="#Solution-1-Linear-Scan" class="headerlink" title="Solution 1 Linear Scan"></a>Solution 1 Linear Scan</h2><p>Note that the array is sort. So we can make use of that. First scan from left to right. Once target value is found, stop scanning and record the index. Then scan from right to left, and record the index of first occurance of target value.</p>
-<p>If target value is not found when scanning from left to right, then we can directly return <code>[-1. -1]</code> as there is no target value in the array.</p>
-<p>This algorithm is easy enough. However, time complexity is O(n), so it is not what we really want.</p>
-<h2 id="Solution-2-Binary-Search"><a href="#Solution-2-Binary-Search" class="headerlink" title="Solution 2 Binary Search"></a>Solution 2 Binary Search</h2><p>Solution referenced from here: <a href="https://leetcode.wang/leetCode-34-Find-First-and-Last-Position-of-Element-in-Sorted-Array.html" target="_blank" rel="noopener">https://leetcode.wang/leetCode-34-Find-First-and-Last-Position-of-Element-in-Sorted-Array.html</a></p>
-<p>As we are targeting O(logn), binary search is a good candidate. </p>
-<p>In a normal binary search, our algorith ends as soon as we find the target value. It may not be the leftmost target value. Like in the following case (pic taken from: ):</p>
-<img class="post-img b-lazy" data-img="/Leetcode-34-Find-First-and-Last-Position-of-Element-in-Sorted-Array/sample1.png" data-index="1" data-src="/Leetcode-34-Find-First-and-Last-Position-of-Element-in-Sorted-Array/sample1.png">
-<br>
-<br>
-
-<p>In this case we need to keep looking for the leftmost target value. So once we found the target value, insted of return, we make <code>end = mid - 1</code> to keep searching. Eventually, the <code>start</code> will stop at the leftmost target value. </p>
-<p>We can do the same to find the rightmost target value. The <code>end</code> will stop at the rightmost target value</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Dynamic programming can be used here to tackle this problem.</p>
+<p>We can use a one-dimensional array <code>dp[i]</code> to represent the largest sum of subarray ending at index <code>i</code>. In other words, the last element of this sub-array is the index <code>i</code> element, and this subarray has the largest sum.</p>
+<p>We have 2 situations here:</p>
+<ul>
+<li>If <code>dp[i-1] &lt; 0</code>, then <code>dp[i] = nums[i]</code> </li>
+<li>If <code>dp[i-1] &gt;= 0</code>, then <code>dp[i] = dp[i-1] + nums[i]</code></li>
+</ul>
 <p>Code:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> start = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> end = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// array to record the result</span></span><br><span class="line"><span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;-<span class="number">1</span>, -<span class="number">1</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (nums.length == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// first, try to find target, and keep search left part</span></span><br><span class="line"><span class="comment">// when this loop exit, start must point to the leftmost target, or target not exist</span></span><br><span class="line"><span class="keyword">while</span> (start &lt;= end) &#123;</span><br><span class="line">    <span class="keyword">int</span> mid = (start + end) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find target, keep search left</span></span><br><span class="line">    <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">        end = mid - <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &gt; target) &#123;</span><br><span class="line">        end = mid - <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        start = mid + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (start == nums.length || nums[start] != target) &#123;</span><br><span class="line">    <span class="comment">// didn't find target</span></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    result[<span class="number">0</span>] = start;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// search rightmost target</span></span><br><span class="line">start = <span class="number">0</span>;</span><br><span class="line">end = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (start &lt;= end) &#123;</span><br><span class="line">    <span class="keyword">int</span> mid = (start + end) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find target, keep search right part</span></span><br><span class="line">    <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">        start = mid + <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &gt; target) &#123;</span><br><span class="line">        end = mid - <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        start = mid + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// we already know that target exist</span></span><br><span class="line"><span class="comment">// end will convergence to target</span></span><br><span class="line">result[<span class="number">1</span>] = end;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dp array</span></span><br><span class="line"><span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line"><span class="keyword">int</span> result = nums[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// base condition</span></span><br><span class="line">dp[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="comment">//2 situations to update dp[i]</span></span><br><span class="line">    <span class="keyword">if</span> (dp[i - <span class="number">1</span>] &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        dp[i] = nums[i];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        dp[i] = dp[i - <span class="number">1</span>] + nums[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// update result</span></span><br><span class="line">    result = Math.max(result, dp[i]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
 
-<p>Time complexity O(logn), and space complexity O(1).</p>
+<p>Time complexity O(n), and space complexity O(n).</p>
+<p>Notice that we only used <code>dp[i-1]</code>, so the whole dp array isn’t necessary here. Just need a variable to store the previous value.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> previous = nums[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">int</span> result = nums[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="comment">//2 situations to update dp[i]</span></span><br><span class="line">    <span class="keyword">if</span> (previous &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        previous = nums[i];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        previous = previous + nums[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// update result</span></span><br><span class="line">    result = Math.max(result, previous);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
+
+<p>This way, time complexity is still O(n), but space complexity is optimized O(1).</p>
 
                 </article>
                 <ul class="tags-postTags">
@@ -190,7 +192,11 @@ Find the first and last location of target value in a sorted array. Algorithm ne
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-Binary-Search/" rel="tag"># Leetcode - Binary Search</a>
+                        <a href="/tags/Leetcode-Divde-and-Conquer/" rel="tag"># Leetcode - Divde and Conquer</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/Leetcode-Dynamic-Programming/" rel="tag"># Leetcode - Dynamic Programming</a>
                     </li>
                     
                 </ul>
@@ -201,14 +207,10 @@ Find the first and last location of target value in a sorted array. Algorithm ne
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 39. Combination Sum" href="/Leetcode-39-Combination-Sum/">
-            ← Leetcode 39. Combination Sum
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 33. Search in Rotated Sorted Array" href="/Leetcode-33-Search-in-Rotated-Sorted-Array/">
-            Leetcode 33. Search in Rotated Sorted Array →
+        <a class="next-post" title="Leetcode 48. Rotate Image" href="/Leetcode-48-Rotate-Image/">
+            Leetcode 48. Rotate Image →
         </a>
         
     </nav>
@@ -234,7 +236,7 @@ Find the first and last location of target value in a sorted array. Algorithm ne
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-1-Linear-Scan"><span class="toc-text">Solution 1 Linear Scan</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-2-Binary-Search"><span class="toc-text">Solution 2 Binary Search</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
     </div>
 </div>
 
@@ -441,7 +443,7 @@ Find the first and last location of target value in a sorted array. Algorithm ne
 			<a href="/" title="Nick Li">Nick Li &copy; 2019</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-34-Find-First-and-Last-Position-of-Element-in-Sorted-Array/" class="leancloud-visitors" data-flag-title="Leetcode 34. Find First and Last Position of Element in Sorted Array">
+			        <span hidden="true" id="/Leetcode-53-Maximum-Subarray/" class="leancloud-visitors" data-flag-title="Leetcode 53. Maximum Subarray">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
