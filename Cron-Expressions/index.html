@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 15: 3Sum | Nick Li</title>
+	<title>Cron Expressions | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 15: 3Sum | Nick Li">
+	<meta property="og:title" content="Cron Expressions | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-15-3Sum/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Cron-Expressions/">
 
 	
-	<meta property="article:published_time" content="2019-11-15T21:11:00+08:00"> 
+	<meta property="article:published_time" content="2019-12-10T20:12:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-15-3Sum/">
+	<meta property="article:published_first" content="Nick Li, /Cron-Expressions/">
 	
 
 	
@@ -138,57 +138,53 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-11-15T11:19:25.000Z">
-                    2019-11-15
+                <time class="post-full-meta-date" datetime="2019-12-10T10:17:38.000Z">
+                    2019-12-10
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a>&nbsp;&nbsp;
-                
                 
             </div>
-            <h1 class="post-full-title">Leetcode 15: 3Sum</h1>
+            <h1 class="post-full-title">Cron Expressions</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/12/10/qiGepETHm6YBMrC.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-15-3Sum/Question.png" data-index="0" data-src="/Leetcode-15-3Sum/Question.png">
-<br>
-<br>
-Given an array, find all unique triplets that add up to 0
-
-<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Easy - <a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener">1. Two Sum</a></li>
-<li>Medium - <a href="/Leetcode-16-3Sum-Closest/" title="16: 3Sum Closest">16: 3Sum Closest</a></li>
-<li>Medium - <a href="/Leetcode-18-4Sum/" title="18: 4Sum">18: 4Sum</a></li>
-</ul>
-<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution 1"></a>Solution 1</h2><p>Brute force solution. We need 3 nested for loops. If we found that <code>nums[i] + nums[j] + nums[k] == target</code>, then need to check if the solution already exist (which takes O(n)). So the overall complexity is O(n<sup>3</sup>). Space complexity O(1).</p>
-<h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution 2"></a>Solution 2</h2><p>Reference <a href="https://leetcode.com/problems/3sum/discuss/7380/Concise-O(N2)" target="_blank" rel="noopener">https://leetcode.com/problems/3sum/discuss/7380/Concise-O(N2)</a> as a O(n<sup>2</sup>) solution.</p>
-<p>The main idea is to iterate through the array, fix one number as sum, and find another 2 numbers that add up to -sum. The clever thing is how to find the other two numbers in O(n).</p>
-<p>The achieve that, first we need to sort the array.</p>
-<p>Then we get <code>num[i]</code> as target , and try to find if there are 2 element add up to <code>-num[i]</code>. As the array is sorted, we can use 2 pointers (low and high) at head and tail, so find 2 elements takes O(n).</p>
+                    <p>Cron expression is a string comprising five or six fields separated by white space that represents a set of times. It is widely used to execute some scheduled tasks. It can be used with <a href="https://spring.io/guides/gs/scheduling-tasks/" target="_blank" rel="noopener">Spring Scheduling Tasks</a>, or linux scheduled tasks.</p>
+<h2 id="Expression"><a href="#Expression" class="headerlink" title="Expression"></a>Expression</h2><p>&#60;second&#62; &#60;minute&#62; &#60;hour&#62; &#60;day-of-month&#62; &#60;month&#62; &#60;day-of-week&#62; &#60;year&#62;</p>
+<p>where &#60;year&#62; field is optional.</p>
 <ul>
-<li><code>num[low] + num[high] &gt; target</code>, high = high -1. As we are greater than target, we need to decrease the high pointer to make sum smaller.</li>
-<li><code>num[low] + num[high] &lt; target</code>, low++. As we are smaller than target, we need to increase the low pointer to make sum larger.</li>
+<li><strong>second</strong>: may have <code>, - * /</code>, valid value is integer <code>0-59</code></li>
+<li><strong>minute</strong>: may have <code>, - * /</code>, valid value is integer <code>0-59</code></li>
+<li><strong>hour</strong>: may have <code>, - * /</code>, valid value is integer <code>0-23</code></li>
+<li><strong>day-of-month</strong>: may have <code>, - * / ? L W C</code>, valid value is integer <code>0-31</code></li>
+<li><strong>month</strong>: may have <code>, - * /</code>, valid value is integer <code>1-12</code> or <code>JAN-DEC</code></li>
+<li><strong>day-of-week</strong>: may have <code>, - * / ? L C #</code>, valid value is integer <code>1-7</code> or <code>SUN-SAT</code>. <code>1</code> represent sunday, <code>2</code> represent monday…</li>
+<li><strong>year</strong>: may have <code>, - * /</code>, valid value is integer <code>1970-2099</code></li>
 </ul>
-<p>To avoid add duplicate result, we need to move the pointer to point to different number with <code>num[low]</code> and <code>num[high]</code>. For example, let’s say the array is <code>[-2, -1, 0, 0, 1, 1, 2, 3]</code>. The <code>num[i] = -2</code>. We found that <code>num[1] + num[5] + num[i] = 0</code>. To continue the loop, we need to move <code>high = 5</code> to <code>high = 3</code>. If we don’t have this step, then when the loop continues, we will have <code>num[1] + num[4] + num[i] = 0</code> and this result is duplicate with the result we already have.</p>
-<p>Code:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">List&lt;List&lt;Integer&gt;&gt; results = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// sort the array</span></span><br><span class="line">Arrays.sort(nums);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="comment">// skip the same number in array when we choose the number as sum target</span></span><br><span class="line">    <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// start the loop to find remaining 2 numbers</span></span><br><span class="line">    <span class="keyword">int</span> low = i + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> high = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> target = -nums[i];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (low &lt; high) &#123;</span><br><span class="line">        <span class="comment">// find the 2 numbers</span></span><br><span class="line">        <span class="keyword">if</span> (nums[low] + nums[high] == target) &#123;</span><br><span class="line">            results.add(Arrays.asList(nums[low], nums[high], nums[i]));</span><br><span class="line"></span><br><span class="line">            low++;</span><br><span class="line">            high--;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// skip same number to avoid duplicate</span></span><br><span class="line">            <span class="keyword">while</span> (low &lt; high &amp;&amp; nums[low] == nums[low - <span class="number">1</span>]) &#123;</span><br><span class="line">                low++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// skip same number to avoid duplicate</span></span><br><span class="line">            <span class="keyword">while</span> (low &lt; high &amp;&amp; nums[high] == nums[high + <span class="number">1</span>]) &#123;</span><br><span class="line">                high--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[low] + nums[high] &gt; target) &#123;</span><br><span class="line">            high--;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            low++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> results;</span><br></pre></td></tr></table></figure>
+<h2 id="Specials-Characters-In-Expression"><a href="#Specials-Characters-In-Expression" class="headerlink" title="Specials Characters In Expression"></a>Specials Characters In Expression</h2><ul>
+<li><strong>* (all)</strong>: Means matching any value in the field. If using <code>*</code> in the <code>minute</code> field, it means that the event will be triggered every minute.</li>
+<li><strong>? (any)</strong>: Can only be applied to <code>day-of-month</code> and <code>day-of-week</code> field. It also matches any value of the field. For example, if you want to trigger the scheduling on the 20th of each month, no matter what day of week the 20th is, you can only use the following expression: <code>13 13 15 20 * ?</code>. The last bit can only use <code>?</code>.</li>
+<li><strong>– (range)</strong>: Means range. For example, Using <code>5-20</code> in the <code>minute</code> field means that it is triggered every minute from 5 minutes to 20 minutes.</li>
+<li><strong>, (values)</strong>: Means that the trigger starts at the start time, and then triggers at regular intervals. Write as <code>start/intervals</code>. For example, using 5/20 in the <code>minute</code> field means triggering at 5 minutes, and 25 minutes, 45 minutes.</li>
+<li><strong>/ (increments)</strong>: Means enumerated values. For example: using <code>5,20</code> in the <code>minute</code> field means triggering at 5 and 20 minutes.</li>
+<li><strong>L (last)</strong>: Means at the end. It can only appear in the <code>day-of-week</code> and <code>day-of-month</code> fields. If <code>5L</code> is used in the <code>day-of-week</code> field, it means that it is triggered on the last Thursday of the month.</li>
+<li><strong>W (weekday)</strong>: Means a valid working day (Monday to Friday). It can only appear in the <code>day-of-month</code> field. The system will trigger an event on the closest valid working day from the specified date. For example: <code>5W</code> is used in <code>day-of-month</code>. If the 5th is Saturday, it will be triggered on the nearest working day: Friday, that is, the 4th. If the 5th is Sunday, it will be triggered on the 6th (Monday); if the 5th is one of Monday to Friday, it will be triggered on the 5th. In addition, W’s nearest search will not cross the month</li>
+<li><strong>LW</strong>: These two characters can be used together to indicate the last working day of a month, that is, the last Friday.</li>
+<li><strong>#</strong>: It is used to determine the day of the week of each month and can only appear in the <code>day-of-month</code> field. For example, <code>4#2</code> means the second Wednesday of a month.</li>
+</ul>
+<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><p><code>30 * * * * ?</code>: Trigger task every 30 seconds<br><code>30 10 * * * ?</code>: Trigger task at 10 minutes and 30 seconds per hour<br><code>30 10 1 * * ?</code>: Trigger task every day at 1:10:30<br><code>30 10 1 20 * ?</code>: Trigger task at 1:10:30 on the 20th of each month<br><code>30 10 1 20 10 ? *</code>: Trigger task at 1:10:30 on the October 20th of each year<br><code>30 10 1 20 10 ? 2011</code>: Trigger task at 1:10:30 on the October 20th of 2011<br><code>30 10 1 ? 10 * 2011</code>: Trigger task every day at 1:10:30 in October 2011<br><code>30 10 1 ? 10 SUN 2011</code>: Trigger task every Sunday at 1:10:30 in October 2011<br><code>15,30,45 * * * * ?</code>: Trigger task every 15 seconds, 30 seconds, and 45 seconds<br><code>15-45 * * * * ?</code>: Trigger task every second from 15 to 45 seconds<br><code>15/5 * * * * ?</code>: Trigger task every 5 seconds starting at 15 seconds<br><code>15-30/5 * * * * ?</code>: Trigger task every 5 seconds between 15 and 30 seconds every minute<br><code>0 0/3 * * * ?</code>: Trigger task every 3 minutes starting 0 minutes and 0 seconds<br><code>0 15 10 ? * MON-FRI</code>: Trigger task from 10:15:00 from Monday to Friday<br><code>0 15 10 L * ?</code>: Trigger task at 10:15:00 on the last day of each month<br><code>0 15 10 LW * ?</code>: Trigger task at 10:15:00 on the last working day of each month<br><code>0 15 10 ? * 5L</code>: Trigger task at 10:15:00 on the last Thursday of every month<br><code>0 15 10 ? * 5#3</code>: Trigger task at 10:15:00 on the third week of each month</p>
 
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Two-Pointers/" rel="tag"># Leetcode - Two Pointers</a>
+                        <a href="/tags/Cron-Expression/" rel="tag"># Cron Expression</a>
                     </li>
                     
                 </ul>
@@ -199,14 +195,10 @@ Given an array, find all unique triplets that add up to 0
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 16: 3Sum Closest" href="/Leetcode-16-3Sum-Closest/">
-            ← Leetcode 16: 3Sum Closest
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="How to deserialize Json content with unknown property when using Jackson" href="/How-to-deserialize-Json-content-with-unknown-property-when-using-Jackson/">
-            How to deserialize Json content with unknown property when using Jackson →
+        <a class="next-post" title="Leetcode 56. Merge Intervals" href="/Leetcode-56-Merge-Intervals/">
+            Leetcode 56. Merge Intervals →
         </a>
         
     </nav>
@@ -232,7 +224,7 @@ Given an array, find all unique triplets that add up to 0
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-1"><span class="toc-text">Solution 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-2"><span class="toc-text">Solution 2</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Expression"><span class="toc-text">Expression</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Specials-Characters-In-Expression"><span class="toc-text">Specials Characters In Expression</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Examples"><span class="toc-text">Examples</span></a></li></ol>
     </div>
 </div>
 
@@ -447,7 +439,7 @@ Given an array, find all unique triplets that add up to 0
 			<a href="/" title="Nick Li">Nick Li &copy; 2019</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-15-3Sum/" class="leancloud-visitors" data-flag-title="Leetcode 15: 3Sum">
+			        <span hidden="true" id="/Cron-Expressions/" class="leancloud-visitors" data-flag-title="Cron Expressions">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
