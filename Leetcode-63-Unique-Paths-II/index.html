@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Spring Cloud 1: What is Spring Cloud | Nick Li</title>
+	<title>Leetcode 63. Unique Paths II | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Spring Cloud 1: What is Spring Cloud | Nick Li">
+	<meta property="og:title" content="Leetcode 63. Unique Paths II | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Spring-Cloud-1-What-is-Spring-Cloud/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-63-Unique-Paths-II/">
 
 	
-	<meta property="article:published_time" content="2019-12-13T08:12:00+08:00"> 
+	<meta property="article:published_time" content="2019-12-23T23:12:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Spring-Cloud-1-What-is-Spring-Cloud/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-63-Unique-Paths-II/">
 	
 
 	
@@ -138,105 +138,55 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-12-12T22:37:14.000Z">
-                    2019-12-13
+                <time class="post-full-meta-date" datetime="2019-12-23T13:34:10.000Z">
+                    2019-12-23
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Spring-Cloud/">Spring Cloud</a>&nbsp;&nbsp;
+                <a href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a>&nbsp;&nbsp;
                 
                 
             </div>
-            <h1 class="post-full-title">Spring Cloud 1: What is Spring Cloud</h1>
+            <h1 class="post-full-title">Leetcode 63. Unique Paths II</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/12/13/mLXu4pvRF6zGJaH.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <p>I have been learning Spring Cloud recently, and found it quite interesting. So I would write a series of blogs to introduce different components of Spring Cloud. Let’s begin with a brief introduction of Spring Cloud.</p>
-<p>So what is Spring Cloud? In short, Spring Cloud is a collection of a series of frameworks. It is based on Spring Boot and make use of it to simplify the development of distributed system infrastructure. Spring Cloud consists of several useful functionalities such as <code>service discovery</code>, <code>configuration center</code>, <code>message bus</code>, <code>load balance</code>, and <code>monitoring</code>. It provides a complete set of solution to build an enterprise level cloud application.</p>
-<p>Spring Cloud includes several sub-projects, such as <code>Spring Cloud Config</code>, <code>Spring Cloud Netflix</code>, <code>Spring Cloud Security</code>, etc. Spring collects those mature frameworks from different companies, uses Spring Boot style to re-encapsulate them and removes complicated configuration, and gives developers an easy-to-use, easy-to-deploy and easy-to-maintain distributed system development toolkit.</p>
-<p>With Spring Cloud, every individual service could be a separated application. It can be deployed individually, scale horitontallly and accessed individually. Those services are service unit, which is always called <code>microservice</code> (because they are usually very ‘small’ service that provides a certain type of service). Spring Cloud is the manager of all those microservices. Using microservice architecture, the number of projects (modules) would be huge, but Spring Cloud facilitate the management of all that.</p>
-<p>Now let’s look at some most important components of Spring Cloud. It is a brief introduction, I will discuss more details in the following blogs.</p>
-<h2 id="Key-Components"><a href="#Key-Components" class="headerlink" title="Key Components"></a>Key Components</h2><h3 id="Netflix-Eureka"><a href="#Netflix-Eureka" class="headerlink" title="Netflix Eureka"></a>Netflix Eureka</h3><p>Service center. CLoud side service discovery. It’s the basic of Spring Cloud. All service register themselves at the service center. If one service need to invoke another service, it can find it in the service center as well.</p>
-<h3 id="Netflix-Hystrix"><a href="#Netflix-Hystrix" class="headerlink" title="Netflix Hystrix"></a>Netflix Hystrix</h3><p>Circuit breaker. Provides a powerful fault tolerant capability. For example, if a service is not responding, but other services are not aware of that, that failing service will affect the system performance. With Hystrix, it would notify other services that the failing service can’t be used.</p>
-<h3 id="Ribbon"><a href="#Ribbon" class="headerlink" title="Ribbon"></a>Ribbon</h3><p>Load balancer.</p>
-<h3 id="Netflix-Zuul"><a href="#Netflix-Zuul" class="headerlink" title="Netflix Zuul"></a>Netflix Zuul</h3><p>Dynamic routing. Zuul is the front door of all front end applications and the back end services. When users invoke services, it must go through Zuul, see if the request is valid.</p>
-<h3 id="Spring-Cloud-Config"><a href="#Spring-Cloud-Config" class="headerlink" title="Spring Cloud Config"></a>Spring Cloud Config</h3><p>Configuration center. Developer can put all configurations to a remote server and manages those together rather than manage for each individual service.</p>
-<h3 id="Spring-Cloud-Bus"><a href="#Spring-Cloud-Bus" class="headerlink" title="Spring Cloud Bus"></a>Spring Cloud Bus</h3><p>Event and message bus.</p>
-<h3 id="Spring-Cloud-Security"><a href="#Spring-Cloud-Security" class="headerlink" title="Spring Cloud Security"></a>Spring Cloud Security</h3><p>Security toolkit basic on Spring Security. Add security control to the cloud application.</p>
-<h3 id="Spring-Cloud-Sleuth"><a href="#Spring-Cloud-Sleuth" class="headerlink" title="Spring Cloud Sleuth"></a>Spring Cloud Sleuth</h3><p>Logging toolkits. Provide solution of distributed routing tracking.</p>
-<p>The relationship between all those components:</p>
-<img class="post-img b-lazy" data-img="/Spring-Cloud-1-What-is-Spring-Cloud/1.png" data-index="0" data-src="/Spring-Cloud-1-What-is-Spring-Cloud/1.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-63-Unique-Paths-II/Question.png" data-index="0" data-src="/Leetcode-63-Unique-Paths-II/Question.png">
 <br>
 <br>
 
-<ul>
-<li>All request go through API gateway <code>Zuul</code> to get access to services.</li>
-<li>API gateway obtain available service from service registry <code>Eureka</code>.</li>
-<li><code>Ribbon</code> complete load balancing and dispath request to back end service instancve.</li>
-<li>All microserve use <code>Feign</code> to communicate.</li>
-<li><code>Hystrix</code> handles circuit breaker if services are unavailable.</li>
+<p>Similar to <a href="/Leetcode-62-Unique-Paths/" title="Question 62: Unique Paths">Question 62: Unique Paths</a>. This time given a input array to mark obstacles.</p>
+<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
+<li>Medium - <a href="/Leetcode-62-Unique-Paths/" title="62: Unique Paths">62: Unique Paths</a></li>
+<li>Hard - <a href="https://leetcode.com/problems/unique-paths-iii/" target="_blank" rel="noopener">980. Unique Paths III</a></li>
 </ul>
-<p>These are the main components, but there a lot more other sercices that are provided by Spring Cloud.</p>
-<h2 id="Relationship-with-Spring-Boot"><a href="#Relationship-with-Spring-Boot" class="headerlink" title="Relationship with Spring Boot"></a>Relationship with Spring Boot</h2><p><code>Spring Boot</code> can be used to develop individual microservice, while <code>Spring Cloud</code> is based on <code>Spring Boot</code> to facilitate cloud application development. One can use only <code>Spring Boot</code> to develop application without <code>Spring Cloud</code>, but to develop <code>Spring Cloud</code>, <code>Spring Boot</code> must be used. There is a dependency relationship.</p>
-<p>Please note that there is a strict relationship with the version of <code>Spring Cloud</code> and <code>Spring Boot</code>. If the versions don’t match, the system won’t work. Below is the table shows the relationship.</p>
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
-.tg .tg-axxb{font-weight:bold;background-color:#c0c0c0;color:#000000;border-color:inherit;text-align:center;vertical-align:top}
-.tg .tg-n9g5{background-color:#ffffff;color:#000000;border-color:inherit;text-align:left;vertical-align:middle}
-</style>
-<table class="tg">
-  <tr>
-    <th class="tg-axxb">Spring Cloud</th>
-    <th class="tg-axxb">Spring Boot</th>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Angel</td>
-    <td class="tg-n9g5">Spring Boot 1.2.x</td>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Brixton</td>
-    <td class="tg-n9g5">Spring Boot 1.3.x, and Spring Boot 1.4.x</td>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Camden</td>
-    <td class="tg-n9g5">Spring Boot 1.4.x, and Spring Boot 1.5.x</td>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Dalston, Edgware</td>
-    <td class="tg-n9g5">Spring Boot 1.5.x, not compatiable with Spring Boot 2.0.x</td>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Finchley</td>
-    <td class="tg-n9g5">Spring Boot 2.0.x, not compatiable with Spring Boot 1.5.x</td>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Greenwich</td>
-    <td class="tg-n9g5">Spring Boot 2.1.x</td>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Hoxton</td>
-    <td class="tg-n9g5">Spring Boot 2.2.x</td>
-  </tr>
-</table>
-
-<p>In the following blogs, I will using Spring Cloud <code>Greenwich</code> version.</p>
-<h2 id="Advantage-of-Spring-Cloud"><a href="#Advantage-of-Spring-Cloud" class="headerlink" title="Advantage of Spring Cloud"></a>Advantage of Spring Cloud</h2><p>There are other microservice frameworks, such as <code>Dubbo</code>, <code>Kubernetes</code>. What are <code>Spring Cloud</code>‘s advantages compared with those?</p>
-<ul>
-<li>It is from Spring family. Make use of <code>Spring Boot</code> makes developing individual service a lot easier.</li>
-<li>The community is very active. Lots of tutorials out there, and easy to find solutions.</li>
-<li>Get circuit breaker, load balance, service discovery with only a few lines of code.</li>
-</ul>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>The solution is similar to <a href="/Leetcode-62-Unique-Paths/" title="Question 62: Unique Paths">Question 62: Unique Paths</a>. Define a 2D array <code>result</code>. Each element of <code>result</code> represent the unique path starting from this point to bottom-right point.</p>
+<p>The point on the last row and last column can only have 1 unique path (because we can only move right and down). However, if we traverse from the last to the first (e.g, from right to left or bottom to top), if there are any obstacle on the route, then the rest on the last row and last column is 0, as this route is blocked.</p>
+<p>For other points, the number of unique paths is determined by unique path of the point below it and right to it. There are 3 situations:</p>
+<ol>
+<li>If both bottom and right point is obstacle or the position itself is obstacle, set to 0</li>
+<li>If only one of bottom and right point is obstacle, set to right or bottom </li>
+<li>Otherwise, <code>result[i][j] = result[i + 1][j] + result[i][j + 1]</code>.</li>
+</ol>
+<p>Finally we just need to get the value of <code>result[0][0]</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// get number of columns and rows</span></span><br><span class="line"><span class="keyword">int</span> columns = obstacleGrid[<span class="number">0</span>].length;</span><br><span class="line"><span class="keyword">int</span> rows = obstacleGrid.length;</span><br><span class="line"></span><br><span class="line"><span class="comment">// result array</span></span><br><span class="line"><span class="keyword">int</span>[][] result = <span class="keyword">new</span> <span class="keyword">int</span>[rows][columns];</span><br><span class="line"></span><br><span class="line"><span class="comment">// check if the bottom-right point itself is obstable or not</span></span><br><span class="line">result[rows - <span class="number">1</span>][columns - <span class="number">1</span>] = obstacleGrid[rows - <span class="number">1</span>][columns - <span class="number">1</span>] == <span class="number">1</span> ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// to mark if encounter any obstacle on last row</span></span><br><span class="line"><span class="keyword">int</span> obstacle = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// fill right most column and last row with 1 or 0</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = columns - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="keyword">if</span> (obstacleGrid[rows - <span class="number">1</span>][i] == <span class="number">1</span>) &#123;</span><br><span class="line">        obstacle = -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    result[rows - <span class="number">1</span>][i] = <span class="number">1</span> + obstacle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// to mark if encounter any obstacle on last column</span></span><br><span class="line">obstacle = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = rows - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="keyword">if</span> (obstacleGrid[i][columns - <span class="number">1</span>] == <span class="number">1</span>) &#123;</span><br><span class="line">        obstacle = -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result[i][columns - <span class="number">1</span>] = <span class="number">1</span> + obstacle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// start from second last row and column</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = rows - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = columns - <span class="number">2</span>; j &gt;= <span class="number">0</span>; j--) &#123;</span><br><span class="line">        <span class="comment">// both right or below point is obstacle or the point itself is obstacle</span></span><br><span class="line">        <span class="keyword">if</span> ((obstacleGrid[i][j + <span class="number">1</span>] == <span class="number">1</span> &amp;&amp; obstacleGrid[i + <span class="number">1</span>][j] == <span class="number">1</span>) || obstacleGrid[i][j] == <span class="number">1</span>) &#123;</span><br><span class="line">            result[i][j] = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// the point below is obstacle</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (obstacleGrid[i][j + <span class="number">1</span>] == <span class="number">1</span>) &#123;</span><br><span class="line">            result[i][j] = result[i + <span class="number">1</span>][j];</span><br><span class="line">        <span class="comment">// the point at right is obstacle</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (obstacleGrid[i + <span class="number">1</span>][j] == <span class="number">1</span>) &#123;</span><br><span class="line">            result[i][j] = result[i][j + <span class="number">1</span>];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result[i][j] = result[i][j + <span class="number">1</span>] + result[i + <span class="number">1</span>][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result[<span class="number">0</span>][<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
 
                 </article>
                 <ul class="tags-postTags">
+                    
+                    <li>
+                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/Leetcode-Dynamic-Programming/" rel="tag"># Leetcode - Dynamic Programming</a>
+                    </li>
                     
                 </ul>
             </div>
@@ -246,14 +196,10 @@
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 63. Unique Paths II" href="/Leetcode-63-Unique-Paths-II/">
-            ← Leetcode 63. Unique Paths II
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 62. Unique Paths" href="/Leetcode-62-Unique-Paths/">
-            Leetcode 62. Unique Paths →
+        <a class="next-post" title="Spring Cloud 1: What is Spring Cloud" href="/Spring-Cloud-1-What-is-Spring-Cloud/">
+            Spring Cloud 1: What is Spring Cloud →
         </a>
         
     </nav>
@@ -279,7 +225,7 @@
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Key-Components"><span class="toc-text">Key Components</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Netflix-Eureka"><span class="toc-text">Netflix Eureka</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Netflix-Hystrix"><span class="toc-text">Netflix Hystrix</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ribbon"><span class="toc-text">Ribbon</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Netflix-Zuul"><span class="toc-text">Netflix Zuul</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud-Config"><span class="toc-text">Spring Cloud Config</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud-Bus"><span class="toc-text">Spring Cloud Bus</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud-Security"><span class="toc-text">Spring Cloud Security</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud-Sleuth"><span class="toc-text">Spring Cloud Sleuth</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Relationship-with-Spring-Boot"><span class="toc-text">Relationship with Spring Boot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Advantage-of-Spring-Cloud"><span class="toc-text">Advantage of Spring Cloud</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
     </div>
 </div>
 
@@ -500,7 +446,7 @@
 			<a href="/" title="Nick Li">Nick Li &copy; 2019</a>
 			
 				
-			        <span hidden="true" id="/Spring-Cloud-1-What-is-Spring-Cloud/" class="leancloud-visitors" data-flag-title="Spring Cloud 1: What is Spring Cloud">
+			        <span hidden="true" id="/Leetcode-63-Unique-Paths-II/" class="leancloud-visitors" data-flag-title="Leetcode 63. Unique Paths II">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
