@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 62. Unique Paths | Nick Li</title>
+	<title>Spring Cloud 3: Eureka Clustering | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 62. Unique Paths | Nick Li">
+	<meta property="og:title" content="Spring Cloud 3: Eureka Clustering | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-62-Unique-Paths/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Spring-Cloud-3-Eureka-Clustering/">
 
 	
-	<meta property="article:published_time" content="2019-12-12T14:12:00+08:00"> 
+	<meta property="article:published_time" content="2019-12-27T23:12:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-62-Unique-Paths/">
+	<meta property="article:published_first" content="Nick Li, /Spring-Cloud-3-Eureka-Clustering/">
 	
 
 	
@@ -138,52 +138,68 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-12-12T04:44:23.000Z">
-                    2019-12-12
+                <time class="post-full-meta-date" datetime="2019-12-27T13:03:34.000Z">
+                    2019-12-27
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a>&nbsp;&nbsp;
+                <a href="/categories/Spring-Cloud/">Spring Cloud</a>&nbsp;&nbsp;
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 62. Unique Paths</h1>
+            <h1 class="post-full-title">Spring Cloud 3: Eureka Clustering</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/12/27/eqTWRE5XdjbQHZa.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-62-Unique-Paths/Question.png" data-index="0" data-src="/Leetcode-62-Unique-Paths/Question.png">
+                    <p>Last post we talked about <code>Eureka</code>. It is one of the key elements of Spring Cloud. Service center as a critical service, if it is a single point and having a failure then it is devastating. In a distributed system, the service center is the most important part and should be in a state that can provide services at any time. To maintain its availability, using clusters is a good solution. <code>Eureka</code> achieves high availability deployment by registering with each other, so we only need to configure <code>Eureke Server</code> with other available <code>serviceUrl</code> to achieve high availability deployment.</p>
+<h2 id="Two-node-service-center"><a href="#Two-node-service-center" class="headerlink" title="Two-node service center"></a>Two-node service center</h2><p>First let’s try to setup a two-node service center.</p>
+<h3 id="1-Create-application-peer1-properties"><a href="#1-Create-application-peer1-properties" class="headerlink" title="1. Create application-peer1.properties"></a>1. Create application-peer1.properties</h3><p><code>Peer1</code> service center’s configuration. Pointing <code>serviceUrl</code> to <code>peer2</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=spring-cloud-eureka-server</span><br><span class="line">server.port=<span class="number">8000</span></span><br><span class="line">eureka.instance.hostname=peer1</span><br><span class="line"></span><br><span class="line">eureka.client.register-with-eureka=<span class="keyword">true</span></span><br><span class="line">eureka.client.fetch-registry=<span class="keyword">true</span></span><br><span class="line"></span><br><span class="line">eureka.client.serviceUrl.defaultZone=http:<span class="comment">//peer2:8001/eureka/</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-Create-application-peer2-properties"><a href="#2-Create-application-peer2-properties" class="headerlink" title="2. Create application-peer2.properties"></a>2. Create application-peer2.properties</h3><p><code>Peer2</code> service center’s configuration. Pointing <code>serviceUrl</code> to <code>peer1</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=spring-cloud-eureka-server</span><br><span class="line">server.port=<span class="number">8001</span></span><br><span class="line">eureka.instance.hostname=peer2</span><br><span class="line"></span><br><span class="line">eureka.client.register-with-eureka=<span class="keyword">true</span></span><br><span class="line">eureka.client.fetch-registry=<span class="keyword">true</span></span><br><span class="line"></span><br><span class="line">eureka.client.serviceUrl.defaultZone=http:<span class="comment">//peer1:8000/eureka/</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-Host-file"><a href="#3-Host-file" class="headerlink" title="3. Host file"></a>3. Host file</h3><p>Add the following 2 lines to <code>hosts</code> file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 peer1  </span><br><span class="line">127.0.0.1 peer2</span><br></pre></td></tr></table></figure>
+
+<h3 id="Start-server"><a href="#Start-server" class="headerlink" title="Start server"></a>Start server</h3><p>Run the following command</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># package jar file</span></span><br><span class="line">mvn clean package</span><br><span class="line"><span class="comment"># start eureka server using 2 configurations</span></span><br><span class="line">java -jar spring-cloud-eureka-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer1</span><br><span class="line">java -jar spring-cloud-eureka-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer2</span><br></pre></td></tr></table></figure>
+
+<p>Visit <code>http://localhost:8000/</code></p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-3-Eureka-Clustering/page1.png" data-index="0" data-src="/Spring-Cloud-3-Eureka-Clustering/page1.png">
 <br>
 <br>
-Count the number of paths from top-left corner to bottom-right corner. Can only move down or right.
 
-<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Medium - <a href="/Leetcode-63-Unique-Paths-II/" title="63: Unique Paths II">63: Unique Paths II</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/minimum-path-sum/" target="_blank" rel="noopener">64. Minimum Path Sum</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/dungeon-game/" target="_blank" rel="noopener">174. Dungeon Game</a></li>
-</ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Use the idea of dynamic programming, we can define a 2D array. Each element of the array represent the unique path starting from this point to bottom-right point. For example, <code>dp[i][j] = 5</code> means that starting from <code>(i, j)</code>, there are 5 unique paths.</p>
-<p>Let’s observe the problem. The first insight we can have is that the point on the last row and last column can only have 1 unique path (because we can only move right and down).</p>
-<p>For other points, the number of unique paths is the sum of unique path of the point below it and right to it. Thus we have our dynamic programming formula: <code>dp[i][j] = dp[i + 1][j] + dp[i][j + 1]</code>. And we start to fill the dp array from second last row.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dp array</span></span><br><span class="line"><span class="keyword">int</span>[][] result = <span class="keyword">new</span> <span class="keyword">int</span>[n][m];</span><br><span class="line"></span><br><span class="line">result[n - <span class="number">1</span>][m - <span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="comment">// fill last row with 1</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m - <span class="number">1</span>; i++) &#123;</span><br><span class="line">    result[n - <span class="number">1</span>][i] = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// fill right most column with 1</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n - <span class="number">1</span>; i++) &#123;</span><br><span class="line">    result[i][m - <span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// fill the table from second last row</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = n - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = m - <span class="number">2</span>; j &gt;= <span class="number">0</span>; j--) &#123;</span><br><span class="line">        result[i][j] = result[i][j + <span class="number">1</span>] + result[i + <span class="number">1</span>][j];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result[<span class="number">0</span>][<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+<p>We can see that <code>peer1</code>‘s service center DS Replicas already has the configuration information of <code>peer2</code>, and <code>peer2</code> appears in available-replicas. If we manually stopped <code>peer2</code>, then <code>peer2</code> would move to the unavailable-replicas column, indicating that peer2 was unavailable.</p>
+<h2 id="Use-eureka-cluster"><a href="#Use-eureka-cluster" class="headerlink" title="Use eureka cluster"></a>Use eureka cluster</h2><p>In production, we may need three or more service centers to ensure the stability of the service. The configuration are actually the same: pointing the service centers to other service centers. Here I will only introduce the configuration of only three clusters. In fact, it is similar to the two-node service center. Each service center can point to the other two nodes.</p>
+<p>application-peer1.properties</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=spring-cloud-eureka-server</span><br><span class="line">server.port=<span class="number">8000</span></span><br><span class="line">eureka.instance.hostname=peer1</span><br><span class="line"></span><br><span class="line">eureka.client.register-with-eureka=<span class="keyword">true</span></span><br><span class="line">eureka.client.fetch-registry=<span class="keyword">true</span></span><br><span class="line"></span><br><span class="line">eureka.client.serviceUrl.defaultZone=http:<span class="comment">//peer2:8001/eureka/, http://peer3:8002/eureka/</span></span><br></pre></td></tr></table></figure>
 
-<p>Time complexity O(n * m), space complexity O(n * m).</p>
+<p>application-peer2.properties</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=spring-cloud-eureka-server</span><br><span class="line">server.port=<span class="number">8001</span></span><br><span class="line">eureka.instance.hostname=peer2</span><br><span class="line"></span><br><span class="line">eureka.client.register-with-eureka=<span class="keyword">true</span></span><br><span class="line">eureka.client.fetch-registry=<span class="keyword">true</span></span><br><span class="line"></span><br><span class="line">eureka.client.serviceUrl.defaultZone=http:<span class="comment">//peer1:8000/eureka/, http://peer3:8002/eureka/</span></span><br></pre></td></tr></table></figure>
+
+<p>application-peer3.properties</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=spring-cloud-eureka-server</span><br><span class="line">server.port=<span class="number">8002</span></span><br><span class="line">eureka.instance.hostname=peer3</span><br><span class="line"></span><br><span class="line">eureka.client.register-with-eureka=<span class="keyword">true</span></span><br><span class="line">eureka.client.fetch-registry=<span class="keyword">true</span></span><br><span class="line"></span><br><span class="line">eureka.client.serviceUrl.defaultZone=http:<span class="comment">//peer1:8000/eureka/, http://peer2:8001/eureka/</span></span><br></pre></td></tr></table></figure>
+
+<p>Start <code>peer1</code>, <code>peer2</code>, <code>peer3</code> eureka server</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java -jar spring-cloud-eureka-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer1</span><br><span class="line">java -jar spring-cloud-eureka-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer2</span><br><span class="line">java -jar spring-cloud-eureka-0.0.1-SNAPSHOT.jar --spring.profiles.active=peer3</span><br></pre></td></tr></table></figure>
+
+<p>Visit <code>http://localhost:8000/</code></p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-3-Eureka-Clustering/page2.png" data-index="1" data-src="/Spring-Cloud-3-Eureka-Clustering/page2.png">
+<br>
+<br>
+
+<p>We can see <code>peer2</code> and <code>peer3</code>‘s information in <code>peer1</code></p>
+<p>Check out the source code here: <a href="https://github.com/nicklee1006/SpringCloudDemo/tree/eureka-cluster-demo" target="_blank" rel="noopener">Eureka cluster demo</a></p>
 
                 </article>
                 <ul class="tags-postTags">
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Dynamic-Programming/" rel="tag"># Leetcode - Dynamic Programming</a>
-                    </li>
                     
                 </ul>
             </div>
@@ -193,14 +209,10 @@ Count the number of paths from top-left corner to bottom-right corner. Can only 
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Spring Cloud 1: What is Spring Cloud" href="/Spring-Cloud-1-What-is-Spring-Cloud/">
-            ← Spring Cloud 1: What is Spring Cloud
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Cron Expressions" href="/Cron-Expressions/">
-            Cron Expressions →
+        <a class="next-post" title="Spring Cloud 2: Service Discovery - Eureka" href="/Spring-Cloud-2-Service-Discovery/">
+            Spring Cloud 2: Service Discovery - Eureka →
         </a>
         
     </nav>
@@ -226,7 +238,7 @@ Count the number of paths from top-left corner to bottom-right corner. Can only 
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Two-node-service-center"><span class="toc-text">Two-node service center</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Create-application-peer1-properties"><span class="toc-text">1. Create application-peer1.properties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Create-application-peer2-properties"><span class="toc-text">2. Create application-peer2.properties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Host-file"><span class="toc-text">3. Host file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Start-server"><span class="toc-text">Start server</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Use-eureka-cluster"><span class="toc-text">Use eureka cluster</span></a></li></ol>
     </div>
 </div>
 
@@ -451,7 +463,7 @@ Count the number of paths from top-left corner to bottom-right corner. Can only 
 			<a href="/" title="Nick Li">Nick Li &copy; 2019</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-62-Unique-Paths/" class="leancloud-visitors" data-flag-title="Leetcode 62. Unique Paths">
+			        <span hidden="true" id="/Spring-Cloud-3-Eureka-Clustering/" class="leancloud-visitors" data-flag-title="Spring Cloud 3: Eureka Clustering">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
