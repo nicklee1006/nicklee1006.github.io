@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 33. Search in Rotated Sorted Array | Nick Li</title>
+	<title>Leetcode 78. Subsets | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 33. Search in Rotated Sorted Array | Nick Li">
+	<meta property="og:title" content="Leetcode 78. Subsets | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-33-Search-in-Rotated-Sorted-Array/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-78-Subsets/">
 
 	
-	<meta property="article:published_time" content="2019-11-23T11:11:00+08:00"> 
+	<meta property="article:published_time" content="2020-01-09T21:01:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-33-Search-in-Rotated-Sorted-Array/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-78-Subsets/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-11-23T01:56:00.000Z">
-                    2019-11-23
+                <time class="post-full-meta-date" datetime="2020-01-09T11:01:45.000Z">
+                    2020-01-9
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 33. Search in Rotated Sorted Array</h1>
+            <h1 class="post-full-title">Leetcode 78. Subsets</h1>
         </header>
         <div class="post-full ">
             
@@ -157,21 +157,22 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-33-Search-in-Rotated-Sorted-Array/question.png" data-index="0" data-src="/Leetcode-33-Search-in-Rotated-Sorted-Array/question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-78-Subsets/Question.png" data-index="0" data-src="/Leetcode-78-Subsets/Question.png">
 <br>
 <br>
-The original array is sorted, but rotated at some pivot index. We need to find the target value in the rotated array in O(logn). As we are looking for an O(logn) solution, we need to make use of binary search.
+Return all subsets of a set of distinct integers.
 
 <h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Medium - <a href="https://leetcode.com/problems/search-in-rotated-sorted-array-ii/" target="_blank" rel="noopener">81. Search in Rotated Sorted Array II</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">153. Find Minimum in Rotated Sorted Array</a></li>
+<li>Medium - <a href="https://leetcode.com/problems/subsets-ii/" target="_blank" rel="noopener">90. Subsets II</a></li>
+<li>Medium - <a href="https://leetcode.com/problems/letter-case-permutation/" target="_blank" rel="noopener">784. Letter Case Permutation</a></li>
 </ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Observe that for a given array, if we split it into half, at least one half is sorted. For example <code>[4 5 6 7 8 1 2 3]</code>, split from <code>7</code> and get <code>[4 5 6 7]</code> and <code>[8 1 2 3]</code>. The first half is sorted. </p>
-<p>Based on this observation, we can first find out which half is sorted (by comparing the end point values). Then check if target value is in this half. If it is, then discard the other half. If not, discard this half.</p>
-<p>Code:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> start = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> end = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (start &lt;= end) &#123;</span><br><span class="line">    <span class="comment">// get the mid point</span></span><br><span class="line">    <span class="keyword">int</span> mid = (start + end) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find the target!</span></span><br><span class="line">    <span class="keyword">if</span> (target == nums[mid]) &#123;</span><br><span class="line">        <span class="keyword">return</span> mid;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// check which side is in order by comparing end points value</span></span><br><span class="line">    <span class="keyword">if</span> (nums[start] &lt;= nums[mid]) &#123;</span><br><span class="line">        <span class="comment">// left side is in order</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// check if target in sorted half</span></span><br><span class="line">        <span class="comment">// because this half is sorted, just check to see if target is in range</span></span><br><span class="line">        <span class="keyword">if</span> (target &gt;= nums[start] &amp;&amp; target &lt; nums[mid]) &#123;</span><br><span class="line">            <span class="comment">// in this case, target in left side</span></span><br><span class="line">            end = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// in this case, target in right side</span></span><br><span class="line">            start = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// right side is in order</span></span><br><span class="line">        <span class="keyword">if</span> (target &gt; nums[mid] &amp;&amp; target &lt;= nums[end]) &#123;</span><br><span class="line">            start = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            end = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// target no found</span></span><br><span class="line"><span class="keyword">return</span> -<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="Solution-Iteration"><a href="#Solution-Iteration" class="headerlink" title="Solution - Iteration"></a>Solution - Iteration</h2><p>First consider all subset of 1 element of the given array, then all subset of 2 elements of the array … and finally all subset of n elements of the array. To find all subset of k elements, just add <code>nums[k]</code> to all subset of k-1 element.</p>
+<p>For example, the iteration process of nums[1, 2, 3].</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">initialize empty list:      []</span><br><span class="line">1st iteration (nums[k] = 1):[[], [1]]</span><br><span class="line">2nd iteration (nums[k] = 2):[[], [1], [2], [1, 2]]</span><br><span class="line">3rd iteration (nums[k] = 3):[[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]</span><br></pre></td></tr></table></figure>
 
-<p>Time complexity O(logn), and space complexity O(1).</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// result list</span></span><br><span class="line">List&lt;List&lt;Integer&gt;&gt; results = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// add empty list</span></span><br><span class="line">results.add(<span class="keyword">new</span> ArrayList&lt;&gt;());</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> num : nums) &#123;</span><br><span class="line">    <span class="comment">// append nums[i] to all existing list</span></span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; temp = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (List&lt;Integer&gt; existResult : results) &#123;</span><br><span class="line">        List&lt;Integer&gt; tempResult = <span class="keyword">new</span> ArrayList&lt;&gt;(existResult);</span><br><span class="line">        tempResult.add(num);</span><br><span class="line"></span><br><span class="line">        temp.add(tempResult);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    results.addAll(temp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> results;</span><br></pre></td></tr></table></figure>
+
+<p>Other solutions: <a href="https://leetcode.com/problems/subsets/discuss/27281/A-general-approach-to-backtracking-questions-in-Java-(Subsets-Permutations-Combination-Sum-Palindrome-Partitioning" target="_blank" rel="noopener">backtracking</a><br>Other solutions: <a href="https://leetcode.com/problems/subsets/discuss/27278/C%2B%2B-RecursiveIterativeBit-Manipulation" target="_blank" rel="noopener">bit manipulation</a></p>
 
                 </article>
                 <ul class="tags-postTags">
@@ -181,7 +182,11 @@ The original array is sorted, but rotated at some pivot index. We need to find t
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-Binary-Search/" rel="tag"># Leetcode - Binary Search</a>
+                        <a href="/tags/Leetcode-Backtracking/" rel="tag"># Leetcode - Backtracking</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/Leetcode-Bit-Manipulation/" rel="tag"># Leetcode - Bit Manipulation</a>
                     </li>
                     
                 </ul>
@@ -192,14 +197,10 @@ The original array is sorted, but rotated at some pivot index. We need to find t
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 34. Find First and Last Position of Element in Sorted Array" href="/Leetcode-34-Find-First-and-Last-Position-of-Element-in-Sorted-Array/">
-            ← Leetcode 34. Find First and Last Position of Element in Sorted Array
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 31: Next Permutation" href="/Leetcode-31-Next-Permutation/">
-            Leetcode 31: Next Permutation →
+        <a class="next-post" title="Spring Cloud 4: Load Balancer - Ribbon" href="/Spring-Cloud-4-Load-Balancer-Ribbon/">
+            Spring Cloud 4: Load Balancer - Ribbon →
         </a>
         
     </nav>
@@ -225,7 +226,7 @@ The original array is sorted, but rotated at some pivot index. We need to find t
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Iteration"><span class="toc-text">Solution - Iteration</span></a></li></ol>
     </div>
 </div>
 
@@ -460,7 +461,7 @@ The original array is sorted, but rotated at some pivot index. We need to find t
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-33-Search-in-Rotated-Sorted-Array/" class="leancloud-visitors" data-flag-title="Leetcode 33. Search in Rotated Sorted Array">
+			        <span hidden="true" id="/Leetcode-78-Subsets/" class="leancloud-visitors" data-flag-title="Leetcode 78. Subsets">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
