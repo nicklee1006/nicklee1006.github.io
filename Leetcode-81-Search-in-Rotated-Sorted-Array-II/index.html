@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 62. Unique Paths | Nick Li</title>
+	<title>Leetcode 81. Search in Rotated Sorted Array II | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 62. Unique Paths | Nick Li">
+	<meta property="og:title" content="Leetcode 81. Search in Rotated Sorted Array II | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-62-Unique-Paths/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-81-Search-in-Rotated-Sorted-Array-II/">
 
 	
-	<meta property="article:published_time" content="2019-12-12T14:12:00+08:00"> 
+	<meta property="article:published_time" content="2020-01-13T23:01:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-62-Unique-Paths/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-81-Search-in-Rotated-Sorted-Array-II/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-12-12T04:44:23.000Z">
-                    2019-12-12
+                <time class="post-full-meta-date" datetime="2020-01-13T13:20:53.000Z">
+                    2020-01-13
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 62. Unique Paths</h1>
+            <h1 class="post-full-title">Leetcode 81. Search in Rotated Sorted Array II</h1>
         </header>
         <div class="post-full ">
             
@@ -157,23 +157,21 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-62-Unique-Paths/Question.png" data-index="0" data-src="/Leetcode-62-Unique-Paths/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-81-Search-in-Rotated-Sorted-Array-II/Question.png" data-index="0" data-src="/Leetcode-81-Search-in-Rotated-Sorted-Array-II/Question.png">
 <br>
 <br>
-Count the number of paths from top-left corner to bottom-right corner. Can only move down or right.
+Follow up question on <a href="/Leetcode-33-Search-in-Rotated-Sorted-Array/" title="33. Search in Rotated Sorted Array">33. Search in Rotated Sorted Array</a>. This time the array may contain duplicates
 
 <h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Medium - <a href="/Leetcode-63-Unique-Paths-II/" title="63: Unique Paths II">63: Unique Paths II</a></li>
-<li>Medium - <a href="/Leetcode-64-Minimum-Path-Sum/" title="64. Minimum Path Sum">64. Minimum Path Sum</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/dungeon-game/" target="_blank" rel="noopener">174. Dungeon Game</a></li>
+<li>Medium - <a href="/Leetcode-33-Search-in-Rotated-Sorted-Array/" title="33. Search in Rotated Sorted Array">33. Search in Rotated Sorted Array</a></li>
 </ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Use the idea of dynamic programming, we can define a 2D array. Each element of the array represent the unique path starting from this point to bottom-right point. For example, <code>dp[i][j] = 5</code> means that starting from <code>(i, j)</code>, there are 5 unique paths.</p>
-<p>Let’s observe the problem. The first insight we can have is that the point on the last row and last column can only have 1 unique path (because we can only move right and down).</p>
-<p>For other points, the number of unique paths is the sum of unique path of the point below it and right to it. Thus we have our dynamic programming formula: <code>dp[i][j] = dp[i + 1][j] + dp[i][j + 1]</code>. And we start to fill the dp array from second last row.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dp array</span></span><br><span class="line"><span class="keyword">int</span>[][] result = <span class="keyword">new</span> <span class="keyword">int</span>[n][m];</span><br><span class="line"></span><br><span class="line">result[n - <span class="number">1</span>][m - <span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="comment">// fill last row with 1</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m - <span class="number">1</span>; i++) &#123;</span><br><span class="line">    result[n - <span class="number">1</span>][i] = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// fill right most column with 1</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n - <span class="number">1</span>; i++) &#123;</span><br><span class="line">    result[i][m - <span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// fill the table from second last row</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = n - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = m - <span class="number">2</span>; j &gt;= <span class="number">0</span>; j--) &#123;</span><br><span class="line">        result[i][j] = result[i][j + <span class="number">1</span>] + result[i + <span class="number">1</span>][j];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result[<span class="number">0</span>][<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
-
-<p>Time complexity O(n * m), space complexity O(n * m).</p>
-
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>For this question we can extend the solution from <a href="/Leetcode-33-Search-in-Rotated-Sorted-Array/" title="33. Search in Rotated Sorted Array">33. Search in Rotated Sorted Array</a>. The algorithm is based on the fact that after splitting an array from any position, it is at least half sorted.</p>
+<p>For example, [4 5 6 7 1 2 3], and split from 7, the left is [4 5 6 7], the right is [7 1 2 3]. So the left part is ordered.</p>
+<p>We can find out which part is in order (by comparing the endpoints). Knowing which part is in order, all we need is the normal binary search and check if the target is in this part. If it is, Then discard the other half. If not, discard this half.</p>
+<p>That is the approach we used for <a href="/Leetcode-33-Search-in-Rotated-Sorted-Array/" title="33. Search in Rotated Sorted Array">33. Search in Rotated Sorted Array</a>. With this question, we need a slight modification. As for this question, we have duplicates in the array. So when we decide which part is in order, there is a problem. </p>
+<p>For example, <code>nums = [ 1, 3, 1, 1, 1 ]</code> and <code>targer = 3</code>. The left half is <code>[1, 3, 1]</code>. By comparing endpoints <code>nums [start] &lt;= nums [mid]</code>, the algorithm thinks that left half is in order, which is not the case.</p>
+<p>So we need to take <code>nums[start] == nums[mid]</code> as a special case. The solution is quite simple, just <code>start++</code> will do.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> start = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> end = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (start &lt;= end) &#123;</span><br><span class="line">    <span class="keyword">int</span> mid = (start + end) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find target</span></span><br><span class="line">    <span class="keyword">if</span> (target == nums[mid]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// left side is ordered</span></span><br><span class="line">    <span class="keyword">if</span> (nums[start] &lt; nums[mid]) &#123;</span><br><span class="line">        <span class="comment">// target in left side</span></span><br><span class="line">        <span class="keyword">if</span> (target &gt;= nums[start] &amp;&amp; target &lt;= nums[mid]) &#123;</span><br><span class="line">            end = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            start = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="comment">// special case like [1, 3, 1]</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[start] == nums[mid]) &#123;</span><br><span class="line">        start++;</span><br><span class="line">    <span class="comment">// right side is ordered    </span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// target in right side</span></span><br><span class="line">        <span class="keyword">if</span> (target &gt;= nums[mid] &amp;&amp; target &lt;= nums[end]) &#123;</span><br><span class="line">            start = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            end = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
                     
@@ -182,7 +180,7 @@ Count the number of paths from top-left corner to bottom-right corner. Can only 
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-Dynamic-Programming/" rel="tag"># Leetcode - Dynamic Programming</a>
+                        <a href="/tags/Leetcode-Binary-Search/" rel="tag"># Leetcode - Binary Search</a>
                     </li>
                     
                 </ul>
@@ -193,14 +191,10 @@ Count the number of paths from top-left corner to bottom-right corner. Can only 
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Spring Cloud 1: What is Spring Cloud" href="/Spring-Cloud-1-What-is-Spring-Cloud/">
-            ← Spring Cloud 1: What is Spring Cloud
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Cron Expressions" href="/Cron-Expressions/">
-            Cron Expressions →
+        <a class="next-post" title="Leetcode 80. Remove Duplicates from Sorted Array II" href="/Leetcode-80-Remove-Duplicates-from-Sorted-Array-II/">
+            Leetcode 80. Remove Duplicates from Sorted Array II →
         </a>
         
     </nav>
@@ -469,7 +463,7 @@ Count the number of paths from top-left corner to bottom-right corner. Can only 
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-62-Unique-Paths/" class="leancloud-visitors" data-flag-title="Leetcode 62. Unique Paths">
+			        <span hidden="true" id="/Leetcode-81-Search-in-Rotated-Sorted-Array-II/" class="leancloud-visitors" data-flag-title="Leetcode 81. Search in Rotated Sorted Array II">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
