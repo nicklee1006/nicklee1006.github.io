@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Use Intellij to visualize debugging Stream operation | Nick Li</title>
+	<title>Leetcode 91. Decode Ways | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Use Intellij to visualize debugging Stream operation | Nick Li">
+	<meta property="og:title" content="Leetcode 91. Decode Ways | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Use-Intellij-to-visualize-debugging-Stream-operation/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-91-Decode-Ways/">
 
 	
-	<meta property="article:published_time" content="2019-11-08T21:11:00+08:00"> 
+	<meta property="article:published_time" content="2020-01-20T22:01:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Use-Intellij-to-visualize-debugging-Stream-operation/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-91-Decode-Ways/">
 	
 
 	
@@ -138,49 +138,53 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-11-08T11:50:12.000Z">
-                    2019-11-8
+                <time class="post-full-meta-date" datetime="2020-01-20T12:04:56.000Z">
+                    2020-01-20
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
+                <a href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a>&nbsp;&nbsp;
                 
                 
             </div>
-            <h1 class="post-full-title">Use Intellij to visualize debugging Stream operation</h1>
+            <h1 class="post-full-title">Leetcode 91. Decode Ways</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/08/dQUmtgX6T5wvZRF.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <p>Last time I talked about the stream API feature in Java 8. It is a very good new feature, but unlike previously looping code, single-step debugging does not work for stream API. Luckily, IntelliJ IDEA provides a tool for us to visualize the stream code.</p>
-<p>Example code:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers2 = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>);</span><br><span class="line"></span><br><span class="line">numbers2.stream()</span><br><span class="line">    .map(x -&gt; x * x)</span><br><span class="line">    .filter(x -&gt; x % <span class="number">3</span> == <span class="number">0</span>)</span><br><span class="line">    .forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-91-Decode-Ways/Question.png" data-index="0" data-src="/Leetcode-91-Decode-Ways/Question.png">
+<br>
+<br>
+Each number corresponds to a letter. Given a string of numbers, need to know how many decoding methods. For example, 226 can have three decode ways, 2|2|6, 22|6, 2|26.
 
-<br>
-Add a break point at the last line of stream
-<img class="post-img b-lazy" data-img="/Use-Intellij-to-visualize-debugging-Stream-operation/breakpoint.png" data-index="0" data-src="/Use-Intellij-to-visualize-debugging-Stream-operation/breakpoint.png">
-<br>
-<br>
-Start debug, and find the button in debug interface
-<img class="post-img b-lazy" data-img="/Use-Intellij-to-visualize-debugging-Stream-operation/button.png" data-index="1" data-src="/Use-Intellij-to-visualize-debugging-Stream-operation/button.png">
-<br>
-<br>
-Wait for a few seconds, you can see the results of each step of the stream operation
-<img class="post-img b-lazy" data-img="/Use-Intellij-to-visualize-debugging-Stream-operation/result.png" data-index="2" data-src="/Use-Intellij-to-visualize-debugging-Stream-operation/result.png">
+<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
+<li>Hard - <a href="https://leetcode.com/problems/decode-ways-ii/" target="_blank" rel="noopener">639. Decode Ways II</a></li>
+</ul>
+<h2 id="Solution-1-Recursion"><a href="#Solution-1-Recursion" class="headerlink" title="Solution 1 - Recursion"></a>Solution 1 - Recursion</h2><p>It is easy to think of using recursion, turning big problems into smaller problems.</p>
+<p>For example, <code>232232323232</code>.</p>
+<p>For the first letter we have two divisions.</p>
+<p><code>2|32232323232</code> and <code>23|2232323232</code></p>
+<p>Therefore, if we know that the decoding result of the right part <code>32232323232</code> is <code>ans1</code> and that of <code>2232323232</code> is <code>ans2</code>, then the overall <code>232232323232</code> decoding result is <code>ans1</code> + <code>ans2</code>.</p>
+<p>If it is too hard to understand, think about this analogy. </p>
+<p>If there are two roads from Melbourne to Brisbane, via Sydney and Canberra. There are 8 roads from Sydney to Brisbane, and 6 roads from Canberra to Brisbane. So there are 8 + 6 = 14 routes from Melbourne to Brisbane.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numDecodings</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getResult(s, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// start is the index of the char in 's'</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getResult</span><span class="params">(String s, <span class="keyword">int</span> start)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// reaching the end</span></span><br><span class="line">    <span class="keyword">if</span> (start == s.length()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (s.charAt(start) == <span class="string">'0'</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// answer if divide the first index</span></span><br><span class="line">    <span class="comment">// e.g. if input （123）</span></span><br><span class="line">    <span class="comment">// answer1 is 1 + answer(2,3)</span></span><br><span class="line">    <span class="comment">// answer2 is 12 + answer(3)</span></span><br><span class="line">    <span class="keyword">int</span> answer1 = getResult(s, start + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">int</span> answer2 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// only have answer2 if first 2 digit &lt;= 26</span></span><br><span class="line">    <span class="keyword">if</span> (start &lt; s.length() - <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> ten = (s.charAt(start) - <span class="string">'0'</span>) * <span class="number">10</span>;</span><br><span class="line">        <span class="keyword">int</span> one = s.charAt(start + <span class="number">1</span>) - <span class="string">'0'</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (ten + one &lt;= <span class="number">26</span>) &#123;</span><br><span class="line">            answer2 = getResult(s, start + <span class="number">2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> answer1 + answer2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-2-Recursion-Dynamic-Programming"><a href="#Solution-2-Recursion-Dynamic-Programming" class="headerlink" title="Solution 2 - Recursion + Dynamic Programming"></a>Solution 2 - Recursion + Dynamic Programming</h2><p>In solution 1, after calculating <code>ans1</code> and then calculate <code>ans2</code>, some already calculated results will be recalculated, so we can use the memoization technique to calculate a result and save it.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numDecodings</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// map startIndex -&gt; result</span></span><br><span class="line">    HashMap&lt;Integer, Integer&gt; cache = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">return</span> getResult(s, <span class="number">0</span>, cache);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// start is the index of the char in 's'</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getResult</span><span class="params">(String s, <span class="keyword">int</span> start, HashMap&lt;Integer, Integer&gt; cache)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// reaching the end</span></span><br><span class="line">    <span class="keyword">if</span> (start == s.length()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (s.charAt(start) == <span class="string">'0'</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// check if calculated before</span></span><br><span class="line">    <span class="keyword">int</span> tempResult = cache.getOrDefault(start, -<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (tempResult != -<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> tempResult;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// answer if divide the first index</span></span><br><span class="line">    <span class="comment">// e.g. if input （123）</span></span><br><span class="line">    <span class="comment">// answer1 is 1 + answer(2,3)</span></span><br><span class="line">    <span class="comment">// answer2 is 12 + answer(3)</span></span><br><span class="line">    <span class="keyword">int</span> answer1 = getResult(s, start + <span class="number">1</span>, cache);</span><br><span class="line">    <span class="keyword">int</span> answer2 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// only have answer2 if first 2 digit &lt;= 26</span></span><br><span class="line">    <span class="keyword">if</span> (start &lt; s.length() - <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> ten = (s.charAt(start) - <span class="string">'0'</span>) * <span class="number">10</span>;</span><br><span class="line">        <span class="keyword">int</span> one = s.charAt(start + <span class="number">1</span>) - <span class="string">'0'</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (ten + one &lt;= <span class="number">26</span>) &#123;</span><br><span class="line">            answer2 = getResult(s, start + <span class="number">2</span>, cache);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// cache the result</span></span><br><span class="line">    cache.put(start, ans1 + ans2);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> answer1 + answer2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Stream-API/" rel="tag"># Stream API</a>
+                        <a href="/tags/Leetcode-Dynamic-Programming/" rel="tag"># Leetcode - Dynamic Programming</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/Intellij/" rel="tag"># Intellij</a>
+                        <a href="/tags/Leetcode-String/" rel="tag"># Leetcode - String</a>
                     </li>
                     
                 </ul>
@@ -191,14 +195,10 @@ Wait for a few seconds, you can see the results of each step of the stream opera
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="How to force Github Pages rebuild" href="/How-to-force-Github-Pages-rebuild/">
-            ← How to force Github Pages rebuild
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Java 8 Streams Operations" href="/Java-8-Streams-Operations/">
-            Java 8 Streams Operations →
+        <a class="next-post" title="Leetcode 5. Longest Palindromic Substring" href="/Leetcode-5-Longest-Palindromic-Substring/">
+            Leetcode 5. Longest Palindromic Substring →
         </a>
         
     </nav>
@@ -224,7 +224,7 @@ Wait for a few seconds, you can see the results of each step of the stream opera
         </a>
     </div>
     <div class="toc-main">
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-1-Recursion"><span class="toc-text">Solution 1 - Recursion</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-2-Recursion-Dynamic-Programming"><span class="toc-text">Solution 2 - Recursion + Dynamic Programming</span></a></li></ol>
     </div>
 </div>
 
@@ -475,7 +475,7 @@ Wait for a few seconds, you can see the results of each step of the stream opera
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Use-Intellij-to-visualize-debugging-Stream-operation/" class="leancloud-visitors" data-flag-title="Use Intellij to visualize debugging Stream operation">
+			        <span hidden="true" id="/Leetcode-91-Decode-Ways/" class="leancloud-visitors" data-flag-title="Leetcode 91. Decode Ways">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
