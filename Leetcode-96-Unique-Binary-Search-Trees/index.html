@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 16: 3Sum Closest | Nick Li</title>
+	<title>Leetcode 96. Unique Binary Search Trees | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 16: 3Sum Closest | Nick Li">
+	<meta property="og:title" content="Leetcode 96. Unique Binary Search Trees | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-16-3Sum-Closest/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-96-Unique-Binary-Search-Trees/">
 
 	
-	<meta property="article:published_time" content="2019-11-16T13:11:00+08:00"> 
+	<meta property="article:published_time" content="2020-01-28T20:01:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-16-3Sum-Closest/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-96-Unique-Binary-Search-Trees/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-11-16T03:12:47.000Z">
-                    2019-11-16
+                <time class="post-full-meta-date" datetime="2020-01-28T10:59:16.000Z">
+                    2020-01-28
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 16: 3Sum Closest</h1>
+            <h1 class="post-full-title">Leetcode 96. Unique Binary Search Trees</h1>
         </header>
         <div class="post-full ">
             
@@ -157,38 +157,30 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-16-3Sum-Closest/Question.png" data-index="0" data-src="/Leetcode-16-3Sum-Closest/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-96-Unique-Binary-Search-Trees/Question.png" data-index="0" data-src="/Leetcode-96-Unique-Binary-Search-Trees/Question.png">
 <br>
 <br>
-Similar to <a href="/Leetcode-15-3Sum/" title="Question 15: 3Sum">Question 15: 3Sum</a>. This time we want to find the 3 sum that is closest to the target value.
+Similar to <a href="/Leetcode-95-Unique-Binary-Search-Trees-II/" title="95. Unique Binary Search Trees II">95. Unique Binary Search Trees II</a>. This time just need to count the number of unique binary search tree.
 
 <h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Medium - <a href="/Leetcode-15-3Sum/" title="15: 3Sum">15: 3Sum</a></li>
+<li>Medium - <a href="/Leetcode-95-Unique-Binary-Search-Trees-II/" title="95. Unique Binary Search Trees II">95. Unique Binary Search Trees II</a></li>
 </ul>
-<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution 1"></a>Solution 1</h2><p>Brute force. We need 3 nested loop to get all possible sums, and then get the sum that is closest to the target. Time  complexity is O(n<sup>3</sup>). Space complexity O(1).</p>
-<h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution 2"></a>Solution 2</h2><p>We can make use of the similar idea of <a href="/Leetcode-15-3Sum/" title="Question 15: 3Sum">Question 15: 3Sum</a>.</p>
-<ol>
-<li>Sort the array</li>
-<li>Loop the array to get the first number <code>nums[i]</code></li>
-<li>Use 2 pointers <code>head</code> and <code>tail</code> to loop the remaining array (<code>head = i + 1</code>)</li>
-<li><code>sum = nums[i] + nums[head] + nums[tail]</code></li>
-<li>Depending on the comparison of sum and target:<br>5.1 sum = target: then we can return the value as it as closest to the target<br>5.2 sum &lt; target: <code>head++</code><br>5.3 sum &gt; target: <code>tail--</code></li>
-<li>Use a variable to keep track of the smallest distance</li>
-</ol>
-<p>Code:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// keep trakc of minimun distance</span></span><br><span class="line"><span class="keyword">int</span> distance = Integer.MAX_VALUE;</span><br><span class="line"><span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// sort the array</span></span><br><span class="line">Arrays.sort(nums);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> low = i + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> high = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// another loop with 2 pointers</span></span><br><span class="line">    <span class="keyword">while</span> (low &lt; high) &#123;</span><br><span class="line">        <span class="keyword">int</span> tempSum = nums[i] + nums[low] + nums[high];</span><br><span class="line">        <span class="keyword">if</span> (tempSum == target) &#123;</span><br><span class="line">            <span class="keyword">return</span> tempSum;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tempSum &gt; target) &#123;</span><br><span class="line">            high--;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            low++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (Math.abs(tempSum - target) &lt; distance) &#123;</span><br><span class="line">            distance = Math.abs(tempSum - target);</span><br><span class="line">            result = tempSum;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
-
-<p>We are running 2 loops (O(n<sup>2</sup>)), and space complexity O(1).</p>
-
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>The following is the analysis for <a href="/Leetcode-95-Unique-Binary-Search-Trees-II/" title="95. Unique Binary Search Trees II">95. Unique Binary Search Trees II</a>:</p>
+<blockquote>
+<p>Example: <code>1....n</code><br>Take <code>1</code> as the root node, <code>[]</code> as the left subtree, and all of <code>[2 ... n]</code> as the right subtree.<br>Take <code>2</code> as the root node, <code>[1]</code> as the left subtree, <code>[3 ... n]</code> as the right subtree.<br>Take <code>3</code> as the root node, <code>[1 2]</code> as the left subtree, <code>[4 ... n]</code> as the right subtree. Then pair the left and right subtrees.<br>Take <code>4</code> as the root node, <code>[1 2 3]</code> as the left subtree, <code>[5 ... n]</code> as the right subtree. Then pair the left and right subtrees.<br>…<br>Take <code>n</code> as the root node, <code>[1 ... n]</code> as the left subtree, <code>[]</code> as the right subtree.<br>If there is only one number, then there is only 1 case, using that number as a tree. If it is [], it returns null.</p>
+</blockquote>
+<p>For this problem, it will be simpler, we only need to return the number of trees. To find the number of subtrees of current roots, just multiply the number of left subtrees by the right subtree.</p>
+<p>As there are many repeated calculations, we can save the results obtained during the recursion, and it can be taken directly when needed for the second time.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dynamic programming values, map n -&gt; number of valid trees</span></span><br><span class="line">Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numTrees</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// initialize values</span></span><br><span class="line">    map.put(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">    map.put(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    map.put(<span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> getAnswer(n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getAnswer</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">0</span> || n == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        <span class="comment">// root element is i, </span></span><br><span class="line">        <span class="comment">// number of left node = i - i</span></span><br><span class="line">        <span class="comment">// number of right node = n - i</span></span><br><span class="line">        <span class="keyword">int</span> left;</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(i - <span class="number">1</span>)) &#123;</span><br><span class="line">            left = map.get(i - <span class="number">1</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            left = getAnswer(i - <span class="number">1</span>);</span><br><span class="line">            map.put(i - <span class="number">1</span>, left);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> right;</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(n - i)) &#123;</span><br><span class="line">            right = map.get(n - i);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = getAnswer(n - i);</span><br><span class="line">            map.put(n - i, right);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        result += left * right;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    map.put(n, result);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
+                        <a href="/tags/Leetcode-Dynamic-Programming/" rel="tag"># Leetcode - Dynamic Programming</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-Two-Pointers/" rel="tag"># Leetcode - Two Pointers</a>
+                        <a href="/tags/Leetcode-Tree/" rel="tag"># Leetcode - Tree</a>
                     </li>
                     
                 </ul>
@@ -199,14 +191,10 @@ Similar to <a href="/Leetcode-15-3Sum/" title="Question 15: 3Sum">Question 15: 3
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 18: 4Sum" href="/Leetcode-18-4Sum/">
-            ← Leetcode 18: 4Sum
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 15: 3Sum" href="/Leetcode-15-3Sum/">
-            Leetcode 15: 3Sum →
+        <a class="next-post" title="Leetcode 95. Unique Binary Search Trees II" href="/Leetcode-95-Unique-Binary-Search-Trees-II/">
+            Leetcode 95. Unique Binary Search Trees II →
         </a>
         
     </nav>
@@ -232,7 +220,7 @@ Similar to <a href="/Leetcode-15-3Sum/" title="Question 15: 3Sum">Question 15: 3
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-1"><span class="toc-text">Solution 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-2"><span class="toc-text">Solution 2</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
     </div>
 </div>
 
@@ -487,7 +475,7 @@ Similar to <a href="/Leetcode-15-3Sum/" title="Question 15: 3Sum">Question 15: 3
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-16-3Sum-Closest/" class="leancloud-visitors" data-flag-title="Leetcode 16: 3Sum Closest">
+			        <span hidden="true" id="/Leetcode-96-Unique-Binary-Search-Trees/" class="leancloud-visitors" data-flag-title="Leetcode 96. Unique Binary Search Trees">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
