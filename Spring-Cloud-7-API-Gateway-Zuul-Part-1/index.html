@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="preconnect" href="//www.googletagmanager.com">
+	<link rel="preconnect" href="//zz.bdstatic.com">
+	<link rel="preconnect" href="//sp0.baidu.com">
+	<link rel="preconnect" href="//www.google-analytics.com">
+	<link rel="preconnect" href="//cdn1.lncld.net">
+	<link rel="preconnect" href="//unpkg.com">
+	<link rel="preconnect" href="//app-router.leancloud.cn">
+	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
+	<link rel="preconnect" href="//gravatar.loli.net">
+
+	<title>Spring Cloud 7: API Gateway - Zuul Part 1 | Nick Li</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="Nick Li">
+	<meta name="description" content>
+
+	
+
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="Nick Li">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Spring Cloud 7: API Gateway - Zuul Part 1 | Nick Li">
+	<meta property="og:description" content>
+	<meta property="og:url" content="http://nicklee1006.github.io/Spring-Cloud-7-API-Gateway-Zuul-Part-1/">
+
+	
+	<meta property="article:published_time" content="2020-01-31T23:01:00+08:00"> 
+	<meta property="article:author" content="Nick Li">
+	<meta property="article:published_first" content="Nick Li, /Spring-Cloud-7-API-Gateway-Zuul-Part-1/">
+	
+
+	
+	
+	<link rel="stylesheet" href="/css/allinonecss.min.css">
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151447201-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-151447201-1');
+	</script>
+	
+	
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header post-site-header outer">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/archives" title="ARCHIVES">ARCHIVES</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button-area">
+        <a href="#search" class="search-button">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="search-button">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    <a class="social-link" title="linkedin" href="https://www.linkedin.com/in/chenzhang-li/" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<div id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <div class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2020-01-31T13:05:20.000Z">
+                    2020-01-31
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Spring-Cloud/">Spring Cloud</a>&nbsp;&nbsp;
+                
+                
+            </div>
+            <h1 class="post-full-title">Spring Cloud 7: API Gateway - Zuul Part 1</h1>
+        </header>
+        <div class="post-full ">
+            
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/01/31/M3qIpXRGigQDEZa.jpg)">
+            </figure>
+            
+            <div class="post-full-content">
+                <article id="photoswipe" class="markdown-body">
+                    <p>With microservices architecture, each microservice exposes a set of fine-grained services to the outside. The client’s request may involve a series of service calls. If all these microservices are exposed to the client, the client needs to request different microservices multiple times to complete a business process, increasing the code complexity at the client side. In addition, for microservices, we may also need unified authentication and verification of service calls and so on. Although the microservice architecture can divide our development unit into smaller pieces and reduce the development difficulty, if we cannot effectively deal with the problems mentioned above, it may cause the implementation of the microservice architecture to fail.</p>
+<p><code>Zuul</code> refers to the <code>Facade pattern</code> in the GOF design pattern, and combines fine-grained services to provide a coarse-grained service. All requests are imported into a unified entrance. Then the entire service only needs to expose an API, which shields the server-side implementation details. It also reduces the number of client-server network calls. This is the <code>API Gateway</code> service. We can think of the <code>API Gateway</code> as an intermediate layer between the client and the server. All external requests will first pass through the <code>API Gateway</code>. Therefore, the <code>API Gateway</code> has almost become a must choice when implementing a microservice architecture.</p>
+<p>The <code>Zuul</code> component of <code>Spring Cloud Netflix</code> can be used as <code>a reverse proxy</code>, forwarding requests to coarse-grained services on the back end through <code>routing addressing</code>, and doing some general logic processing.</p>
+<p>With <code>Zuul</code> we can complete the following functions:</p>
+<ul>
+<li><strong>Dynamic routing</strong></li>
+<li><strong>Monitoring and review</strong></li>
+<li><strong>Authentication and security</strong></li>
+<li><strong>Stress test</strong>: gradually increase the traffic of a service cluster to understand the service performance;</li>
+<li><strong>Canary test</strong></li>
+<li><strong>Service migration</strong></li>
+<li><strong>Load tailoring</strong>: Allocate the corresponding capacity for each load type and discard requests that exceed the limit;</li>
+<li><strong>Static response processing</strong></li>
+</ul>
+<h1 id="Why-we-need-API-Gateway"><a href="#Why-we-need-API-Gateway" class="headerlink" title="Why we need API Gateway"></a><em>Why we need API Gateway</em></h1><h2 id="Simplify-client-call-complexity"><a href="#Simplify-client-call-complexity" class="headerlink" title="Simplify client call complexity"></a>Simplify client call complexity</h2><p>Under microservice architecture, the number of instances of the backend service is generally dynamic, and it is difficult for the client to find the address information of the dynamically changed service instance. Therefore, in order to simplify the front-end call logic in microservice-based projects, <code>API Gateway</code> is usually introduced as a lightweight gateway. At the same time, <code>API Gateway</code> will also implement related authentication logic to simplify the complexity of mutual calls between internal services.</p>
+<h2 id="Data-clipping-and-aggregation"><a href="#Data-clipping-and-aggregation" class="headerlink" title="Data clipping and aggregation"></a>Data clipping and aggregation</h2><p>Generally speaking, different clients have inconsistent requirements for data during display, such as mobile phones or Web terminals, or in low-latency network environments or high-latency network environments.</p>
+<p>Therefore, in order to optimize the client’s experience, <code>API Gateway</code> can tailor the general response data to meet the needs of different clients. At the same time, multiple API calls can be aggregated to reduce the number of client requests and optimize the client user experience.</p>
+<h2 id="Multi-channel-support"><a href="#Multi-channel-support" class="headerlink" title="Multi-channel support"></a>Multi-channel support</h2><p>Of course, we can also provide different <code>API Gateways</code> for different channels and clients. The use of this mode is another well-known method called <code>Backend for front-end</code>. In <code>Backend for front-end</code> mode, we can target different client to create its <code>BFF</code> separately. For more information about <code>BFF</code>, please refer to this article: <a href="https://samnewman.io/patterns/architectural/bff/" target="_blank" rel="noopener">Pattern: Backends For Frontends</a></p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/1.png" data-index="0" data-src="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/1.png">
+<br>
+<br>
+
+<h1 id="Example-Project"><a href="#Example-Project" class="headerlink" title="Example Project"></a><em>Example Project</em></h1><h2 id="Zuul-Server"><a href="#Zuul-Server" class="headerlink" title="Zuul-Server"></a>Zuul-Server</h2><h3 id="1-pom-xml"><a href="#1-pom-xml" class="headerlink" title="1. pom.xml"></a>1. pom.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-zuul<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-hystrix-dashboard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-Main-class"><a href="#2-Main-class" class="headerlink" title="2. Main class"></a>2. Main class</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableZuulProxy</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZuulServerApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(ZuulServerApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Added <code>@EnableZuulProxy</code> annotation to the main application class to start Zuul’s routing service.</p>
+<h3 id="3-application-properties"><a href="#3-application-properties" class="headerlink" title="3. application.properties"></a>3. application.properties</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">server.port=<span class="number">8280</span></span><br><span class="line"></span><br><span class="line">spring.application.name=ZUUL-PROXY</span><br><span class="line"></span><br><span class="line">eureka.client.service-url.defaultZone=http:<span class="comment">//localhost:8761/eureka</span></span><br><span class="line"></span><br><span class="line">management.endpoints.web.exposure.include=hystrix.stream</span><br></pre></td></tr></table></figure>
+
+<h2 id="User-Service"><a href="#User-Service" class="headerlink" title="User-Service"></a>User-Service</h2><p>We add another service: <code>User-Service</code> here.</p>
+<h3 id="1-pom-xml-1"><a href="#1-pom-xml-1" class="headerlink" title="1. pom.xml"></a>1. pom.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-Main-class-1"><a href="#2-Main-class-1" class="headerlink" title="2. Main class"></a>2. Main class</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(UserServiceApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This is the same as <code>Product-Service</code>.</p>
+<h3 id="3-User-entity"><a href="#3-User-entity" class="headerlink" title="3. User entity"></a>3. User entity</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String loginName;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String avatar;</span><br><span class="line">    <span class="keyword">private</span> String memos;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String loginName, String name, String avatar, String memos)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.loginName = loginName;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.avatar = avatar;</span><br><span class="line">        <span class="keyword">this</span>.memos = memos;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getLoginName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> loginName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLoginName</span><span class="params">(String loginName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.loginName = loginName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAvatar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> avatar;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAvatar</span><span class="params">(String avatar)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.avatar = avatar;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMemos</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> memos;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMemos</span><span class="params">(String memos)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.memos = memos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-User-service"><a href="#4-User-service" class="headerlink" title="4. User service"></a>4. User service</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/users"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserEndpoint</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(UserEndpoint<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;server.port:2200&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> serverPort = <span class="number">2200</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/&#123;loginName&#125;"</span>, method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">detail</span><span class="params">(@PathVariable String loginName)</span> </span>&#123;</span><br><span class="line">        String memos = <span class="string">"I come form "</span> + <span class="keyword">this</span>.serverPort;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User(loginName, loginName, <span class="string">"/avatar/default.png"</span>, memos);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The interface is very simple, just  query a user’s information based on the given login name.</p>
+<h3 id="5-application-properties"><a href="#5-application-properties" class="headerlink" title="5. application.properties"></a>5. application.properties</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server.port=<span class="number">2200</span></span><br><span class="line"></span><br><span class="line">spring.application.name=USER-SERVICE</span><br><span class="line"></span><br><span class="line">eureka.client.service-url.defaultZone=http:<span class="comment">//localhost:8761/eureka</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Testing"><a href="#Testing" class="headerlink" title="Testing"></a>Testing</h2><h3 id="1-Launch-services"><a href="#1-Launch-services" class="headerlink" title="1. Launch services"></a>1. Launch services</h3><p>Start each server in the following order:</p>
+<ol>
+<li>Service-discovery</li>
+<li>User-Service(2200)</li>
+<li>User-Service(2300): <code>java -jar user-service-1.0.0-SNAPSHOT.jar --server.port=2300</code></li>
+<li>Zuul-Server</li>
+</ol>
+<p>We can see the eureka admin page:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/2.png" data-index="1" data-src="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/2.png">
+<br>
+<br>
+
+<h3 id="2-Test-routing"><a href="#2-Test-routing" class="headerlink" title="2. Test routing"></a>2. Test routing</h3><p>Visit: <a href="http://localhost:8280/user-service/users/admin" target="_blank" rel="noopener">http://localhost:8280/user-service/users/admin</a></p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/4.png" data-index="2" data-src="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/4.png">
+<br>
+<br>
+
+<p>Note that here we used service name to retrieve the relevant servicie.</p>
+<h3 id="3-Load-balance-testing"><a href="#3-Load-balance-testing" class="headerlink" title="3. Load balance testing"></a>3. Load balance testing</h3><p>Let’s test if load balancing works. Earlier we have started two <code>User-Service</code> microservices, the ports are: 2200 and 2300. Try visit: <a href="http://localhost:8280/user-service/users/admin" target="_blank" rel="noopener">http://localhost:8280/user-service/users/admin</a> to make a request, we will see that the following information will be output alternately on the screen:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/4.png" data-index="3" data-src="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/4.png">
+<br>
+<br>
+
+<img class="post-img b-lazy" data-img="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/3.png" data-index="4" data-src="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/3.png">
+<br>
+<br>
+
+<h3 id="4-Hystrix-fault-tolerance-and-monitoring-test"><a href="#4-Hystrix-fault-tolerance-and-monitoring-test" class="headerlink" title="4. Hystrix fault tolerance and monitoring test"></a>4. Hystrix fault tolerance and monitoring test</h3><p>We have integrated <code>Hystrix</code> monitoring in <code>Zuul-Server</code>. Visit: <a href="http://localhost:8280/hystrix/" target="_blank" rel="noopener">http://localhost:8280/hystrix/</a> and enter: <a href="http://localhost:8280/actuator/hystrix.stream" target="_blank" rel="noopener">http://localhost:8280/actuator/hystrix.stream</a> to start monitor.</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/5.png" data-index="5" data-src="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/5.png">
+<br>
+<br>
+
+<p>This means that <code>Zuul</code> has integrated <code>Hystrix</code>.</p>
+<blockquote>
+<p><code>Spring-cloud-starter-netflix-zuul</code> itself has integrated <code>hystrix</code> and <code>ribbon</code>, so <code>Zuul</code> is inherently equipped with <code>thread isolation</code> and <code>circuit breaker</code> self-protection capabilities, as well as <code>client load balancing</code> for service calls. However, we need to note that when using the mapping relationship between <code>path</code> and <code>url</code> to configure routing rules, requests for routing will not be wrapped with <code>HystrixCommand</code>, so this type of routing request has no thread isolation and circuit breaker protection functions, and also there will be no load balancing capabilities. Therefore, when using <code>Zuul</code>, we try to use a combination of <code>path</code> and <code>serviceId</code> to configure. This not only can ensure the robustness and stability of the API gateway, but also can use <code>Ribbon</code>‘s client load balancing function.</p>
+</blockquote>
+<h1 id="Zuul-Configuration"><a href="#Zuul-Configuration" class="headerlink" title="Zuul Configuration"></a><em>Zuul Configuration</em></h1><h2 id="Routing-configuration"><a href="#Routing-configuration" class="headerlink" title="Routing configuration"></a>Routing configuration</h2><p>Maybe you think it’s strange that we didn’t configure anything, but can access service through <a href="http://localhost:8280/user-service/users/admin" target="_blank" rel="noopener">http://localhost:8280/user-service/users/admin</a>. This is the default route mapping function of <code>Zuul</code>, so let’s take a look at how to configure routing in <code>Zuul</code>.</p>
+<h3 id="1-Service-routing-default-rules"><a href="#1-Service-routing-default-rules" class="headerlink" title="1. Service routing default rules"></a>1. Service routing default rules</h3><p>When we used <code>Eureka</code> to built the <code>API gateway</code>, <code>Zuul</code> will automatically create a default routing rule for each service: the access path is prefixed with the service name configured by <code>serviceId</code>, which is why we were able to use:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8280/user-service/users</span><br></pre></td></tr></table></figure>
+
+<p>to access the <code>users</code> endpoint provided in <code>User-Service</code>.</p>
+<h3 id="2-Customized-microservice-access-path"><a href="#2-Customized-microservice-access-path" class="headerlink" title="2. Customized microservice access path"></a>2. Customized microservice access path</h3><p>The configuration format is: <code>zuul.routes.Microservice Id = specified path</code>, such as:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zuul.routes.user-service = /user/**</span><br></pre></td></tr></table></figure>
+
+<p>In this way, we can access the services provided by <code>user-service</code> through <code>/user/</code>. For example, the previous access can be changed to: <a href="http://localhost:8280/user/users/admin" target="_blank" rel="noopener">http://localhost:8280/user/users/admin</a>.</p>
+<p>The path to be configured can specify a regular expression to match the path. Therefore, <code>/user/*</code> can only match the first-level path, but <code>/user/**</code> can match all paths starting with <code>/user/</code>.</p>
+<h3 id="3-Ignore-specified-microservices"><a href="#3-Ignore-specified-microservices" class="headerlink" title="3. Ignore specified microservices"></a>3. Ignore specified microservices</h3><p>Format: <code>zuul.ignored-services = Micro service Id1, Micro service Id2 ...</code>, multiple micro services are separated by commas. Such as:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zuul.ignored-services=user-service,product-service</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-Specify-the-microservice-Id-and-the-corresponding-path-at-the-same-time"><a href="#4-Specify-the-microservice-Id-and-the-corresponding-path-at-the-same-time" class="headerlink" title="4. Specify the microservice Id and the corresponding path at the same time"></a>4. Specify the microservice Id and the corresponding path at the same time</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zuul.routes.api-a.path=/api-a/**</span><br><span class="line">zuul.routes.api-a.serviceId=service-A</span><br><span class="line"></span><br><span class="line">zuul.routes.api-b.path=/api-b/**</span><br><span class="line">zuul.routes.api-b.serviceId=service-B</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-Specify-microservice-URL-and-corresponding-path-at-the-same-time"><a href="#5-Specify-microservice-URL-and-corresponding-path-at-the-same-time" class="headerlink" title="5. Specify microservice URL and corresponding path at the same time"></a>5. Specify microservice URL and corresponding path at the same time</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zuul.routes.api-a.path=/api-a/**</span><br><span class="line">zuul.routes.api-a.url=http://localhost:8080/api-a</span><br></pre></td></tr></table></figure>
+
+<p>As mentioned before, the routing configured through the URL will not be executed by <code>HystrixCommand</code>. As a result, <code>Ribbon</code>‘s <code>load balancing</code>, <code>downgrading</code>, and <code>circuit breaker</code> functions will not be obtained. Therefore, try to use <code>serviceId</code> for configuration, you can also use the following configuration.</p>
+<h3 id="6-Specify-multiple-service-instances-and-load-balancing"><a href="#6-Specify-multiple-service-instances-and-load-balancing" class="headerlink" title="6. Specify multiple service instances and load balancing"></a>6. Specify multiple service instances and load balancing</h3><p>If multiple service instances need to be configured, the configuration is as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zuul.routes.user.path: /user/**</span><br><span class="line">zuul.routes.user.serviceId: user</span><br><span class="line"></span><br><span class="line">ribbon.eureka.enabled=false</span><br><span class="line">user.ribbon.listOfServers: http://192.168.1.10:8081, http://192.168.1.11:8081</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-Forward-to-local-url"><a href="#7-Forward-to-local-url" class="headerlink" title="7. Forward to local url"></a>7. Forward to local url</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zuul.routes.user.path=/user/**</span><br><span class="line">zuul.routes.user.url=forward:/user</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-Route-prefix"><a href="#8-Route-prefix" class="headerlink" title="8. Route prefix"></a>8. Route prefix</h3><p>You can add a uniform prefix to all mappings through <code>zuul.prefix</code>. For example: /api. By default, the proxy will automatically strip this prefix before forwarding. If you need to prefix with forwarding, you can configure: <code>zuul.stripPrefix = false</code> to turn off this default behavior. E.g:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zuul.routes.users.path=/myusers/**</span><br><span class="line">zuul.routes.users.stripPrefix=false</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Note: <code>zuul.stripPrefix</code> only works on the prefix of <code>zuul.prefix</code>. Does not work for prefix specified by path.</p>
+</blockquote>
+<h3 id="9-Routing-configuration-order"><a href="#9-Routing-configuration-order" class="headerlink" title="9. Routing configuration order"></a>9. Routing configuration order</h3><p>If you want to control the routing rules according to the configured order, you need to use <code>YAML</code>. If you use the property file, the order will be lost. E.g:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">zuul:</span><br><span class="line">  routes:</span><br><span class="line">    users:</span><br><span class="line">      path: /myusers/**</span><br><span class="line">    legacy:</span><br><span class="line">      path: /**</span><br></pre></td></tr></table></figure>
+
+<p>If the above example is configured using a properties file, the <code>legacy</code> may be effective, so the users have no effect.</p>
+<h3 id="10-Custom-transformation"><a href="#10-Custom-transformation" class="headerlink" title="10. Custom transformation"></a>10. Custom transformation</h3><p>We can also have a converter that uses a regular expression between the <code>serviceId</code> and the <code>route</code> to automatically match. E.g:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> PatternServiceRouteMapper <span class="title">serviceRouteMapper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PatternServiceRouteMapper(</span><br><span class="line">        <span class="string">"(?&lt;name&gt;^.+)-(?&lt;version&gt;v.+$)"</span>,</span><br><span class="line">        <span class="string">"$&#123;version&#125;/$&#123;name&#125;"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In this way, the service whose serviceId is <code>users-v1</code> will be mapped to the route of <code>/v1/users/</code>. Any regular expression is fine, but all named groups must include <code>servicePattern</code> and <code>routePattern</code>. If <code>servicePattern</code> does not match a <code>serviceId</code>, then the default is used. In the above example, a service with serviceId <code>users</code> will be mapped to the route <code>/users/</code>(without version information). This feature is off by default and only applies to services that have been discovered.</p>
+<h2 id="Zuul-Header-Settings"><a href="#Zuul-Header-Settings" class="headerlink" title="Zuul Header Settings"></a>Zuul Header Settings</h2><h3 id="Sensitive-header-settings"><a href="#Sensitive-header-settings" class="headerlink" title="Sensitive header settings"></a>Sensitive header settings</h3><p>It is not a problem to share information through headers between services in the same system, but if you don’t want some sensitive information in headers to leak out with HTTP forwarding, you need to specify a list of headers to be ignored in the routing configuration.</p>
+<p>By default, when <code>Zuul</code> requests routing, it will filter some sensitive information in the HTTP request header information. The default sensitive header information is defined through <code>zuul.sensitiveHeaders</code>, including <code>Cookie</code>, <code>Set-Cookie</code>, and <code>Authorization</code>. The configured sensitiveHeaders can be separated by commas.</p>
+<p>The specified routes can be configured with:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zuul.routes.[route].customSensitiveHeaders=true </span><br><span class="line">zuul.routes.[route].sensitiveHeaders=[set headers here]</span><br></pre></td></tr></table></figure>
+
+<p>Set global:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zuul.sensitiveHeaders=[set headers here]</span><br></pre></td></tr></table></figure>
+
+<h3 id="Ignore-Header-settings"><a href="#Ignore-Header-settings" class="headerlink" title="Ignore Header settings"></a>Ignore Header settings</h3><p>If you need to configure some additional sensitive headers for each route, you can use <code>zuul.ignoredHeaders</code> to uniformly set the headers to be ignored. Such as:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zuul.ignoredHeaders=[set Header to ignore]</span><br></pre></td></tr></table></figure>
+
+<p>There is no such configuration by default. If <code>Spring Security</code> is introduced in the project, then <code>Spring Security</code> will automatically add this configuration. The default values are: <code>Pragma</code>, <code>Cache-Control</code>, <code>X-Frame-Options</code>, <code>X-Content-Type- Options</code>, <code>X-XSS-Protection</code>, <code>Expries</code>.</p>
+<p>If you also need to use the <code>Spring Security Header</code> of the downstream microservice, you can add the following settings:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zuul.ignoreSecurityHeaders=false</span><br></pre></td></tr></table></figure>
+
+<h2 id="Zuul-Http-Client"><a href="#Zuul-Http-Client" class="headerlink" title="Zuul Http Client"></a>Zuul Http Client</h2><p><code>Zuul</code>‘s Http client supports <code>Apache Http</code>, Ribbon’s <code>RestClient</code>, and <code>OkHttpClient</code>. By default, the <code>Apache HTTP</code> client is used. The corresponding clients can be enabled in the following ways:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Enable Ribbon&apos;RestClient</span><br><span class="line">ribbon.restclient.enabled=true</span><br><span class="line"></span><br><span class="line"># Enable OkHttpClient</span><br><span class="line">ribbon.okhttp.enabled=true</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>If you need to use <code>OkHttpClient</code>, please note that <code>com.squareup.okhttp3</code> related packages are already included in your project.</p>
+</blockquote>
+<h1 id="Zuul-fault-tolerance-and-fallback"><a href="#Zuul-fault-tolerance-and-fallback" class="headerlink" title="Zuul fault tolerance and fallback"></a><em>Zuul fault tolerance and fallback</em></h1><p>Let’s take a look at the previous monitoring interface of Hystrix:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/5.png" data-index="6" data-src="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/5.png">
+<br>
+<br>
+
+<p>Please note that the granularity of <code>Zuul</code>‘s <code>Hystrix monitoring</code> is microservices, not an API, that is, all requests passing <code>Zuul</code> will be protected by <code>Hystrix</code>. If we shut down the <code>User-Service</code> service now, what will happen when we visit it again?</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/6.png" data-index="7" data-src="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/6.png">
+<br>
+<br>
+
+<p>So how do we implement fault tolerance and fallback for <code>Zuul</code>? <code>Zuul</code> provides a <code>ZuulFallbackProvider</code> interface. By implementing this interface, we can implement fallback functions for <code>Zuul</code>. So let’s transform <code>Zuul-Server</code> before.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Note that:</p>
+<ul>
+<li>The <code>getRoute</code> method returns that we want to provide a fallback for that microservice. Note that the returned value is the name of the route, not the name of the service, and cannot be written as: <code>USER-SERVICE</code>, otherwise the fallback will not work;</li>
+<li>The <code>fallbackResponse</code> method returns a <code>ClientHttpResponse</code> object as our fallback response.</li>
+</ul>
+<p>Now do a test, stop <code>User-Service</code> and visit:<a href="http://localhost:8280/user-service/users/admin" target="_blank" rel="noopener">http://localhost:8280/user-service/users/admin</a></p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/7.png" data-index="8" data-src="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/7.png">
+<br>
+<br>
+
+<p>Note that the fallback method has worked. If it doesn’t work, double check that <code>getRoute</code> returns correctly.</p>
+<p>Check out the source code here: <a href="https://github.com/nicklee1006/SpringCloudDemo/tree/zuul-demo-part-1" target="_blank" rel="noopener">zuul part 1 demo</a></p>
+
+                </article>
+                <ul class="tags-postTags">
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="Dynamic Programming" href="/Dynamic-Programming/">
+            Dynamic Programming →
+        </a>
+        
+    </nav>
+
+    
+    <div class="inner">
+        <div id="comment"></div>
+    </div>
+    
+</div>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-we-need-API-Gateway"><span class="toc-text">Why we need API Gateway</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Simplify-client-call-complexity"><span class="toc-text">Simplify client call complexity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-clipping-and-aggregation"><span class="toc-text">Data clipping and aggregation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Multi-channel-support"><span class="toc-text">Multi-channel support</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Example-Project"><span class="toc-text">Example Project</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Zuul-Server"><span class="toc-text">Zuul-Server</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-pom-xml"><span class="toc-text">1. pom.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Main-class"><span class="toc-text">2. Main class</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-application-properties"><span class="toc-text">3. application.properties</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-Service"><span class="toc-text">User-Service</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-pom-xml-1"><span class="toc-text">1. pom.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Main-class-1"><span class="toc-text">2. Main class</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-User-entity"><span class="toc-text">3. User entity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-User-service"><span class="toc-text">4. User service</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-application-properties"><span class="toc-text">5. application.properties</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Testing"><span class="toc-text">Testing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Launch-services"><span class="toc-text">1. Launch services</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Test-routing"><span class="toc-text">2. Test routing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Load-balance-testing"><span class="toc-text">3. Load balance testing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Hystrix-fault-tolerance-and-monitoring-test"><span class="toc-text">4. Hystrix fault tolerance and monitoring test</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Zuul-Configuration"><span class="toc-text">Zuul Configuration</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Routing-configuration"><span class="toc-text">Routing configuration</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Service-routing-default-rules"><span class="toc-text">1. Service routing default rules</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Customized-microservice-access-path"><span class="toc-text">2. Customized microservice access path</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Ignore-specified-microservices"><span class="toc-text">3. Ignore specified microservices</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Specify-the-microservice-Id-and-the-corresponding-path-at-the-same-time"><span class="toc-text">4. Specify the microservice Id and the corresponding path at the same time</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Specify-microservice-URL-and-corresponding-path-at-the-same-time"><span class="toc-text">5. Specify microservice URL and corresponding path at the same time</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-Specify-multiple-service-instances-and-load-balancing"><span class="toc-text">6. Specify multiple service instances and load balancing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-Forward-to-local-url"><span class="toc-text">7. Forward to local url</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-Route-prefix"><span class="toc-text">8. Route prefix</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-Routing-configuration-order"><span class="toc-text">9. Routing configuration order</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-Custom-transformation"><span class="toc-text">10. Custom transformation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Zuul-Header-Settings"><span class="toc-text">Zuul Header Settings</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sensitive-header-settings"><span class="toc-text">Sensitive header settings</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ignore-Header-settings"><span class="toc-text">Ignore Header settings</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Zuul-Http-Client"><span class="toc-text">Zuul Http Client</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Zuul-fault-tolerance-and-fallback"><span class="toc-text">Zuul fault tolerance and fallback</span></a></li></ol>
+    </div>
+</div>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+  <header class="read-next-card-header">
+    <small class="read-next-card-header-sitetitle">&mdash; Nick Li &mdash;</small>
+    <h3 class="read-next-card-header-title">Recent Posts</h3>
+  </header>
+  <div class="read-next-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+      <path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/>
+    </svg>
+  </div>
+  <div class="read-next-card-content">
+    <ul>
+      
+      
+      
+      <li>
+        <a href="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/">Spring Cloud 7: API Gateway - Zuul Part 1</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Dynamic-Programming/">Dynamic Programming</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Leetcode-96-Unique-Binary-Search-Trees/">Leetcode 96. Unique Binary Search Trees</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+  <footer class="read-next-card-footer">
+    <a href="/archives">  MORE  → </a>
+  </footer>
+</article>
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+    <header class="read-next-card-header tagcloud-card">
+        <h3 class="read-next-card-header-title">Categories</h3>
+    </header>
+    <div class="read-next-card-content">
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cloud/">Spring Cloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/how-to-guide/">how-to-guide</a></li></ul>
+    </div>
+</article>
+
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+	<header class="read-next-card-header tagcloud-card">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 15.67px;">Java 8 New Features</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 19px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 17.33px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 22.33px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 14px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 14px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Sort/" style="font-size: 15.67px;">Leetcode - Sort</a> <a href="/tags/Leetcode-String/" style="font-size: 15.67px;">Leetcode - String</a> <a href="/tags/Leetcode-Tree/" style="font-size: 15.67px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 20.67px;">Leetcode - Two Pointers</a> <a href="/tags/Stream-API/" style="font-size: 14px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 15.67px;">hexo</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay">
+    <div class="search-form">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<div class="copyright">
+			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
+			
+				
+			        <span hidden="true" id="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/" class="leancloud-visitors" data-flag-title="Spring Cloud 7: API Gateway - Zuul Part 1">
+			            <span>阅读量 </span>
+			            <span class="leancloud-visitors-count">0</span>
+			        </span>
+	    		
+    		
+		</div>
+		<nav class="site-footer-nav">
+			
+			<a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+			<a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+		</nav>
+	</div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister()
+            }
+        })
+    }
+</script>
+
+
+<script id="scriptLoad" src="/js/allinone.min.js" async></script>
+
+
+<script>
+    document.getElementById('scriptLoad').addEventListener('load', function () {
+        
+        
+            var bLazy = new Blazy();
+        
+
+        
+        
+
+        
+        
+        
+            searchFunc("/");
+        
+        
+    })
+</script>
+
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+
+
+<script id="valineScript" src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+<script>
+    document.getElementById('valineScript').addEventListener("load", function() {
+        new Valine({
+            el: '#comment' ,
+            verify: false,
+            notify: false,
+            appId: '3TACGUnsSRuWgqCn3pRpLVwQ-MdYXbMMI',
+            appKey: 'JTo5iyjOyGTEXzAwjaTNqcY0',
+            placeholder: 'Please leave a comment',
+            pageSize: 10,
+            avatar: 'mm',
+            visitor: true,
+            lang: 'en'
+        })
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
