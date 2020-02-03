@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 31: Next Permutation | Nick Li</title>
+	<title>Leetcode 60. Permutation Sequence | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 31: Next Permutation | Nick Li">
+	<meta property="og:title" content="Leetcode 60. Permutation Sequence | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-31-Next-Permutation/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-60-Permutation-Sequence/">
 
 	
-	<meta property="article:published_time" content="2019-11-19T23:11:00+08:00"> 
+	<meta property="article:published_time" content="2020-02-03T20:02:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-31-Next-Permutation/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-60-Permutation-Sequence/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-11-19T13:03:29.000Z">
-                    2019-11-19
+                <time class="post-full-meta-date" datetime="2020-02-03T10:54:18.000Z">
+                    2020-02-3
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 31: Next Permutation</h1>
+            <h1 class="post-full-title">Leetcode 60. Permutation Sequence</h1>
         </header>
         <div class="post-full ">
             
@@ -157,65 +157,40 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-31-Next-Permutation/Question.png" data-index="0" data-src="/Leetcode-31-Next-Permutation/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-60-Permutation-Sequence/Question.png" data-index="0" data-src="/Leetcode-60-Permutation-Sequence/Question.png">
 <br>
 <br>
+Given an n, not to output its full permutation, but to arrange all combinations from small to large, and output the kth.
 
-<p>This problem is a bit hard to understand. Suppose we have number 123, then the permutation has 132，213，231，312，321. Sort them in order gives us: <strong>123</strong> 132 213 231 312 321. So what we are looking for is <code>132</code>.</p>
 <h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
+<li>Medium - <a href="/Leetcode-31-Next-Permutation/" title="31. Next Permutation">31. Next Permutation</a></li>
 <li>Medium - <a href="https://leetcode.com/problems/permutations/" target="_blank" rel="noopener">46. Permutations</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/permutations-ii/" target="_blank" rel="noopener">47. Permutations II</a></li>
-<li>Medium - <a href="/Leetcode-60-Permutation-Sequence/" title="60. Permutation Sequence">60. Permutation Sequence</a></li>
 </ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Solution referenced from here: <a href="https://leetcode.com/articles/next-permutation/" target="_blank" rel="noopener">31. Next Permutation</a></p>
-<p>In normal cases, to make the number bigger, we need any digit to become larger. If we want to get a number that is just larger than the original one, we need to change the ones digit. For example, change 123 to 124.</p>
-<p>Since we are dealing with permutation, we can only exchange the digits.</p>
-<p>If we start from the ones digit and proceed from right to left, find a larger one than the ones digit, and exchange them. The ones digit are exchanged to a higher position. After exchange the number become smaller because the ones digit is smaller. For example, number 132, we swap 2 and 3 and get 123, the ones digit become larger, but the overall number becomes smaller.</p>
-<p>So ones digit is a no-go. Lets look at tens digti. If we exchange the first larger number that is left to the tens digit, the situation is the same. We will have a smaller number. For example, number 4123, we exchange 2 and 4, get 2143, smaller number!</p>
-<p>If for a digit, we proceed from left to right, and exhange a number to the right that is larger. For 4123, we exchange 2 and 3, get 4132 which is larger. If for a certain digit (i.e tens digit), there is no digit to the right that is larger than it, then we move towards left until we get a number that has a digit to the right that is larger.</p>
-<p>Another question is what if there are many digits to the right that are larger than it? In this case we want the one that is just larger to make sure the final number is as small as possible.</p>
-<p>At this point we have a rough algorithm:</p>
-<ol>
-<li>Scan from right to left, find the digit that is smaller than it’s right digit. We make the index of this digit <code>i</code></li>
-<li>Scan from <code>i</code> to <code>end</code>, find the digit that is just larger than <code>i</code> digit. We make the index of this digit <code>j</code></li>
-<li>Exhange <code>i</code> and <code>j</code></li>
-</ol>
-<p>But is it over? No. Although the number is larger, it may not be the next larger number. For example <code>158476531</code>, we start from tens digit <code>3</code>, no number to the right of <code>3</code> is larger than it. We move to <code>5</code>, <code>6</code>, <code>7</code>, the same. Until <code>4</code>. Then we look back from, and find <code>5</code> that is just larger than <code>4</code>. Exchange <code>5</code> and <code>4</code>, get <code>158576431</code>. We have a larger number, but it’s not the one that is just larger. We need to reverse the digits that is right to <code>5</code> and get <code>158513467</code>, which is the just larger number.</p>
-<p>Look at the gif from <a href="https://leetcode.com/problems/next-permutation/solution/" target="_blank" rel="noopener">Leetcode</a> might help to understand to process:</p>
-<img class="post-img b-lazy" data-img="/Leetcode-31-Next-Permutation/example.gif" data-index="1" data-src="/Leetcode-31-Next-Permutation/example.gif">
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Take <code>n = 4</code> as an example. Because it is arranged from small to large, the highest digit must be from 1 to 4. Then it can be seen as a group, we only need to look for the group number to know what the highest digit is. And the number of each group is the <code>(n-1)!</code>.</p>
+<img class="post-img b-lazy" data-img="/Leetcode-60-Permutation-Sequence/1.png" data-index="1" data-src="/Leetcode-60-Permutation-Sequence/1.png">
 <br>
 <br>
-Now we have our algorithm:
 
-<ol>
-<li>Scan from right to left, find the first digit that is smaller than it’s right digit</li>
-</ol>
-<ul>
-<li>index <code>i</code></li>
-<li><code>num[i] &lt; num[i+1]</code></li>
-</ul>
-<ol start="2">
-<li>Scan from <code>i</code> to <code>end</code>, find the element that is immediately bigger than <code>nums[i]</code></li>
-</ol>
-<ul>
-<li>index <code>j</code></li>
-<li>From <code>i</code> to <code>end</code>, the order is guaranteed to be descending</li>
-</ul>
-<ol start="3">
-<li>Exchange <code>nums[i]</code> and <code>nums[j]</code></li>
-<li>Reverse elements from <code>i + 1</code> to <code>end</code></li>
-</ol>
-<p>Code:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">nextPermutation</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// start from tens digit</span></span><br><span class="line">    <span class="keyword">int</span> firstSmallerIndex = nums.length - <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find the first element that is smaller than it's right element</span></span><br><span class="line">    <span class="keyword">while</span> (firstSmallerIndex &gt;= <span class="number">0</span> &amp;&amp; nums[firstSmallerIndex + <span class="number">1</span>] &lt;= nums[firstSmallerIndex]) &#123;</span><br><span class="line">        firstSmallerIndex--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// in this case all digit are in descending order (87654321), we just need to reverse all</span></span><br><span class="line">    <span class="keyword">if</span> (firstSmallerIndex == -<span class="number">1</span>) &#123;</span><br><span class="line">        reverse(nums, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// from firstSmallerIndex to nums.length - 1, it's guaranteed to be in descending order</span></span><br><span class="line">    <span class="comment">// find the index that is just bigger than firstSmallerIndex</span></span><br><span class="line">    <span class="keyword">int</span> j = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; nums[j] &lt;= nums[firstSmallerIndex]) &#123;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// swap firstSmallerIndex and j</span></span><br><span class="line">    swap(nums, firstSmallerIndex, j);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// reverse elements to the right of firstSmallerIndex</span></span><br><span class="line">    reverse(nums, firstSmallerIndex + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// helper method to swap 2 digits in the array</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> temp = nums[i];</span><br><span class="line">    nums[i] = nums[j];</span><br><span class="line">    nums[j] = temp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// helper method to reverse all elements starting from start, in the array</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> start)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = start;</span><br><span class="line">    <span class="keyword">int</span> j = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (i &lt;= j) &#123;</span><br><span class="line">        swap(nums, i, j);</span><br><span class="line">        i++;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>When calculating the <code>group number</code>, 1 to 5 divided by 6 is 0, 6 divided by 6 is 1, and 6 belongs to group 0, so we need to subtract 1 from k. By doing this, the division results are all 0.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> perGroupNum = factorial(n - <span class="number">1</span>); </span><br><span class="line"><span class="keyword">int</span> groupNum = (k - <span class="number">1</span>) / perGroupNum;</span><br></pre></td></tr></table></figure>
 
-<p>Time Complexity: the wrost case is to scan all digit, so that is O(n). Space complexity: O(1)</p>
-<p>To be honest, I think this question should be a <code>hard</code> level rather than a <code>medium</code>.</p>
+<p>Of course, there is also the question of what <code>k</code> is next time. Divide the group number, and the remainder is the next <code>k</code>. Because <code>k</code> is counted from 1, if <code>k</code> is exactly equal to a multiple of <code>perGroupNum</code>, the remainder obtained at this time is 0. In fact, since we subtract 1 when we ask for <code>groupNum</code>, <code>k</code> should be updated to <code>perGroupNum</code> at this time.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">k = k % perGroupNum; </span><br><span class="line">k = k == <span class="number">0</span> ? perGroupNum : k;</span><br></pre></td></tr></table></figure>
 
+<p>For example, if <code>k = 6</code>, then <code>groupNum = (k-1) / 6 = 0</code>, <code>k % perGroupNum = 6% 6 = 0</code>, and the next <code>k</code> can be seen from the above figure, it is obviously <code>perGroupNum</code>, which is still 6.</p>
+<p>After determining that the highest digit belongs to <code>group 0</code>, then the next is the same as the above process. The only difference is that the highest digit is <code>2 3 4</code> and there is no <code>1</code>. How to get the highest digit of <code>groupNum</code> needs to be considered.</p>
+<p>We can use a list to save 1 to n from small to large, and remove one digit each time, so that we can get the number corresponding to <code>groupNum</code>.</p>
+<p>Combine then together, we get the following solution.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// record `n!`, keep it here to speed up</span></span><br><span class="line"><span class="keyword">private</span> Map&lt;Integer, Integer&gt; factorialTable = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getPermutation</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    List&lt;Integer&gt; nums = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// put 1 - n to a list</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        nums.add(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> getResult(nums, n, k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// nums initially is '1,2,3,4,5,....n'</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">getResult</span><span class="params">(List&lt;Integer&gt; nums, <span class="keyword">int</span> n, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (n &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// permutation starting with the same number is a group</span></span><br><span class="line">        <span class="comment">// how many number in each group? n!</span></span><br><span class="line">        <span class="comment">// e.g. if n = 3, each group has 2 numbers</span></span><br><span class="line">        <span class="keyword">int</span> numPerGroup = factorial(n - <span class="number">1</span>);</span><br><span class="line">        <span class="comment">// which group is our target number in</span></span><br><span class="line">        <span class="keyword">int</span> groupNum = (k - <span class="number">1</span>) / numPerGroup;</span><br><span class="line"></span><br><span class="line">        stringBuilder.append(nums.get(groupNum));</span><br><span class="line"></span><br><span class="line">        k = k % numPerGroup;</span><br><span class="line">        k = k == <span class="number">0</span> ? numPerGroup : k;</span><br><span class="line"></span><br><span class="line">        nums.remove(groupNum);</span><br><span class="line">        n--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    stringBuilder.append(nums.get(<span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> stringBuilder.toString();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">factorial</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">        factorialTable.put(n, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (factorialTable.containsKey(n - <span class="number">1</span>)) &#123;</span><br><span class="line">            <span class="keyword">int</span> result = n * factorialTable.get(n - <span class="number">1</span>);</span><br><span class="line">            factorialTable.put(n, result);</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">int</span> result = n * factorial(n - <span class="number">1</span>);</span><br><span class="line">            factorialTable.put(n, result);</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
+                        <a href="/tags/Leetcode-Backtracking/" rel="tag"># Leetcode - Backtracking</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/Leetcode-Math/" rel="tag"># Leetcode - Math</a>
                     </li>
                     
                 </ul>
@@ -226,14 +201,10 @@ Now we have our algorithm:
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 33. Search in Rotated Sorted Array" href="/Leetcode-33-Search-in-Rotated-Sorted-Array/">
-            ← Leetcode 33. Search in Rotated Sorted Array
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Java 8 Optional" href="/Java-8-Optional/">
-            Java 8 Optional →
+        <a class="next-post" title="Spring Cloud 7: API Gateway - Zuul Part 1" href="/Spring-Cloud-7-API-Gateway-Zuul-Part-1/">
+            Spring Cloud 7: API Gateway - Zuul Part 1 →
         </a>
         
     </nav>
@@ -520,7 +491,7 @@ Now we have our algorithm:
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-31-Next-Permutation/" class="leancloud-visitors" data-flag-title="Leetcode 31: Next Permutation">
+			        <span hidden="true" id="/Leetcode-60-Permutation-Sequence/" class="leancloud-visitors" data-flag-title="Leetcode 60. Permutation Sequence">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
