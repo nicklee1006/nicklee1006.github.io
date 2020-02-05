@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 5. Longest Palindromic Substring | Nick Li</title>
+	<title>Leetcode 3. Longest Substring Without Repeating Characters | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 5. Longest Palindromic Substring | Nick Li">
+	<meta property="og:title" content="Leetcode 3. Longest Substring Without Repeating Characters | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-5-Longest-Palindromic-Substring/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-3-Longest-Substring-Without-Repeating-Characters/">
 
 	
-	<meta property="article:published_time" content="2020-01-19T14:01:00+08:00"> 
+	<meta property="article:published_time" content="2020-02-04T22:02:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-5-Longest-Palindromic-Substring/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-3-Longest-Substring-Without-Repeating-Characters/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-01-19T04:34:11.000Z">
-                    2020-01-19
+                <time class="post-full-meta-date" datetime="2020-02-04T12:00:28.000Z">
+                    2020-02-4
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 5. Longest Palindromic Substring</h1>
+            <h1 class="post-full-title">Leetcode 3. Longest Substring Without Repeating Characters</h1>
         </header>
         <div class="post-full ">
             
@@ -157,42 +157,59 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-5-Longest-Palindromic-Substring/Question.png" data-index="0" data-src="/Leetcode-5-Longest-Palindromic-Substring/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/Question.png" data-index="0" data-src="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/Question.png">
 <br>
 <br>
-Dind the longest palindromic substring in a given string s
+Given a string, find the longest substring without repeated characters and return its length.
 
 <h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Hard - <a href="https://leetcode.com/problems/shortest-palindrome/" target="_blank" rel="noopener">214. Shortest Palindrome</a></li>
-<li>Hard - <a href="https://leetcode.com/problems/palindrome-pairs/" target="_blank" rel="noopener">336. Palindrome Pairs</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/longest-palindromic-subsequence/" target="_blank" rel="noopener">516. Longest Palindromic Subsequence</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/palindromic-substrings/" target="_blank" rel="noopener">647. Palindromic Substrings</a></li>
+<li>Hard - <a href="https://leetcode.com/problems/subarrays-with-k-different-integers/" target="_blank" rel="noopener">992. Subarrays with K Different Integers</a></li>
 </ul>
-<h2 id="Solution-1-Brute-Force"><a href="#Solution-1-Brute-Force" class="headerlink" title="Solution 1 - Brute Force"></a>Solution 1 - Brute Force</h2><p>Enumerate all substrings, determine whether it is a palindrome string, and save the longest palindrome string.</p>
-<p>Time complexity: need 2 for loop to enumerate all substring O(n<sup>2</sup>), and 1 for loop to determine if a string is palindrome. Thus overall time complexity O(n<sup>3</sup>).</p>
-<h2 id="Solution-2-Expand-from-central"><a href="#Solution-2-Expand-from-central" class="headerlink" title="Solution 2 - Expand from central"></a>Solution 2 - Expand from central</h2><p>We know that the palindrome string must be symmetrical, so we can select a center each time, expand left and right, and determine whether the left and right characters are equal.</p>
-<img class="post-img b-lazy" data-img="/Leetcode-5-Longest-Palindromic-Substring/1.png" data-index="1" data-src="/Leetcode-5-Longest-Palindromic-Substring/1.png">
+<h2 id="Solution-Brute-Force"><a href="#Solution-Brute-Force" class="headerlink" title="Solution - Brute Force"></a>Solution - Brute Force</h2><p>The most straightforward method. We use two loops to exhaust all substrings, and then use a function to determine whether there are duplicate characters in the substring.</p>
+<p>Time complexity: two loops, plus the loop in the function that determines whether the substring satisfies the conditions, O(n<sup>3</sup>).</p>
+<p>Space complexity: A set is used to determine whether there are duplicate characters in the substring. Since there are no repeated characters in the set, the longest possible one is the entire character set. Assuming the size of the character set is <code>m</code>, then the longest length of the set is <code>m</code>. On the other hand, if the length of the string is less than <code>m</code>, it is <code>n</code>. Then the longest set is <code>n</code>. In summary, the space complexity is O(min(m, n)).</p>
+<h2 id="Solution-Sliding-Window"><a href="#Solution-Sliding-Window" class="headerlink" title="Solution - Sliding Window"></a>Solution - Sliding Window</h2><p>In the above solution, we assume that when <code>i</code> takes 0,</p>
+<p><code>j</code> is set to <code>1</code>, to determine whether there are duplicate characters in the string <code>str[0,1)</code>.</p>
+<p><code>j</code> is set to <code>2</code> to determine whether there are duplicate characters in the string <code>str[0,2)</code>.</p>
+<p><code>j</code> is set to <code>3</code> to determine if there are any duplicate characters in the string <code>str[0,3)</code>.</p>
+<p><code>j</code> is set to <code>4</code> to determine whether there are duplicate characters in the string <code>str[0,4)</code>.</p>
+<p>There are a lot of repetitive work, because if there are no repeated characters in <code>str[0,3)</code>, we don’t need to determine whether there are repeated characters in the entire string <code>str[0,4)</code>, but only need to determine whether <code>str[3]</code> is in <code>str[0,3)</code> or not. </p>
+<p>If it’s not, it means that there are no duplicate characters in <code>str[0,4)</code>.</p>
+<p>If it is, then <code>str[0,5)</code>, <code>str[0,6)</code>, <code>str[0,7)</code> must have duplicate characters. So at this time, there is not need to continue loop with <code>j</code>, just <code>i++</code> to enter the next loop.</p>
+<img class="post-img b-lazy" data-img="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/1.png" data-index="1" data-src="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/1.png">
 <br>
 <br>
 
-<p>Because there are strings with odd length and even length, we need to expand from one central or from two central, so there are n + n-1 central in total.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">longestPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (s.length() == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    String result = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length() - <span class="number">1</span>; i++) &#123;</span><br><span class="line">        <span class="comment">// central is 1 char</span></span><br><span class="line">        <span class="keyword">int</span> length = expand(s, i, i);</span><br><span class="line">        <span class="comment">// central is 2 chars</span></span><br><span class="line">        <span class="keyword">int</span> length2 = expand(s, i, i + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> longer = Math.max(length, length2);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (longer &gt; result.length()) &#123;</span><br><span class="line">            result = s.substring(i - (longer - <span class="number">1</span>) / <span class="number">2</span>, i + longer / <span class="number">2</span> + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// given string s, expand from given central</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">expand</span><span class="params">(String s, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> left = start;</span><br><span class="line">    <span class="keyword">int</span> right = end;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (left &gt;= <span class="number">0</span> &amp;&amp; right &lt; s.length() &amp;&amp; s.charAt(left) == s.charAt(right)) &#123;</span><br><span class="line">        left--;</span><br><span class="line">        right++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> right - left - <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We can see the process as the orange window moving to the right.</p>
+<p>To determine whether a character is in the string, we can put the char in the <code>map</code>. The char is the key and it’s index is the value. So that we know the last occurance of a char in the string.</p>
+<p>We can further optimize it. Let’s look at the example.</p>
+<img class="post-img b-lazy" data-img="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/2.png" data-index="2" data-src="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/2.png">
+<br>
+<br>
 
-<p>Time complexity: O(n<sup>2</sup>)</p>
-<h2 id="Solution-3-Manacher’s-Algorithm"><a href="#Solution-3-Manacher’s-Algorithm" class="headerlink" title="Solution 3 - Manacher’s Algorithm"></a>Solution 3 - Manacher’s Algorithm</h2><blockquote>
-<p>Manacher’s Algorithm is a linear algorithm used to find the longest palindrome substring of a string. It was invented by a man named Manacher in 1975. The biggest contribution of this algorithm is to decrease the time complexity to Linear.</p>
-</blockquote>
-<p>See: <a href="https://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-1/" target="_blank" rel="noopener">Manacher’s Algorithm</a>. I will have a separate blog takling about this algothm in the future.</p>
+<p>When the <code>c</code> pointed to by <code>j</code> exists in the preceding substring <code>abcd</code>, <code>i</code> is moved forward to <code>b</code> at this time, and the substring still contains <code>c</code>, and <code>i</code> must continue to move, so it can be optimized here. We can move <code>i</code> directly to the next position of <code>c</code>!</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">Map&lt;Character, Integer&gt; tempMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>; j &lt; s.length(); j++) &#123;</span><br><span class="line">    <span class="comment">// find repeat, skip i - j'</span></span><br><span class="line">    <span class="keyword">if</span> (tempMap.containsKey(s.charAt(j))) &#123;</span><br><span class="line">        i = Math.max(tempMap.get(s.charAt(j)), i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result = Math.max(result, j - i + <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// j + 1 means next time i will be move directly to here</span></span><br><span class="line">    tempMap.put(s.charAt(j), j + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
+
+<p>Because <code>i</code> is jumping, the characters stored before map are not removed, so <code>Math.max(map.get(s.charAt(j)), i)</code> is used to make sure that the obtained index is not in front of <code>i</code>.</p>
+<p><code>j</code> is incremented by 1 for each loop, because the jump of <code>i</code> already guarantees that there are no duplicate in <code>str[i, j]</code>.</p>
 
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Dynamic-Programming/" rel="tag"># Leetcode - Dynamic Programming</a>
+                        <a href="/tags/Leetcode-Two-Pointers/" rel="tag"># Leetcode - Two Pointers</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/Leetcode-Hash-Table/" rel="tag"># Leetcode - Hash Table</a>
                     </li>
                     
                     <li>
                         <a href="/tags/Leetcode-String/" rel="tag"># Leetcode - String</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/Leetcode-Sliding-Window/" rel="tag"># Leetcode - Sliding Window</a>
                     </li>
                     
                 </ul>
@@ -203,14 +220,10 @@ Dind the longest palindromic substring in a given string s
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 91. Decode Ways" href="/Leetcode-91-Decode-Ways/">
-            ← Leetcode 91. Decode Ways
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Spring Cloud 6: Fault Tolerant - Hystrix" href="/Spring-Cloud-6-Fault-Tolerant-Hystrix/">
-            Spring Cloud 6: Fault Tolerant - Hystrix →
+        <a class="next-post" title="Leetcode 60. Permutation Sequence" href="/Leetcode-60-Permutation-Sequence/">
+            Leetcode 60. Permutation Sequence →
         </a>
         
     </nav>
@@ -236,7 +249,7 @@ Dind the longest palindromic substring in a given string s
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-1-Brute-Force"><span class="toc-text">Solution 1 - Brute Force</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-2-Expand-from-central"><span class="toc-text">Solution 2 - Expand from central</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-3-Manacher’s-Algorithm"><span class="toc-text">Solution 3 - Manacher’s Algorithm</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Brute-Force"><span class="toc-text">Solution - Brute Force</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Sliding-Window"><span class="toc-text">Solution - Sliding Window</span></a></li></ol>
     </div>
 </div>
 
@@ -499,7 +512,7 @@ Dind the longest palindromic substring in a given string s
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-5-Longest-Palindromic-Substring/" class="leancloud-visitors" data-flag-title="Leetcode 5. Longest Palindromic Substring">
+			        <span hidden="true" id="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/" class="leancloud-visitors" data-flag-title="Leetcode 3. Longest Substring Without Repeating Characters">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
