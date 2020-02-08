@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="preconnect" href="//www.googletagmanager.com">
+	<link rel="preconnect" href="//zz.bdstatic.com">
+	<link rel="preconnect" href="//sp0.baidu.com">
+	<link rel="preconnect" href="//www.google-analytics.com">
+	<link rel="preconnect" href="//cdn1.lncld.net">
+	<link rel="preconnect" href="//unpkg.com">
+	<link rel="preconnect" href="//app-router.leancloud.cn">
+	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
+	<link rel="preconnect" href="//gravatar.loli.net">
+
+	<title>Spring Cloud 8: API Gateway - Zuul Part 2 | Nick Li</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="Nick Li">
+	<meta name="description" content>
+
+	
+
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="Nick Li">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Spring Cloud 8: API Gateway - Zuul Part 2 | Nick Li">
+	<meta property="og:description" content>
+	<meta property="og:url" content="http://nicklee1006.github.io/Spring-Cloud-8-API-Gateway-Zuul-Part-2/">
+
+	
+	<meta property="article:published_time" content="2020-02-08T11:02:00+08:00"> 
+	<meta property="article:author" content="Nick Li">
+	<meta property="article:published_first" content="Nick Li, /Spring-Cloud-8-API-Gateway-Zuul-Part-2/">
+	
+
+	
+	
+	<link rel="stylesheet" href="/css/allinonecss.min.css">
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151447201-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-151447201-1');
+	</script>
+	
+	
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header post-site-header outer">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/archives" title="ARCHIVES">ARCHIVES</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button-area">
+        <a href="#search" class="search-button">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="search-button">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    <a class="social-link" title="linkedin" href="https://www.linkedin.com/in/chenzhang-li/" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<div id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <div class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2020-02-08T01:32:42.000Z">
+                    2020-02-8
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Spring-Cloud/">Spring Cloud</a>&nbsp;&nbsp;
+                
+                
+            </div>
+            <h1 class="post-full-title">Spring Cloud 8: API Gateway - Zuul Part 2</h1>
+        </header>
+        <div class="post-full ">
+            
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/01/31/M3qIpXRGigQDEZa.jpg)">
+            </figure>
+            
+            <div class="post-full-content">
+                <article id="photoswipe" class="markdown-body">
+                    <p>The first impression of <code>Zuul</code> is usually like this: it includes two functions: <code>routing</code> and <code>filtering</code> requests. The routing function is responsible for forwarding external requests to specific microservice instances, which is the basis for achieving a unified entrance to external access. The filter function is responsible for intervening in the processing of requests, and is the basis for implementing functions such as request verification and service aggregation. However, in reality, when the routing function is running, its routing mapping and request forwarding are completed by several different filters. Among them, the route mapping is mainly completed by a <code>PRE</code> type filter, which matches the request path with the configured routing rule to find the destination address that needs to be forwarded. The part of the request forwarding is completed by the <code>Route</code> type filter, which forwards the routing address obtained by the <code>PRE</code> type filter. Therefore, the filter can be said to be the most important core component of <code>Zuul</code>‘s API gateway. Every request entering <code>Zuul</code> will go through a series of filter processing chains to get the request response and return it to the client.</p>
+<h2 id="Filter-Introduction"><a href="#Filter-Introduction" class="headerlink" title="Filter Introduction"></a>Filter Introduction</h2><h3 id="1-Filter-characteristics"><a href="#1-Filter-characteristics" class="headerlink" title="1. Filter characteristics"></a>1. Filter characteristics</h3><p>The key features of <code>Zuul</code> filters are:</p>
+<ul>
+<li><strong>Type</strong>: Defines when to be executed during request execution;</li>
+<li><strong>Execution Order</strong>: When there are multiple filters, it is used to indicate the order of execution. The smaller the value, the earlier the execution;</li>
+<li><strong>Criteria</strong>: the conditions under which the filter will be triggered;</li>
+<li><strong>Action</strong>: The specific action.</li>
+</ul>
+<p>Filters do not communicate directly, but share information through <code>RequestContext</code>, which is <code>thread-safe</code>.</p>
+<p>Corresponding to the characteristics of the <code>Zuul</code> filter above, the methods we need to implement when implementing a custom filter are:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PreTypeZuulFilter</span> <span class="keyword">extends</span> <span class="title">ZuulFilter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">filterType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> PRE_TYPE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">filterOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> PRE_DECORATION_FILTER_ORDER - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldFilter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.logger.info(<span class="string">"This is pre-type zuul filter."</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>among them:</p>
+<ul>
+<li>The <strong>filterType()</strong> method is the type of the filter;</li>
+<li>The <strong>filterOrder()</strong> method returns the execution order;</li>
+<li>The <strong>shouldFilter()</strong> method is to determine whether the filter needs to be executed;</li>
+<li><strong>run()</strong> is the specific filtering action to be performed.</li>
+</ul>
+<h3 id="2-Filter-type"><a href="#2-Filter-type" class="headerlink" title="2. Filter type"></a>2. Filter type</h3><p><code>Zuul</code> defines four standard filter types, which correspond to the typical life cycle of a request.</p>
+<ul>
+<li><strong>PRE filter</strong>: called before the request is routed, it can be used to implement authentication, select the requested microservice in the cluster, record debugging information, etc;</li>
+<li><strong>ROUTING filter</strong>: called when routing requests;</li>
+<li><strong>POST filter</strong>: It is executed after routing to the microservice, and can be used to add standard HTTP headers to the response, collect statistics and indicators, send the response from the microservice to the client, etc;</li>
+<li><strong>ERROR filter</strong>: Called when an error occurs while processing the request.</li>
+</ul>
+<p>The types of <code>Zuul</code> filters are actually the life cycle of <code>Zuul</code> filters. Use the following diagram to understand their execution process.</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-8-API-Gateway-Zuul-Part-2/1.png" data-index="0" data-src="/Spring-Cloud-8-API-Gateway-Zuul-Part-2/1.png">
+<br>
+<br>
+
+<p>In addition to the 4 default filter types given above, <code>Zuul</code> allows us to create custom filter types. For example, we can customize a STATIC type filter to generate a response directly in <code>Zuul</code> without forwarding the request to the microservices on the backend.</p>
+<h3 id="3-Custom-filter-example-code"><a href="#3-Custom-filter-example-code" class="headerlink" title="3. Custom filter example code"></a>3. Custom filter example code</h3><p>Take a look at a few examples given by the official：</p>
+<h4 id="PRE-type-example"><a href="#PRE-type-example" class="headerlink" title="PRE type example"></a>PRE type example</h4><p><a href="https://github.com/spring-cloud-samples/sample-zuul-filters/blob/master/src/main/java/org/springframework/cloud/samplezuulfilters/QueryParamServiceIdPreFilter.java" target="_blank" rel="noopener">QueryParamServiceIdPreFilter</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QueryParamPreFilter</span> <span class="keyword">extends</span> <span class="title">ZuulFilter</span> </span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">filterOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// run before PreDecorationFilter</span></span><br><span class="line">		<span class="keyword">return</span> PRE_DECORATION_FILTER_ORDER - <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">filterType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"pre"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldFilter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		RequestContext ctx = getCurrentContext();</span><br><span class="line">		<span class="keyword">return</span> ctx.getRequest().getParameter(<span class="string">"service"</span>) != <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		RequestContext ctx = getCurrentContext();</span><br><span class="line">		HttpServletRequest request = ctx.getRequest();</span><br><span class="line">		<span class="comment">// put the serviceId in `RequestContext`</span></span><br><span class="line">		ctx.put(<span class="string">"serviceId"</span>, request.getParameter(<span class="string">"service"</span>));</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This example obtains the <code>serviceID</code> to be forwarded from the request parameter <code>service</code>. Of course, it’s not recommended, here is just an example.</p>
+<h4 id="ROUTE-type-example"><a href="#ROUTE-type-example" class="headerlink" title="ROUTE type example"></a>ROUTE type example</h4><p><a href="https://cloud.spring.io/spring-cloud-static/Dalston.SR5/multi/multi__router_and_filter_zuul.html" target="_blank" rel="noopener">OkHttpRoutingFilter</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OkHttpRoutingFilter</span> <span class="keyword">extends</span> <span class="title">ZuulFilter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ProxyRequestHelper helper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">filterType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ROUTE_TYPE; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">filterOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SIMPLE_HOST_ROUTING_FILTER_ORDER - <span class="number">1</span>; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldFilter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> RequestContext.getCurrentContext().getRouteHost() != <span class="keyword">null</span> &amp;&amp; RequestContext.getCurrentContext().sendZuulResponse();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        OkHttpClient httpClient = <span class="keyword">new</span> OkHttpClient.Builder() </span><br><span class="line">            <span class="comment">// customize</span></span><br><span class="line">            .build();</span><br><span class="line"></span><br><span class="line">        RequestContext context = RequestContext.getCurrentContext(); </span><br><span class="line">        HttpServletRequest request = context.getRequest();</span><br><span class="line">        </span><br><span class="line">        String method = request.getMethod();</span><br><span class="line"></span><br><span class="line">        String uri = <span class="keyword">this</span>.helper.buildZuulRequestURI(request);</span><br><span class="line"></span><br><span class="line">        Headers.Builder headers = <span class="keyword">new</span> Headers.Builder(); </span><br><span class="line">        Enumeration&lt;String&gt; headerNames = request.getHeaderNames(); </span><br><span class="line">        <span class="keyword">while</span> (headerNames.hasMoreElements()) &#123;</span><br><span class="line">            String name = headerNames.nextElement(); </span><br><span class="line">            Enumeration&lt;String&gt; values = request.getHeaders(name);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (values.hasMoreElements()) &#123; </span><br><span class="line">                String value = values.nextElement(); </span><br><span class="line">                headers.add(name, value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        InputStream inputStream = request.getInputStream();</span><br><span class="line"></span><br><span class="line">        RequestBody requestBody = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (inputStream != <span class="keyword">null</span> &amp;&amp; HttpMethod.permitsRequestBody(method)) &#123;</span><br><span class="line">            MediaType mediaType = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">if</span> (headers.get(<span class="string">"Content-Type"</span>) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                mediaType = MediaType.parse(headers.get(<span class="string">"Content-Type"</span>)); </span><br><span class="line">            &#125;</span><br><span class="line">            requestBody = RequestBody.create(mediaType, StreamUtils.copyToByteArray(inputStream)); </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Request.Builder builder = <span class="keyword">new</span> Request.Builder()</span><br><span class="line">            .headers(headers.build())</span><br><span class="line">            .url(uri)</span><br><span class="line">            .method(method, requestBody);</span><br><span class="line"></span><br><span class="line">        Response response = httpClient.newCall(builder.build()).execute();</span><br><span class="line"></span><br><span class="line">        LinkedMultiValueMap&lt;String, String&gt; responseHeaders = <span class="keyword">new</span> LinkedMultiValueMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;String, List&lt;String&gt;&gt; entry : response.headers().toMultimap().entrySet()) &#123; </span><br><span class="line">            responseHeaders.put(entry.getKey(), entry.getValue());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.helper.setResponse(response.code(), response.body().byteStream(), responseHeaders);</span><br><span class="line">        context.setRouteHost(<span class="keyword">null</span>); <span class="comment">// prevent SimpleHostRoutingFilter from running</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This example converts an HTTP request to an OkHttp3 request, and converts the server’s return into a servlet’s response.</p>
+<h4 id="POST-type-example"><a href="#POST-type-example" class="headerlink" title="POST type example"></a>POST type example</h4><p><a href="https://github.com/spring-cloud-samples/sample-zuul-filters/blob/master/src/main/java/org/springframework/cloud/samplezuulfilters/AddResponseHeaderFilter.java" target="_blank" rel="noopener">AddResponseHeaderFilter</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddResponseHeaderFilter</span> <span class="keyword">extends</span> <span class="title">ZuulFilter</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">filterType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"post"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">filterOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">999</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldFilter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		RequestContext context = RequestContext.getCurrentContext();</span><br><span class="line">		HttpServletResponse servletResponse = context.getResponse();</span><br><span class="line">		servletResponse.addHeader(<span class="string">"X-Foo"</span>, UUID.randomUUID().toString());</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This example is just adding a randomly generated X-Foo to the returned header.</p>
+<h3 id="4-Disable-filter"><a href="#4-Disable-filter" class="headerlink" title="4. Disable filter"></a>4. Disable filter</h3><p>Only need to configure the filter to be disabled in <code>application.properties</code>(or yml), the format is: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zuul. [Filter-name]. [Filter-type] .disable = true</span><br></pre></td></tr></table></figure>
+
+<p>Such as:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zuul.FormBodyWrapperFilter.pre.disable=true</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-A-little-supplement-about-Zuul-filter-Error"><a href="#5-A-little-supplement-about-Zuul-filter-Error" class="headerlink" title="5. A little supplement about Zuul filter Error"></a>5. A little supplement about Zuul filter Error</h3><p>When <code>Zuul</code> throws an exception during execution, the error filter is executed. <code>SendErrorFilter</code> will only execute if <code>RequestContext.getThrowable()</code> is not empty. It sets the error information into the requested <code>javax.servlet.error.*</code> properties and forwards to Spring Boot’s error page.</p>
+<p>The specific class implemented by <code>Zuul</code> filters is <code>ZuulServletFilter</code>, whose core code is as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        init((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            preRouting();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ZuulException e) &#123;</span><br><span class="line">            error(e);</span><br><span class="line">            postRouting();</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// Only forward onto to the chain if a zuul response is not being sent</span></span><br><span class="line">        <span class="keyword">if</span> (!RequestContext.getCurrentContext().sendZuulResponse()) &#123;</span><br><span class="line">            filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            routing();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ZuulException e) &#123;</span><br><span class="line">            error(e);</span><br><span class="line">            postRouting();</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            postRouting();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ZuulException e) &#123;</span><br><span class="line">            error(e);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">        error(<span class="keyword">new</span> ZuulException(e, <span class="number">500</span>, <span class="string">"UNCAUGHT_EXCEPTION_FROM_FILTER_"</span> + e.getClass().getName()));</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        RequestContext.getCurrentContext().unset();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>It can be seen from this code that error can be executed after catching exceptions in all stages, but if an exception occurs in the post stage and is handled by error, it will not be returned to the post stage for execution, which means that there should be no exceptions in the post stage. Because once there is an exception, other post filters behind this filter will no longer be executed.</p>
+<p>A simple method for global exception handling is: Add a filter of type error and write the error information to the <code>RequestContext</code> so that <code>SendErrorFilter</code> can get the error information. Code show as below:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlobalErrorFilter</span> <span class="keyword">extends</span> <span class="title">ZuulFilter</span> </span>&#123; </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">filterType</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> ERROR_TYPE;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">filterOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">10</span>; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldFilter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        RequestContext context = RequestContext.getCurrentContext();</span><br><span class="line">        Throwable throwable = context.getThrowable();</span><br><span class="line">        <span class="keyword">this</span>.logger.error(<span class="string">"[ErrorFilter] error message: &#123;&#125;"</span>, throwable.getCause().getMessage());</span><br><span class="line">        context.set(<span class="string">"error.status_code"</span>, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);</span><br><span class="line">        context.set(<span class="string">"error.exception"</span>, throwable.getCause());</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="EnableZuulServer-VS-EnableZuulProxy"><a href="#EnableZuulServer-VS-EnableZuulProxy" class="headerlink" title="@EnableZuulServer VS @EnableZuulProxy"></a>@EnableZuulServer VS @EnableZuulProxy</h2><p><code>Zuul</code> provides us with two main application annotations: <code>@EnableZuulServer</code> and <code>@EnableZuulProxy</code>, where <code>@EnableZuulProxy</code> contains the functionality of <code>@EnableZuulServer</code>, and <code>@EnableCircuitBreaker</code> and <code>@EnableDiscoveryClient</code> are also added. When we need to run a <code>Zuul</code> service without proxy function, or selectively switch some proxy functions, then we need to use <code>@EnableZuulServer</code> instead of <code>@EnableZuulProxy</code>. At this time we can add any <code>ZuulFilter</code> type entity class. They will be automatically loaded, which is the same as the previous article using <code>@EnableZuulProxy</code>, but it will not automatically load any proxy filters.</p>
+<h3 id="1-EnableZuulServer’s-default-filter"><a href="#1-EnableZuulServer’s-default-filter" class="headerlink" title="1 @EnableZuulServer’s default filter"></a>1 @EnableZuulServer’s default filter</h3><p>When we use <code>@EnableZuulServer</code>, the filters loaded by default are:</p>
+<h4 id="PRE-type-filter"><a href="#PRE-type-filter" class="headerlink" title="PRE type filter"></a>PRE type filter</h4><ul>
+<li><p>ServletDetectionFilter<br>This filter is executed first. It is mainly used to check whether the current request is processed through Spring’s <code>DispatcherServlet</code> or processed through <code>ZuulServlet</code>. The result is stored in <code>isDispatcherServletRequest</code>, and the value type is Boolean.</p>
+</li>
+<li><p>FormBodyWrapperFilter<br>The purpose of this filter is to wrap the request body that meets the requirements into a <code>FormBodyRequestWrapper</code> object for subsequent processing.</p>
+</li>
+<li><p>DebugFilter<br>PRE type filter. When the debug parameter is set in the request parameter, this filter will set <code>RequestContext.setDebugRouting()</code> and <code>RequestContext.setDebugRequest()</code> to true in the current request context, so that subsequent filters can define some debug information based on these two parameters. When there is a problem in the production environment, we can add the parameter to print debugging information in the background to help us analyze the problem. For the name of the debug parameter in the request, we can customize it through <code>zuul.debug.parameter</code>.</p>
+</li>
+</ul>
+<h4 id="Route-type-filter"><a href="#Route-type-filter" class="headerlink" title="Route type filter"></a>Route type filter</h4><ul>
+<li>SendForwardFilter<br>This filter only processes requests with the <code>forward.to</code>(FilterConstants.FORWARD_TO_KEY) parameter in the request context. That is, the local forward of the forward in our routing rule is processed.</li>
+</ul>
+<h4 id="POST-type-filter"><a href="#POST-type-filter" class="headerlink" title="POST type filter"></a>POST type filter</h4><ul>
+<li>SendResponseFilter<br>The filter is to encapsulate the response returned by the proxy request, and then send it back to the requester as the corresponding request.</li>
+</ul>
+<h4 id="ERROR-type-filter"><a href="#ERROR-type-filter" class="headerlink" title="ERROR type filter"></a>ERROR type filter</h4><ul>
+<li>SendErrorFilter<br>The filter is to determine if there is any exception information in the current request context (<code>RequestContext.getThrowable ()</code> is not empty), and if there is, it is forwarded to the <code>/error</code> page by default. We can also customize the error page by setting <code>error.path</code>.</li>
+</ul>
+<h3 id="2-EnableZuulProxy’s-default-filter"><a href="#2-EnableZuulProxy’s-default-filter" class="headerlink" title="2 @EnableZuulProxy’s default filter"></a>2 @EnableZuulProxy’s default filter</h3><p><code>@EnableZuulProxy</code> adds the following filters to the above:</p>
+<h4 id="PRE-type-filter-1"><a href="#PRE-type-filter-1" class="headerlink" title="PRE type filter"></a>PRE type filter</h4><ul>
+<li>PreDecorationFilter<br>This filter determines the route to the route and how to route based on the provided <code>RouteLocator</code>. The router can also set various proxy-related headers for back-end requests.</li>
+</ul>
+<h4 id="ROUTE-type-filter"><a href="#ROUTE-type-filter" class="headerlink" title="ROUTE type filter"></a>ROUTE type filter</h4><ul>
+<li><p>RibbonRoutingFilter<br>This filter will process the request with <code>serviceId</code> (can be obtained through <code>RequestContext.getCurrentContext().Get (&quot;serviceId&quot;))</code> in the context, use <code>Ribbon</code>, <code>Hystrix</code> and pluggable HTTP client to send the request, and return the result of the request. That is to say that <code>Ribbon</code> and <code>Hystrix</code> only take effect when we use the <code>serviceId</code> to configure routing rules.</p>
+</li>
+<li><p>SimpleHostRoutingFilter<br>When this filter detects that the <code>routeHost</code> parameter (available through <code>RequestContext.getRouteHost()</code>) is set, it will send a request to the specified URL through Apache HttpClient. At this point, the request is not wrapped with <code>Hystrix</code> commands, so this type of request does not have thread isolation and circuit breaker protection.</p>
+</li>
+</ul>
+
+                </article>
+                <ul class="tags-postTags">
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="Leetcode 93. Restore IP Addresses" href="/Leetcode-93-Restore-IP-Addresses/">
+            Leetcode 93. Restore IP Addresses →
+        </a>
+        
+    </nav>
+
+    
+    <div class="inner">
+        <div id="comment"></div>
+    </div>
+    
+</div>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Filter-Introduction"><span class="toc-text">Filter Introduction</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Filter-characteristics"><span class="toc-text">1. Filter characteristics</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Filter-type"><span class="toc-text">2. Filter type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Custom-filter-example-code"><span class="toc-text">3. Custom filter example code</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PRE-type-example"><span class="toc-text">PRE type example</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ROUTE-type-example"><span class="toc-text">ROUTE type example</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#POST-type-example"><span class="toc-text">POST type example</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Disable-filter"><span class="toc-text">4. Disable filter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-A-little-supplement-about-Zuul-filter-Error"><span class="toc-text">5. A little supplement about Zuul filter Error</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EnableZuulServer-VS-EnableZuulProxy"><span class="toc-text">@EnableZuulServer VS @EnableZuulProxy</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-EnableZuulServer’s-default-filter"><span class="toc-text">1 @EnableZuulServer’s default filter</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PRE-type-filter"><span class="toc-text">PRE type filter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Route-type-filter"><span class="toc-text">Route type filter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#POST-type-filter"><span class="toc-text">POST type filter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ERROR-type-filter"><span class="toc-text">ERROR type filter</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-EnableZuulProxy’s-default-filter"><span class="toc-text">2 @EnableZuulProxy’s default filter</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PRE-type-filter-1"><span class="toc-text">PRE type filter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ROUTE-type-filter"><span class="toc-text">ROUTE type filter</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+  <header class="read-next-card-header">
+    <small class="read-next-card-header-sitetitle">&mdash; Nick Li &mdash;</small>
+    <h3 class="read-next-card-header-title">Recent Posts</h3>
+  </header>
+  <div class="read-next-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+      <path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/>
+    </svg>
+  </div>
+  <div class="read-next-card-content">
+    <ul>
+      
+      
+      
+      <li>
+        <a href="/Spring-Cloud-8-API-Gateway-Zuul-Part-2/">Spring Cloud 8: API Gateway - Zuul Part 2</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Leetcode-93-Restore-IP-Addresses/">Leetcode 93. Restore IP Addresses</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Java-PriorityQueue/">Java PriorityQueue</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+  <footer class="read-next-card-footer">
+    <a href="/archives">  MORE  → </a>
+  </footer>
+</article>
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+    <header class="read-next-card-header tagcloud-card">
+        <h3 class="read-next-card-header-title">Categories</h3>
+    </header>
+    <div class="read-next-card-content">
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cloud/">Spring Cloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/how-to-guide/">how-to-guide</a></li></ul>
+    </div>
+</article>
+
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+	<header class="read-next-card-header tagcloud-card">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 16px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 14px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 20px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 18px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 22px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 14px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 16px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Math/" style="font-size: 14px;">Leetcode - Math</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 16px;">Leetcode - Sort</a> <a href="/tags/Leetcode-String/" style="font-size: 18px;">Leetcode - String</a> <a href="/tags/Leetcode-Tree/" style="font-size: 16px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 20px;">Leetcode - Two Pointers</a> <a href="/tags/Stream-API/" style="font-size: 14px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 16px;">hexo</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay">
+    <div class="search-form">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<div class="copyright">
+			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
+			
+				
+			        <span hidden="true" id="/Spring-Cloud-8-API-Gateway-Zuul-Part-2/" class="leancloud-visitors" data-flag-title="Spring Cloud 8: API Gateway - Zuul Part 2">
+			            <span>阅读量 </span>
+			            <span class="leancloud-visitors-count">0</span>
+			        </span>
+	    		
+    		
+		</div>
+		<nav class="site-footer-nav">
+			
+			<a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+			<a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+		</nav>
+	</div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister()
+            }
+        })
+    }
+</script>
+
+
+<script id="scriptLoad" src="/js/allinone.min.js" async></script>
+
+
+<script>
+    document.getElementById('scriptLoad').addEventListener('load', function () {
+        
+        
+            var bLazy = new Blazy();
+        
+
+        
+        
+
+        
+        
+        
+            searchFunc("/");
+        
+        
+    })
+</script>
+
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+
+
+<script id="valineScript" src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+<script>
+    document.getElementById('valineScript').addEventListener("load", function() {
+        new Valine({
+            el: '#comment' ,
+            verify: false,
+            notify: false,
+            appId: '3TACGUnsSRuWgqCn3pRpLVwQ-MdYXbMMI',
+            appKey: 'JTo5iyjOyGTEXzAwjaTNqcY0',
+            placeholder: 'Please leave a comment',
+            pageSize: 10,
+            avatar: 'mm',
+            visitor: true,
+            lang: 'en'
+        })
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
