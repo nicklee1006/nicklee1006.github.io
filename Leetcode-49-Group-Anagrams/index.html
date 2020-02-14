@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 3. Longest Substring Without Repeating Characters | Nick Li</title>
+	<title>Leetcode 49. Group Anagrams | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 3. Longest Substring Without Repeating Characters | Nick Li">
+	<meta property="og:title" content="Leetcode 49. Group Anagrams | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-3-Longest-Substring-Without-Repeating-Characters/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-49-Group-Anagrams/">
 
 	
-	<meta property="article:published_time" content="2020-02-04T22:02:00+08:00"> 
+	<meta property="article:published_time" content="2020-02-13T23:02:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-3-Longest-Substring-Without-Repeating-Characters/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-49-Group-Anagrams/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-02-04T12:00:28.000Z">
-                    2020-02-4
+                <time class="post-full-meta-date" datetime="2020-02-13T13:16:07.000Z">
+                    2020-02-13
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 3. Longest Substring Without Repeating Characters</h1>
+            <h1 class="post-full-title">Leetcode 49. Group Anagrams</h1>
         </header>
         <div class="post-full ">
             
@@ -157,48 +157,18 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/Question.png" data-index="0" data-src="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-49-Group-Anagrams/Question.png" data-index="0" data-src="/Leetcode-49-Group-Anagrams/Question.png">
 <br>
 <br>
-Given a string, find the longest substring without repeated characters and return its length.
+Given multiple strings, categorize them. As long as the strings contain exactly the same characters, they are counted as the same class, regardless of order.
 
 <h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Hard - <a href="https://leetcode.com/problems/subarrays-with-k-different-integers/" target="_blank" rel="noopener">992. Subarrays with K Different Integers</a></li>
+<li>Easy - <a href="https://leetcode.com/problems/valid-anagram/" target="_blank" rel="noopener">242. Valid Anagram</a></li>
 </ul>
-<h2 id="Solution-Brute-Force"><a href="#Solution-Brute-Force" class="headerlink" title="Solution - Brute Force"></a>Solution - Brute Force</h2><p>The most straightforward method. We use two loops to exhaust all substrings, and then use a function to determine whether there are duplicate characters in the substring.</p>
-<p>Time complexity: two loops, plus the loop in the function that determines whether the substring satisfies the conditions, O(n<sup>3</sup>).</p>
-<p>Space complexity: A set is used to determine whether there are duplicate characters in the substring. Since there are no repeated characters in the set, the longest possible one is the entire character set. Assuming the size of the character set is <code>m</code>, then the longest length of the set is <code>m</code>. On the other hand, if the length of the string is less than <code>m</code>, it is <code>n</code>. Then the longest set is <code>n</code>. In summary, the space complexity is O(min(m, n)).</p>
-<h2 id="Solution-Sliding-Window"><a href="#Solution-Sliding-Window" class="headerlink" title="Solution - Sliding Window"></a>Solution - Sliding Window</h2><p>In the above solution, we assume that when <code>i</code> takes 0,</p>
-<p><code>j</code> is set to <code>1</code>, to determine whether there are duplicate characters in the string <code>str[0,1)</code>.</p>
-<p><code>j</code> is set to <code>2</code> to determine whether there are duplicate characters in the string <code>str[0,2)</code>.</p>
-<p><code>j</code> is set to <code>3</code> to determine if there are any duplicate characters in the string <code>str[0,3)</code>.</p>
-<p><code>j</code> is set to <code>4</code> to determine whether there are duplicate characters in the string <code>str[0,4)</code>.</p>
-<p>There are a lot of repetitive work, because if there are no repeated characters in <code>str[0,3)</code>, we don’t need to determine whether there are repeated characters in the entire string <code>str[0,4)</code>, but only need to determine whether <code>str[3]</code> is in <code>str[0,3)</code> or not. </p>
-<p>If it’s not, it means that there are no duplicate characters in <code>str[0,4)</code>.</p>
-<p>If it is, then <code>str[0,5)</code>, <code>str[0,6)</code>, <code>str[0,7)</code> must have duplicate characters. So at this time, there is not need to continue loop with <code>j</code>, just <code>i++</code> to enter the next loop.</p>
-<img class="post-img b-lazy" data-img="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/1.png" data-index="1" data-src="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/1.png">
-<br>
-<br>
-
-<p>We can see the process as the orange window moving to the right.</p>
-<p>To determine whether a character is in the string, we can put the char in the <code>map</code>. The char is the key and it’s index is the value. So that we know the last occurance of a char in the string.</p>
-<p>We can further optimize it. Let’s look at the example.</p>
-<img class="post-img b-lazy" data-img="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/2.png" data-index="2" data-src="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/2.png">
-<br>
-<br>
-
-<p>When the <code>c</code> pointed to by <code>j</code> exists in the preceding substring <code>abcd</code>, <code>i</code> is moved forward to <code>b</code> at this time, and the substring still contains <code>c</code>, and <code>i</code> must continue to move, so it can be optimized here. We can move <code>i</code> directly to the next position of <code>c</code>!</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">Map&lt;Character, Integer&gt; tempMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>; j &lt; s.length(); j++) &#123;</span><br><span class="line">    <span class="comment">// find repeat, skip i - j'</span></span><br><span class="line">    <span class="keyword">if</span> (tempMap.containsKey(s.charAt(j))) &#123;</span><br><span class="line">        i = Math.max(tempMap.get(s.charAt(j)), i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result = Math.max(result, j - i + <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// j + 1 means next time i will be move directly to here</span></span><br><span class="line">    tempMap.put(s.charAt(j), j + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
-
-<p>Because <code>i</code> is jumping, the characters stored before map are not removed, so <code>Math.max(map.get(s.charAt(j)), i)</code> is used to make sure that the obtained index is not in front of <code>i</code>.</p>
-<p><code>j</code> is incremented by 1 for each loop, because the jump of <code>i</code> already guarantees that there are no duplicate in <code>str[i, j]</code>.</p>
-
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>We can sort each string alphabetically, then we can map <code>eat</code>, <code>tea</code>, <code>ate</code> to <code>aet</code>. Others are similar.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">HashMap&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// loop all strings</span></span><br><span class="line"><span class="keyword">for</span> (String str : strs) &#123;</span><br><span class="line">    <span class="keyword">char</span>[] charArray = str.toCharArray();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// sort</span></span><br><span class="line">    Arrays.sort(charArray);</span><br><span class="line"></span><br><span class="line">    String key = <span class="keyword">new</span> String(charArray);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (map.containsKey(key)) &#123;</span><br><span class="line">        map.get(key).add(str);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        List&lt;String&gt; tempList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        tempList.add(str);</span><br><span class="line"></span><br><span class="line">        map.put(key, tempList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;(map.values());</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Two-Pointers/" rel="tag"># Leetcode - Two Pointers</a>
-                    </li>
                     
                     <li>
                         <a href="/tags/Leetcode-Hash-Table/" rel="tag"># Leetcode - Hash Table</a>
@@ -206,10 +176,6 @@ Given a string, find the longest substring without repeated characters and retur
                     
                     <li>
                         <a href="/tags/Leetcode-String/" rel="tag"># Leetcode - String</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Sliding-Window/" rel="tag"># Leetcode - Sliding Window</a>
                     </li>
                     
                 </ul>
@@ -220,14 +186,10 @@ Given a string, find the longest substring without repeated characters and retur
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Java PriorityQueue" href="/Java-PriorityQueue/">
-            ← Java PriorityQueue
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 60. Permutation Sequence" href="/Leetcode-60-Permutation-Sequence/">
-            Leetcode 60. Permutation Sequence →
+        <a class="next-post" title="Leetcode 98. Validate Binary Search Tree" href="/Leetcode-98-Validate-Binary-Search-Tree/">
+            Leetcode 98. Validate Binary Search Tree →
         </a>
         
     </nav>
@@ -253,7 +215,7 @@ Given a string, find the longest substring without repeated characters and retur
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Brute-Force"><span class="toc-text">Solution - Brute Force</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Sliding-Window"><span class="toc-text">Solution - Sliding Window</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
     </div>
 </div>
 
@@ -530,7 +492,7 @@ Given a string, find the longest substring without repeated characters and retur
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/" class="leancloud-visitors" data-flag-title="Leetcode 3. Longest Substring Without Repeating Characters">
+			        <span hidden="true" id="/Leetcode-49-Group-Anagrams/" class="leancloud-visitors" data-flag-title="Leetcode 49. Group Anagrams">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
