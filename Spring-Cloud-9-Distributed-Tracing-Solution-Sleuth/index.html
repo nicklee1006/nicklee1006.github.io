@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="preconnect" href="//www.googletagmanager.com">
+	<link rel="preconnect" href="//zz.bdstatic.com">
+	<link rel="preconnect" href="//sp0.baidu.com">
+	<link rel="preconnect" href="//www.google-analytics.com">
+	<link rel="preconnect" href="//cdn1.lncld.net">
+	<link rel="preconnect" href="//unpkg.com">
+	<link rel="preconnect" href="//app-router.leancloud.cn">
+	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
+	<link rel="preconnect" href="//gravatar.loli.net">
+
+	<title>Spring Cloud 9: Distributed Tracing Solution - Sleuth | Nick Li</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="Nick Li">
+	<meta name="description" content>
+
+	
+
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="Nick Li">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Spring Cloud 9: Distributed Tracing Solution - Sleuth | Nick Li">
+	<meta property="og:description" content>
+	<meta property="og:url" content="http://nicklee1006.github.io/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/">
+
+	
+	<meta property="article:published_time" content="2020-02-14T23:02:00+08:00"> 
+	<meta property="article:author" content="Nick Li">
+	<meta property="article:published_first" content="Nick Li, /Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/">
+	
+
+	
+	
+	<link rel="stylesheet" href="/css/allinonecss.min.css">
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151447201-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-151447201-1');
+	</script>
+	
+	
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header post-site-header outer">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/archives" title="ARCHIVES">ARCHIVES</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button-area">
+        <a href="#search" class="search-button">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="search-button">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    <a class="social-link" title="linkedin" href="https://www.linkedin.com/in/chenzhang-li/" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<div id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <div class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2020-02-14T13:57:23.000Z">
+                    2020-02-14
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Spring-Cloud/">Spring Cloud</a>&nbsp;&nbsp;
+                
+                
+            </div>
+            <h1 class="post-full-title">Spring Cloud 9: Distributed Tracing Solution - Sleuth</h1>
+        </header>
+        <div class="post-full ">
+            
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/02/14/uBEsomn1fRlNr3z.jpg)">
+            </figure>
+            
+            <div class="post-full-content">
+                <article id="photoswipe" class="markdown-body">
+                    <p>When we develop microservice application, we usually divide microservices according to business logic, and call each business through REST. A user operation may require the cooperation of many microservices to complete. If any microservice has problems or the network times out, it will cause the function to fail. With more and more services, the analysis of the call chain between microservices will become more and more complicated.</p>
+<p><code>Spring Cloud Sleuth</code> provides link tracking for calls between services. Through <code>Sleuth</code>, you can clearly understand which services a request has passed, and how long each service process takes, so that we can easily sort out the calling relationship between microservices. In addition <code>Sleuth</code> can help us:</p>
+<ul>
+<li>Time-consuming analysis: with <code>Sleuth</code> we can easily understand the time-consuming of each sampling request, so as to analyze which service calls are time-consuming;</li>
+<li>Errors visualization: for exceptions not caught by the program, you can see them through the integrated <code>Zipkin</code> service interface;</li>
+<li>Link optimization: For services that are called frequently, some optimization measures can be implemented for these services.</li>
+</ul>
+<h2 id="Sleuth-Log-Example"><a href="#Sleuth-Log-Example" class="headerlink" title="Sleuth+Log Example"></a>Sleuth+Log Example</h2><p>We first integrate <code>Sleuth</code> in the simplest way and output the information tracked by <code>Sleuth</code> to the log.</p>
+<h3 id="Modify-Product-Service-Consumer"><a href="#Modify-Product-Service-Consumer" class="headerlink" title="Modify Product-Service-Consumer"></a>Modify Product-Service-Consumer</h3><h4 id="Add-bootstrap-properties-file"><a href="#Add-bootstrap-properties-file" class="headerlink" title="Add bootstrap.properties file"></a>Add bootstrap.properties file</h4><p>In order to enable the log file to obtain the service name, we need to move part of the original configuration in <code>application.properties</code> into the <code>bootstrap.properties</code> configuration file. This is because Spring Boot will preferentially scan the bootstrap configuration source when starting, so that the log can get the service name.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server.port=9090</span><br><span class="line"></span><br><span class="line">spring.application.name=PRODUCT-SERVICE-CONSUMER</span><br></pre></td></tr></table></figure>
+
+<h4 id="Modify-application-properties"><a href="#Modify-application-properties" class="headerlink" title="Modify application.properties"></a>Modify application.properties</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">eureka.client.service-url.defaultZone=http://localhost:8761/eureka</span><br><span class="line"></span><br><span class="line">feign.hystrix.enabled=true</span><br><span class="line"></span><br><span class="line">management.endpoints.web.exposure.include=hystrix.stream</span><br><span class="line"></span><br><span class="line">logging.level.org.springframework=INFO</span><br><span class="line">logging.level.org.springframework.web.servlet.DispatcherServlet=DEBUG</span><br></pre></td></tr></table></figure>
+
+<p>Note here to modify the log level of <code>DispatcherServlet</code> to <code>DEBUG</code>.</p>
+<h4 id="Modify-Logback-configuration-file"><a href="#Modify-Logback-configuration-file" class="headerlink" title="Modify Logback configuration file"></a>Modify Logback configuration file</h4><p>Add a file named <code>logback-spring.xml</code> to the <code>resources</code> directory with the following content:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">resource</span>=<span class="string">"org/springframework/boot/logging/logback/defaults.xml"</span>/&gt;</span></span><br><span class="line">    ​</span><br><span class="line">    <span class="tag">&lt;<span class="name">springProperty</span> <span class="attr">scope</span>=<span class="string">"context"</span> <span class="attr">name</span>=<span class="string">"springAppName"</span> <span class="attr">source</span>=<span class="string">"spring.application.name"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Example for logging into the build folder of your project --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"LOG_FILE"</span> <span class="attr">value</span>=<span class="string">"$&#123;BUILD_FOLDER:-build&#125;/$&#123;springAppName&#125;"</span>/&gt;</span>​</span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"CONSOLE_LOG_PATTERN"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">value</span>=<span class="string">"%clr(%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125;)&#123;faint&#125; %clr($&#123;LOG_LEVEL_PATTERN:-%5p&#125;)</span></span></span><br><span class="line"><span class="tag"><span class="string">            %clr($&#123;PID:- &#125;)&#123;magenta&#125; %clr(---)&#123;faint&#125; %clr([%15.15t])&#123;faint&#125; %clr(%-40.40logger&#123;39&#125;)&#123;cyan&#125; %clr(:)&#123;faint&#125; %m%n$&#123;LOG_EXCEPTION_CONVERSION_WORD:-%wEx&#125;"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"STDOUT"</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.ConsoleAppender"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">layout</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.classic.PatternLayout"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">Pattern</span>&gt;</span></span><br><span class="line">                %d&#123;yyyy-MM-dd HH:mm:ss SSS&#125; [%thread] %-5level %logger&#123;36&#125; - %msg%n</span><br><span class="line">            <span class="tag">&lt;/<span class="name">Pattern</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">layout</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Appender to log to console --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"console"</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.ConsoleAppender"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.classic.filter.ThresholdFilter"</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- Minimum logging level to be presented in the console logs--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">level</span>&gt;</span>DEBUG<span class="tag">&lt;/<span class="name">level</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">encoder</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">pattern</span>&gt;</span>$&#123;CONSOLE_LOG_PATTERN&#125;<span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">charset</span>&gt;</span>utf8<span class="tag">&lt;/<span class="name">charset</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Appender to log to file --&gt;</span>​</span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"flatfile"</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.rolling.RollingFileAppender"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;LOG_FILE&#125;<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">rollingPolicy</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.rolling.TimeBasedRollingPolicy"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">fileNamePattern</span>&gt;</span>$&#123;LOG_FILE&#125;.%d&#123;yyyy-MM-dd&#125;.gz<span class="tag">&lt;/<span class="name">fileNamePattern</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">maxHistory</span>&gt;</span>7<span class="tag">&lt;/<span class="name">maxHistory</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">rollingPolicy</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">encoder</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">pattern</span>&gt;</span>$&#123;CONSOLE_LOG_PATTERN&#125;<span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">charset</span>&gt;</span>utf8<span class="tag">&lt;/<span class="name">charset</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line">    ​    ​</span><br><span class="line">    <span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">"INFO"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"console"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- uncomment this to have also JSON logs --&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--&lt;appender-ref ref="logstash"/&gt;--&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--&lt;appender-ref ref="flatfile"/&gt;--&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Add-dependency"><a href="#Add-dependency" class="headerlink" title="Add dependency"></a>Add dependency</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-sleuth<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>As mentioned in the SpringCloud reference manual: <code>SLF4J MDC</code> is always set automatically, and if logback is used, the trace/span id is immediately displayed in the log. Other log systems need to be configured to achieve this effect. The default <code>logging.pattern.level</code> is set to%clr(% 5p)%clr([${spring.application.name:},%X{X-B3-TraceId:-},%X{X-B3-SpanId: -},% X {X-Span-Export:-}]) {yellow} (This is also a feature of <code>Spring Boot</code> when integrating logback). This means that if you do not need to manually configure the format when using SLF4J, other log systems must be manually configured, otherwise they will not be output.</p>
+</blockquote>
+<h3 id="Modify-Product-Service"><a href="#Modify-Product-Service" class="headerlink" title="Modify Product-Service"></a>Modify Product-Service</h3><p>Same as above</p>
+<h3 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h3><p>Start the <code>Service-discovery</code>, <code>Product-Service</code>, and <code>Product-Service-Consumer</code> in order. Visit: <a href="http://localhost:9090/products" target="_blank" rel="noopener">http://localhost:9090/products</a>. Then we observe the log output in the <code>Product-Service-Consumer</code> and <code>Product-Service</code> consoles, and we can see output similar to the following:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020-02-16 22:14:14.937 DEBUG [PRODUCT-SERVICE,71fb907c61436aff,d572b78867aa38a1,false]             3422 --- [nio-2100-exec-2] o.s.web.servlet.DispatcherServlet        : GET &quot;/products&quot;, parameters=&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020-02-16 22:14:15.012 DEBUG [PRODUCT-SERVICE-CONSUMER,71fb907c61436aff,71fb907c61436aff,false]             3428 --- [nio-9090-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK</span><br></pre></td></tr></table></figure>
+
+<p>The format of the log content is: [appname, traceId, spanId, exportable], which is <code>Sleuth</code>‘s trace data. among them:</p>
+<ul>
+<li><strong>appname</strong>: the service name of the microservice;</li>
+<li><strong>traceId/spanId</strong>: Two terms for Sleuth link tracking. We will introduce them in detail later.</li>
+<li><strong>whether exportable is sent to Zipkin</strong>.</li>
+</ul>
+<h2 id="Sleuth-Terminology"><a href="#Sleuth-Terminology" class="headerlink" title="Sleuth Terminology"></a>Sleuth Terminology</h2><p>Because Sleuth is based on Google’s <a href="https://research.google/pubs/pub36356/" target="_blank" rel="noopener">Dapper</a>’s paper, it also borrows Dapper in terminology.</p>
+<ul>
+<li><strong>Span</strong>: The most basic unit of work. For example: Sending an RPC is a new <code>span</code>, and so is an RPC response. <code>Span</code> uses a unique 64-bit ID for identification. In addition, a 64-bit ID is used for service call tracking. <code>Span</code> can also carry other data, such as: description, timestamp, tag of key-value pair, ID of starting <code>Span</code>, and processing ID (usually using IP address), etc. <code>Span</code> has start and end, they are used to track time information. <code>Span</code> should appear in pairs, beginning and ending, so once a <code>span</code> is created, it must be ended at some point in the future.</li>
+</ul>
+<blockquote>
+<p>Note: The starting span is usually called the: <code>root span</code>. Its id is usually used as the id of a track record.</p>
+</blockquote>
+<ul>
+<li><p><strong>Trace</strong>: A tree-structured <code>Span</code> collection. For example: In a distributed big data store, each request may be a tracked record.</p>
+</li>
+<li><p><strong>Annotation</strong>: Used to record the time information of an event. Some basic core annotations are used to record the start and end time of the request, for example:</p>
+<ul>
+<li><strong>cs</strong>: short for <code>Client Sent</code>. This annotation indicates the start of a span;</li>
+<li><strong>sr</strong>: short for <code>Server Received</code>. Indicates that the server receives the request and starts processing. The network transmission time can be calculated by subtracted the <code>cs</code> </li>
+<li><strong>ss</strong>: the server completes the request processing, and the response information is sent back to the client (abbreviation of <code>Server Sent</code>). If you subtract the <code>sr</code> timestamp, you can calculate the time it takes for the server to process the request.</li>
+<li><strong>cr</strong>: short for <code>Client Received</code>. Marks the end of <code>Span</code>. The client successfully received the response from the server. The response time of the request can be calculated by subtract the <code>cs</code>.</li>
+</ul>
+</li>
+</ul>
+<p>The following figure(<a href="https://cloud.spring.io/spring-cloud-sleuth/reference/html/" target="_blank" rel="noopener">https://cloud.spring.io/spring-cloud-sleuth/reference/html/</a>) describes the concepts of <code>Span</code> and <code>Trace</code> in a visual way:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/1.png" data-index="0" data-src="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/1.png">
+<br>
+<br>
+
+<p>Each color in the picture represents a <code>span</code> (a total of 7 spans, from A to G). They all have the following data information:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Trace Id = X</span><br><span class="line">Span Id = D</span><br><span class="line">Client Sent</span><br></pre></td></tr></table></figure>
+
+<p>Which means he <code>Trace-Id</code> of the Span is <code>X</code>, and <code>Span-Id</code> of the Span is <code>D</code>, The corresponding event is <code>Client Sent</code>.</p>
+<p>The subordinate relationships of these spans can be represented by the following figure (<a href="https://cloud.spring.io/spring-cloud-sleuth/reference/html/" target="_blank" rel="noopener">https://cloud.spring.io/spring-cloud-sleuth/reference/html/</a>):</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/2.png" data-index="1" data-src="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/2.png">
+<br>
+<br>
+
+<h2 id="Integrate-Zipkin-services"><a href="#Integrate-Zipkin-services" class="headerlink" title="Integrate Zipkin services"></a>Integrate Zipkin services</h2><p><code>Zipkin</code> is a distributed tracking system dedicated to collecting time data for distributed services. It mainly involves the following four components:</p>
+<ul>
+<li><strong>collector</strong>: data collection;</li>
+<li><strong>storage</strong>: data storage;</li>
+<li><strong>search</strong>: data query;</li>
+<li><strong>UI</strong>: Data display.</li>
+</ul>
+<p><code>Zipkin</code> provides pluggable data storage methods: <code>In-Memory</code>, <code>MySql</code>, <code>Cassandra</code>, and <code>Elasticsearch</code>. The next test is to conveniently use the <code>In-Memory</code> method for storage. I personally recommend <code>Elasticsearch</code>, especially when we need to integrate <code>ELK</code> in the future.</p>
+<p><code>Zipkin</code>‘s source code on Github is: <a href="https://github.com/openzipkin/zipkin" target="_blank" rel="noopener">https://github.com/openzipkin/zipkin</a>.</p>
+<blockquote>
+<p><code>Zipkin</code> requires JDK8 support.</p>
+</blockquote>
+<p>In this article, we only provide tracking data to <code>Zipkin</code> through Http. I will explain it later when we talk about <code>Spring Cloud Bus</code> using the stream method.</p>
+<h3 id="1-Zipkin-Server"><a href="#1-Zipkin-Server" class="headerlink" title="1. Zipkin-Server"></a>1. Zipkin-Server</h3><p>Note that now custom <code>zipkin</code> server is no longer supported. Refer to <a href="https://github.com/openzipkin/zipkin" target="_blank" rel="noopener">Quick-start</a> for starting the <code>zipkin</code> server instance.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://zipkin.io/quickstart.sh | bash -s</span><br><span class="line">java -jar zipkin.jar</span><br></pre></td></tr></table></figure>
+
+<p>The default address is: <a href="http://localhost:9411/zipkin/" target="_blank" rel="noopener">http://localhost:9411/zipkin/</a>.</p>
+<h3 id="2-Modify-Product-Service-Consumer"><a href="#2-Modify-Product-Service-Consumer" class="headerlink" title="2. Modify Product-Service-Consumer"></a>2. Modify Product-Service-Consumer</h3><h4 id="Modify-pom-xml"><a href="#Modify-pom-xml" class="headerlink" title="Modify pom.xml"></a>Modify pom.xml</h4><p>Add dependency:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-zipkin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>And remove:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-sleuth<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>This is because <code>spring-cloud-starter-sleuth</code> dependency is already included in <code>spring-cloud-starter-zipkin</code>.</p>
+<h4 id="Modify-application-properties-1"><a href="#Modify-application-properties-1" class="headerlink" title="Modify application.properties"></a>Modify application.properties</h4><p>Add the following to application.properties:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.zipkin.base-url=http://localhost:9411</span><br><span class="line">spring.sleuth.sampler.percentage=1.0</span><br></pre></td></tr></table></figure>
+
+<p><code>spring.zipkin.base-url</code> specifies the address of the <code>Zipkin</code> server, <code>spring.sleuth.sampler.percentage</code> sets the sampling ratio to 1.0, which is all required. About sampling can refer to the later description.</p>
+<h3 id="Modify-Product-Service-1"><a href="#Modify-Product-Service-1" class="headerlink" title="Modify Product-Service"></a>Modify Product-Service</h3><p>Same as above</p>
+<h3 id="Test-1"><a href="#Test-1" class="headerlink" title="Test"></a>Test</h3><p>Start the <code>Service-discovery</code>, <code>Zipkin-Server</code>, <code>Product-Service</code>, and <code>Product-Service-Consumer</code> projects in order.</p>
+<h4 id="Check-Zipkin-server"><a href="#Check-Zipkin-server" class="headerlink" title="Check Zipkin server"></a>Check Zipkin server</h4><p>Visit: <a href="http://localhost:9411" target="_blank" rel="noopener">http://localhost:9411</a>, can see the following:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/3.png" data-index="2" data-src="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/3.png">
+<br>
+<br>
+
+<h4 id="Visit-Product-Service-Consumer-to-generate-service-calls"><a href="#Visit-Product-Service-Consumer-to-generate-service-calls" class="headerlink" title="Visit Product-Service-Consumer to generate service calls"></a>Visit Product-Service-Consumer to generate service calls</h4><p>We visit the service provided by Mall-Web several times in the browser, and then go to the Zipkin server, you can see the following interface:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/4.png" data-index="3" data-src="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/4.png">
+<br>
+<br>
+
+<p>We can see that <code>Zipkin</code> has obtained several service call tracking information. We can click on one of these requests and see the following interface:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/5.png" data-index="4" data-src="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/5.png">
+<br>
+<br>
+
+<p>This interface presents the request in more detail. Similarly, we can click again to view more detailed data, we can see the following interface:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/6.png" data-index="5" data-src="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/6.png">
+<br>
+<br>
+
+<p>In this interface we can see the various time tracking information mentioned earlier.</p>
+<p>In the Zipkin interface, we can also click <code>Dependencies</code> to view the dependencies between services, as shown below:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/7.png" data-index="6" data-src="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/7.png">
+<br>
+<br>
+
+<h4 id="Error-message"><a href="#Error-message" class="headerlink" title="Error message"></a>Error message</h4><p><code>Zipkin</code> can display error messages in trace records. When the exception is thrown and not caught, <code>Zipkin</code> will automatically change colors. In the list of trace records, when you see the red record, it means that an exception was thrown. As shown in the first figure above, the error message is displayed based on the data. We can also click into it for more detailed error information.</p>
+<p>Check out the source code here: <a href="https://github.com/nicklee1006/SpringCloudDemo/tree/sleuth-demo" target="_blank" rel="noopener">Sleuth demo</a></p>
+
+                </article>
+                <ul class="tags-postTags">
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="Leetcode 49. Group Anagrams" href="/Leetcode-49-Group-Anagrams/">
+            Leetcode 49. Group Anagrams →
+        </a>
+        
+    </nav>
+
+    
+    <div class="inner">
+        <div id="comment"></div>
+    </div>
+    
+</div>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sleuth-Log-Example"><span class="toc-text">Sleuth+Log Example</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Modify-Product-Service-Consumer"><span class="toc-text">Modify Product-Service-Consumer</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Add-bootstrap-properties-file"><span class="toc-text">Add bootstrap.properties file</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Modify-application-properties"><span class="toc-text">Modify application.properties</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Modify-Logback-configuration-file"><span class="toc-text">Modify Logback configuration file</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Add-dependency"><span class="toc-text">Add dependency</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Modify-Product-Service"><span class="toc-text">Modify Product-Service</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Test"><span class="toc-text">Test</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sleuth-Terminology"><span class="toc-text">Sleuth Terminology</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Integrate-Zipkin-services"><span class="toc-text">Integrate Zipkin services</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Zipkin-Server"><span class="toc-text">1. Zipkin-Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Modify-Product-Service-Consumer"><span class="toc-text">2. Modify Product-Service-Consumer</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Modify-pom-xml"><span class="toc-text">Modify pom.xml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Modify-application-properties-1"><span class="toc-text">Modify application.properties</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Modify-Product-Service-1"><span class="toc-text">Modify Product-Service</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Test-1"><span class="toc-text">Test</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Check-Zipkin-server"><span class="toc-text">Check Zipkin server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Visit-Product-Service-Consumer-to-generate-service-calls"><span class="toc-text">Visit Product-Service-Consumer to generate service calls</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Error-message"><span class="toc-text">Error message</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+  <header class="read-next-card-header">
+    <small class="read-next-card-header-sitetitle">&mdash; Nick Li &mdash;</small>
+    <h3 class="read-next-card-header-title">Recent Posts</h3>
+  </header>
+  <div class="read-next-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+      <path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/>
+    </svg>
+  </div>
+  <div class="read-next-card-content">
+    <ul>
+      
+      
+      
+      <li>
+        <a href="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/">Spring Cloud 9: Distributed Tracing Solution - Sleuth</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Leetcode-49-Group-Anagrams/">Leetcode 49. Group Anagrams</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Leetcode-98-Validate-Binary-Search-Tree/">Leetcode 98. Validate Binary Search Tree</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+  <footer class="read-next-card-footer">
+    <a href="/archives">  MORE  → </a>
+  </footer>
+</article>
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+    <header class="read-next-card-header tagcloud-card">
+        <h3 class="read-next-card-header-title">Categories</h3>
+    </header>
+    <div class="read-next-card-content">
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cloud/">Spring Cloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/how-to-guide/">how-to-guide</a></li></ul>
+    </div>
+</article>
+
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+	<header class="read-next-card-header tagcloud-card">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 15.67px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 14px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 20.67px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 17.33px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Depth-First-Search/" style="font-size: 14px;">Leetcode - Depth First Search</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 22.33px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 14px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 17.33px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Math/" style="font-size: 14px;">Leetcode - Math</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 15.67px;">Leetcode - Sort</a> <a href="/tags/Leetcode-Stack/" style="font-size: 14px;">Leetcode - Stack</a> <a href="/tags/Leetcode-String/" style="font-size: 19px;">Leetcode - String</a> <a href="/tags/Leetcode-Tree/" style="font-size: 17.33px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 20.67px;">Leetcode - Two Pointers</a> <a href="/tags/Stream-API/" style="font-size: 15.67px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 15.67px;">hexo</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay">
+    <div class="search-form">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<div class="copyright">
+			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
+			
+				
+			        <span hidden="true" id="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/" class="leancloud-visitors" data-flag-title="Spring Cloud 9: Distributed Tracing Solution - Sleuth">
+			            <span>阅读量 </span>
+			            <span class="leancloud-visitors-count">0</span>
+			        </span>
+	    		
+    		
+		</div>
+		<nav class="site-footer-nav">
+			
+			<a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+			<a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+		</nav>
+	</div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister()
+            }
+        })
+    }
+</script>
+
+
+<script id="scriptLoad" src="/js/allinone.min.js" async></script>
+
+
+<script>
+    document.getElementById('scriptLoad').addEventListener('load', function () {
+        
+        
+            var bLazy = new Blazy();
+        
+
+        
+        
+
+        
+        
+        
+            searchFunc("/");
+        
+        
+    })
+</script>
+
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+
+
+<script id="valineScript" src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+<script>
+    document.getElementById('valineScript').addEventListener("load", function() {
+        new Valine({
+            el: '#comment' ,
+            verify: false,
+            notify: false,
+            appId: '3TACGUnsSRuWgqCn3pRpLVwQ-MdYXbMMI',
+            appKey: 'JTo5iyjOyGTEXzAwjaTNqcY0',
+            placeholder: 'Please leave a comment',
+            pageSize: 10,
+            avatar: 'mm',
+            visitor: true,
+            lang: 'en'
+        })
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
