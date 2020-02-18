@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 94. Binary Tree Inorder Traversal | Nick Li</title>
+	<title>Leetcode 19. Remove Nth Node From End of List | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 94. Binary Tree Inorder Traversal | Nick Li">
+	<meta property="og:title" content="Leetcode 19. Remove Nth Node From End of List | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-94-Binary-Tree-Inorder-Traversal/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-19-Remove-Nth-Node-From-End-of-List/">
 
 	
-	<meta property="article:published_time" content="2020-02-09T13:02:00+08:00"> 
+	<meta property="article:published_time" content="2020-02-17T20:02:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-94-Binary-Tree-Inorder-Traversal/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-19-Remove-Nth-Node-From-End-of-List/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-02-09T03:04:03.000Z">
-                    2020-02-9
+                <time class="post-full-meta-date" datetime="2020-02-17T10:52:32.000Z">
+                    2020-02-17
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 94. Binary Tree Inorder Traversal</h1>
+            <h1 class="post-full-title">Leetcode 19. Remove Nth Node From End of List</h1>
         </header>
         <div class="post-full ">
             
@@ -157,48 +157,36 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-94-Binary-Tree-Inorder-Traversal/Question.png" data-index="0" data-src="/Leetcode-94-Binary-Tree-Inorder-Traversal/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-19-Remove-Nth-Node-From-End-of-List/Question.png" data-index="0" data-src="/Leetcode-19-Remove-Nth-Node-From-End-of-List/Question.png">
 <br>
 <br>
-In-order traversal of a binary tree.
+Given a linked list, delete the nth node from the end.
 
-<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Medium - <a href="/Leetcode-98-Validate-Binary-Search-Tree/" title="98. Validate Binary Search Tree">98. Validate Binary Search Tree</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/binary-tree-preorder-traversal/" target="_blank" rel="noopener">144. Binary Tree Preorder Traversal</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/binary-tree-postorder-traversal/" target="_blank" rel="noopener">145. Binary Tree Postorder Traversal</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/binary-search-tree-iterator/" target="_blank" rel="noopener">173. Binary Search Tree Iterator</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/" target="_blank" rel="noopener">230. Kth Smallest Element in a BST</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/minimum-distance-between-bst-nodes/" target="_blank" rel="noopener">783. Minimum Distance Between BST Nodes</a></li>
-</ul>
-<h2 id="Solution-Recursive"><a href="#Solution-Recursive" class="headerlink" title="Solution - Recursive"></a>Solution - Recursive</h2><p>Using recursion to traverse a binary tree. This is one of the standard approach.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">inorderTraversal</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    List&lt;Integer&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    getAnswer(root, result);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// standard way to traverse tree inorder. Recursive</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">getAnswer</span><span class="params">(TreeNode node, List&lt;Integer&gt; result)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    getAnswer(node.left, result);</span><br><span class="line">    result.add(node.val);</span><br><span class="line">    getAnswer(node.right, result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Solution-2-Pass"><a href="#Solution-2-Pass" class="headerlink" title="Solution - 2 Pass"></a>Solution - 2 Pass</h2><p>Deleting a node is nothing more than traversing the linked list and find the node in front of the node to be deleted. However because it is a linked list, we don’t know its length. So we have to traverse the list first to get its length, then subtract <code>n</code> from the length to find the position of the node to be deleted.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line">    ListNode node = head;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (node != <span class="keyword">null</span>) &#123;</span><br><span class="line">        length++;</span><br><span class="line">        node = node.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// only 1 node in the list</span></span><br><span class="line">    <span class="keyword">if</span> (length == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// index to remove, start from 0</span></span><br><span class="line">    <span class="keyword">int</span> indexToRemove = length - n;</span><br><span class="line"></span><br><span class="line">    node = head;</span><br><span class="line">    <span class="comment">// move to the previous node</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; indexToRemove - <span class="number">1</span>; i++) &#123;</span><br><span class="line">        node = node.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    node.next = node.next.next;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Time complexity: O(n), traverse each node.</p>
-<p>Space complexity: O(h), stack consumption, h is the height of the binary tree.</p>
-<h2 id="Solution-Stack"><a href="#Solution-Stack" class="headerlink" title="Solution - Stack"></a>Solution - Stack</h2><p>Use the stack to simulate recursion.</p>
-<p>Let’s look at an example:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">        1</span><br><span class="line">      /   \</span><br><span class="line">     2     3</span><br><span class="line">    / \   /</span><br><span class="line">   4   5 6</span><br><span class="line"></span><br><span class="line"> push   push   push   pop     pop    push     pop     pop </span><br><span class="line">|   |  |   |  |_4_|  |   |   |   |  |   |    |   |   |   |  </span><br><span class="line">|   |  |_2_|  |_2_|  |_2_|   |   |  |_5_|    |   |   |   |</span><br><span class="line">|_1_|  |_1_|  |_1_|  |_1_|   |_1_|  |_1_|    |_1_|   |   |</span><br><span class="line">ans                  add 4   add 2           add 5   add 1</span><br><span class="line">[]                   [4]     [4 2]           [4 2 5] [4 2 5 1]</span><br><span class="line"> </span><br><span class="line"> push   push   pop          pop </span><br><span class="line">|   |  |   |  |   |        |   |  </span><br><span class="line">|   |  |_6_|  |   |        |   |  </span><br><span class="line">|_3_|  |_3_|  |_3_|        |   |</span><br><span class="line">              add 6        add 3</span><br><span class="line">              [4 2 5 1 6]  [4 2 5 1 6 3]</span><br></pre></td></tr></table></figure>
+<p>Time complexity: assuming the length of the linked list is <code>L</code>, then the first loop is <code>L</code> times, and the second loop is <code>L-n</code> times, for a total of <code>2L-n</code> times, so the time complexity is O (L).</p>
+<p>Space complexity: O (1).</p>
+<h2 id="Solution-1-Pass"><a href="#Solution-1-Pass" class="headerlink" title="Solution - 1 Pass"></a>Solution - 1 Pass</h2><p>So how can we traverse the list only once?</p>
+<p>We set two pointers, let the first pointer traverse forward <code>n</code> steps, and then let them both traverse at the same time. In this case, when the first pointer reaches the end, the second pointer is <code>n</code> steps from the head. So the position of the second pointer is exactly the nth node from the head.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    ListNode dummyNode = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    dummyNode.next = head;</span><br><span class="line"></span><br><span class="line">    ListNode pointer1 = dummyNode;</span><br><span class="line">    ListNode pointer2 = dummyNode;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// move first pointer ahead n steps</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        pointer1 = pointer1.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (pointer1 != <span class="keyword">null</span>) &#123;</span><br><span class="line">        pointer1 = pointer1.next;</span><br><span class="line">        pointer2 = pointer2.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// now pointer2 is the node before the node to be delete</span></span><br><span class="line">    pointer2.next = pointer2.next.next;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dummyNode.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Code:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">Stack&lt;TreeNode&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line"></span><br><span class="line">TreeNode current = root;</span><br><span class="line"><span class="keyword">while</span> (current != <span class="keyword">null</span> || !stack.isEmpty()) &#123;</span><br><span class="line">    <span class="comment">// node is not null, push to stack</span></span><br><span class="line">    <span class="comment">// push left first</span></span><br><span class="line">    <span class="keyword">while</span> (current != <span class="keyword">null</span>) &#123;</span><br><span class="line">        stack.push(current);</span><br><span class="line"></span><br><span class="line">        current = current.left;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// node is null, pop</span></span><br><span class="line">    current = stack.pop();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// add to result</span></span><br><span class="line">    result.add(current.val);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// consider right tree</span></span><br><span class="line">    current = current.right;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
-
-<p>Time complexity: O(n), traverse each node.</p>
-<p>Space complexity: O(h), stack consumption, h is the height of the binary tree.</p>
-<h2 id="Solution-Morris-traversal"><a href="#Solution-Morris-traversal" class="headerlink" title="Solution - Morris traversal"></a>Solution - Morris traversal</h2><p><a href="https://www.geeksforgeeks.org/morris-traversal-for-preorder/" target="_blank" rel="noopener">Morris traversal</a></p>
+<p>Time complexity:</p>
+<p>The first pointer goes from 0 to n, then “the first pointer goes from n to the end” and “the second pointer goes from 0 to the position of the n-th node down” simultaneously.</p>
+<p>The previous solution is nothing more than going from 0 to the end, and then going from 0 to the position of the n-th node.</p>
+<p>So in fact, the number of times their statements are executed is the same. The position of the n-th node from 0 to the penultimate point is traversed twice, so the total is <code>2L-n</code> times. It’s just that this solution combines the two loops of solution one, so that the second pointer seems to traverse by the way, the idea is very nice.</p>
+<p>So in essence, they are actually the same, and the time complexity is still O(n).</p>
+<p>Space complexity: O (1).</p>
 
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Hash-Table/" rel="tag"># Leetcode - Hash Table</a>
+                        <a href="/tags/Leetcode-Two-Pointers/" rel="tag"># Leetcode - Two Pointers</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-Stack/" rel="tag"># Leetcode - Stack</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Tree/" rel="tag"># Leetcode - Tree</a>
+                        <a href="/tags/Leetcode-Linked-List/" rel="tag"># Leetcode - Linked List</a>
                     </li>
                     
                 </ul>
@@ -209,14 +197,10 @@ In-order traversal of a binary tree.
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Java Bit Operations" href="/Java-Bit-Operations/">
-            ← Java Bit Operations
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Spring Cloud 8: API Gateway - Zuul Part 2" href="/Spring-Cloud-8-API-Gateway-Zuul-Part-2/">
-            Spring Cloud 8: API Gateway - Zuul Part 2 →
+        <a class="next-post" title="Spring Cloud 9: Distributed Tracing Solution - Sleuth" href="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/">
+            Spring Cloud 9: Distributed Tracing Solution - Sleuth →
         </a>
         
     </nav>
@@ -242,7 +226,7 @@ In-order traversal of a binary tree.
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Recursive"><span class="toc-text">Solution - Recursive</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Stack"><span class="toc-text">Solution - Stack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Morris-traversal"><span class="toc-text">Solution - Morris traversal</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-2-Pass"><span class="toc-text">Solution - 2 Pass</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-1-Pass"><span class="toc-text">Solution - 1 Pass</span></a></li></ol>
     </div>
 </div>
 
@@ -523,7 +507,7 @@ In-order traversal of a binary tree.
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-94-Binary-Tree-Inorder-Traversal/" class="leancloud-visitors" data-flag-title="Leetcode 94. Binary Tree Inorder Traversal">
+			        <span hidden="true" id="/Leetcode-19-Remove-Nth-Node-From-End-of-List/" class="leancloud-visitors" data-flag-title="Leetcode 19. Remove Nth Node From End of List">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
