@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="preconnect" href="//www.googletagmanager.com">
+	<link rel="preconnect" href="//zz.bdstatic.com">
+	<link rel="preconnect" href="//sp0.baidu.com">
+	<link rel="preconnect" href="//www.google-analytics.com">
+	<link rel="preconnect" href="//cdn1.lncld.net">
+	<link rel="preconnect" href="//unpkg.com">
+	<link rel="preconnect" href="//app-router.leancloud.cn">
+	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
+	<link rel="preconnect" href="//gravatar.loli.net">
+
+	<title>Java TreeMap | Nick Li</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="Nick Li">
+	<meta name="description" content>
+
+	
+
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="Nick Li">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Java TreeMap | Nick Li">
+	<meta property="og:description" content>
+	<meta property="og:url" content="http://nicklee1006.github.io/Java-TreeMap/">
+
+	
+	<meta property="article:published_time" content="2020-02-21T23:02:00+08:00"> 
+	<meta property="article:author" content="Nick Li">
+	<meta property="article:published_first" content="Nick Li, /Java-TreeMap/">
+	
+
+	
+	
+	<link rel="stylesheet" href="/css/allinonecss.min.css">
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151447201-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-151447201-1');
+	</script>
+	
+	
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header post-site-header outer">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/archives" title="ARCHIVES">ARCHIVES</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button-area">
+        <a href="#search" class="search-button">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="search-button">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    <a class="social-link" title="linkedin" href="https://www.linkedin.com/in/chenzhang-li/" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<div id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <div class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2020-02-21T13:00:16.000Z">
+                    2020-02-21
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
+                
+                
+            </div>
+            <h1 class="post-full-title">Java TreeMap</h1>
+        </header>
+        <div class="post-full ">
+            
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/02/21/6bOWqzA3cgi1ltJ.jpg)">
+            </figure>
+            
+            <div class="post-full-content">
+                <article id="photoswipe" class="markdown-body">
+                    <h2 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h2><p>In the <code>Map</code> collection framework, in addition to <code>HashMap</code>, <code>TreeMap</code> is also one of the collection objects commonly used in work.</p>
+<p>Compared with <code>HashMap</code>, <code>TreeMap</code> is a <code>Map</code> collection that can compare elements, and sorts the key value. For comparasion, you can use the natural order of the elements, or you can use a custom comparator in the collection to sort;</p>
+<p>Unlike <code>HashMap</code>‘s hash mapping, the underlying structure of the <code>TreeMap</code> is a tree structure. As for the specific form, you can simply understand it as an inverted tree — roots up, leaves down. In computer terms, <code>TreeMap</code> implements the structure of a <code>red-black tree</code>, forming a binary tree.</p>
+<img class="post-img b-lazy" data-img="/Java-TreeMap/1.png" data-index="0" data-src="/Java-TreeMap/1.png">
+<br>
+<br>
+
+<p><code>TreeMap</code> inherits <code>AbstractMap</code> and implements <code>Map</code>, <code>Cloneable</code>, <code>NavigableMap</code>, and <code>Serializable</code> interfaces.</p>
+<ol>
+<li><p><code>TreeMap</code> inherits <code>AbstractMap</code>, and <code>AbstractMap</code> implements the <code>Map</code> interface and implements the methods defined in the <code>Map</code> interface, reducing the complexity of subclass inheritance;</p>
+</li>
+<li><p><code>TreeMap</code> implements the <code>Map</code> interface and becomes a member of the <code>Map</code> framework, which can store elements in the form of <code>key-value</code>;</p>
+</li>
+<li><p><code>TreeMap</code> implements the <code>NavigableMap</code> interface, which means that it has stronger element searching capabilities;</p>
+</li>
+<li><p><code>TreeMap</code> implements the <code>Cloneable</code> interface and implements the <code>clone()</code> method, so it can be cloned;</p>
+</li>
+<li><p><code>TreeMap</code> implements the <code>Java.io.Serializable</code> interface, supports serialization operations, and can be transmitted through the <code>Hessian</code> protocol;</p>
+</li>
+</ol>
+<p>For <code>Cloneable</code>, <code>Serializable</code>, we are familiar with it. Basically, every class in the Java collection framework will implement these 2 interfaces. But what does the <code>NavigableMap</code> interface do and what functions does it define? Next, let’s take a look at the source code of <code>NavigableMap</code>!</p>
+<img class="post-img b-lazy" data-img="/Java-TreeMap/2.png" data-index="1" data-src="/Java-TreeMap/2.png">
+<br>
+<br>
+
+<p>Let’s first introduce the <code>SortedMap</code> interface in the <code>NavigableMap</code> system:</p>
+<p>For <code>SortedMap</code>, this class is the parent interface in the <code>TreeMap</code>, and it is also the most critical interface different from the <code>HashMap</code> system.</p>
+<p>The main reason is the first method defined in the <code>SortedMap</code> interface: <code>Comparator&lt;?Super K&gt; comparator()</code>;</p>
+<p>With the comparator, the inserted elements can be sorted.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">SortedMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//Returns the element comparator. If the order is natural, return null;</span></span><br><span class="line">    Comparator&lt;? <span class="keyword">super</span> K&gt; comparator();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//Returns the collection from `fromKey` to `toKey`: with head but no tail</span></span><br><span class="line">    java.util.<span class="function">SortedMap&lt;K,V&gt; <span class="title">subMap</span><span class="params">(K fromKey, K toKey)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the collection from head to `toKey`: without 'toKey'</span></span><br><span class="line">    java.util.<span class="function">SortedMap&lt;K,V&gt; <span class="title">headMap</span><span class="params">(K toKey)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the collection from `fromKey` to tail: with 'fromKey'</span></span><br><span class="line">    java.util.<span class="function">SortedMap&lt;K,V&gt; <span class="title">tailMap</span><span class="params">(K fromKey)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//Returns the first element in the collection</span></span><br><span class="line">    <span class="function">K <span class="title">firstKey</span><span class="params">()</span></span>;</span><br><span class="line">   </span><br><span class="line">    <span class="comment">//Returns the last element in the collection</span></span><br><span class="line">    <span class="function">K <span class="title">lastKey</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//Returns all keys in the collection</span></span><br><span class="line">    <span class="function">Set&lt;K&gt; <span class="title">keySet</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//Returns all values in the collection:</span></span><br><span class="line">    <span class="function">Collection&lt;V&gt; <span class="title">values</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//Returns key-value map of elements</span></span><br><span class="line">    Set&lt;Map.Entry&lt;K, V&gt;&gt; entrySet();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The <code>NavigableMap</code> interface is a further extension of <code>SortedMap</code>: it mainly adds search and retrieval operations for elements in the collection, such as returning elements in a range in the collection, returning elements less than a certain value, and so on.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">NavigableMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">SortedMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the first element less than the key</span></span><br><span class="line">    Map.<span class="function">Entry&lt;K,V&gt; <span class="title">lowerEntry</span><span class="params">(K key)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the first key less than the key:</span></span><br><span class="line">    <span class="function">K <span class="title">lowerKey</span><span class="params">(K key)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the first element less than or equal to the key</span></span><br><span class="line">    Map.<span class="function">Entry&lt;K,V&gt; <span class="title">floorEntry</span><span class="params">(K key)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the first key less than or equal to the key</span></span><br><span class="line">    <span class="function">K <span class="title">floorKey</span><span class="params">(K key)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the first element greater than or equal to the key</span></span><br><span class="line">    Map.<span class="function">Entry&lt;K,V&gt; <span class="title">ceilingEntry</span><span class="params">(K key)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the first key greater than or equal to the key</span></span><br><span class="line">    <span class="function">K <span class="title">ceilingKey</span><span class="params">(K key)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the first element greater than the key</span></span><br><span class="line">    Map.<span class="function">Entry&lt;K,V&gt; <span class="title">higherEntry</span><span class="params">(K key)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the first key greater than the key:</span></span><br><span class="line">    <span class="function">K <span class="title">higherKey</span><span class="params">(K key)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the first element</span></span><br><span class="line">    Map.<span class="function">Entry&lt;K,V&gt; <span class="title">firstEntry</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the last element</span></span><br><span class="line">    Map.<span class="function">Entry&lt;K,V&gt; <span class="title">lastEntry</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the first element, and delete it from the collection</span></span><br><span class="line">    Map.<span class="function">Entry&lt;K,V&gt; <span class="title">pollFirstEntry</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the last element, and delete it from the collection</span></span><br><span class="line">    Map.<span class="function">Entry&lt;K,V&gt; <span class="title">pollLastEntry</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns the Map collection in reverse order</span></span><br><span class="line">    java.util.<span class="function">NavigableMap&lt;K,V&gt; <span class="title">descendingMap</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">NavigableSet&lt;K&gt; <span class="title">navigableKeySet</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Returns keys in reverse order in the collection:</span></span><br><span class="line">    <span class="function">NavigableSet&lt;K&gt; <span class="title">descendingKeySet</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    java.util.<span class="function">NavigableMap&lt;K,V&gt; <span class="title">subMap</span><span class="params">(K fromKey, <span class="keyword">boolean</span> fromInclusive,</span></span></span><br><span class="line"><span class="function"><span class="params">                                       K toKey, <span class="keyword">boolean</span> toInclusive)</span></span>;</span><br><span class="line"></span><br><span class="line">    java.util.<span class="function">NavigableMap&lt;K,V&gt; <span class="title">headMap</span><span class="params">(K toKey, <span class="keyword">boolean</span> inclusive)</span></span>;</span><br><span class="line"></span><br><span class="line">    java.util.<span class="function">NavigableMap&lt;K,V&gt; <span class="title">tailMap</span><span class="params">(K fromKey, <span class="keyword">boolean</span> inclusive)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">SortedMap&lt;K,V&gt; <span class="title">subMap</span><span class="params">(K fromKey, K toKey)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">SortedMap&lt;K,V&gt; <span class="title">headMap</span><span class="params">(K toKey)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">SortedMap&lt;K,V&gt; <span class="title">tailMap</span><span class="params">(K fromKey)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In fact, the purpose of <code>NavigableMap</code> is very simple and straightforward, which is to enhance the search and retrieval functions for the elements in the collection. When the subclass <code>TreeMap</code> is implemented, the above functions are naturally obtained;</p>
+<p><code>TreeMap</code> has the following characteristics:</p>
+<ul>
+<li>Duplicate keys are not allowed;</li>
+<li>Can insert null key, null value;</li>
+<li>Can sort elements;</li>
+<li>Unordered collection (insertion and traversal order are inconsistent);</li>
+</ul>
+<h2 id="TreeMap-basic-operations"><a href="#TreeMap-basic-operations" class="headerlink" title="TreeMap basic operations"></a>TreeMap basic operations</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeMapOperations</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] agrs)</span></span>&#123;</span><br><span class="line">        <span class="comment">//Create TreeMap：</span></span><br><span class="line">        TreeMap&lt;String,Integer&gt; treeMap = <span class="keyword">new</span> TreeMap&lt;String,Integer&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//Add elements</span></span><br><span class="line">        treeMap.put(<span class="string">"hello"</span>,<span class="number">1</span>);</span><br><span class="line">        treeMap.put(<span class="string">"world"</span>,<span class="number">2</span>);</span><br><span class="line">        treeMap.put(<span class="string">"i"</span>,<span class="number">3</span>);</span><br><span class="line">        treeMap.put(<span class="string">"am"</span>,<span class="number">4</span>);</span><br><span class="line">        treeMap.put(<span class="string">"a"</span>,<span class="number">4</span>);</span><br><span class="line">        treeMap.put(<span class="string">"developer"</span>,<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//Traverse elements</span></span><br><span class="line">        Set&lt;Map.Entry&lt;String,Integer&gt;&gt; entrySet = treeMap.entrySet();</span><br><span class="line">        <span class="keyword">for</span>(Map.Entry&lt;String,Integer&gt; entry : entrySet)&#123;</span><br><span class="line">            String key = entry.getKey();</span><br><span class="line">            Integer value = entry.getValue();</span><br><span class="line">            System.out.println(<span class="string">"key:"</span> + key + <span class="string">",value:"</span> + value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//get all keys</span></span><br><span class="line">        Set&lt;String&gt; keySet = treeMap.keySet();</span><br><span class="line">        <span class="keyword">for</span>(String strKey : keySet)&#123;</span><br><span class="line">            System.out.println(<span class="string">"key:"</span> + strKey);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//get all values:</span></span><br><span class="line">        Collection&lt;Integer&gt; valueList = treeMap.values();</span><br><span class="line">        <span class="keyword">for</span>(Integer intValue:valueList)&#123;</span><br><span class="line">            System.out.println(<span class="string">"values"</span> + intValue);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//get elements</span></span><br><span class="line">        <span class="comment">//get element whose key is "developer"</span></span><br><span class="line">        Integer getValue = treeMap.get(<span class="string">"developer"</span>);</span><br><span class="line">        <span class="comment">//get first key</span></span><br><span class="line">        String firstKey = treeMap.firstKey();</span><br><span class="line">        <span class="comment">//get last key</span></span><br><span class="line">        String lastKey =treeMap.lastKey();</span><br><span class="line">        <span class="comment">//get first element whose key is less than "developer"</span></span><br><span class="line">        String lowerKey =treeMap.lowerKey(<span class="string">"developer"</span>);</span><br><span class="line">        <span class="comment">//get first element whose key is greater than "developer"</span></span><br><span class="line">        String ceilingKey =treeMap.ceilingKey(<span class="string">"developer"</span>);</span><br><span class="line">        <span class="comment">//get collections whose key is from "i"到"a"的元素</span></span><br><span class="line">        SortedMap&lt;String,Integer&gt; sortedMap =treeMap.subMap(<span class="string">"i"</span>,<span class="string">"a"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//delete elemetns</span></span><br><span class="line">        <span class="comment">//delete element whose key is "developer"</span></span><br><span class="line">        Integer removeValue = treeMap.remove(<span class="string">"developer"</span>);</span><br><span class="line">        <span class="comment">// clear collection</span></span><br><span class="line">        treeMap.clear(); </span><br><span class="line"></span><br><span class="line">        <span class="comment">// if collection is empty</span></span><br><span class="line">        <span class="keyword">boolean</span> isEmpty = treeMap.isEmpty();</span><br><span class="line">        <span class="comment">//if collection contains element whose key is "developer"</span></span><br><span class="line">        <span class="keyword">boolean</span> isContain = treeMap.containsKey(<span class="string">"developer"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="TreeMap-sorting"><a href="#TreeMap-sorting" class="headerlink" title="TreeMap sorting"></a>TreeMap sorting</h2><p>In the previous section, the code showed the simple use of <code>TreeMap</code>. In the first section, I mentioned that <code>TreeMap</code> is a collection that can sort elements. So how to sort it?</p>
+<h3 id="Use-natural-order-of-elements"><a href="#Use-natural-order-of-elements" class="headerlink" title="Use natural order of elements"></a>Use natural order of elements</h3><p>When using natural order sorting, there are two cases: one is the object defined by Jdk, and the other is the object we define.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SortedObject</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">SortedObject</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SortedObject</span><span class="params">(<span class="keyword">int</span> age)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//implement compareTo(T o) method：</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(SortedObject sortedObject)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> num = <span class="keyword">this</span>.age - sortedObject.getAge();</span><br><span class="line">        <span class="keyword">if</span>(num==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(num&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeMapTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] agrs)</span></span>&#123;</span><br><span class="line">        <span class="comment">//Natural order</span></span><br><span class="line">        naturalSort();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">naturalSort</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//First case: Integer object</span></span><br><span class="line">        TreeMap&lt;Integer,String&gt; treeMapFirst = <span class="keyword">new</span> TreeMap&lt;Integer, String&gt;();</span><br><span class="line">        treeMapFirst.put(<span class="number">1</span>,<span class="string">"developer"</span>);</span><br><span class="line">        treeMapFirst.put(<span class="number">6</span>,<span class="string">"developer"</span>);</span><br><span class="line">        treeMapFirst.put(<span class="number">3</span>,<span class="string">"developer"</span>);</span><br><span class="line">        treeMapFirst.put(<span class="number">10</span>,<span class="string">"developer"</span>);</span><br><span class="line">        treeMapFirst.put(<span class="number">7</span>,<span class="string">"developer"</span>);</span><br><span class="line">        treeMapFirst.put(<span class="number">13</span>,<span class="string">"developer"</span>);</span><br><span class="line">        System.out.println(treeMapFirst.toString());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//Second case: SortedObject object</span></span><br><span class="line">        TreeMap&lt;SortedObject,String&gt; treeMapSecond = <span class="keyword">new</span> TreeMap&lt;SortedObject, String&gt;();</span><br><span class="line">        treeMapSecond.put(<span class="keyword">new</span> SortedObject(<span class="number">10</span>),<span class="string">"developer"</span>);</span><br><span class="line">        treeMapSecond.put(<span class="keyword">new</span> SortedObject(<span class="number">1</span>),<span class="string">"developer"</span>);</span><br><span class="line">        treeMapSecond.put(<span class="keyword">new</span> SortedObject(<span class="number">13</span>),<span class="string">"developer"</span>);</span><br><span class="line">        treeMapSecond.put(<span class="keyword">new</span> SortedObject(<span class="number">4</span>),<span class="string">"developer"</span>);</span><br><span class="line">        treeMapSecond.put(<span class="keyword">new</span> SortedObject(<span class="number">0</span>),<span class="string">"developer"</span>);</span><br><span class="line">        treeMapSecond.put(<span class="keyword">new</span> SortedObject(<span class="number">9</span>),<span class="string">"developer"</span>);</span><br><span class="line">        System.out.println(treeMapSecond.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In the natural order comparison, the elements being compared need to implement the <code>Comparable</code> interface, otherwise when adding an element to the collection will have “java.lang.ClassCastException: com.jiaboyan.collection.map.SortedObject cannot be cast to java.lang.Comparable “ exception;</p>
+<p>This is because when the <code>put()</code> method is called, the element will be converted into a <code>Comparable</code> type object, so when the element passed in does not implement the <code>Comparable</code> interface, it cannot be converted and an exception will be reported;</p>
+<h3 id="Use-custom-comparator"><a href="#Use-custom-comparator" class="headerlink" title="Use custom comparator"></a>Use custom comparator</h3><p>To use a custom comparator for sorting, you need to pass the custom comparator object to the <code>TreeMap</code> constructor when you create the <code>TreeMap</code> object;</p>
+<p>A custom comparator object needs to implement the <code>Comparator</code> interface and implement the compare method <code>compare(T o1, T o2)</code>;</p>
+<p>It is worth noting that if you use a custom comparator to sort, the compared objects no longer need to implement the <code>Comparable</code> interface;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SortedObject</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SortedObject</span><span class="params">(<span class="keyword">int</span> age)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SortedObjectComparator</span> <span class="keyword">implements</span> <span class="title">Comparator</span>&lt;<span class="title">SortedObject</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(SortedObject sortedTest1, SortedObject sortedTest2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> num = sortedTest1.getAge() - sortedTest2.getAge();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(num==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(num&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeMapTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] agrs)</span></span>&#123;</span><br><span class="line">        <span class="comment">//custom comparator</span></span><br><span class="line">        customSort();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">customSort</span><span class="params">()</span></span>&#123;</span><br><span class="line">        TreeMap&lt;SortedObject,String&gt; treeMap = <span class="keyword">new</span> TreeMap&lt;SortedObject, String&gt;(<span class="keyword">new</span> SortedObjectComparator());</span><br><span class="line"></span><br><span class="line">        treeMap.put(<span class="keyword">new</span> SortedObject(<span class="number">10</span>),<span class="string">"hello"</span>);</span><br><span class="line">        treeMap.put(<span class="keyword">new</span> SortedObject(<span class="number">21</span>),<span class="string">"my"</span>);</span><br><span class="line">        treeMap.put(<span class="keyword">new</span> SortedObject(<span class="number">15</span>),<span class="string">"name"</span>);</span><br><span class="line">        treeMap.put(<span class="keyword">new</span> SortedObject(<span class="number">2</span>),<span class="string">"is"</span>);</span><br><span class="line">        treeMap.put(<span class="keyword">new</span> SortedObject(<span class="number">1</span>),<span class="string">"nick"</span>);</span><br><span class="line">        treeMap.put(<span class="keyword">new</span> SortedObject(<span class="number">7</span>),<span class="string">"li"</span>);</span><br><span class="line">        System.out.println(treeMap.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This is the basic operation and usage of <code>TreeMap</code>. I will post another blog to look at <code>TreeMap</code>‘s source code in Java.</p>
+
+                </article>
+                <ul class="tags-postTags">
+                    
+                    <li>
+                        <a href="/tags/Java-Collections/" rel="tag"># Java Collections</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav id="gobottom" class="pagination">
+        
+        <a class="prev-post" title="Spring Cloud 10: Unified Configuration Center" href="/Spring-Cloud-10-Unified-Configuration-Center/">
+            ← Spring Cloud 10: Unified Configuration Center
+        </a>
+        
+        <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="Leetcode 61. Rotate List" href="/Leetcode-61-Rotate-List/">
+            Leetcode 61. Rotate List →
+        </a>
+        
+    </nav>
+
+    
+    <div class="inner">
+        <div id="comment"></div>
+    </div>
+    
+</div>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TreeMap"><span class="toc-text">TreeMap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TreeMap-basic-operations"><span class="toc-text">TreeMap basic operations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TreeMap-sorting"><span class="toc-text">TreeMap sorting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Use-natural-order-of-elements"><span class="toc-text">Use natural order of elements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Use-custom-comparator"><span class="toc-text">Use custom comparator</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+  <header class="read-next-card-header">
+    <small class="read-next-card-header-sitetitle">&mdash; Nick Li &mdash;</small>
+    <h3 class="read-next-card-header-title">Recent Posts</h3>
+  </header>
+  <div class="read-next-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+      <path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/>
+    </svg>
+  </div>
+  <div class="read-next-card-content">
+    <ul>
+      
+      
+      
+      <li>
+        <a href="/Spring-Cloud-10-Unified-Configuration-Center/">Spring Cloud 10: Unified Configuration Center</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Java-TreeMap/">Java TreeMap</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Leetcode-61-Rotate-List/">Leetcode 61. Rotate List</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+  <footer class="read-next-card-footer">
+    <a href="/archives">  MORE  → </a>
+  </footer>
+</article>
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+    <header class="read-next-card-header tagcloud-card">
+        <h3 class="read-next-card-header-title">Categories</h3>
+    </header>
+    <div class="read-next-card-content">
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cloud/">Spring Cloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/how-to-guide/">how-to-guide</a></li></ul>
+    </div>
+</article>
+
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+	<header class="read-next-card-header tagcloud-card">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 15.67px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 15.67px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 20.67px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 17.33px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Depth-First-Search/" style="font-size: 14px;">Leetcode - Depth First Search</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 22.33px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 14px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 17.33px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Linked-List/" style="font-size: 15.67px;">Leetcode - Linked List</a> <a href="/tags/Leetcode-Math/" style="font-size: 14px;">Leetcode - Math</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 15.67px;">Leetcode - Sort</a> <a href="/tags/Leetcode-Stack/" style="font-size: 14px;">Leetcode - Stack</a> <a href="/tags/Leetcode-String/" style="font-size: 19px;">Leetcode - String</a> <a href="/tags/Leetcode-Tree/" style="font-size: 17.33px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 22.33px;">Leetcode - Two Pointers</a> <a href="/tags/Stream-API/" style="font-size: 15.67px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 15.67px;">hexo</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay">
+    <div class="search-form">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<div class="copyright">
+			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
+			
+				
+			        <span hidden="true" id="/Java-TreeMap/" class="leancloud-visitors" data-flag-title="Java TreeMap">
+			            <span>阅读量 </span>
+			            <span class="leancloud-visitors-count">0</span>
+			        </span>
+	    		
+    		
+		</div>
+		<nav class="site-footer-nav">
+			
+			<a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+			<a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+		</nav>
+	</div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister()
+            }
+        })
+    }
+</script>
+
+
+<script id="scriptLoad" src="/js/allinone.min.js" async></script>
+
+
+<script>
+    document.getElementById('scriptLoad').addEventListener('load', function () {
+        
+        
+            var bLazy = new Blazy();
+        
+
+        
+        
+
+        
+        
+        
+            searchFunc("/");
+        
+        
+    })
+</script>
+
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+
+
+<script id="valineScript" src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+<script>
+    document.getElementById('valineScript').addEventListener("load", function() {
+        new Valine({
+            el: '#comment' ,
+            verify: false,
+            notify: false,
+            appId: '3TACGUnsSRuWgqCn3pRpLVwQ-MdYXbMMI',
+            appKey: 'JTo5iyjOyGTEXzAwjaTNqcY0',
+            placeholder: 'Please leave a comment',
+            pageSize: 10,
+            avatar: 'mm',
+            visitor: true,
+            lang: 'en'
+        })
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
