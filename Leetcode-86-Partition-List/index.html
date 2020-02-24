@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 80. Remove Duplicates from Sorted Array II | Nick Li</title>
+	<title>Leetcode 86. Partition List | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 80. Remove Duplicates from Sorted Array II | Nick Li">
+	<meta property="og:title" content="Leetcode 86. Partition List | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-80-Remove-Duplicates-from-Sorted-Array-II/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-86-Partition-List/">
 
 	
-	<meta property="article:published_time" content="2020-01-12T15:01:00+08:00"> 
+	<meta property="article:published_time" content="2020-02-24T22:02:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-80-Remove-Duplicates-from-Sorted-Array-II/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-86-Partition-List/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-01-12T05:16:05.000Z">
-                    2020-01-12
+                <time class="post-full-meta-date" datetime="2020-02-24T12:25:59.000Z">
+                    2020-02-24
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 80. Remove Duplicates from Sorted Array II</h1>
+            <h1 class="post-full-title">Leetcode 86. Partition List</h1>
         </header>
         <div class="post-full ">
             
@@ -157,25 +157,30 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-80-Remove-Duplicates-from-Sorted-Array-II/Question.png" data-index="0" data-src="/Leetcode-80-Remove-Duplicates-from-Sorted-Array-II/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-86-Partition-List/Question.png" data-index="0" data-src="/Leetcode-86-Partition-List/Question.png">
 <br>
 <br>
-Remove duplicates from a sorted array in-place, such that duplicates appears at most twice.
 
-<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Easy - <a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/" target="_blank" rel="noopener">26. Remove Duplicates from Sorted Array</a></li>
-</ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Make use of 2 pointers. <code>Slow pointer</code> point to the element that satisfy the condition (appears at most twice). <code>Fast pointer</code> always move forward and loop through the array. We can use a variable to record how many times the element of <code>slow pointer</code> have occurred.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> slow = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> fast;</span><br><span class="line"><span class="comment">// count to mark number of same number</span></span><br><span class="line"><span class="keyword">int</span> count = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// fast pointer always increase</span></span><br><span class="line"><span class="keyword">for</span> (fast = <span class="number">1</span>; fast &lt; nums.length; fast++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (nums[slow] == nums[fast]) &#123;</span><br><span class="line">        <span class="comment">// 2 pointers point to same number, but count = 1</span></span><br><span class="line">        <span class="comment">// we can increase slow pointer</span></span><br><span class="line">        <span class="keyword">if</span> (count &lt; <span class="number">2</span>) &#123;</span><br><span class="line">            slow++;</span><br><span class="line">            nums[slow] = nums[fast];</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="comment">// 2 pointers point to different number</span></span><br><span class="line">    <span class="comment">// reset count = 1</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        slow++;</span><br><span class="line">        nums[slow] = nums[fast];</span><br><span class="line">        count = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> slow + <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>The question is essentially the partition of quick-sort. The linked list is divided into two parts, one part is less than the partition point <code>x</code>, and the other part is greater than or equal to the partition point <code>x</code>.</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Looking at the quick-sort algorithm. In the quick-sort, we used two pointers for pivoting. One pointer indicates that the number before the pointer is less than the pivot point. The other pointer traverses the array.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1 4 3 2 5 2  x = 3</span><br><span class="line">  ^   ^</span><br><span class="line">  i   j</span><br><span class="line"></span><br><span class="line">elements before i are less than pivot point 3</span><br><span class="line">j means the current traverse point</span><br><span class="line">when j point to a number that is less than pivot point, then we exchange the value at i and j, and move forward i</span><br><span class="line"></span><br><span class="line">1 2 3 4 5 2  x = 3</span><br><span class="line">    ^   ^</span><br><span class="line">    i   j</span><br><span class="line"></span><br><span class="line">Then just continue traversing</span><br></pre></td></tr></table></figure>
+
+<p>This question is just replacing array with linked list, and the question requires that the relative position of the numbers cannot be changed. So we must not use the exchange strategy, let alone the linked list exchange is more troublesome. In fact, we can just use the insert.</p>
+<p>Similarly, a pointer is used to record the end of the linked list that is currently smaller than the pivot point, and another pointer is used to traverse the linked list. Each time we meet a number less than the pivot point, it is inserted into the end of the linked list and the end pointer is updated. We can use a dummy node to reduce the judgment of boundary conditions.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pivot node, first element that is &gt;= x</span></span><br><span class="line">ListNode pivot = head;</span><br><span class="line"></span><br><span class="line"><span class="comment">// dummy node</span></span><br><span class="line">ListNode dummyHead = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">dummyHead.next = head;</span><br><span class="line"></span><br><span class="line">ListNode previousPivot = dummyHead;</span><br><span class="line"></span><br><span class="line"><span class="comment">// find the pivot value</span></span><br><span class="line"><span class="keyword">while</span> (pivot != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (pivot.val &gt;= x) &#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        previousPivot = pivot;</span><br><span class="line">        pivot = pivot.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// no value &gt;= x or pivot is already the end, return list itself</span></span><br><span class="line"><span class="comment">// no need to modify</span></span><br><span class="line"><span class="keyword">if</span> (pivot == <span class="keyword">null</span> || pivot.next == <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// start from pivot, move all smaller node before pivot</span></span><br><span class="line">ListNode current = pivot.next;</span><br><span class="line">ListNode previous = pivot;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (current != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="comment">// &gt;= x, move to next</span></span><br><span class="line">    <span class="keyword">if</span> (current.val &gt;= x) &#123;</span><br><span class="line">        previous = current;</span><br><span class="line">        current = current.next;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> ListNode temp = current.next;</span><br><span class="line"></span><br><span class="line">        previousPivot.next = current;</span><br><span class="line">        current.next = pivot;</span><br><span class="line">        previousPivot = current;</span><br><span class="line"></span><br><span class="line">        previous.next = temp;</span><br><span class="line">        current = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> dummyHead.next;</span><br></pre></td></tr></table></figure>
+
+<p>Time complexity: O(n).</p>
+<p>Space complexity: O(1).</p>
+
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
+                        <a href="/tags/Leetcode-Two-Pointers/" rel="tag"># Leetcode - Two Pointers</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-Two-Pointers/" rel="tag"># Leetcode - Two Pointers</a>
+                        <a href="/tags/Leetcode-Linked-List/" rel="tag"># Leetcode - Linked List</a>
                     </li>
                     
                 </ul>
@@ -186,14 +191,10 @@ Remove duplicates from a sorted array in-place, such that duplicates appears at 
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 81. Search in Rotated Sorted Array II" href="/Leetcode-81-Search-in-Rotated-Sorted-Array-II/">
-            ← Leetcode 81. Search in Rotated Sorted Array II
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Spring Cloud 5: Declarative REST Client - Feign" href="/Spring-Cloud-5-Declarative-REST-Client-Feign/">
-            Spring Cloud 5: Declarative REST Client - Feign →
+        <a class="next-post" title="Spring Cloud 10: Unified Configuration Center" href="/Spring-Cloud-10-Unified-Configuration-Center/">
+            Spring Cloud 10: Unified Configuration Center →
         </a>
         
     </nav>
@@ -219,7 +220,7 @@ Remove duplicates from a sorted array in-place, such that duplicates appears at 
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
     </div>
 </div>
 
@@ -508,7 +509,7 @@ Remove duplicates from a sorted array in-place, such that duplicates appears at 
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-80-Remove-Duplicates-from-Sorted-Array-II/" class="leancloud-visitors" data-flag-title="Leetcode 80. Remove Duplicates from Sorted Array II">
+			        <span hidden="true" id="/Leetcode-86-Partition-List/" class="leancloud-visitors" data-flag-title="Leetcode 86. Partition List">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
