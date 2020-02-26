@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 33. Search in Rotated Sorted Array | Nick Li</title>
+	<title>Greedy Algorithm | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 33. Search in Rotated Sorted Array | Nick Li">
+	<meta property="og:title" content="Greedy Algorithm | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-33-Search-in-Rotated-Sorted-Array/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Greedy-Algorithm/">
 
 	
-	<meta property="article:published_time" content="2019-11-23T11:11:00+08:00"> 
+	<meta property="article:published_time" content="2020-02-26T20:02:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-33-Search-in-Rotated-Sorted-Array/">
+	<meta property="article:published_first" content="Nick Li, /Greedy-Algorithm/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-11-23T01:56:00.000Z">
-                    2019-11-23
+                <time class="post-full-meta-date" datetime="2020-02-26T10:38:21.000Z">
+                    2020-02-26
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,40 +148,138 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 33. Search in Rotated Sorted Array</h1>
+            <h1 class="post-full-title">Greedy Algorithm</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/02/26/BjfpHXLWU7aqsS3.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-33-Search-in-Rotated-Sorted-Array/question.png" data-index="0" data-src="/Leetcode-33-Search-in-Rotated-Sorted-Array/question.png">
-<br>
-<br>
-The original array is sorted, but rotated at some pivot index. We need to find the target value in the rotated array in O(logn). As we are looking for an O(logn) solution, we need to make use of binary search.
+                    <h2 id="Basic-Concept"><a href="#Basic-Concept" class="headerlink" title="Basic Concept"></a>Basic Concept</h2><p>The so-called <code>greedy algorithm</code> means that when solving a problem, always makes the best choice in the current view. In other words, without considering the global optimality. The choice is only <strong><font color="orange">a local optimal solution</font></strong> in a certain sense.</p>
+<p>Greedy algorithms do not have a fixed algorithm framework. The key to algorithm design is the choice of greedy strategies. It must be noted that the greedy algorithm does not obtain the global optimal solution to all problems, and the greedy strategy chosen must have no aftereffect, that is, the process after a certain state does not affect the previous state, and is only related to the current state.</p>
+<p><strong><font color="orange">Therefore, we must carefully analyze whether the greedy strategy adopted has no aftereffects</font></strong>.</p>
+<h2 id="Basic-idea-of-greedy-algorithm"><a href="#Basic-idea-of-greedy-algorithm" class="headerlink" title="Basic idea of greedy algorithm"></a>Basic idea of greedy algorithm</h2><ol>
+<li>Establish a mathematical model to describe the problem.</li>
+<li>Divide the problem into several sub-problems.</li>
+<li>Solve each sub-problem to get the local optimal solution.</li>
+<li>Combine the local optimal solution of the sub-problems into a solution of the original problem.</li>
+</ol>
+<h2 id="Scope-of-application"><a href="#Scope-of-application" class="headerlink" title="Scope of application"></a>Scope of application</h2><p>The prerequisite of greedy strategy is that a local optimal strategy can lead to a global optimal solution.</p>
+<p>In practice, <strong><font color="orange">greedy algorithms are rarely used</font></strong>. Generally, to analyze whether a problem is applicable to greedy algorithms, you can first select several example data of the problem to analyze and then make a judgment.</p>
+<h2 id="Implementation-framework-of-greedy-algorithm"><a href="#Implementation-framework-of-greedy-algorithm" class="headerlink" title="Implementation framework of greedy algorithm"></a>Implementation framework of greedy algorithm</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Start with an initial solution to the problem</span><br><span class="line"></span><br><span class="line">while (can move forward to a given overall goal)</span><br><span class="line">&#123;</span><br><span class="line">    Use feasible decision to find a local optimal solution;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Combining all local optimal solution and get a global optimal solution</span><br></pre></td></tr></table></figure>
 
-<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Medium - <a href="/Leetcode-81-Search-in-Rotated-Sorted-Array-II/" title="81. Search in Rotated Sorted Array II">81. Search in Rotated Sorted Array II</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">153. Find Minimum in Rotated Sorted Array</a></li>
-</ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Observe that for a given array, if we split it into half, at least one half is sorted. For example <code>[4 5 6 7 8 1 2 3]</code>, split from <code>7</code> and get <code>[4 5 6 7]</code> and <code>[8 1 2 3]</code>. The first half is sorted. </p>
-<p>Based on this observation, we can first find out which half is sorted (by comparing the end point values). Then check if target value is in this half. If it is, then discard the other half. If not, discard this half.</p>
-<p>Code:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> start = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> end = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (start &lt;= end) &#123;</span><br><span class="line">    <span class="comment">// get the mid point</span></span><br><span class="line">    <span class="keyword">int</span> mid = (start + end) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find the target!</span></span><br><span class="line">    <span class="keyword">if</span> (target == nums[mid]) &#123;</span><br><span class="line">        <span class="keyword">return</span> mid;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// check which side is in order by comparing end points value</span></span><br><span class="line">    <span class="keyword">if</span> (nums[start] &lt;= nums[mid]) &#123;</span><br><span class="line">        <span class="comment">// left side is in order</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// check if target in sorted half</span></span><br><span class="line">        <span class="comment">// because this half is sorted, just check to see if target is in range</span></span><br><span class="line">        <span class="keyword">if</span> (target &gt;= nums[start] &amp;&amp; target &lt; nums[mid]) &#123;</span><br><span class="line">            <span class="comment">// in this case, target in left side</span></span><br><span class="line">            end = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// in this case, target in right side</span></span><br><span class="line">            start = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// right side is in order</span></span><br><span class="line">        <span class="keyword">if</span> (target &gt; nums[mid] &amp;&amp; target &lt;= nums[end]) &#123;</span><br><span class="line">            start = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            end = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// target no found</span></span><br><span class="line"><span class="keyword">return</span> -<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-
-<p>Time complexity O(logn), and space complexity O(1).</p>
+<h2 id="Choice-of-greedy-strategies"><a href="#Choice-of-greedy-strategies" class="headerlink" title="Choice of greedy strategies"></a>Choice of greedy strategies</h2><p>Because the greedy algorithm can only achieve the global optimal solution through the strategy of get the local optimal solution, we must pay attention to determine whether the problem is suitable for the greedy algorithm, and whether the solution is the optimal solution of the problem.</p>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><p>The following is a problem that can be solved by the greedy algorithm. The greedy solution is good, but it is not the optimal solution.</p>
+<h3 id="Knapsack-problem"><a href="#Knapsack-problem" class="headerlink" title="Knapsack problem"></a>Knapsack problem</h3><p>There is a backpack, and the capacity of the backpack is <code>M = 150</code>. There are <code>7</code> items, and the items can be divided into any size.</p>
+<p>It is required to maximize the total value of the items in the backpack, but not exceed the total capacity.</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th align="center">A</th>
+<th align="right">B</th>
+<th align="right">C</th>
+<th align="right">D</th>
+<th align="right">E</th>
+<th align="right">F</th>
+<th align="right">G</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Weight</td>
+<td align="center">35</td>
+<td align="right">30</td>
+<td align="right">60</td>
+<td align="right">50</td>
+<td align="right">40</td>
+<td align="right">10</td>
+<td align="right">25</td>
+</tr>
+<tr>
+<td>Value</td>
+<td align="center">10</td>
+<td align="right">40</td>
+<td align="right">30</td>
+<td align="right">50</td>
+<td align="right">35</td>
+<td align="right">40</td>
+<td align="right">30</td>
+</tr>
+</tbody></table>
+<h3 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h3><p>Objective function: maximize <code>Σpi</code></p>
+<p>The constraint is that the total weight of the loaded items does not exceed the capacity of the backpack: <code>∑wi &lt;= M (M = 150)</code></p>
+<ol>
+<li>According to the greedy strategy, every time you pick the item with the highest value and put it in the backpack, is the result the best?</li>
+<li>Can I get the optimal solution every time I load the smallest weighted item?</li>
+<li>Each time you select the item with the largest unit weight value, it becomes a strategy to solve this problem.</li>
+</ol>
+<p>It is worth noting that the greedy algorithm is not completely unfeasible. Once the greedy strategy is proven, it is an efficient algorithm.</p>
+<p>The greedy algorithm is still one of the most common algorithms, because it is simple and easy to implement, and it is not very difficult to construct a greedy strategy.</p>
+<p>Unfortunately, it needs to be proved before it can be applied to the problem.</p>
+<p>Generally speaking, the proof of the greedy algorithm revolves around: <strong><font color="orange">the optimal solution of the entire problem must be obtained from the optimal solution of the subproblems in the greedy strategy</font></strong>.</p>
+<p>For the three greedy strategies in the example problem, none of them can be established (cannot be proven), and the explanation is as follows:</p>
+<p><strong><font color="orange">1. Greedy strategy: select the one with the highest value</font></strong></p>
+<p>Counter example:</p>
+<p>W = 30</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th align="center">A</th>
+<th align="right">B</th>
+<th align="right">C</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Weight</td>
+<td align="center">28</td>
+<td align="right">12</td>
+<td align="right">12</td>
+</tr>
+<tr>
+<td>Value</td>
+<td align="center">30</td>
+<td align="right">20</td>
+<td align="right">20</td>
+</tr>
+</tbody></table>
+<p>According to the strategy, the <code>item A</code> is selected first, and then it cannot be selected anymore. However, it is better to select <code>B</code> and <code>C</code>.</p>
+<p><strong><font color="orange">2. Greedy strategy: choose the smallest weight</font></strong></p>
+<p>The counter example is similar to that of the first strategy.</p>
+<p><strong><font color="orange">3. Greedy strategy: Select the item with the largest value per unit weight</font></strong> </p>
+<p>Counter example:</p>
+<p>W = 30</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th align="center">A</th>
+<th align="right">B</th>
+<th align="right">C</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Weight</td>
+<td align="center">28</td>
+<td align="right">20</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>Value</td>
+<td align="center">28</td>
+<td align="right">20</td>
+<td align="right">10</td>
+</tr>
+</tbody></table>
+<p>According to the strategy, the three items have the same unit weight value, and the program cannot make a judgment based on the existing strategy. If <code>A</code> is selected, the answer is wrong.</p>
 
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Binary-Search/" rel="tag"># Leetcode - Binary Search</a>
+                        <a href="/tags/Leetcode-Greedy/" rel="tag"># Leetcode - Greedy</a>
                     </li>
                     
                 </ul>
@@ -192,14 +290,10 @@ The original array is sorted, but rotated at some pivot index. We need to find t
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 34. Find First and Last Position of Element in Sorted Array" href="/Leetcode-34-Find-First-and-Last-Position-of-Element-in-Sorted-Array/">
-            ← Leetcode 34. Find First and Last Position of Element in Sorted Array
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 31: Next Permutation" href="/Leetcode-31-Next-Permutation/">
-            Leetcode 31: Next Permutation →
+        <a class="next-post" title="Leetcode 86. Partition List" href="/Leetcode-86-Partition-List/">
+            Leetcode 86. Partition List →
         </a>
         
     </nav>
@@ -225,7 +319,7 @@ The original array is sorted, but rotated at some pivot index. We need to find t
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-Concept"><span class="toc-text">Basic Concept</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-idea-of-greedy-algorithm"><span class="toc-text">Basic idea of greedy algorithm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scope-of-application"><span class="toc-text">Scope of application</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Implementation-framework-of-greedy-algorithm"><span class="toc-text">Implementation framework of greedy algorithm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Choice-of-greedy-strategies"><span class="toc-text">Choice of greedy strategies</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example"><span class="toc-text">Example</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Knapsack-problem"><span class="toc-text">Knapsack problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Analysis"><span class="toc-text">Analysis</span></a></li></ol></li></ol>
     </div>
 </div>
 
@@ -516,7 +610,7 @@ The original array is sorted, but rotated at some pivot index. We need to find t
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-33-Search-in-Rotated-Sorted-Array/" class="leancloud-visitors" data-flag-title="Leetcode 33. Search in Rotated Sorted Array">
+			        <span hidden="true" id="/Greedy-Algorithm/" class="leancloud-visitors" data-flag-title="Greedy Algorithm">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
