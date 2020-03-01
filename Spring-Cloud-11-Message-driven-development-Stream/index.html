@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="preconnect" href="//www.googletagmanager.com">
+	<link rel="preconnect" href="//zz.bdstatic.com">
+	<link rel="preconnect" href="//sp0.baidu.com">
+	<link rel="preconnect" href="//www.google-analytics.com">
+	<link rel="preconnect" href="//cdn1.lncld.net">
+	<link rel="preconnect" href="//unpkg.com">
+	<link rel="preconnect" href="//app-router.leancloud.cn">
+	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
+	<link rel="preconnect" href="//gravatar.loli.net">
+
+	<title>Spring Cloud 11: Message-driven development - Stream | Nick Li</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="Nick Li">
+	<meta name="description" content>
+
+	
+
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="Nick Li">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Spring Cloud 11: Message-driven development - Stream | Nick Li">
+	<meta property="og:description" content>
+	<meta property="og:url" content="http://nicklee1006.github.io/Spring-Cloud-11-Message-driven-development-Stream/">
+
+	
+	<meta property="article:published_time" content="2020-02-28T23:02:00+08:00"> 
+	<meta property="article:author" content="Nick Li">
+	<meta property="article:published_first" content="Nick Li, /Spring-Cloud-11-Message-driven-development-Stream/">
+	
+
+	
+	
+	<link rel="stylesheet" href="/css/allinonecss.min.css">
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151447201-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-151447201-1');
+	</script>
+	
+	
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header post-site-header outer">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/archives" title="ARCHIVES">ARCHIVES</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button-area">
+        <a href="#search" class="search-button">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="search-button">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    <a class="social-link" title="linkedin" href="https://www.linkedin.com/in/chenzhang-li/" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<div id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <div class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2020-02-28T13:43:15.000Z">
+                    2020-02-28
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Spring-Cloud/">Spring Cloud</a>&nbsp;&nbsp;
+                
+                
+            </div>
+            <h1 class="post-full-title">Spring Cloud 11: Message-driven development - Stream</h1>
+        </header>
+        <div class="post-full ">
+            
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/02/28/6YZCH4j9LIxveUO.jpg)">
+            </figure>
+            
+            <div class="post-full-content">
+                <article id="photoswipe" class="markdown-body">
+                    <p>Message-driven development has become one of the essential development methods for microservices architecture. This is because, 1. interface call development in traditional monolithic architecture development does not exist under the microservices architecture; 2. the development of microservices architecture requires reducing the direct dependency coupling of each microservice. If one microservice directly calls another one, then the two microservices will have a strong coupling through dependencies; 3. microservice’s autonomy principle also strongly requires that microservices cannot call each other. Therefore, message-driven development has become an inevitable trend in the development of microservice architectures.</p>
+<p>Let’s look at a scenario in the example project:</p>
+<ul>
+<li><code>Product-Service-Consumer</code> microservices need to be able to achieve autonomy and minimize dependence on <code>Procuct-Service</code>;</li>
+<li><code>Product-Service-Consumer</code> microservices need to ensure the efficiency of the service, the development team decided to cache the product data, so that only when the first load the product microservice is required to be called. When the user requests the product next time, the cache can be retrieved, thereby improving the efficiency of the service (as for the use of memory or <code>Redis</code> to implement caching, this is up to you).</li>
+</ul>
+<p>If it is implemented according to the above scenario, the system can work stably in most cases. What should we do once the product is modified, we will never call the <code>Product-Service-Consumer</code> microservice in the <code>Procuct-Service</code> microservice. Is this makes the coupling tighter? Well, yes, now we can let the messages go at this time.</p>
+<p>By introducing the message, the system architecture of our example project will become as shown in the following figure:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-11-Message-driven-development-Stream/1.png" data-index="0" data-src="/Spring-Cloud-11-Message-driven-development-Stream/1.png">
+<br>
+<br>
+
+<p>Spring Cloud have provided a very good set of components for the message development-<code>Stream</code>.</p>
+<h2 id="Example-project"><a href="#Example-project" class="headerlink" title="Example project"></a>Example project</h2><p>We need to modify the example project, which includes the following three steps:</p>
+<ol>
+<li>Install <code>Kafka</code> server;</li>
+<li>Change <code>Product-Service</code> microservices to send product messages;</li>
+<li>Change <code>Product-Service-Consumer</code> microservice to subscribe product messages.</li>
+</ol>
+<h3 id="Install-Kafka-server"><a href="#Install-Kafka-server" class="headerlink" title="Install Kafka server"></a>Install Kafka server</h3><p>Our example will use <code>Kafka</code> as the message broker. <code>Kafka</code> message broker is very light and efficient. If you don’t want to use <code>Kafka</code> then you can complete the docking with <code>RabbitMQ</code> as well, and the specific implementation of the business code does not need to be changed.</p>
+<p>How to install and run the <code>Kafka</code> server is not described in detail here, I will have another post describing it. There are also very good documents on the Internet and the official, for example, <a href="https://kafka.apache.org/quickstart" target="_blank" rel="noopener">the official documentation</a>.</p>
+<h3 id="Product-Service"><a href="#Product-Service" class="headerlink" title="Product-Service"></a>Product-Service</h3><h4 id="1-Add-Stream-dependency"><a href="#1-Add-Stream-dependency" class="headerlink" title="1. Add Stream dependency"></a>1. Add Stream dependency</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-stream-kafka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-application-properties"><a href="#2-application-properties" class="headerlink" title="2. application.properties"></a>2. application.properties</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># =====================================================================================================================</span><br><span class="line"># == stream / kafka                                                                                                  ==</span><br><span class="line"># =====================================================================================================================</span><br><span class="line">spring.cloud.stream.bindings.output.destination=product-topic</span><br><span class="line">spring.cloud.stream.bindings.output.content-type=application/json</span><br><span class="line">spring.cloud.stream.kafka.binder.brokers=localhost</span><br><span class="line">spring.cloud.stream.kafka.binder.defaultBrokerPort=9092</span><br></pre></td></tr></table></figure>
+
+<p>Here we mainly set the address of the <code>Kafka</code> server, and which <code>topic</code> to send product messages. Here it is set to <code>product-topic</code>. However, we do not need to configure these, if not configured, then <code>Stream</code> will connect to <code>Kafka</code> server and create the corresponding <code>topic</code> according to the default configuration. However, the prerequisite for not configuring is that you did not change the port when installing the <code>Kakfa</code> server, and that the <code>Kafka</code> server and the <code>Product-Service</code> microservice are on the same server.</p>
+<h4 id="3-Construct-product-message"><a href="#3-Construct-product-message" class="headerlink" title="3. Construct product message"></a>3. Construct product message</h4><p>When the product configuration changes, such as: modification, deletion, etc., a product message needs to be constructed, and then the message can be sent to the corresponding listening microservice for processing through <code>Kafka</code>. Therefore, the product message code to be constructed is as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductMessage</span> </span>&#123;</span><br><span class="line">    <span class="comment">/** Message type：update, value: &#123;<span class="doctag">@value</span>&#125; */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String MA_UPDATE = <span class="string">"update"</span>;</span><br><span class="line">    <span class="comment">/** Message type：delete, value: &#123;<span class="doctag">@value</span>&#125; */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String MA_DELETE = <span class="string">"delete"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ========================================================================</span></span><br><span class="line">    <span class="comment">// fields =================================================================</span></span><br><span class="line">    <span class="keyword">private</span> String action;</span><br><span class="line">    <span class="keyword">private</span> String itemCode;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProductMessage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProductMessage</span><span class="params">(String action, String itemCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.action = action;</span><br><span class="line">        <span class="keyword">this</span>.itemCode = itemCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"action: "</span> + <span class="keyword">this</span>.action + <span class="string">" itemCode: "</span> + <span class="keyword">this</span>.itemCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAction</span><span class="params">(String action)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.action = action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getItemCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> itemCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setItemCode</span><span class="params">(String itemCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.itemCode = itemCode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The product message is very simple and contains only two fields: <code>action</code> and <code>itemCode</code>. The meaning represented is as follows:</p>
+<ul>
+<li><strong>action</strong>: indicates what the message is, such as a product update message or a product delete message;</li>
+<li><strong>itemCode</strong>: the item number (or product ID) of the item that was changed or deleted.</li>
+</ul>
+<p>You may be wondering here, why the product message only contains these two fields, is it enough? In general, these two fields are enough for the message, but in the formal production environment, we will add other fields, which will not be discussed here. In addition, when the listener listens to the message, it can perform related processing according to the message type and the item code of the product. For example, the <code>Product-Service-Consunmer</code> microservice will re-load the product information by remotely requesting the product microservice according to the product item code.</p>
+<h4 id="4-Implement-message-sending"><a href="#4-Implement-message-sending" class="headerlink" title="4. Implement message sending"></a>4. Implement message sending</h4><p>When the user changes or deletes the product in the <code>Product-Service</code> microservice, the above product message needs to be constructed and sent. The corresponding code is as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Logger logger = LoggerFactory.getLogger(ProductService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Source source;</span><br><span class="line">    <span class="keyword">private</span> List&lt;ProductDto&gt; productList;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProductService</span><span class="params">(Source source)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.source = source;</span><br><span class="line">        <span class="keyword">this</span>.productList = <span class="keyword">this</span>.buildProducts();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Get product list</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;ProductDto&gt; <span class="title">findAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.productList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * get product by item</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ProductDto <span class="title">findOne</span><span class="params">(String itemCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (ProductDto productDto : <span class="keyword">this</span>.productList) &#123;</span><br><span class="line">            <span class="keyword">if</span> (productDto.getItemCode().equalsIgnoreCase(itemCode))</span><br><span class="line">                <span class="keyword">return</span> productDto;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * update or save product</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ProductDto <span class="title">save</span><span class="params">(ProductDto productDto)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (ProductDto sourceProductDto : <span class="keyword">this</span>.productList) &#123;</span><br><span class="line">            <span class="keyword">if</span> (sourceProductDto.getItemCode().equalsIgnoreCase(productDto.getItemCode())) &#123;</span><br><span class="line">                sourceProductDto.setName(sourceProductDto.getName() + <span class="string">"-new"</span>);</span><br><span class="line">                sourceProductDto.setPrice(sourceProductDto.getPrice() + <span class="number">100</span>);</span><br><span class="line">                productDto = sourceProductDto;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// send message</span></span><br><span class="line">        <span class="keyword">this</span>.sendMsg(ProductMessage.MA_UPDATE, productDto.getItemCode());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> productDto;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Implement send message</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">sendMsg</span><span class="params">(String msgAction, String itemCode)</span> </span>&#123;</span><br><span class="line">        ProductMessage productMsg = <span class="keyword">new</span> ProductMessage(msgAction, itemCode);</span><br><span class="line">        <span class="keyword">this</span>.logger.debug(<span class="string">"Send message:&#123;&#125; "</span>, productMsg);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 发送消息</span></span><br><span class="line">        <span class="keyword">this</span>.source.output().send(MessageBuilder.withPayload(productMsg).build());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> List&lt;ProductDto&gt; <span class="title">buildProducts</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        List&lt;ProductDto&gt; products = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        products.add(<span class="keyword">new</span> ProductDto(<span class="string">"item-1"</span>, <span class="string">"test-1"</span>, <span class="string">"brand1"</span>, <span class="number">100</span>));</span><br><span class="line">        products.add(<span class="keyword">new</span> ProductDto(<span class="string">"item-2"</span>, <span class="string">"test-2"</span>, <span class="string">"brand2"</span>, <span class="number">200</span>));</span><br><span class="line">        products.add(<span class="keyword">new</span> ProductDto(<span class="string">"item-3"</span>, <span class="string">"test-3"</span>, <span class="string">"brand3"</span>, <span class="number">300</span>));</span><br><span class="line">        products.add(<span class="keyword">new</span> ProductDto(<span class="string">"item-4"</span>, <span class="string">"test-4"</span>, <span class="string">"brand4"</span>, <span class="number">400</span>));</span><br><span class="line">        products.add(<span class="keyword">new</span> ProductDto(<span class="string">"item-5"</span>, <span class="string">"test-5"</span>, <span class="string">"brand5"</span>, <span class="number">500</span>));</span><br><span class="line">        products.add(<span class="keyword">new</span> ProductDto(<span class="string">"item-6"</span>, <span class="string">"test-6"</span>, <span class="string">"brand6"</span>, <span class="number">600</span>));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> products;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Sending a message is very simple, we just need to call the <code>source.output().send()</code> method to send the message. You may be a little confused here, what is the <code>source</code>, and where does it pop out. Don’t worry, now you just need to understand that this is an abstract message sending interface provided by <code>Spring Cloud Stream</code>. You can get a message sending channel through <code>output()</code> in this interface, and then you can <code>send()</code> the message to that channel. We will talk about the specific principle later.</p>
+<h4 id="5-Add-message-sending-endpoint"><a href="#5-Add-message-sending-endpoint" class="headerlink" title="5. Add message sending endpoint"></a>5. Add message sending endpoint</h4><p>We need to add an endpoint to simulate user saving/updating product information. In the above code, we can know that when we save/update the product information, the product message will be sent, so the new endpoint only needs to call this method. The specific code is as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/products"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductEndpoint</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ProductEndpoint<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    ProductService productService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;server.port&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> serverPort = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;ProductDto&gt; <span class="title">list</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        LOGGER.info(<span class="string">"Server port &#123;&#125;"</span>, serverPort);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> productService.findAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/&#123;itemCode&#125;"</span>, method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ProductDto <span class="title">detail</span><span class="params">(@PathVariable String itemCode)</span> </span>&#123;</span><br><span class="line">        LOGGER.info(<span class="string">"Server port &#123;&#125;"</span>, serverPort);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> productService.findOne(itemCode);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/&#123;itemCode&#125;"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ProductDto <span class="title">save</span><span class="params">(@PathVariable String itemCode)</span> </span>&#123;</span><br><span class="line">        ProductDto productDto = <span class="keyword">this</span>.productService.findOne(itemCode);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != productDto) &#123;</span><br><span class="line">            <span class="keyword">this</span>.productService.save(productDto);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> productDto;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-Binding-Message-Channel"><a href="#6-Binding-Message-Channel" class="headerlink" title="6. Binding Message Channel"></a>6. Binding Message Channel</h4><p>Lastly, we need to bind <code>Kafka</code> message broker when the microservice starts. The implementation code is as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="meta">@EnableBinding</span>(Source<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringBootApplication</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">ProductServiceApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(ProductServiceApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Just add a <code>@EnableBinding(Source.class)</code> annotation to the application main class.</p>
+<p>Ok, now we have implemented the message sending of the <code>Product-Service</code> microservice. Let’s complete the message subscribbing in the <code>Product-Service-Consumer</code> microservice.</p>
+<h3 id="Product-Service-Consumer"><a href="#Product-Service-Consumer" class="headerlink" title="Product-Service-Consumer"></a>Product-Service-Consumer</h3><h4 id="1-Add-Stream-dependency-1"><a href="#1-Add-Stream-dependency-1" class="headerlink" title="1. Add Stream dependency"></a>1. Add Stream dependency</h4><p>This is the same as <code>Product-Service</code>.</p>
+<h4 id="2-application-properties-1"><a href="#2-application-properties-1" class="headerlink" title="2. application.properties"></a>2. application.properties</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># =====================================================================================================================</span><br><span class="line"># == stream / kafka                                                                                                  ==</span><br><span class="line"># =====================================================================================================================</span><br><span class="line">spring.cloud.stream.bindings.input.destination=product-topic</span><br><span class="line">spring.cloud.stream.bindings.input.content-type=application/json</span><br><span class="line">spring.cloud.stream.bindings.input.group=mallWebGroup</span><br><span class="line">spring.cloud.stream.kafka.binder.brokers=localhost</span><br><span class="line">spring.cloud.stream.kafka.binder.defaultBrokerPort=9092</span><br></pre></td></tr></table></figure>
+
+<p>This configuration is similar to the <code>Product-Service</code> microservice, but we need to change the <code>output</code> to <code>input</code>, indicating that the message input channel is configured here.</p>
+<p>In addition, we also added a group configuration attribute. The specific meaning of this attribute will be explained later.</p>
+<h4 id="3-Copy-ProductMessage-to-this-project"><a href="#3-Copy-ProductMessage-to-this-project" class="headerlink" title="3. Copy ProductMessage to this project"></a>3. Copy ProductMessage to this project</h4><h4 id="4-Implement-message-subscribbing"><a href="#4-Implement-message-subscribbing" class="headerlink" title="4. Implement message subscribbing"></a>4. Implement message subscribbing</h4><p>Using <code>Stream</code>, we only need to add the <code>@StreamListener</code> annotation to the corresponding listening method. The specific code is as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableBinding</span>(Sink<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">ProductMessageListener</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> Logger logger = LoggerFactory.getLogger(<span class="keyword">this</span>.getClass());</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Qualifier</span>(<span class="string">"PRODUCT-SERVICE"</span>)</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">protected</span> ProductService productService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@StreamListener</span>(Sink.INPUT)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onProductMessage</span><span class="params">(ProductMessage productMsg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (ProductMessage.MA_UPDATE.equalsIgnoreCase(productMsg.getAction())) &#123;</span><br><span class="line">            <span class="keyword">this</span>.logger.debug(<span class="string">"Receive product update message, item code: &#123;&#125;"</span>, productMsg.getItemCode());</span><br><span class="line">            <span class="comment">// request new product info</span></span><br><span class="line">            Product productDto = <span class="keyword">this</span>.productService.loadByItemCode(productMsg.getItemCode());</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != productDto)</span><br><span class="line">                <span class="keyword">this</span>.logger.debug(<span class="string">"Update product info:&#123;&#125;"</span>, productDto);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">this</span>.logger.debug(<span class="string">"Item code:&#123;&#125; doesn't exist"</span>, productMsg.getItemCode());</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ProductMessage.MA_DELETE.equalsIgnoreCase(productMsg.getAction())) &#123;</span><br><span class="line">            <span class="keyword">this</span>.logger.debug(<span class="string">"Receive product delete message: &#123;&#125;"</span>, productMsg.getItemCode());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.logger.debug(<span class="string">"Unknown product info: &#123;&#125;"</span>, productMsg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This code is very simple to implement a product message monitoring method <code>onProductMsg</code>, and in this method different processing according to the message type.</p>
+<p>Similarly, for <code>Sink</code>, I won’t go into details here. You just need to understand that this is an abstract message listening interface provided by <code>Spring Cloud Stream</code>. When the interface class is added the <code>@StreamListener</code> annotation, <code>Stream</code> will send <code>Kafka</code> to add a message subscription. The subscribed message topic is the <code>product-topic</code> that we specified in the configuration file. When there is a message in the topic, <code>Stream</code> will deserialize the message in the topic into <code>ProductMessage</code>, and then execute the specific message listening method.</p>
+<h3 id="Testing"><a href="#Testing" class="headerlink" title="Testing"></a>Testing</h3><p>Start the service in order:</p>
+<ol>
+<li>Kafka</li>
+<li>Service-discovery</li>
+<li>Product-Service</li>
+<li>Product-Service-Consumer</li>
+</ol>
+<p>In the console of the <code>Product-Service</code> microservice, you can see output similar to the following:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-03-01 13:46:07.599 DEBUG             44575 --- [nio-2100-exec-1] o.s.web.servlet.DispatcherServlet        : POST &quot;/products/item-2&quot;, parameters=&#123;&#125;</span><br><span class="line">2020-03-01 13:46:07.656  INFO             44575 --- [nio-2100-exec-1] s.productservice.service.ProductService  : Send message:action: update itemCode: item-2</span><br></pre></td></tr></table></figure>
+
+<p>From the output log, you can see that the product message has been sent to the message broker. If we look at the console of the <code>Product-Service-Consumer</code> microservice, we can see the output of the following figure:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-03-01 13:46:08.005  INFO             44577 --- [container-0-C-1] istener$$EnhancerBySpringCGLIB$$cb550e3b : Receive product update message, item code: item-2</span><br><span class="line">2020-03-01 13:46:08.005  INFO             44577 --- [container-0-C-1] istener$$EnhancerBySpringCGLIB$$cb550e3b : Update product info:springclouddemo.mall.entity.Product@57708467</span><br></pre></td></tr></table></figure>
+
+<p>It can be seen from the log output that the <code>Product-Service-Consumer</code> microservice has been able to correctly receive the product message, and then re-requested and obtained the latest information of the product.</p>
+<h2 id="Details-of-Spring-Cloud-Stream"><a href="#Details-of-Spring-Cloud-Stream" class="headerlink" title="Details of Spring Cloud Stream"></a>Details of Spring Cloud Stream</h2><p>From the core principle of <code>Spring Cloud Stream</code>, <code>Stream</code> provides an abstraction layer for sending and receiving messages with message broker. Through this abstraction layer, the direct coupling between messaging in the business and the middleware actually used is stripped, so that we can easily interface with various message broker, and it is also very easy to replace the message broker. This is the same as using the <code>ORM</code> framework, which can smoothly switch between multiple databases.</p>
+<h3 id="Stream-application-model"><a href="#Stream-application-model" class="headerlink" title="Stream application model"></a>Stream application model</h3><p>Stream provides the following models</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-11-Message-driven-development-Stream/2.png" data-index="1" data-src="/Spring-Cloud-11-Message-driven-development-Stream/2.png">
+<br>
+<br>
+
+<p>There are several core concepts on the model diagram:</p>
+<ul>
+<li><strong>Source</strong>: When you need to send a message, you need to go through the <code>Source</code>. The <code>Source</code> will serialize the message (POJO object) we want to send (the default is converted to a <code>JSON</code> format string), and then send these data to the <code>Channel</code>;</li>
+<li><strong>Sink</strong>: When we need to listen to the message, we need to use <code>Sink</code>. <code>Sink</code> is responsible for obtaining the message from the message <code>Channel</code>, deserializing the message into a message object (POJO object), and then handing it to the specific message monitoring process for processing;</li>
+<li><strong>Channel</strong>: message <code>Channel</code> is one of the abstractions of <code>Stream</code>. Usually we need to specify the <code>topic</code> queue name when sending or listening to the message broker, but once we need to change the topic name, we need to modify the code of message sending or message monitoring, but through <code>Channel</code> abstraction, our code only needs to use the <code>Channel</code>. The specific <code>Channel</code> corresponds to the <code>topic</code>, which can be specified in the configuration file, so that when the <code>topic</code> changes, we don’t need to make any changes to the code, so as to achieve the decoupling.</li>
+<li><strong>Binder</strong>: Another abstraction layer in <code>Stream</code>. Integration with different message broker can be achieved through different <code>Binders</code>. For example, in the above example, we are using <code>Binder</code> for <code>Kafka</code>. <code>Binder</code> provides a unified messaging interface, so that we can deploy different message broker according to actual needs, or adjust our configuration based on the messaging broker deployed in actual production.</li>
+</ul>
+<h3 id="Stream-application-principle"><a href="#Stream-application-principle" class="headerlink" title="Stream application principle"></a>Stream application principle</h3><p>From the above, we understand the application model of <code>Stream</code>, and we are clear about the message sending logic and process. So how do we operate during the actual message sending and listening?</p>
+<p>In use, Stream provides the following three annotations:</p>
+<ul>
+<li><code>@Input</code>: create a message input channel for message monitoring;</li>
+<li><code>@Output</code>: create a message output channel for message sending;</li>
+<li><code>@EnableBinding</code>: Establish a binding to the message channel.</li>
+</ul>
+<p>When using it, we can create multiple channels through <code>@Input</code> and <code>@Output</code>. Using these two annotations to create channels is very simple. You only need to annotate them to the corresponding method of the interface, and you don’t need to implement the annotation specifically. . When the Stream framework is started, the corresponding implementation is generated through dynamic code generation technology based on these two annotations, and injected into the Spring application context, so that we can use it directly in the code.</p>
+<h4 id="Output-annotation"><a href="#Output-annotation" class="headerlink" title="Output annotation"></a>Output annotation</h4><p>For the <code>@Output</code> annotation, the return value of the annotated method must be <code>MessageChannel</code>, and <code>MessageChannel</code> is the channel for sending specific messages. For example, the following code:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ProductSource</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Output</span></span><br><span class="line">    <span class="function">MessageChannel <span class="title">hotProducts</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Output</span></span><br><span class="line">    <span class="function">MessageChannel <span class="title">selectedProducts</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>We can send messages through the message channel created by <code>ProductSource</code>.</p>
+<h4 id="Input-annotation"><a href="#Input-annotation" class="headerlink" title="Input annotation"></a>Input annotation</h4><p>For the <code>@Input</code> annotation, the return value of the annotated method must be a <code>SubscribableChannel</code>, and the <code>SubscribableChannel</code> is the channel for message monitoring. For example, the following code:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ProductSink</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Input</span></span><br><span class="line">    <span class="function">SubscribableChannel <span class="title">productOrders</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>We can listen to messages through the message channel created by <code>ProductSink</code>.</p>
+<h4 id="About-Input-Output-out-of-the-box"><a href="#About-Input-Output-out-of-the-box" class="headerlink" title="About Input, Output out of the box"></a>About Input, Output out of the box</h4><p>Maybe you are a bit confused. Before in the example, we used <code>Source</code> and <code>Sink</code> in the code. So what is the relationship between these two classes and the annotations above? Let’s take a look at the source code of these two interfaces:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Source</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Source</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  String OUTPUT = <span class="string">"output"</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Output</span>(Source.OUTPUT)</span><br><span class="line">  <span class="function">MessageChannel <span class="title">output</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Sink</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Sink</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  String INPUT = <span class="string">"input"</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Input</span>(Sink.INPUT)</span><br><span class="line">  <span class="function">SubscribableChannel <span class="title">input</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>@Input</code> and <code>@Output</code> are annotations of the core application of <code>Stream</code>, while <code>Source</code> and <code>Sink</code> are just two interfaces provided by <code>Stream</code> for us out of the box. With or without these interfaces, we can use <code>Stream</code> normally.</p>
+<p>In addition, <code>Stream</code> also provides an out-of-the-box interface <code>Processor</code>, the source code is as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Processor</span> <span class="keyword">extends</span> <span class="title">Source</span>, <span class="title">Sink</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>That is to say, <code>Processor</code> can be used as message sending and message listening at the same time. This interface will be very useful when we develop message pipeline type applications.</p>
+<h4 id="Custom-message-channel-name"><a href="#Custom-message-channel-name" class="headerlink" title="Custom message channel name"></a>Custom message channel name</h4><p>Earlier, we talk abbout message <code>Channel</code> is an abstraction of <code>Stream</code>. Through this abstraction, you can avoid coupling with the specific <code>topic</code> of message broker. So what is going on? From the <code>Source</code> and <code>Sink</code> source code, you can see that the annotated <code>@Output</code> and <code>@Input</code> annotations have a parameter, which is output and input respectively. At this time, you can observe our previous configuration:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># prodcut-service</span><br><span class="line">spring.cloud.stream.bindings.output.destination=product-topic</span><br><span class="line">spring.cloud.stream.bindings.output.content-type=application/json</span><br><span class="line"></span><br><span class="line"># prodcut-service-consumer</span><br><span class="line">spring.cloud.stream.bindings.input.destination=product-topic</span><br><span class="line">spring.cloud.stream.bindings.input.content-type=application/json</span><br><span class="line">spring.cloud.stream.bindings.input.group=mallWebGroup</span><br></pre></td></tr></table></figure>
+
+<p>From the configuration, you can see the configuration of the <code>destination</code> property, which specifies the output and inout, respectively, the name of the message channel used in the <code>Stream</code>. Therefore, we can set the name of the message channel through these two annotations, such as:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ProductProcessor</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Output</span>(<span class="string">"pmsoutput"</span>)</span><br><span class="line">    <span class="function">MessageChannel <span class="title">productOutput</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Input</span>(<span class="string">"pmsinput"</span>)</span><br><span class="line">    <span class="function">SubscribableChannel <span class="title">input</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In this way, when we use the <code>ProductProcessor</code> interface to implement message sending and listening, we need to configure it in the configuration file as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Send</span><br><span class="line">spring.cloud.stream.bindings.pmsoutput.destination=product-topic</span><br><span class="line">spring.cloud.stream.bindings.pmsoutput.content-type=application/json</span><br><span class="line"></span><br><span class="line"># Subscribe</span><br><span class="line">spring.cloud.stream.bindings.pmsinput.destination=product-topic</span><br><span class="line">spring.cloud.stream.bindings.pmsinput.content-type=application/json</span><br><span class="line">spring.cloud.stream.bindings.pmsinput.group=mallWebGroup</span><br></pre></td></tr></table></figure>
+
+<h4 id="Binding"><a href="#Binding" class="headerlink" title="Binding"></a>Binding</h4><p>Now that both the message sending channel and the listening channel have been created, you can connect them to specific message broker to complete the sending and monitoring of messages, and the <code>@EnableBinding</code> annotation is used to implement this function. The specific usage is as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Send binding</span></span><br><span class="line"><span class="meta">@EnableBinding</span>(Source<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Listening</span></span><br><span class="line"><span class="meta">@EnableBinding</span>(Sink<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">ProductMsgListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>It should be noted that <code>@EnableBinding</code> can bind multiple interfaces at the same time, as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableBinding</span>(value=&#123;ProductSource<span class="class">.<span class="keyword">class</span>, <span class="title">ProductSink</span>.<span class="title">class</span>&#125;)</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Use-channels-directly"><a href="#Use-channels-directly" class="headerlink" title="Use channels directly"></a>Use channels directly</h4><p>The code we sent message previously is as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">sendMsg</span><span class="params">(String msgAction, String itemCode)</span> </span>&#123;</span><br><span class="line">    ProductMessage productMsg = <span class="keyword">new</span> ProductMessage(msgAction, itemCode);</span><br><span class="line">    <span class="keyword">this</span>.logger.info(<span class="string">"Send message:&#123;&#125; "</span>, productMsg);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Send</span></span><br><span class="line">    <span class="keyword">this</span>.source.output().send(MessageBuilder.withPayload(productMsg).build());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Since the <code>MessageChannel</code> provided by <code>@Output</code> is used when the message is sent, can we use it directly? Indeed, this is possible. We can change the above code to the following:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> Logger logger = LoggerFactory.getLogger(ProductService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> MessageChannel output;</span><br><span class="line">    <span class="keyword">private</span> List&lt;ProductDto&gt; productList;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProductService</span><span class="params">(MessageChannel output)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.output = output;</span><br><span class="line">        <span class="keyword">this</span>.productList = <span class="keyword">this</span>.buildProducts();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">     <span class="comment">// Ignore other code</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">sendMsg</span><span class="params">(String msgAction, String itemCode)</span> </span>&#123;</span><br><span class="line">        ProductMsg productMsg = <span class="keyword">new</span> ProductMsg(msgAction, itemCode);</span><br><span class="line">        <span class="keyword">this</span>.logger.debug(<span class="string">"Send message:&#123;&#125; "</span>, productMsg);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 发送消息</span></span><br><span class="line">        <span class="keyword">this</span>.output.send(MessageBuilder.withPayload(productMsg).build());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>By default the <code>Id</code> of the <code>MessageChannelBean</code> created by <code>Stream</code> is the method name, but if we add a name definition to the <code>@Output</code> annotation:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ProductSource</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Output</span>(<span class="string">"pmsoutput"</span>)</span><br><span class="line">    <span class="function">MessageChannel <span class="title">output</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Then at this time <code>Stream</code> will use <code>pmsoutput</code> as the Bean’s <code>Id</code>, and our code needs to be as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ProductService</span><span class="params">(@Qualifier(<span class="string">"pmsoutput"</span>)</span> MessageChannel output) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.output = output;</span><br><span class="line">    <span class="keyword">this</span>.productList = <span class="keyword">this</span>.buildProducts();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Check out the source code here: <a href="https://github.com/nicklee1006/SpringCloudDemo/tree/master/stream" target="_blank" rel="noopener">Stream demo</a></p>
+
+                </article>
+                <ul class="tags-postTags">
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="Leetcode 17. Letter Combinations of a Phone Number" href="/Leetcode-17-Letter-Combinations-of-a-Phone-Number/">
+            Leetcode 17. Letter Combinations of a Phone Number →
+        </a>
+        
+    </nav>
+
+    
+    <div class="inner">
+        <div id="comment"></div>
+    </div>
+    
+</div>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-project"><span class="toc-text">Example project</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Install-Kafka-server"><span class="toc-text">Install Kafka server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Product-Service"><span class="toc-text">Product-Service</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Add-Stream-dependency"><span class="toc-text">1. Add Stream dependency</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-application-properties"><span class="toc-text">2. application.properties</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Construct-product-message"><span class="toc-text">3. Construct product message</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Implement-message-sending"><span class="toc-text">4. Implement message sending</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Add-message-sending-endpoint"><span class="toc-text">5. Add message sending endpoint</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-Binding-Message-Channel"><span class="toc-text">6. Binding Message Channel</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Product-Service-Consumer"><span class="toc-text">Product-Service-Consumer</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Add-Stream-dependency-1"><span class="toc-text">1. Add Stream dependency</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-application-properties-1"><span class="toc-text">2. application.properties</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Copy-ProductMessage-to-this-project"><span class="toc-text">3. Copy ProductMessage to this project</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Implement-message-subscribbing"><span class="toc-text">4. Implement message subscribbing</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Testing"><span class="toc-text">Testing</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Details-of-Spring-Cloud-Stream"><span class="toc-text">Details of Spring Cloud Stream</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Stream-application-model"><span class="toc-text">Stream application model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stream-application-principle"><span class="toc-text">Stream application principle</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Output-annotation"><span class="toc-text">Output annotation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Input-annotation"><span class="toc-text">Input annotation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#About-Input-Output-out-of-the-box"><span class="toc-text">About Input, Output out of the box</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Custom-message-channel-name"><span class="toc-text">Custom message channel name</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Binding"><span class="toc-text">Binding</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Use-channels-directly"><span class="toc-text">Use channels directly</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+  <header class="read-next-card-header">
+    <small class="read-next-card-header-sitetitle">&mdash; Nick Li &mdash;</small>
+    <h3 class="read-next-card-header-title">Recent Posts</h3>
+  </header>
+  <div class="read-next-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+      <path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/>
+    </svg>
+  </div>
+  <div class="read-next-card-content">
+    <ul>
+      
+      
+      
+      <li>
+        <a href="/Spring-Cloud-11-Message-driven-development-Stream/">Spring Cloud 11: Message-driven development - Stream</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Leetcode-17-Letter-Combinations-of-a-Phone-Number/">Leetcode 17. Letter Combinations of a Phone Number</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Greedy-Algorithm/">Greedy Algorithm</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+  <footer class="read-next-card-footer">
+    <a href="/archives">  MORE  → </a>
+  </footer>
+</article>
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+    <header class="read-next-card-header tagcloud-card">
+        <h3 class="read-next-card-header-title">Categories</h3>
+    </header>
+    <div class="read-next-card-content">
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cloud/">Spring Cloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/how-to-guide/">how-to-guide</a></li></ul>
+    </div>
+</article>
+
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+	<header class="read-next-card-header tagcloud-card">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 15.25px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 15.25px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 20.25px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 17.75px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Depth-First-Search/" style="font-size: 14px;">Leetcode - Depth First Search</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 21.5px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 15.25px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 17.75px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Linked-List/" style="font-size: 16.5px;">Leetcode - Linked List</a> <a href="/tags/Leetcode-Math/" style="font-size: 14px;">Leetcode - Math</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 15.25px;">Leetcode - Sort</a> <a href="/tags/Leetcode-Stack/" style="font-size: 14px;">Leetcode - Stack</a> <a href="/tags/Leetcode-String/" style="font-size: 19px;">Leetcode - String</a> <a href="/tags/Leetcode-Tree/" style="font-size: 17.75px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 22.75px;">Leetcode - Two Pointers</a> <a href="/tags/Stream-API/" style="font-size: 15.25px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 15.25px;">hexo</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay">
+    <div class="search-form">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<div class="copyright">
+			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
+			
+				
+			        <span hidden="true" id="/Spring-Cloud-11-Message-driven-development-Stream/" class="leancloud-visitors" data-flag-title="Spring Cloud 11: Message-driven development - Stream">
+			            <span>阅读量 </span>
+			            <span class="leancloud-visitors-count">0</span>
+			        </span>
+	    		
+    		
+		</div>
+		<nav class="site-footer-nav">
+			
+			<a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+			<a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+		</nav>
+	</div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister()
+            }
+        })
+    }
+</script>
+
+
+<script id="scriptLoad" src="/js/allinone.min.js" async></script>
+
+
+<script>
+    document.getElementById('scriptLoad').addEventListener('load', function () {
+        
+        
+            var bLazy = new Blazy();
+        
+
+        
+        
+
+        
+        
+        
+            searchFunc("/");
+        
+        
+    })
+</script>
+
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+
+
+<script id="valineScript" src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+<script>
+    document.getElementById('valineScript').addEventListener("load", function() {
+        new Valine({
+            el: '#comment' ,
+            verify: false,
+            notify: false,
+            appId: '3TACGUnsSRuWgqCn3pRpLVwQ-MdYXbMMI',
+            appKey: 'JTo5iyjOyGTEXzAwjaTNqcY0',
+            placeholder: 'Please leave a comment',
+            pageSize: 10,
+            avatar: 'mm',
+            visitor: true,
+            lang: 'en'
+        })
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
