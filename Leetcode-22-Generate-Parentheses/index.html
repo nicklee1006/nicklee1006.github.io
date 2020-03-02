@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 19. Remove Nth Node From End of List | Nick Li</title>
+	<title>Leetcode 22. Generate Parentheses | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 19. Remove Nth Node From End of List | Nick Li">
+	<meta property="og:title" content="Leetcode 22. Generate Parentheses | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-19-Remove-Nth-Node-From-End-of-List/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-22-Generate-Parentheses/">
 
 	
-	<meta property="article:published_time" content="2020-02-17T20:02:00+08:00"> 
+	<meta property="article:published_time" content="2020-03-01T22:03:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-19-Remove-Nth-Node-From-End-of-List/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-22-Generate-Parentheses/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-02-17T10:52:32.000Z">
-                    2020-02-17
+                <time class="post-full-meta-date" datetime="2020-03-01T12:12:27.000Z">
+                    2020-03-1
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 19. Remove Nth Node From End of List</h1>
+            <h1 class="post-full-title">Leetcode 22. Generate Parentheses</h1>
         </header>
         <div class="post-full ">
             
@@ -157,36 +157,36 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-19-Remove-Nth-Node-From-End-of-List/Question.png" data-index="0" data-src="/Leetcode-19-Remove-Nth-Node-From-End-of-List/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-22-Generate-Parentheses/Question.png" data-index="0" data-src="/Leetcode-22-Generate-Parentheses/Question.png">
 <br>
 <br>
-Given a linked list, delete the nth node from the end.
 
-<h2 id="Solution-2-Pass"><a href="#Solution-2-Pass" class="headerlink" title="Solution - 2 Pass"></a>Solution - 2 Pass</h2><p>Deleting a node is nothing more than traversing the linked list and find the node in front of the node to be deleted. However because it is a linked list, we don’t know its length. So we have to traverse the list first to get its length, then subtract <code>n</code> from the length to find the position of the node to be deleted.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line">    ListNode node = head;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (node != <span class="keyword">null</span>) &#123;</span><br><span class="line">        length++;</span><br><span class="line">        node = node.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// only 1 node in the list</span></span><br><span class="line">    <span class="keyword">if</span> (length == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// index to remove, start from 0</span></span><br><span class="line">    <span class="keyword">int</span> indexToRemove = length - n;</span><br><span class="line"></span><br><span class="line">    node = head;</span><br><span class="line">    <span class="comment">// move to the previous node</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; indexToRemove - <span class="number">1</span>; i++) &#123;</span><br><span class="line">        node = node.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    node.next = node.next.next;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Give a number <code>n</code> and return all valid parenthetical matches, exactly the opposite of <a href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener">20. Valid Parentheses</a>.</p>
+<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
+<li>Medium - <a href="/Leetcode-17-Letter-Combinations-of-a-Phone-Number/" title="17 Letter Combinations of a Phone Number">17 Letter Combinations of a Phone Number</a></li>
+<li>Easy - <a href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener">20. Valid Parentheses</a></li>
+</ul>
+<h2 id="Soultion-Brute-Force"><a href="#Soultion-Brute-Force" class="headerlink" title="Soultion - Brute Force"></a>Soultion - Brute Force</h2><p>Enumerate all cases, each of which has left and right parenthesis, a total of <code>2n</code> digits, so a total of 2<sup>2n</sup> cases.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">generateParenthesis</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; results = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    generateAll(results, <span class="keyword">new</span> <span class="keyword">char</span>[n * <span class="number">2</span>], <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> results;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">generateAll</span><span class="params">(List&lt;String&gt; result, <span class="keyword">char</span>[] current, <span class="keyword">int</span> pos)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pos == current.length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (isValid(current)) &#123;</span><br><span class="line">            result.add(<span class="keyword">new</span> String(current));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// if n-th digit is '('</span></span><br><span class="line">        current[pos] = <span class="string">'('</span>;</span><br><span class="line">        generateAll(result, current, pos + <span class="number">1</span>);</span><br><span class="line">        current[pos] = <span class="string">')'</span>;</span><br><span class="line">        <span class="comment">// if n-th digit is ')'</span></span><br><span class="line">        generateAll(result, current, pos + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isValid</span><span class="params">(<span class="keyword">char</span>[] current)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> balance = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : current) &#123;</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">'('</span>) &#123;</span><br><span class="line">            balance++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            balance--;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (balance &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> balance == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Time complexity: assuming the length of the linked list is <code>L</code>, then the first loop is <code>L</code> times, and the second loop is <code>L-n</code> times, for a total of <code>2L-n</code> times, so the time complexity is O (L).</p>
-<p>Space complexity: O (1).</p>
-<h2 id="Solution-1-Pass"><a href="#Solution-1-Pass" class="headerlink" title="Solution - 1 Pass"></a>Solution - 1 Pass</h2><p>So how can we traverse the list only once?</p>
-<p>We set two pointers, let the first pointer traverse forward <code>n</code> steps, and then let them both traverse at the same time. In this case, when the first pointer reaches the end, the second pointer is <code>n</code> steps from the head. So the position of the second pointer is exactly the nth node from the head.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    ListNode dummyNode = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    dummyNode.next = head;</span><br><span class="line"></span><br><span class="line">    ListNode pointer1 = dummyNode;</span><br><span class="line">    ListNode pointer2 = dummyNode;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// move first pointer ahead n steps</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        pointer1 = pointer1.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (pointer1 != <span class="keyword">null</span>) &#123;</span><br><span class="line">        pointer1 = pointer1.next;</span><br><span class="line">        pointer2 = pointer2.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// now pointer2 is the node before the node to be delete</span></span><br><span class="line">    pointer2.next = pointer2.next.next;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dummyNode.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Time complexity: O(n) is needed to judge whether each case is legal, so the time complexity is O(2<sup>2n</sup>n)</p>
+<p>Space complexity: O(2<sup>2n</sup>n), multiply by <code>n</code> because the length of each string is <code>2n</code>. In addition, this is assuming that all conditions are met, but it is not possible to meet all of them, and more accurate situations will be given later.</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>In previous solution, we keep adding left parentheses. In fact, if the left parenthesis exceeds <code>n</code>, it is definitely not a legal case. Because the legal case must be <code>n</code> left parentheses and <code>n</code> right parentheses.</p>
+<p>Another case is that if the total number of right parentheses is greater than the total number of left parentheses in the process of adding parentheses, no matter what is added later, it cannot be a legal case. Because each right parenthesis must match a previous left parenthesis, if there are more right parentheses than left parentheses, then there must be a right parenthesis that does not match the left parenthesis, no matter how many left parentheses are added later, it is useless. For example, <code>n = 3</code>, there will be 6 parentheses in total. When we add <code>())</code> to 3 parentheses, there are 1 left parenthesis and 2 right parentheses. At this moment, the 3 parentheses behind it are doomed. Will not be a legal case anymore.</p>
+<p>Based on the two points above, as long as we avoid them, we can guarantee that the brackets we generate must be legal.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">generateParenthesis</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; results = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    generateAll(results, <span class="string">""</span>, <span class="number">0</span>, <span class="number">0</span>, n);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> results;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">generateAll</span><span class="params">(List&lt;String&gt; result, String current, <span class="keyword">int</span> left, <span class="keyword">int</span> right, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (current.length() == n * <span class="number">2</span>) &#123;</span><br><span class="line">        result.add(current);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// add left '(' as many as possible</span></span><br><span class="line">        <span class="keyword">if</span> (left &lt; n) &#123;</span><br><span class="line">            generateAll(result, current + <span class="string">"("</span>, left + <span class="number">1</span>, right, n);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// add right ')'</span></span><br><span class="line">        <span class="keyword">if</span> (right &lt; left) &#123;</span><br><span class="line">            generateAll(result, current + <span class="string">")"</span>, left, right + <span class="number">1</span>, n);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Time complexity:</p>
-<p>The first pointer goes from 0 to n, then “the first pointer goes from n to the end” and “the second pointer goes from 0 to the position of the n-th node down” simultaneously.</p>
-<p>The previous solution is nothing more than going from 0 to the end, and then going from 0 to the position of the n-th node.</p>
-<p>So in fact, the number of times their statements are executed is the same. The position of the n-th node from 0 to the penultimate point is traversed twice, so the total is <code>2L-n</code> times. It’s just that this solution combines the two loops of solution one, so that the second pointer seems to traverse by the way, the idea is very nice.</p>
-<p>So in essence, they are actually the same, and the time complexity is still O(n).</p>
-<p>Space complexity: O (1).</p>
-
+<p>The execution order of the recursion as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">( -&gt; (( -&gt; ((( -&gt; ((() -&gt; ((()) -&gt; ((())) -&gt; add to result</span><br><span class="line"></span><br><span class="line">(( -&gt; (() -&gt; (()( -&gt; (()() -&gt; (()()) -&gt; add to result</span><br><span class="line"></span><br><span class="line">(( -&gt; (() -&gt; (()) -&gt; (())( -&gt; (())() -&gt; add to result</span><br><span class="line"></span><br><span class="line">( -&gt; () -&gt; ()( -&gt; ()(( -&gt; ()(() -&gt; ()(()) -&gt; add to result</span><br><span class="line"></span><br><span class="line">( -&gt; () -&gt; ()( -&gt; ()() -&gt; ()()( -&gt; ()()() -&gt; add to result</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Two-Pointers/" rel="tag"># Leetcode - Two Pointers</a>
+                        <a href="/tags/Leetcode-String/" rel="tag"># Leetcode - String</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-Linked-List/" rel="tag"># Leetcode - Linked List</a>
+                        <a href="/tags/Leetcode-Backtracking/" rel="tag"># Leetcode - Backtracking</a>
                     </li>
                     
                 </ul>
@@ -197,14 +197,10 @@ Given a linked list, delete the nth node from the end.
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 61. Rotate List" href="/Leetcode-61-Rotate-List/">
-            ← Leetcode 61. Rotate List
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Spring Cloud 9: Distributed Tracing Solution - Sleuth" href="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/">
-            Spring Cloud 9: Distributed Tracing Solution - Sleuth →
+        <a class="next-post" title="Spring Cloud 11: Message-driven development - Stream" href="/Spring-Cloud-11-Message-driven-development-Stream/">
+            Spring Cloud 11: Message-driven development - Stream →
         </a>
         
     </nav>
@@ -230,7 +226,7 @@ Given a linked list, delete the nth node from the end.
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-2-Pass"><span class="toc-text">Solution - 2 Pass</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-1-Pass"><span class="toc-text">Solution - 1 Pass</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Soultion-Brute-Force"><span class="toc-text">Soultion - Brute Force</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
     </div>
 </div>
 
@@ -527,7 +523,7 @@ Given a linked list, delete the nth node from the end.
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-19-Remove-Nth-Node-From-End-of-List/" class="leancloud-visitors" data-flag-title="Leetcode 19. Remove Nth Node From End of List">
+			        <span hidden="true" id="/Leetcode-22-Generate-Parentheses/" class="leancloud-visitors" data-flag-title="Leetcode 22. Generate Parentheses">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
