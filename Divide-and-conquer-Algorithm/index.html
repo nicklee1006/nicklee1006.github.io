@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 74. Search a 2D Matrix | Nick Li</title>
+	<title>Divide-and-conquer Algorithm | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 74. Search a 2D Matrix | Nick Li">
+	<meta property="og:title" content="Divide-and-conquer Algorithm | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-74-Search-a-2D-Matrix/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Divide-and-conquer-Algorithm/">
 
 	
-	<meta property="article:published_time" content="2019-12-29T14:12:00+08:00"> 
+	<meta property="article:published_time" content="2020-03-04T20:03:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-74-Search-a-2D-Matrix/">
+	<meta property="article:published_first" content="Nick Li, /Divide-and-conquer-Algorithm/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-12-29T04:48:11.000Z">
-                    2019-12-29
+                <time class="post-full-meta-date" datetime="2020-03-04T10:14:34.000Z">
+                    2020-03-4
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,35 +148,67 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 74. Search a 2D Matrix</h1>
+            <h1 class="post-full-title">Divide-and-conquer Algorithm</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/03/04/c8e3BY7UL6oDlQs.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-74-Search-a-2D-Matrix/Question.png" data-index="0" data-src="/Leetcode-74-Search-a-2D-Matrix/Question.png">
-<br>
-<br>
-Search a value in an m x n matrix, determine if it exists.
-
-<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Medium - <a href="https://leetcode.com/problems/search-a-2d-matrix-ii/" target="_blank" rel="noopener">240. Search a 2D Matrix II</a></li>
+                    <h2 id="Basic-Concept"><a href="#Basic-Concept" class="headerlink" title="Basic Concept"></a>Basic Concept</h2><p>In computer science, <code>divide-and-conquer</code> is an important algorithm. The literal explanation is “divide and conquer”, which is to divide a complex problem into two or more identical or similar subproblems, and then divide the subproblems into smaller subproblems, until the final subproblem can be directly solved. The solution of the original problem is the combination of the solutions of the subproblems. This technique is the basis of many efficient algorithms, such as sorting algorithms (quick sort, merge sort), Fourier transform(fast Fourier transform), etc.</p>
+<p>The computational time required for any problem that can be solved by a computer depends on its size. The smaller the scale of the problem, the easier it can be solved directly, and the less calculation time required to solve the problem. For example, for the ordering problem of n elements, when n = 1, no calculation is needed. When n = 2, only one comparison is needed to sort the order. When n = 3, you only need to make 3 comparisons, … When n is large, the problem is not so easy to deal with. Sometimes it is quite difficult to directly solve a large-scale problem.</p>
+<h2 id="Basic-ideas-and-strategies"><a href="#Basic-ideas-and-strategies" class="headerlink" title="Basic ideas and strategies"></a>Basic ideas and strategies</h2><p>The idea of the <code>divide-and-conquer</code> method is to <strong><font color="orange">divide a large problem that is difficult to solve directly into some smaller and identical problems, so that each one can be solved</font></strong>.</p>
+<p>The <code>divide-and-conquer</code> strategy is: <strong><font color="orange">for a problem of size n, if the problem can be easily solved (for example, the size of n is small), solve it directly, otherwise it is decomposed into k small-scale sub-problems, which are mutually independently and in the same form as the original problem, solve these sub-problems recursively, and then combine the solutions of the sub-problems to obtain the solution of the original problem</font></strong>. This algorithm design strategy is called divide-and-conquer.</p>
+<p>If the original problem can be divided into k sub-problems, 1 &lt; k ≤ n, and these sub-problems are solvable, and the solutions of these sub-problems can be used to obtain the solution of the original problem, then this <code>divide-and-conquer</code> method is feasible. The subproblems generated by the <code>divide-and-conquer</code> method are often smaller models of the original problem, which facilitates the use of recursive techniques. In this case, repeated application of <code>divide-and-conquer</code> means we can make the sub-problem consistent with the original problem but its size is constantly shrinking, and eventually the sub-problem is reduced to a very easy solution. This naturally leads to a recursive process. <strong><font color="orange">Divide-and-conquer and recursion are like twin brothers, which are often applied in algorithm design at the same time</font></strong><font color="orange">, and many efficient algorithms are generated from it.</font></p>
+<h2 id="Scope-of-application"><a href="#Scope-of-application" class="headerlink" title="Scope of application"></a>Scope of application</h2><p>The problems that can be solved by the <code>divide-and-conquer</code> method generally have the following characteristics:</p>
+<ul>
+<li>The problem can be <code>easily solved</code> by <code>reducing</code> the scale to a certain extent;</li>
+<li>The problem can be decomposed into several smaller and identical problems, that is, the problem has <code>the optimal substructure property</code>;</li>
+<li>The solutions of the sub-problems decomposed by the problem can be <code>combined into the solution</code> of the problem;</li>
+<li>The sub-problems decomposed by this problem are independent, that is, there is <code>no common sub-sub-problem</code> among the sub-problems.</li>
 </ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>As the martix is ordered, there is no doubt that we need to use binary search. First find which row the target belongs to, then use binary search to determine. We just need to consider how to convert the index into the row and column of the matrix. To do so, we can use division and mod.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// matrix is empty</span></span><br><span class="line"><span class="keyword">if</span> (matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> col = matrix[<span class="number">0</span>].length;</span><br><span class="line"></span><br><span class="line"><span class="comment">// loop each row, find which row the target belongs to</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span>[] ints : matrix) &#123;</span><br><span class="line">    <span class="comment">// target in this row</span></span><br><span class="line">    <span class="keyword">if</span> (target &gt;= ints[<span class="number">0</span>] &amp;&amp; target &lt;= ints[col - <span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="comment">// use binary search to this row</span></span><br><span class="line">        <span class="keyword">int</span> low = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> high = col - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (low &lt;= high) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (low + high) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (target == ints[mid]) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (target &lt; ints[mid]) &#123;</span><br><span class="line">                high = mid - <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                low = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</span><br></pre></td></tr></table></figure>
+<p>Most problems satisfy the first characteristic, because the computational complexity of the problem generally increases as the problem size increases;</p>
+<p>The second characteristic is the premise of applying the divide-and-conquer method. It is also sufficient for most problems. This feature reflects the application of recursive thinking.</p>
+<p><strong><font color="orange">The third feature is the key. Whether the divide-and-conquer method can be used depends entirely on whether the problem has the third feature. If the first and second features are available, and the third feature is not available, then the greedy or dynamic programming can be considered.</font></strong><font color="orange">.</font></p>
+<p>The fourth characteristic relates to the efficiency of the <code>divide-and-conquer</code> method. If the sub-problems are not independent, the <code>divide-and-conquer</code> method has to do a lot of unnecessary work and repeatedly solve common sub-problems. Although the <code>divide-and-conquer</code> method is available at this time, the <code>dynamic programming</code> method is generally better.</p>
+<h2 id="Steps-to-solve-problems-using-divide-and-conquer"><a href="#Steps-to-solve-problems-using-divide-and-conquer" class="headerlink" title="Steps to solve problems using divide-and-conquer"></a>Steps to solve problems using divide-and-conquer</h2><p>The divide-and-conquer method has three steps at each level of recursion:</p>
+<ol>
+<li><strong>Decomposition</strong>: Decompose the original problem into several smaller, independent sub-problems in the same form as the original problem;</li>
+<li><strong>Solution</strong>: If the sub-problem is small and can be easily solved, then directly solve it, otherwise recursively solve each sub-problem</li>
+<li><strong>Merge</strong>: Combine the solutions of each sub-problem into the solution of the original problem.</li>
+</ol>
+<p>Its general algorithm design pattern is as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Divide-and-Conquer (P)</span><br><span class="line"></span><br><span class="line">    1. if |P| ≤ n0</span><br><span class="line"></span><br><span class="line">    2. then return (ADHOC (P))</span><br><span class="line"></span><br><span class="line">    3. Decompose P into smaller subproblems P1, P2, ..., Pk</span><br><span class="line"></span><br><span class="line">    4. for i ← 1 to k</span><br><span class="line"></span><br><span class="line">        // Recursively solve Pi</span><br><span class="line">        5. do yi ← Divide-and-Conquer (Pi)</span><br><span class="line"></span><br><span class="line">    // Merge solutions</span><br><span class="line">    6. T ← MERGE (y1, y2, ..., yk)</span><br><span class="line"></span><br><span class="line">    7. return (T)</span><br></pre></td></tr></table></figure>
+
+<p><code>|P|</code> represents the scale of the problem <code>P</code>; <code>n0</code> is a threshold value, which means that when the scale of the problem <code>P</code> does not exceed <code>n0</code>, the problem is easily solved directly, and it is not necessary to continue to decompose. <code>ADHOC(P)</code> is the basic sub-algorithm in this <code>divide-and-conquer</code> method, which is used to directly solve small-scale problems <code>P</code>. Therefore, when the scale of <code>P</code> does not exceed <code>n0</code>, it is directly solved by the algorithm <code>ADHOC(P)</code>. The algorithm <code>MERGE(y1, y2, ..., yk)</code> is a merged sub-algorithm in this <code>divide-and-conquer</code> method, which is used to merge the corresponding solutions y1, y2, … of <code>P</code>‘s subproblems P1, P2, …, Pk ., yk for probblem <code>P</code>.</p>
+<h2 id="Complexity-analysis-of-divide-and-conquer"><a href="#Complexity-analysis-of-divide-and-conquer" class="headerlink" title="Complexity analysis of divide-and-conquer"></a>Complexity analysis of divide-and-conquer</h2><p>A <code>divide-and-conquer</code> method divides a problem of size <code>n</code> into <code>k</code> sub-problems of size <code>n/m</code> to solve. It is assumed that the decomposition threshold <code>n0 = 1</code> and the adhoc solution scale of 1 take <code>1 unit time</code>. It is further assumed that <code>f(n)</code> unit time is required to decompose the original problem into <code>k</code> sub-problems and merge the solutions of the <code>k</code> sub-problems into solutions of the original problem. Using <code>T(n)</code> to represent the calculation time required for this <code>divide-and-conquer</code> method to solve a problem of scale <code>|P| = n</code>, then:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T(n）= k*T(n/m)+f(n)</span><br></pre></td></tr></table></figure>
+
+<p>Find the solution to the equation by iteration:</p>
+<p>The recursive equation and its solution only give the value of <code>T(n)</code> when <code>n</code> is equal to the <code>power of m</code>, but if <code>T(n)</code> is considered smooth enough, then <code>T(n)</code>‘s growth rate can be estimated by the value of <code>T(n)</code> when <code>n</code> is equal to the <code>power of m</code>. It is generally assumed that <code>T(n)</code> rises monotonically, so that when <code>mi &lt;= n &lt; mi + 1</code>, <code>T(mi) ≤ T(n) &lt; T(mi + 1)</code>.</p>
+<h2 id="Some-classic-problems-that-can-be-solved-using-divide-and-conquer"><a href="#Some-classic-problems-that-can-be-solved-using-divide-and-conquer" class="headerlink" title="Some classic problems that can be solved using divide-and-conquer"></a>Some classic problems that can be solved using divide-and-conquer</h2><ol>
+<li>Binary search</li>
+<li>Large integer multiplication</li>
+<li>Strassen matrix multiplication</li>
+<li>Checkerboard coverage</li>
+<li>Merge and sort</li>
+<li>Quick sort</li>
+<li>Linear time selection</li>
+<li>Closest point pair problem</li>
+<li>Round robin schedule</li>
+<li>Hanoi Tower</li>
+</ol>
+<h2 id="Thinking-process-when-designing-procedures-based-on-divide-and-conquer"><a href="#Thinking-process-when-designing-procedures-based-on-divide-and-conquer" class="headerlink" title="Thinking process when designing procedures based on divide-and-conquer"></a>Thinking process when designing procedures based on divide-and-conquer</h2><p>In fact, it is similar to the <code>mathematical induction</code> method, find the solution equation formula to solve this problem, and then design the recursive program according to the equation formula.</p>
+<ol>
+<li>Must found the solution for the minimum problem size</li>
+<li>Then consider the solution as the problem size increases</li>
+<li>After finding the recursive function to solve (various scales or factors), design the recursive program.</li>
+</ol>
+
                 </article>
                 <ul class="tags-postTags">
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Binary-Search/" rel="tag"># Leetcode - Binary Search</a>
-                    </li>
                     
                 </ul>
             </div>
@@ -186,14 +218,10 @@ Search a value in an m x n matrix, determine if it exists.
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 75. Sort Colors" href="/Leetcode-75-Sort-Colors/">
-            ← Leetcode 75. Sort Colors
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 64. Minimum Path Sum" href="/Leetcode-64-Minimum-Path-Sum/">
-            Leetcode 64. Minimum Path Sum →
+        <a class="next-post" title="Leetcode 22. Generate Parentheses" href="/Leetcode-22-Generate-Parentheses/">
+            Leetcode 22. Generate Parentheses →
         </a>
         
     </nav>
@@ -219,7 +247,7 @@ Search a value in an m x n matrix, determine if it exists.
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-Concept"><span class="toc-text">Basic Concept</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-ideas-and-strategies"><span class="toc-text">Basic ideas and strategies</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scope-of-application"><span class="toc-text">Scope of application</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Steps-to-solve-problems-using-divide-and-conquer"><span class="toc-text">Steps to solve problems using divide-and-conquer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Complexity-analysis-of-divide-and-conquer"><span class="toc-text">Complexity analysis of divide-and-conquer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Some-classic-problems-that-can-be-solved-using-divide-and-conquer"><span class="toc-text">Some classic problems that can be solved using divide-and-conquer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Thinking-process-when-designing-procedures-based-on-divide-and-conquer"><span class="toc-text">Thinking process when designing procedures based on divide-and-conquer</span></a></li></ol>
     </div>
 </div>
 
@@ -518,7 +546,7 @@ Search a value in an m x n matrix, determine if it exists.
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-74-Search-a-2D-Matrix/" class="leancloud-visitors" data-flag-title="Leetcode 74. Search a 2D Matrix">
+			        <span hidden="true" id="/Divide-and-conquer-Algorithm/" class="leancloud-visitors" data-flag-title="Divide-and-conquer Algorithm">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
