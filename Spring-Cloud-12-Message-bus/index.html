@@ -240,7 +240,7 @@
 <p>From the log output, you can see that the <code>Product-Service-Consumer</code> microservice has been able to correctly receive the product change event and handle it accordingly.</p>
 <h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>It is indeed easier to understand and easier to use <code>Bus</code> from the refactored code. This is very good for simple applications, such as broadcasting. A typical application is configuration refresh in <code>Config</code>. When both <code>Config</code> and <code>Bus</code> are introduced into a project, configuration changes can be broadcasted via the <code>/bus/refresh</code> endpoint, allowing the corresponding microservice to reload configuration data.</p>
 <p>Of course, another layer of the simplicity of <code>Bus</code> is that it is not flexible enough, so whether you use <code>Bus</code> or directly use <code>Streams</code> in your project depends on your needs.</p>
-<p>Check out the source code here: <a href="https://github.com/nicklee1006/SpringCloudDemo/tree/master/stream" target="_blank" rel="noopener">Bus demo</a></p>
+<p>Check out the source code here: <a href="https://github.com/nicklee1006/SpringCloudDemo/tree/master/bus" target="_blank" rel="noopener">Bus demo</a></p>
 
                 </article>
                 <ul class="tags-postTags">
