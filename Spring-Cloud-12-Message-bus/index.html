@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="preconnect" href="//www.googletagmanager.com">
+	<link rel="preconnect" href="//zz.bdstatic.com">
+	<link rel="preconnect" href="//sp0.baidu.com">
+	<link rel="preconnect" href="//www.google-analytics.com">
+	<link rel="preconnect" href="//cdn1.lncld.net">
+	<link rel="preconnect" href="//unpkg.com">
+	<link rel="preconnect" href="//app-router.leancloud.cn">
+	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
+	<link rel="preconnect" href="//gravatar.loli.net">
+
+	<title>Spring Cloud 12: Message bus | Nick Li</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="Nick Li">
+	<meta name="description" content>
+
+	
+
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="Nick Li">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Spring Cloud 12: Message bus | Nick Li">
+	<meta property="og:description" content>
+	<meta property="og:url" content="http://nicklee1006.github.io/Spring-Cloud-12-Message-bus/">
+
+	
+	<meta property="article:published_time" content="2020-03-06T20:03:00+08:00"> 
+	<meta property="article:author" content="Nick Li">
+	<meta property="article:published_first" content="Nick Li, /Spring-Cloud-12-Message-bus/">
+	
+
+	
+	
+	<link rel="stylesheet" href="/css/allinonecss.min.css">
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151447201-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-151447201-1');
+	</script>
+	
+	
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header post-site-header outer">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/archives" title="ARCHIVES">ARCHIVES</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button-area">
+        <a href="#search" class="search-button">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="search-button">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    <a class="social-link" title="linkedin" href="https://www.linkedin.com/in/chenzhang-li/" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<div id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <div class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2020-03-06T10:35:08.000Z">
+                    2020-03-6
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Spring-Cloud/">Spring Cloud</a>&nbsp;&nbsp;
+                
+                
+            </div>
+            <h1 class="post-full-title">Spring Cloud 12: Message bus</h1>
+        </header>
+        <div class="post-full ">
+            
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/03/06/UTHgXOPGN5iZrLE.jpg)">
+            </figure>
+            
+            <div class="post-full-content">
+                <article id="photoswipe" class="markdown-body">
+                    <p>Before we start talking about <code>Spring Cloud Bus</code>, let’s look at another IT term: <code>ESB (Enterprise Service Bus)</code>. <code>ESB</code> is described in Wikipedia (<a href="https://en.wikipedia.org/wiki/Enterprise_service_bus" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Enterprise_service_bus</a>):</p>
+<blockquote>
+<p>An enterprise service bus (ESB) implements a communication system between mutually interacting software applications in a service-oriented architecture (SOA). It represents a software architecture for distributed computing, and is a special variant of the more general client-server model, wherein any application may behave as server or client. ESB promotes agility and flexibility with regard to high-level protocol communication between applications. Its primary use is in enterprise application integration (EAI) of heterogeneous and complex service landscapes.</p>
+</blockquote>
+<p><code>Enterprise service bus</code> usually provides an abstraction layer on the enterprise message system, so that the integration architect can use the value of the message to complete the integration without coding. In simple terms, the <code>enterprise service bus</code> is another abstraction layer that is built on top of the message middleware, so that we can complete the processing of business logic without caring about message-related processing.</p>
+<p>At this point, have you suddenly understood the relationship between <code>Spring Cloud Bus</code> and <code>Spring Cloud Stream</code>? When you first know these two components, most of you will be confused about what is the difference between the two? What is the connection between them? <code>Stream</code> abstracts and encapsulates the message middleware to provide a unified interface for us to send and listen to messages, while <code>Bus</code> is abstracted and encapsulated again on the basis of <code>Stream</code>, so that we can complete the processing of business logic without understanding the basics of message sending and listening.</p>
+<p>So how does <code>Spring Cloud Bus</code> do it for us? In a word, it is the event mechanism.</p>
+<h2 id="Spring’s-event-mechanism"><a href="#Spring’s-event-mechanism" class="headerlink" title="Spring’s event mechanism"></a>Spring’s event mechanism</h2><p>There is an event mechanism in the <code>Spring</code> framework, which is an implementation of the observer pattern. Observer pattern establishes a kind of object-to-object relationship. When an object(called: <code>observation target</code>) changes, it will automatically notify other objects(called: <code>observer</code>), and these <code>observers</code> will make corresponding reaction. An <code>observation target</code> can correspond to multiple <code>observers</code>, and there is no mutual connection between these <code>observers</code>. You can add and delete <code>observers</code> as needed, making the system easier to expand. The following purposes can be achieved through the Spring event mechanism:</p>
+<ul>
+<li>Decoupling between application modules;</li>
+<li>You can define multiple processing methods for the same event according to your needs;</li>
+<li>Not disturbing the main line application is an excellent <code>Open and Close Principle (OCP)</code> practice.</li>
+</ul>
+<p>When we introduce event mechanism in our application, we need to use the following interfaces or abstract classes in <code>Spring</code>:</p>
+<ul>
+<li><strong>ApplicationEventPublisher</strong>: This is an interface for publishing an event;</li>
+<li><strong>ApplicationEvent</strong>: This is an abstract class used to define an event;</li>
+<li><strong>ApplicationListener &lt;E extends ApplicationEvent&gt;</strong>: This is an interface that implements event listening.</li>
+</ul>
+<p>The context of the Spring application, <code>ApplicationContext</code>, implements the <code>ApplicationEventPublisher</code> interface by default, so when publishing events, we can directly use the <code>ApplicationContext.publishEvent()</code> method.</p>
+<p>A typical <code>Spring</code> event sending and listening code is as follows:</p>
+<h3 id="Define-event"><a href="#Define-event" class="headerlink" title="Define event"></a>Define event</h3><p>For example, we define a user event:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserEvent</span> <span class="keyword">extends</span> <span class="title">ApplicationEvent</span> </span>&#123;</span><br><span class="line">    <span class="comment">/** Message type */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ET_UPDATE = <span class="string">"update"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ========================================================================</span></span><br><span class="line">    <span class="comment">// fields =================================================================</span></span><br><span class="line">    <span class="keyword">private</span> String action;</span><br><span class="line">    <span class="keyword">private</span> User user;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ========================================================================</span></span><br><span class="line">    <span class="comment">// constructor ============================================================</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UserEvent</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(user);</span><br><span class="line">        <span class="keyword">this</span>.user = user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UserEvent</span><span class="params">(User user, String action)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(user);</span><br><span class="line">        <span class="keyword">this</span>.action = action;</span><br><span class="line">        <span class="keyword">this</span>.user = user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> MoreObjects.toStringHelper(<span class="keyword">this</span>)</span><br><span class="line">                .add(<span class="string">"action"</span>, <span class="keyword">this</span>.getAction())</span><br><span class="line">                .add(<span class="string">"user"</span>, <span class="keyword">this</span>.getUser()).toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ==================================================================</span></span><br><span class="line">    <span class="comment">// setter/getter ====================================================</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> action;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAction</span><span class="params">(String action)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.action = action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUser</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.user = user;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Define-listener"><a href="#Define-listener" class="headerlink" title="Define listener"></a>Define listener</h3><p>We define a user event listener and handle the event when the user changes:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserEventListener</span> <span class="keyword">implements</span> <span class="title">ApplicationListener</span>&lt;<span class="title">UserEvent</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> Logger logger = LoggerFactory.getLogger(<span class="keyword">this</span>.getClass());</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onApplicationEvent</span><span class="params">(UserEvent userEvent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.logger.debug(<span class="string">"Received user event: &#123;&#125; "</span>, userEvent);</span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> detail business logic</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Event listening is relatively simple. You only need to implement the <code>ApplicationListener</code> interface and handle it accordingly.</p>
+<h3 id="Publish-event"><a href="#Publish-event" class="headerlink" title="Publish event"></a>Publish event</h3><p>We can implement it directly in Event class. For example, we change the above <code>UserEvent</code> to the following:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserEvent</span> <span class="keyword">extends</span> <span class="title">ApplicationEvent</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ignore previous code</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Pubblish event</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fire</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ApplicationContext context = ApplicationContextHolder.getApplicationContext();</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span> != context) &#123;</span><br><span class="line">            logger.debug(<span class="string">"Publish event：&#123;&#125;"</span>, <span class="keyword">this</span>);</span><br><span class="line">            context.publishEvent(<span class="keyword">this</span>);            </span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            logger.warn(<span class="string">"Can't obtain application context"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Then we can publish events with the following code where needed:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> UserEvent(user, UserEvent.ET_UPDATE).fire();</span><br></pre></td></tr></table></figure>
+
+<h2 id="Spring-Cloud-Bus-mechanism"><a href="#Spring-Cloud-Bus-mechanism" class="headerlink" title="Spring Cloud Bus mechanism"></a>Spring Cloud Bus mechanism</h2><p>We learned about <code>Spring</code>‘s event mechanism above, so how does <code>Spring Cloud Bus</code> combine the event mechanism with <code>Stream</code>? In summary, the mechanism is as follows:</p>
+<ol>
+<li>Add the <code>@RemoteApplicationEventScan</code> annotation to the application that needs to publish or listen to events. With this annotation we can start the binding of the message channel mentioned in the <code>Stream</code>;</li>
+<li>For <strong>event publishing</strong>, you need to extend the <code>ApplicationEvent</code> extension class-<code>RemoteApplicationEvent</code>. When this type of event is published through <code>ApplicationContext.publishEvent()</code>, <code>Spring Cloud Bus</code> will wrap the event, form a message we are familiar with,  and then send it to the message broker through the default <code>springCloudBus</code> message channel;</li>
+<li>For <strong>event listeners</strong>, you don’t need to make any changes, and you can still listen to messages in the same way as above. However, it should be noted that the events defined in step 2 must also be defined in the consumer microservices project, and the entire class names need to be consistent (if they are inconsistent, a little extra work is needed).</li>
+</ol>
+<p>With <code>Spring Cloud Bus</code>, we can develop like writing a monolithic application without having to deal with a lot of concepts such as message broker, topics, messages, channels, and so on.</p>
+<p>Let’s look at how we can modify the <code>Stream</code> demo to incooperate <code>Spring Cloud Bus</code>.</p>
+<h2 id="Refactor-Spring-Cloud-Stream-demo"><a href="#Refactor-Spring-Cloud-Stream-demo" class="headerlink" title="Refactor Spring Cloud Stream demo"></a>Refactor Spring Cloud Stream demo</h2><h3 id="Refactor-Product-Service"><a href="#Refactor-Product-Service" class="headerlink" title="Refactor Product-Service"></a>Refactor Product-Service</h3><h4 id="1-Add-bus-dependency"><a href="#1-Add-bus-dependency" class="headerlink" title="1. Add bus dependency"></a>1. Add bus dependency</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-bus-kafka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-Create-Product-Event"><a href="#2-Create-Product-Event" class="headerlink" title="2. Create Product Event"></a>2. Create Product Event</h4><p>We change the product message to an event with the following code:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductEvent</span> <span class="keyword">extends</span> <span class="title">RemoteApplicationEvent</span> </span>&#123;</span><br><span class="line">    <span class="comment">/** Message type：update, value: &#123;<span class="doctag">@value</span>&#125; */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ET_UPDATE = <span class="string">"update"</span>;</span><br><span class="line">    <span class="comment">/** Message type：delete, value: &#123;<span class="doctag">@value</span>&#125; */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ET_DELETE = <span class="string">"delete"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ========================================================================</span></span><br><span class="line">    <span class="comment">// fields =================================================================</span></span><br><span class="line">    <span class="keyword">private</span> String action;</span><br><span class="line">    <span class="keyword">private</span> String itemCode;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProductEvent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProductEvent</span><span class="params">(Object source, String originService, String destinationService, String action, String itemCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(source, originService, destinationService);</span><br><span class="line">        <span class="keyword">this</span>.action = action;</span><br><span class="line">        <span class="keyword">this</span>.itemCode = itemCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"action: "</span> + <span class="keyword">this</span>.action + <span class="string">" itemCode: "</span> + <span class="keyword">this</span>.itemCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAction</span><span class="params">(String action)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.action = action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getItemCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> itemCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setItemCode</span><span class="params">(String itemCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.itemCode = itemCode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Here the difference in constructor is that you need to specify the <code>originService</code> and <code>destinationService</code> when constructing an event. For <strong>event publishers</strong>, <code>originService</code> is itself, and <code>destinationService</code> refers to those microservice instances that need to publish this event. The format of the <code>destinationService</code> configuration is: <code>{serviceId}: {appContextId}</code>. During configuration, <code>serviceId</code> and <code>appContextId</code> can use wildcards. If both variables use wildcards <code>(*:**)</code>, the event will be published to all microservice instances. If only the <code>appContextId</code> is omitted, the event will only be published to all instances of the specified microservice. For example: <code>userservice:**</code>, the event will only be published to the <code>userservice</code> microservice.</p>
+<h4 id="3-Implement-event-publishing"><a href="#3-Implement-event-publishing" class="headerlink" title="3. Implement event publishing"></a>3. Implement event publishing</h4><p>We change the code in ProductService as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Logger logger = LoggerFactory.getLogger(ProductService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;ProductDto&gt; productList;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    BusProperties busProperties;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProductService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.productList = <span class="keyword">this</span>.buildProducts();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Get product list</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;ProductDto&gt; <span class="title">findAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.productList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * get product by item</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ProductDto <span class="title">findOne</span><span class="params">(String itemCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (ProductDto productDto : <span class="keyword">this</span>.productList) &#123;</span><br><span class="line">            <span class="keyword">if</span> (productDto.getItemCode().equalsIgnoreCase(itemCode))</span><br><span class="line">                <span class="keyword">return</span> productDto;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * update or save product</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ProductDto <span class="title">save</span><span class="params">(ProductDto productDto)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (ProductDto sourceProductDto : <span class="keyword">this</span>.productList) &#123;</span><br><span class="line">            <span class="keyword">if</span> (sourceProductDto.getItemCode().equalsIgnoreCase(productDto.getItemCode())) &#123;</span><br><span class="line">                sourceProductDto.setName(sourceProductDto.getName() + <span class="string">"-new"</span>);</span><br><span class="line">                sourceProductDto.setPrice(sourceProductDto.getPrice() + <span class="number">100</span>);</span><br><span class="line">                productDto = sourceProductDto;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// publish event</span></span><br><span class="line">        <span class="keyword">this</span>.fireEvent(ProductEvent.ET_UPDATE, productDto);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> productDto;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Implement publish event</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">fireEvent</span><span class="params">(String eventAction, ProductDto productDto)</span> </span>&#123;</span><br><span class="line">        ProductEvent productEvent = <span class="keyword">new</span> ProductEvent(productDto,</span><br><span class="line">                busProperties.getId(),</span><br><span class="line">                <span class="string">"*:**"</span>,</span><br><span class="line">                eventAction,</span><br><span class="line">                productDto.getItemCode());</span><br><span class="line">        <span class="keyword">this</span>.logger.info(<span class="string">"Publish event:&#123;&#125; "</span>, productEvent);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Publish</span></span><br><span class="line">        RemoteApplicationEventPublisher.publishEvent(productEvent);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> List&lt;ProductDto&gt; <span class="title">buildProducts</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        List&lt;ProductDto&gt; products = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        products.add(<span class="keyword">new</span> ProductDto(<span class="string">"item-1"</span>, <span class="string">"test-1"</span>, <span class="string">"brand1"</span>, <span class="number">100</span>));</span><br><span class="line">        products.add(<span class="keyword">new</span> ProductDto(<span class="string">"item-2"</span>, <span class="string">"test-2"</span>, <span class="string">"brand2"</span>, <span class="number">200</span>));</span><br><span class="line">        products.add(<span class="keyword">new</span> ProductDto(<span class="string">"item-3"</span>, <span class="string">"test-3"</span>, <span class="string">"brand3"</span>, <span class="number">300</span>));</span><br><span class="line">        products.add(<span class="keyword">new</span> ProductDto(<span class="string">"item-4"</span>, <span class="string">"test-4"</span>, <span class="string">"brand4"</span>, <span class="number">400</span>));</span><br><span class="line">        products.add(<span class="keyword">new</span> ProductDto(<span class="string">"item-5"</span>, <span class="string">"test-5"</span>, <span class="string">"brand5"</span>, <span class="number">500</span>));</span><br><span class="line">        products.add(<span class="keyword">new</span> ProductDto(<span class="string">"item-6"</span>, <span class="string">"test-6"</span>, <span class="string">"brand6"</span>, <span class="number">600</span>));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> products;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The code of <code>RemoteApplicationEventPublisher</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RemoteApplicationEventPublisher</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">static</span> Logger logger = LoggerFactory.getLogger(RemoteApplicationEventPublisher<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">publishEvent</span><span class="params">(RemoteApplicationEvent event)</span></span>&#123;</span><br><span class="line">        ApplicationContext context = ApplicationContextHolder.getApplicationContext();</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span> != context) &#123;</span><br><span class="line">            context.publishEvent(event);</span><br><span class="line">            logger.info(<span class="string">"Publish:&#123;&#125;"</span>, event);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            logger.warn(<span class="string">"Unable to get application context"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-Main-application"><a href="#4-Main-application" class="headerlink" title="4. Main application"></a>4. Main application</h4><p>Finally, modify the main class and add the <code>@RemoteApplicationEventScan</code> annotation:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="meta">@RemoteApplicationEventScan</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductServiceApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(ProductServiceApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Note: the remote event must be defined in a subpackage of the class annotated by <code>@RemoteApplicationEventScan</code> annotation, otherwise remote event publishing cannot be achieved</p>
+</blockquote>
+<h3 id="Refactor-Product-Service-Consumer"><a href="#Refactor-Product-Service-Consumer" class="headerlink" title="Refactor Product-Service-Consumer"></a>Refactor Product-Service-Consumer</h3><h4 id="1-Add-bus-dependency-1"><a href="#1-Add-bus-dependency-1" class="headerlink" title="1. Add bus dependency"></a>1. Add bus dependency</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-bus-kafka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-Copy-ProductEvent-to-this-project"><a href="#2-Copy-ProductEvent-to-this-project" class="headerlink" title="2. Copy ProductEvent to this project"></a>2. Copy ProductEvent to this project</h4><h4 id="3-Implement-event-listening"><a href="#3-Implement-event-listening" class="headerlink" title="3. Implement event listening"></a>3. Implement event listening</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductEventListener</span> <span class="keyword">implements</span> <span class="title">ApplicationListener</span>&lt;<span class="title">ProductEvent</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> Logger logger = LoggerFactory.getLogger(<span class="keyword">this</span>.getClass());</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Qualifier</span>(<span class="string">"productServiceFallback"</span>)</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">protected</span> ProductService productService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onApplicationEvent</span><span class="params">(ProductEvent productEvent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (ProductEvent.ET_UPDATE.equalsIgnoreCase(productEvent.getAction())) &#123;</span><br><span class="line">            <span class="keyword">this</span>.logger.debug(<span class="string">"Received update event itemCode: &#123;&#125;"</span>, productEvent.getItemCode());</span><br><span class="line">            <span class="comment">// get new product info</span></span><br><span class="line">            Product productDto = <span class="keyword">this</span>.productService.loadByItemCode(productEvent.getItemCode());</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != productDto)</span><br><span class="line">                <span class="keyword">this</span>.logger.debug(<span class="string">"Update product info:&#123;&#125;"</span>, productDto);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">this</span>.logger.debug(<span class="string">"itemCode:&#123;&#125; no exist"</span>, productEvent.getItemCode());</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ProductEvent.ET_DELETE.equalsIgnoreCase(productEvent.getAction())) &#123;</span><br><span class="line">            <span class="keyword">this</span>.logger.debug(<span class="string">"Received delete event itemCode: &#123;&#125;"</span>, productEvent.getItemCode());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.logger.debug(<span class="string">"Unknown product event: &#123;&#125;"</span>, productEvent);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-Main-class"><a href="#4-Main-class" class="headerlink" title="4. Main class"></a>4. Main class</h4><p>As with <code>Product-Service</code>, remote message scanning needs to be enabled for both event publishing and event monitoring. Add the <code>@RemoteApplicationEventScan</code> annotation directly to the main class</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="meta">@EnableCircuitBreaker</span></span><br><span class="line"><span class="meta">@RemoteApplicationEventScan</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConsumerApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(ConsumerApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Testing"><a href="#Testing" class="headerlink" title="Testing"></a>Testing</h3><p>Start service in the following order:</p>
+<ol>
+<li>Kafka server;</li>
+<li>Service-discovery;</li>
+<li>Product-Service microservice;</li>
+<li>Product-Service-Consumer microservices.</li>
+</ol>
+<p>POST a HTTP request to: <a href="http://localhost:2100/products/item-2" target="_blank" rel="noopener">http://localhost:2100/products/item-2</a>. In the console of the <code>Product-Service</code> microservice, you can see output similar to the following:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-03-06 23:40:26.498 DEBUG             82437 --- [nio-2100-exec-1] o.s.web.servlet.DispatcherServlet        : POST &quot;/products/item-2&quot;, parameters=&#123;&#125;</span><br><span class="line">2020-03-06 23:40:26.517  INFO             82437 --- [nio-2100-exec-1] s.productservice.service.ProductService  : Publish event:action: update itemCode: item-2</span><br></pre></td></tr></table></figure>
+
+<p>From the output log, you can see that the product event has been published. If at this time we look at the console of the <code>Product-Service-Consumer</code> microservice, we can see the output of the following:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-03-06 23:40:33.722  INFO             82441 --- [container-0-C-1] s.mall.event.ProductEventListener        : Received update event itemCode: item-2</span><br><span class="line">2020-03-06 23:40:33.723  INFO             82441 --- [container-0-C-1] s.mall.event.ProductEventListener        : Update product info:springclouddemo.mall.entity.Product@14a7134</span><br></pre></td></tr></table></figure>
+
+<p>From the log output, you can see that the <code>Product-Service-Consumer</code> microservice has been able to correctly receive the product change event and handle it accordingly.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>It is indeed easier to understand and easier to use <code>Bus</code> from the refactored code. This is very good for simple applications, such as broadcasting. A typical application is configuration refresh in <code>Config</code>. When both <code>Config</code> and <code>Bus</code> are introduced into a project, configuration changes can be broadcasted via the <code>/bus/refresh</code> endpoint, allowing the corresponding microservice to reload configuration data.</p>
+<p>Of course, another layer of the simplicity of <code>Bus</code> is that it is not flexible enough, so whether you use <code>Bus</code> or directly use <code>Streams</code> in your project depends on your needs.</p>
+<p>Check out the source code here: <a href="https://github.com/nicklee1006/SpringCloudDemo/tree/master/stream" target="_blank" rel="noopener">Bus demo</a></p>
+
+                </article>
+                <ul class="tags-postTags">
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="Leetcode 46. Permutations" href="/Leetcode-46-Permutations/">
+            Leetcode 46. Permutations →
+        </a>
+        
+    </nav>
+
+    
+    <div class="inner">
+        <div id="comment"></div>
+    </div>
+    
+</div>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring’s-event-mechanism"><span class="toc-text">Spring’s event mechanism</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Define-event"><span class="toc-text">Define event</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Define-listener"><span class="toc-text">Define listener</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Publish-event"><span class="toc-text">Publish event</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Cloud-Bus-mechanism"><span class="toc-text">Spring Cloud Bus mechanism</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Refactor-Spring-Cloud-Stream-demo"><span class="toc-text">Refactor Spring Cloud Stream demo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Refactor-Product-Service"><span class="toc-text">Refactor Product-Service</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Add-bus-dependency"><span class="toc-text">1. Add bus dependency</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Create-Product-Event"><span class="toc-text">2. Create Product Event</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Implement-event-publishing"><span class="toc-text">3. Implement event publishing</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Main-application"><span class="toc-text">4. Main application</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Refactor-Product-Service-Consumer"><span class="toc-text">Refactor Product-Service-Consumer</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Add-bus-dependency-1"><span class="toc-text">1. Add bus dependency</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Copy-ProductEvent-to-this-project"><span class="toc-text">2. Copy ProductEvent to this project</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Implement-event-listening"><span class="toc-text">3. Implement event listening</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Main-class"><span class="toc-text">4. Main class</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Testing"><span class="toc-text">Testing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Conclusion"><span class="toc-text">Conclusion</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+  <header class="read-next-card-header">
+    <small class="read-next-card-header-sitetitle">&mdash; Nick Li &mdash;</small>
+    <h3 class="read-next-card-header-title">Recent Posts</h3>
+  </header>
+  <div class="read-next-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+      <path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/>
+    </svg>
+  </div>
+  <div class="read-next-card-content">
+    <ul>
+      
+      
+      
+      <li>
+        <a href="/Spring-Cloud-12-Message-bus/">Spring Cloud 12: Message bus</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Leetcode-46-Permutations/">Leetcode 46. Permutations</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Divide-and-conquer-Algorithm/">Divide-and-conquer Algorithm</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+  <footer class="read-next-card-footer">
+    <a href="/archives">  MORE  → </a>
+  </footer>
+</article>
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+    <header class="read-next-card-header tagcloud-card">
+        <h3 class="read-next-card-header-title">Categories</h3>
+    </header>
+    <div class="read-next-card-content">
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cloud/">Spring Cloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/how-to-guide/">how-to-guide</a></li></ul>
+    </div>
+</article>
+
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+	<header class="read-next-card-header tagcloud-card">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 15.43px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 15.43px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 22.57px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 18.29px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Depth-First-Search/" style="font-size: 14px;">Leetcode - Depth First Search</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 21.14px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 15.43px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 18.29px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Linked-List/" style="font-size: 16.86px;">Leetcode - Linked List</a> <a href="/tags/Leetcode-Math/" style="font-size: 14px;">Leetcode - Math</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 15.43px;">Leetcode - Sort</a> <a href="/tags/Leetcode-Stack/" style="font-size: 14px;">Leetcode - Stack</a> <a href="/tags/Leetcode-String/" style="font-size: 19.71px;">Leetcode - String</a> <a href="/tags/Leetcode-Tree/" style="font-size: 18.29px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 22.57px;">Leetcode - Two Pointers</a> <a href="/tags/Stream-API/" style="font-size: 15.43px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 15.43px;">hexo</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay">
+    <div class="search-form">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<div class="copyright">
+			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
+			
+				
+			        <span hidden="true" id="/Spring-Cloud-12-Message-bus/" class="leancloud-visitors" data-flag-title="Spring Cloud 12: Message bus">
+			            <span>阅读量 </span>
+			            <span class="leancloud-visitors-count">0</span>
+			        </span>
+	    		
+    		
+		</div>
+		<nav class="site-footer-nav">
+			
+			<a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+			<a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+		</nav>
+	</div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister()
+            }
+        })
+    }
+</script>
+
+
+<script id="scriptLoad" src="/js/allinone.min.js" async></script>
+
+
+<script>
+    document.getElementById('scriptLoad').addEventListener('load', function () {
+        
+        
+            var bLazy = new Blazy();
+        
+
+        
+        
+
+        
+        
+        
+            searchFunc("/");
+        
+        
+    })
+</script>
+
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+
+
+<script id="valineScript" src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+<script>
+    document.getElementById('valineScript').addEventListener("load", function() {
+        new Valine({
+            el: '#comment' ,
+            verify: false,
+            notify: false,
+            appId: '3TACGUnsSRuWgqCn3pRpLVwQ-MdYXbMMI',
+            appKey: 'JTo5iyjOyGTEXzAwjaTNqcY0',
+            placeholder: 'Please leave a comment',
+            pageSize: 10,
+            avatar: 'mm',
+            visitor: true,
+            lang: 'en'
+        })
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
