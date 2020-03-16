@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 90. Subsets II | Nick Li</title>
+	<title>Leetcode 77. Combinations | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 90. Subsets II | Nick Li">
+	<meta property="og:title" content="Leetcode 77. Combinations | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-90-Subsets-II/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-77-Combinations/">
 
 	
-	<meta property="article:published_time" content="2020-01-15T21:01:00+08:00"> 
+	<meta property="article:published_time" content="2020-03-16T20:03:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-90-Subsets-II/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-77-Combinations/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-01-15T11:30:29.000Z">
-                    2020-01-15
+                <time class="post-full-meta-date" datetime="2020-03-16T10:04:34.000Z">
+                    2020-03-16
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 90. Subsets II</h1>
+            <h1 class="post-full-title">Leetcode 77. Combinations</h1>
         </header>
         <div class="post-full ">
             
@@ -157,31 +157,28 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-90-Subsets-II/Question.png" data-index="0" data-src="/Leetcode-90-Subsets-II/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-77-Combinations/Question.png" data-index="0" data-src="/Leetcode-77-Combinations/Question.png">
 <br>
 <br>
-Return all subsets of a set of integers (may contain duplicates).
 
+<p>Given <code>n</code>, <code>k</code>, select <code>k</code> numbers from <code>{1, 2, 3 ... n}</code>, output all possible, and sort numbers from small to large, and each number can only be used once.</p>
 <h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Medium - <a href="/Leetcode-78-Subsets/" title="78. Subsets">78. Subsets</a></li>
+<li>Medium - <a href="/Leetcode-39-Combination-Sum/" title="39. Combination Sum">39. Combination Sum</a></li>
+<li>Medium - <a href="/Leetcode-46-Permutations/" title="46. Permutations">46. Permutations</a></li>
 </ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>We can revise the solution of <a href="/Leetcode-78-Subsets/" title="78. Subsets">78. Subsets</a>. Let’s take a look at what would happen if we followed the idea of <a href="/Leetcode-78-Subsets/" title="78. Subsets">78. Subsets</a> directly. The previous idea was to add in first element, then add in second element to the subset formed previous. With n-th element, that is add n-th element to all previously formed subset</p>
-<p>For example, the iteration process of nums[1, 2, 3].</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">initialize empty list:      []</span><br><span class="line">1st iteration (nums[k] = 1):[[], [1]]</span><br><span class="line">2nd iteration (nums[k] = 2):[[], [1], [2], [1, 2]]</span><br><span class="line">3rd iteration (nums[k] = 3):[[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]</span><br></pre></td></tr></table></figure>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Very classic backtracking problem. First select a number, then enter the recursion to continue to select, meet the conditions and add to the result, then back to the previous step and continue the recursion. </p>
+<p>Look at the code directly, it is easy to understand.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; combine(<span class="keyword">int</span> n, <span class="keyword">int</span> k) &#123;</span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    backtrack(result, <span class="keyword">new</span> ArrayList&lt;&gt;(), n, k, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// similar to permutation</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">backtrack</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; result, List&lt;Integer&gt; tempList, <span class="keyword">int</span> n, <span class="keyword">int</span> k, <span class="keyword">int</span> start)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// find a solution, add to result list</span></span><br><span class="line">    <span class="keyword">if</span> (tempList.size() == k) &#123;</span><br><span class="line">        result.add(<span class="keyword">new</span> ArrayList&lt;&gt;(tempList));</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &lt;= n; i++) &#123;</span><br><span class="line">        <span class="comment">// avoid duplicates</span></span><br><span class="line">        <span class="keyword">if</span> (tempList.contains(i)) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// add current number in</span></span><br><span class="line">        tempList.add(i);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// add other numbers in</span></span><br><span class="line">        backtrack(result, tempList, n, k, i + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// all possible number has been added, remove last number and start</span></span><br><span class="line">        tempList.remove(tempList.size() - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>But what happens if there are duplicate numbers?</p>
-<p>E.g, nums[1, 2, 2]</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1st iteration (nums[k] = 1):[[], [1]]</span><br><span class="line">2nd iteration (nums[k] = 2):[[], [1], [2], [1, 2]]</span><br><span class="line">3rd iteration (nums[k] = 2):[[], [1], [2], [1, 2], [2], [1, 2], [2, 2], [1, 2, 2]]</span><br></pre></td></tr></table></figure>
+<p>A for loop, <code>add</code>, <code>recurse</code>, <code>delete</code>, is a classic backtracking template. Here is an optimization method. In the for loop, <code>i</code> goes from <code>start</code> to <code>n</code>, but it is not necessary to go to <code>n</code>. For example, <code>n = 5</code>, <code>k = 4</code>, <code>tempList.size () == 1</code>, which means that we need <code>(4-1 = 3)</code> numbers. If <code>i = 4</code>, we will at most add  4 and 5 to <code>tempList</code>. In this case, <code>tempList.size()</code> is equal to <code>1 + 2 = 3</code>, which is less than 4, so <code>i</code> does not need to be equal to 4, and it is sufficient for <code>i</code> to loop to 3.</p>
+<p>So the end condition of the <code>for</code> loop can be changed to <code>i &lt;= n-(k-tempList.size()) + 1</code>, <code>k-tempList.size()</code> represents the numbers we need. Because we got <code>n</code> in the end, we need to add 1.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; combine(<span class="keyword">int</span> n, <span class="keyword">int</span> k) &#123;</span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    backtrack(result, <span class="keyword">new</span> ArrayList&lt;&gt;(), n, k, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// similar to permutation</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">backtrack</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; result, List&lt;Integer&gt; tempList, <span class="keyword">int</span> n, <span class="keyword">int</span> k, <span class="keyword">int</span> start)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// find a solution, add to result list</span></span><br><span class="line">    <span class="keyword">if</span> (tempList.size() == k) &#123;</span><br><span class="line">        result.add(<span class="keyword">new</span> ArrayList&lt;&gt;(tempList));</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &lt;= n - (k -tempList.size()) + <span class="number">1</span>; i++) &#123;</span><br><span class="line">        <span class="comment">// avoid duplicates</span></span><br><span class="line">        <span class="keyword">if</span> (tempList.contains(i)) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// add current number in</span></span><br><span class="line">        tempList.add(i);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// add other numbers in</span></span><br><span class="line">        backtrack(result, tempList, n, k, i + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// all possible number has been added, remove last number and start</span></span><br><span class="line">        tempList.remove(tempList.size() - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>We noticed that there are duplicate arrays.</p>
-<p>How to avoid it? We can make a Hashset to store the results, everytime we have a new result, first sort the result, and try to add it to the set. This way we can avoid adding duplicates to the result set. Finally just need to convert the set to a list.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// use set to avoid duplicate results</span></span><br><span class="line">Set&lt;List&lt;Integer&gt;&gt; results = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// add empty list</span></span><br><span class="line">results.add(<span class="keyword">new</span> ArrayList&lt;&gt;());</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> num : nums) &#123;</span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; temp = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (List&lt;Integer&gt; existing : results) &#123;</span><br><span class="line">        List&lt;Integer&gt; newListAppend = <span class="keyword">new</span> ArrayList&lt;&gt;(existing);</span><br><span class="line">        newListAppend.add(num);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// sort the result</span></span><br><span class="line">        Collections.sort(newListAppend);</span><br><span class="line"></span><br><span class="line">        temp.add(newListAppend);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// if duplicate result, then wouldn't add to set</span></span><br><span class="line">    results.addAll(temp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;(results);</span><br></pre></td></tr></table></figure>
+<p>Although only one line of code is changed, the speed is much faster.</p>
+<p>There are other methods, such as <code>recursion</code>, <code>iteration</code>, <code>dynamic programming</code> can be applied here, which I will be discuss in the future if have time.</p>
+
                 </article>
                 <ul class="tags-postTags">
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
-                    </li>
                     
                     <li>
                         <a href="/tags/Leetcode-Backtracking/" rel="tag"># Leetcode - Backtracking</a>
@@ -195,14 +192,10 @@ Return all subsets of a set of integers (may contain duplicates).
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Spring Cloud 6: Fault Tolerant - Hystrix" href="/Spring-Cloud-6-Fault-Tolerant-Hystrix/">
-            ← Spring Cloud 6: Fault Tolerant - Hystrix
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 81. Search in Rotated Sorted Array II" href="/Leetcode-81-Search-in-Rotated-Sorted-Array-II/">
-            Leetcode 81. Search in Rotated Sorted Array II →
+        <a class="next-post" title="Java CountDownLatch" href="/Java-CountDownLatch/">
+            Java CountDownLatch →
         </a>
         
     </nav>
@@ -537,7 +530,7 @@ Return all subsets of a set of integers (may contain duplicates).
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-90-Subsets-II/" class="leancloud-visitors" data-flag-title="Leetcode 90. Subsets II">
+			        <span hidden="true" id="/Leetcode-77-Combinations/" class="leancloud-visitors" data-flag-title="Leetcode 77. Combinations">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
