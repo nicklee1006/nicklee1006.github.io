@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Spring Cloud 1: What is Spring Cloud | Nick Li</title>
+	<title>Backtracking Algorithm | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Spring Cloud 1: What is Spring Cloud | Nick Li">
+	<meta property="og:title" content="Backtracking Algorithm | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Spring-Cloud-1-What-is-Spring-Cloud/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Backtracking-Algorithm/">
 
 	
-	<meta property="article:published_time" content="2019-12-13T08:12:00+08:00"> 
+	<meta property="article:published_time" content="2020-03-18T21:03:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Spring-Cloud-1-What-is-Spring-Cloud/">
+	<meta property="article:published_first" content="Nick Li, /Backtracking-Algorithm/">
 	
 
 	
@@ -138,105 +138,59 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-12-12T22:37:14.000Z">
-                    2019-12-13
+                <time class="post-full-meta-date" datetime="2020-03-18T11:11:15.000Z">
+                    2020-03-18
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Spring-Cloud/">Spring Cloud</a>&nbsp;&nbsp;
+                <a href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a>&nbsp;&nbsp;
                 
                 
             </div>
-            <h1 class="post-full-title">Spring Cloud 1: What is Spring Cloud</h1>
+            <h1 class="post-full-title">Backtracking Algorithm</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/12/13/mLXu4pvRF6zGJaH.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/03/18/quQbSe7P8mh6gFc.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <p>I have been learning Spring Cloud recently, and found it quite interesting. So I would write a series of blogs to introduce different components of Spring Cloud. Let’s begin with a brief introduction of Spring Cloud.</p>
-<p>So what is Spring Cloud? In short, Spring Cloud is a collection of a series of frameworks. It is based on Spring Boot and make use of it to simplify the development of distributed system infrastructure. Spring Cloud consists of several useful functionalities such as <code>service discovery</code>, <code>configuration center</code>, <code>message bus</code>, <code>load balance</code>, and <code>monitoring</code>. It provides a complete set of solution to build an enterprise level cloud application.</p>
-<p>Spring Cloud includes several sub-projects, such as <code>Spring Cloud Config</code>, <code>Spring Cloud Netflix</code>, <code>Spring Cloud Security</code>, etc. Spring collects those mature frameworks from different companies, uses Spring Boot style to re-encapsulate them and removes complicated configuration, and gives developers an easy-to-use, easy-to-deploy and easy-to-maintain distributed system development toolkit.</p>
-<p>With Spring Cloud, every individual service could be a separated application. It can be deployed individually, scale horitontallly and accessed individually. Those services are service unit, which is always called <code>microservice</code> (because they are usually very ‘small’ service that provides a certain type of service). Spring Cloud is the manager of all those microservices. Using microservice architecture, the number of projects (modules) would be huge, but Spring Cloud facilitate the management of all that.</p>
-<p>Now let’s look at some most important components of Spring Cloud. It is a brief introduction, I will discuss more details in the following blogs.</p>
-<h2 id="Key-Components"><a href="#Key-Components" class="headerlink" title="Key Components"></a>Key Components</h2><h3 id="Netflix-Eureka"><a href="#Netflix-Eureka" class="headerlink" title="Netflix Eureka"></a>Netflix Eureka</h3><p>Service center. CLoud side service discovery. It’s the basic of Spring Cloud. All service register themselves at the service center. If one service need to invoke another service, it can find it in the service center as well.</p>
-<h3 id="Netflix-Hystrix"><a href="#Netflix-Hystrix" class="headerlink" title="Netflix Hystrix"></a>Netflix Hystrix</h3><p>Circuit breaker. Provides a powerful fault tolerant capability. For example, if a service is not responding, but other services are not aware of that, that failing service will affect the system performance. With Hystrix, it would notify other services that the failing service can’t be used.</p>
-<h3 id="Ribbon"><a href="#Ribbon" class="headerlink" title="Ribbon"></a>Ribbon</h3><p>Load balancer.</p>
-<h3 id="Netflix-Zuul"><a href="#Netflix-Zuul" class="headerlink" title="Netflix Zuul"></a>Netflix Zuul</h3><p>Dynamic routing. Zuul is the front door of all front end applications and the back end services. When users invoke services, it must go through Zuul, see if the request is valid.</p>
-<h3 id="Spring-Cloud-Config"><a href="#Spring-Cloud-Config" class="headerlink" title="Spring Cloud Config"></a>Spring Cloud Config</h3><p>Configuration center. Developer can put all configurations to a remote server and manages those together rather than manage for each individual service.</p>
-<h3 id="Spring-Cloud-Bus"><a href="#Spring-Cloud-Bus" class="headerlink" title="Spring Cloud Bus"></a>Spring Cloud Bus</h3><p>Event and message bus.</p>
-<h3 id="Spring-Cloud-Security"><a href="#Spring-Cloud-Security" class="headerlink" title="Spring Cloud Security"></a>Spring Cloud Security</h3><p>Security toolkit basic on Spring Security. Add security control to the cloud application.</p>
-<h3 id="Spring-Cloud-Sleuth"><a href="#Spring-Cloud-Sleuth" class="headerlink" title="Spring Cloud Sleuth"></a>Spring Cloud Sleuth</h3><p>Logging toolkits. Provide solution of distributed routing tracking.</p>
-<p>The relationship between all those components:</p>
-<img class="post-img b-lazy" data-img="/Spring-Cloud-1-What-is-Spring-Cloud/1.png" data-index="0" data-src="/Spring-Cloud-1-What-is-Spring-Cloud/1.png">
-<br>
-<br>
+                    <h2 id="Concept"><a href="#Concept" class="headerlink" title="Concept"></a>Concept</h2><p>The backtracking algorithm is actually an enumeration-like search attempt process, which is mainly to find a solution to the problem during the search attempt. When it is found that the solution conditions have not been met, it “backtracks” and try another path.</p>
+<p>The backtracking method is a search method for optimal selection. It searches forward according to the optimal conditions to achieve the goal. However, when exploring a certain step, if it is found that the original choice is not good or does not reach the goal, it goes back one step and chooses again, which is called “backtrack point”.</p>
+<p>Many complex and large-scale problems can use the backtracking method. So it is known as the “universal problem solving method”.</p>
+<h2 id="Basic-idea"><a href="#Basic-idea" class="headerlink" title="Basic idea"></a>Basic idea</h2><p>In the solution space which contains all the solutions to the problem, the solution space is explored from the root node according to the <code>depth-first search</code> strategy. When a node is explored, first determine whether the node contains a solution to the problem. If it does, continue to explore from that node. If the node does not contain a solution to the problem, go back to its ancestor layers. (in fact, the backtracking method is a <code>depth-first search</code> algorithm for implicit graphs).</p>
+<p>If using the backtracking method to find all the solutions to the problem, you must backtrack to the root, and all feasible subtrees of the root node must have been searched through before ending.</p>
+<p>If you use the backtracking method to find any solution, you can end as long as you find a solution to the problem.</p>
+<h2 id="General-steps-to-solve-a-problem-using-backtracking"><a href="#General-steps-to-solve-a-problem-using-backtracking" class="headerlink" title="General steps to solve a problem using backtracking"></a>General steps to solve a problem using backtracking</h2><ol>
+<li><p>Determine the solution space for the given problem. The solution space of the problem should be clearly defined. The solution space of the problem should contain at least one (optimal) solution of the problem.</p>
+</li>
+<li><p>Determine search rules for nodes</p>
+</li>
+<li><p>Search the solution space in a <code>depth-first</code> manner, and use pruning functions to avoid invalid searches during the search.</p>
+</li>
+</ol>
+<h2 id="Algorithm-framework"><a href="#Algorithm-framework" class="headerlink" title="Algorithm framework"></a>Algorithm framework</h2><ol>
+<li>Problem framework</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Suppose the solution of the problem is an n-dimensional vector(a1, a2, ...... an), and the constraint condition is that ai(i = 1,2,3, ....., n) satisfies a certain condition and is denoted as f(ai).</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>All request go through API gateway <code>Zuul</code> to get access to services.</li>
-<li>API gateway obtain available service from service registry <code>Eureka</code>.</li>
-<li><code>Ribbon</code> complete load balancing and dispath request to back end service instancve.</li>
-<li>All microserve use <code>Feign</code> to communicate.</li>
-<li><code>Hystrix</code> handles circuit breaker if services are unavailable.</li>
-</ul>
-<p>These are the main components, but there a lot more other sercices that are provided by Spring Cloud.</p>
-<h2 id="Relationship-with-Spring-Boot"><a href="#Relationship-with-Spring-Boot" class="headerlink" title="Relationship with Spring Boot"></a>Relationship with Spring Boot</h2><p><code>Spring Boot</code> can be used to develop individual microservice, while <code>Spring Cloud</code> is based on <code>Spring Boot</code> to facilitate cloud application development. One can use only <code>Spring Boot</code> to develop application without <code>Spring Cloud</code>, but to develop <code>Spring Cloud</code>, <code>Spring Boot</code> must be used. There is a dependency relationship.</p>
-<p>Please note that there is a strict relationship with the version of <code>Spring Cloud</code> and <code>Spring Boot</code>. If the versions don’t match, the system won’t work. Below is the table shows the relationship.</p>
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
-.tg .tg-axxb{font-weight:bold;background-color:#c0c0c0;color:#000000;border-color:inherit;text-align:center;vertical-align:top}
-.tg .tg-n9g5{background-color:#ffffff;color:#000000;border-color:inherit;text-align:left;vertical-align:middle}
-</style>
-<table class="tg">
-  <tr>
-    <th class="tg-axxb">Spring Cloud</th>
-    <th class="tg-axxb">Spring Boot</th>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Angel</td>
-    <td class="tg-n9g5">Spring Boot 1.2.x</td>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Brixton</td>
-    <td class="tg-n9g5">Spring Boot 1.3.x, and Spring Boot 1.4.x</td>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Camden</td>
-    <td class="tg-n9g5">Spring Boot 1.4.x, and Spring Boot 1.5.x</td>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Dalston, Edgware</td>
-    <td class="tg-n9g5">Spring Boot 1.5.x, not compatiable with Spring Boot 2.0.x</td>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Finchley</td>
-    <td class="tg-n9g5">Spring Boot 2.0.x, not compatiable with Spring Boot 1.5.x</td>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Greenwich</td>
-    <td class="tg-n9g5">Spring Boot 2.1.x</td>
-  </tr>
-  <tr>
-    <td class="tg-n9g5">Hoxton</td>
-    <td class="tg-n9g5">Spring Boot 2.2.x</td>
-  </tr>
-</table>
+<ol start="2">
+<li>Non-recursive backtracking framework</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">int a[n],i;</span><br><span class="line">initialize a[];</span><br><span class="line">i = 1;</span><br><span class="line"></span><br><span class="line">// haven&apos;t backtrack to the root</span><br><span class="line">while (i &gt; 0 (still have path to go) and (haven&apos;t reach target)) &#123; </span><br><span class="line">    // search leaf node</span><br><span class="line">    if(i &gt; n) &#123;                                             </span><br><span class="line">        find a solution, output</span><br><span class="line">    // process i-th element</span><br><span class="line">    &#125; else &#123;                                                 </span><br><span class="line">        a[i] the first possible value；</span><br><span class="line">        </span><br><span class="line">        while(a[i] not satisfy constraint condition, but still within search space) &#123;</span><br><span class="line">            a[i] next possible value；</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if(a[i] within search space) &#123;</span><br><span class="line">            mark occupied resource;</span><br><span class="line"></span><br><span class="line">            // extend to next node</span><br><span class="line">            i = i+1;  </span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            clear occupied resource;</span><br><span class="line"></span><br><span class="line">            // backtrack</span><br><span class="line">            i = i –1; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>In the following blogs, I will using Spring Cloud <code>Greenwich</code> version.</p>
-<h2 id="Advantage-of-Spring-Cloud"><a href="#Advantage-of-Spring-Cloud" class="headerlink" title="Advantage of Spring Cloud"></a>Advantage of Spring Cloud</h2><p>There are other microservice frameworks, such as <code>Dubbo</code>, <code>Kubernetes</code>. What are <code>Spring Cloud</code>‘s advantages compared with those?</p>
-<ul>
-<li>It is from Spring family. Make use of <code>Spring Boot</code> makes developing individual service a lot easier.</li>
-<li>The community is very active. Lots of tutorials out there, and easy to find solutions.</li>
-<li>Get circuit breaker, load balance, service discovery with only a few lines of code.</li>
-</ul>
-
+<ol start="3">
+<li>Recursive backtracking framework<br>The backtracking method is a <code>depth-first search</code> of the solution space. In general, it is relatively simple to use a recursive function to implement the backtracking method, where <code>i</code> is the depth of the search, and the framework is as follows:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">int a[n];</span><br><span class="line">try(int i) &#123;</span><br><span class="line">    if(i&gt;n)</span><br><span class="line">        output result;</span><br><span class="line">    else &#123;</span><br><span class="line">        // iterate all possible path for i</span><br><span class="line">        for(j = lower bound; j &lt;= upper bound; j=j+1) &#123;</span><br><span class="line">            // satisfy boundary and constraint condition</span><br><span class="line">            if(fun(j)) &#123;                 </span><br><span class="line">                a[i] = j;</span><br><span class="line">                // other operations</span><br><span class="line">                ...</span><br><span class="line">                try(i+1);</span><br><span class="line">                    cleaning tasks before backtracking (e.g set a[i] to empty etc);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
+                    
+                    <li>
+                        <a href="/tags/Leetcode-Backtracking/" rel="tag"># Leetcode - Backtracking</a>
+                    </li>
                     
                 </ul>
             </div>
@@ -246,14 +200,10 @@
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 63. Unique Paths II" href="/Leetcode-63-Unique-Paths-II/">
-            ← Leetcode 63. Unique Paths II
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 62. Unique Paths" href="/Leetcode-62-Unique-Paths/">
-            Leetcode 62. Unique Paths →
+        <a class="next-post" title="Leetcode 77. Combinations" href="/Leetcode-77-Combinations/">
+            Leetcode 77. Combinations →
         </a>
         
     </nav>
@@ -279,7 +229,7 @@
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Key-Components"><span class="toc-text">Key Components</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Netflix-Eureka"><span class="toc-text">Netflix Eureka</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Netflix-Hystrix"><span class="toc-text">Netflix Hystrix</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ribbon"><span class="toc-text">Ribbon</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Netflix-Zuul"><span class="toc-text">Netflix Zuul</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud-Config"><span class="toc-text">Spring Cloud Config</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud-Bus"><span class="toc-text">Spring Cloud Bus</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud-Security"><span class="toc-text">Spring Cloud Security</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud-Sleuth"><span class="toc-text">Spring Cloud Sleuth</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Relationship-with-Spring-Boot"><span class="toc-text">Relationship with Spring Boot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Advantage-of-Spring-Cloud"><span class="toc-text">Advantage of Spring Cloud</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Concept"><span class="toc-text">Concept</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-idea"><span class="toc-text">Basic idea</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#General-steps-to-solve-a-problem-using-backtracking"><span class="toc-text">General steps to solve a problem using backtracking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Algorithm-framework"><span class="toc-text">Algorithm framework</span></a></li></ol>
     </div>
 </div>
 
@@ -590,7 +540,7 @@
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Spring-Cloud-1-What-is-Spring-Cloud/" class="leancloud-visitors" data-flag-title="Spring Cloud 1: What is Spring Cloud">
+			        <span hidden="true" id="/Backtracking-Algorithm/" class="leancloud-visitors" data-flag-title="Backtracking Algorithm">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
