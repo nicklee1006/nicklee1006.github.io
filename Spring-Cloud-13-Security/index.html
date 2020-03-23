@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="preconnect" href="//www.googletagmanager.com">
+	<link rel="preconnect" href="//zz.bdstatic.com">
+	<link rel="preconnect" href="//sp0.baidu.com">
+	<link rel="preconnect" href="//www.google-analytics.com">
+	<link rel="preconnect" href="//cdn1.lncld.net">
+	<link rel="preconnect" href="//unpkg.com">
+	<link rel="preconnect" href="//app-router.leancloud.cn">
+	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
+	<link rel="preconnect" href="//gravatar.loli.net">
+
+	<title>Spring Cloud 13: Security | Nick Li</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="Nick Li">
+	<meta name="description" content>
+
+	
+
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="Nick Li">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Spring Cloud 13: Security | Nick Li">
+	<meta property="og:description" content>
+	<meta property="og:url" content="http://nicklee1006.github.io/Spring-Cloud-13-Security/">
+
+	
+	<meta property="article:published_time" content="2020-03-22T21:03:00+08:00"> 
+	<meta property="article:author" content="Nick Li">
+	<meta property="article:published_first" content="Nick Li, /Spring-Cloud-13-Security/">
+	
+
+	
+	
+	<link rel="stylesheet" href="/css/allinonecss.min.css">
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151447201-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-151447201-1');
+	</script>
+	
+	
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header post-site-header outer">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/archives" title="ARCHIVES">ARCHIVES</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button-area">
+        <a href="#search" class="search-button">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="search-button">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    <a class="social-link" title="linkedin" href="https://www.linkedin.com/in/chenzhang-li/" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<div id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <div class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2020-03-22T11:15:37.000Z">
+                    2020-03-22
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Spring-Cloud/">Spring Cloud</a>&nbsp;&nbsp;
+                
+                
+            </div>
+            <h1 class="post-full-title">Spring Cloud 13: Security</h1>
+        </header>
+        <div class="post-full ">
+            
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/03/22/qfdFIKl472tZmuP.jpg)">
+            </figure>
+            
+            <div class="post-full-content">
+                <article id="photoswipe" class="markdown-body">
+                    <p>Security is a fundamental feature that cannot be bypassed in almost any application development. As we move applications to microservices architecture, security will become more complex. David Borsos presented the following four options at the London Microservices Conference in 2016:</p>
+<ol>
+<li><p><code>Single sign-on (SSO)</code>: Every microservice needs to interact with the authentication service, but this will generate a lot of very trivial network traffic and repeated work. The disadvantages of the scheme are very obvious;</p>
+</li>
+<li><p><code>Distributed session</code>: This solution stores user authentication information in shared storage (such as: Redis), and uses the user session ID as a key to implement a simple distributed hash mapping. When a user accesses the microservice, the user authentication information can be obtained from the shared storage through the session ID. This solution is very good most of the time, but its main disadvantage is that shared storage requires a certain protection mechanism, and the corresponding implementation will be relatively complicated at this time;</p>
+</li>
+<li><p><code>Client token</code>: The token is generated on the client and signed by the authentication server. The token contains enough information so that microservices can use it. A token is attached to each request to provide user authentication for the microservice. The security of this solution is relatively good, but because the token is generated and saved by the client, it is very troublesome to log out. A compromise solution is to verify the validity of the token through short-term tokens and frequent checking of authentication services. <code>JSON Web Tokens (JWT)</code> is a very good choice for client tokens;</p>
+</li>
+<li><p><code>Client token combined with API gateway</code>: Using this scheme means that all requests pass through the gateway, effectively hiding the microservice. When requested, the gateway converts the original user token into an internal session. In this way, the gateway can deregister the token, thereby solving the problems in the previous solution.</p>
+</li>
+</ol>
+<p>In this article we will focus on token-based solutions, and the best option for token-based solutions is <code>OAuth2.0</code>.</p>
+<h2 id="OAuth2-0"><a href="#OAuth2-0" class="headerlink" title="OAuth2.0"></a>OAuth2.0</h2><p>OAuth2.0 is described in Wikipedia as follows:</p>
+<blockquote>
+<p>Open Authorization (OAuth) is an open standard that allows users to allow third-party applications to access private resources (such as photos, videos, contact lists) that the user has stored on a website without providing a username and password to the third party application.</p>
+</blockquote>
+<blockquote>
+<p>OAuth allows users to provide a token instead of a username and password to access their data stored in a particular service provider. Each token authorizes a specific website (for example, a video editing website) to access a specific resource (for example, just a video in a certain album) within a specific period (for example, within the next 2 hours). In this way, OAuth allows users to authorize third-party websites to access certain information, but not all content, that they have stored in another service provider.</p>
+</blockquote>
+<blockquote>
+<p>OAuth 2.0 is the next version of the OAuth protocol, but is not backward compatible with OAuth 1.0. OAuth 2.0 focuses on the simplicity of client developers, while providing specialized authentication processes for web applications, desktop applications and mobile phones, and living room devices.</p>
+</blockquote>
+<p>For let us first understand a few key terms in <code>OAuth2.0</code>:</p>
+<ul>
+<li><code>Resource Owner</code>: The resource owner, in other words: User;</li>
+<li><code>User Agent</code>: User agent can be directly understood as a browser for Web applications;</li>
+<li><code>Authorization server</code>: Authentication server, that is, a server that provides user authentication and authorization. It can be a stand-alone server;</li>
+<li><code>Resource server</code>: the microservices that need to be protected.</li>
+</ul>
+<p>Then, let’s take a look at the authentication flow chart of <code>OAuth2.0</code> (taken from <a href="https://tools.ietf.org/html/rfc6749#section-1.2" target="_blank" rel="noopener">RFC6749</a>):</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-13-Security/1.png" data-index="0" data-src="/Spring-Cloud-13-Security/1.png">
+<br>
+<br>
+
+<p>The authentication process are as follows:</p>
+<ol>
+<li>After the <code>user</code> opens the <code>client</code>, the <code>client</code> asks the <code>user</code> for authorization;</li>
+<li>the <code>user</code> agrees to authorize the <code>client</code>;</li>
+<li>The <code>client</code> uses the authorization obtained in the previous step to apply for a token from the <code>authentication server</code>;</li>
+<li>After the <code>authentication server</code> authenticates the <code>client</code>, it confirms that it is correct and agrees to issue the token;</li>
+<li>The <code>client</code> uses the token to apply to the <code>resource server</code> for resources;</li>
+<li>The <code>resource server</code> confirms that the token is correct and agrees to open the resource to the <code>client</code>.</li>
+</ol>
+<p>From the process we can see that the <code>client</code> can obtain the token from the <code>authentication service</code> only after the user authorize it. <code>OAuth2.0</code> provides the following four authorization methods for client authorization:</p>
+<ul>
+<li><code>Authorization code mode</code>: This mode is the most complete and strictest authorization mode;</li>
+<li><code>Simplified mode (implicit)</code>: This mode does not require the server of a third-party application, skips the “authorization code” step, and directly applies a token to the authentication server in the browser.</li>
+<li><code>Password mode</code>: The user provides his or her username and password to the client, and the client obtains authorization from the authentication server directly through this information;</li>
+<li><code>Client credentials</code>: The client obtains authentication from the authentication server in its own name, not in the name of the user. In this way, the authentication server treats the client as a user.</li>
+</ul>
+<h2 id="Example-Project"><a href="#Example-Project" class="headerlink" title="Example Project"></a>Example Project</h2><h3 id="1-Authentication-server"><a href="#1-Authentication-server" class="headerlink" title="1. Authentication server"></a>1. Authentication server</h3><p>First, we will build an authentication server. The server is also a standard Spring Boot application.</p>
+<h4 id="1-1-Dependency"><a href="#1-1-Dependency" class="headerlink" title="1.1 Dependency"></a>1.1 Dependency</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-security<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.security.oauth<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-security-oauth2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>jakarta.xml.bind<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jakarta.xml.bind-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.glassfish.jaxb<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jaxb-runtime<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Here we introduced <code>spring-cloud-security</code> and <code>spring-security-oauth2</code> dependencies. <code>jakarta.xml.bind-api</code> and <code>jaxb-runtime</code> are needed if using <code>Java11</code>.</p>
+<h4 id="1-2-Client-management"><a href="#1-2-Client-management" class="headerlink" title="1.2 Client management"></a>1.2 Client management</h4><p>For <code>OAuth2.0</code> applications, it is necessary to implement a client authentication management. Here we directly inherit <code>AuthorizationServerConfigurerAdapter</code> and add a client application through in-memory management.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OAuthConfig</span> <span class="keyword">extends</span> <span class="title">AuthorizationServerConfigurerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    AuthenticationManager authenticationManager;</span><br><span class="line">    <span class="meta">@Qualifier</span>(<span class="string">"userDetailsServiceBean"</span>)</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    UserDetailsService userDetailsService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(ClientDetailsServiceConfigurer clients)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        clients.inMemory()</span><br><span class="line">                .withClient(<span class="string">"demo"</span>)</span><br><span class="line">                .secret(<span class="string">"&#123;noop&#125;pgDBd99tOX8d"</span>)</span><br><span class="line">                .authorities(<span class="string">"test"</span>)</span><br><span class="line">                .authorizedGrantTypes(<span class="string">"authorization_code"</span>, <span class="string">"refresh_token"</span>, <span class="string">"implicit"</span>, <span class="string">"password"</span>, <span class="string">"client_credentials"</span>)</span><br><span class="line">                .scopes(<span class="string">"spring-cloud-demo"</span>)</span><br><span class="line">                .redirectUris(<span class="string">"http://localhost:8761"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(AuthorizationServerSecurityConfigurer security)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//if used permitAll() this will make oauth/check_token endpoint to be unsecure</span></span><br><span class="line">        <span class="comment">//security.checkTokenAccess("permitAll()");</span></span><br><span class="line">        security.checkTokenAccess(<span class="string">"hasAuthority('test')"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(AuthorizationServerEndpointsConfigurer endpoints)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        endpoints</span><br><span class="line">                .authenticationManager(authenticationManager)</span><br><span class="line">                .userDetailsService(userDetailsService);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TokenStore <span class="title">tokenStore</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> InMemoryTokenStore();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The client ID is set to <code>demo</code>.</p>
+<p>he secret is set to: <code>pgDBd99tOX8d</code>. <code>{noop}</code> is the <strong>Password Storage Format</strong> used for <code>Spring Security 5</code> default password encoder <code>DelegatingPasswordEncoder</code>. For details refer to: <a href="https://spring.io/blog/2017/11/01/spring-security-5-0-0-rc1-released#password-storage-format" target="_blank" rel="noopener">Password Storage Format</a>.</p>
+<p>We also authorized the client with <code>authorization_code</code>, <code>refresh_token</code>, <code>implicit</code>, <code>password</code>, <code>client_credentials</code> authentication mode. And in the following examples we will use <code>authorization code</code> mode and <code>password</code> mode for testing.</p>
+<h4 id="1-3-User-authentication-and-authorization-management"><a href="#1-3-User-authentication-and-authorization-management" class="headerlink" title="1.3 User authentication and authorization management"></a>1.3 User authentication and authorization management</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableWebSecurity</span></span><br><span class="line"><span class="meta">@EnableGlobalMethodSecurity</span>(prePostEnabled = <span class="keyword">true</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OAuthWebSecurityConfigurer</span> <span class="keyword">extends</span> <span class="title">WebSecurityConfigurerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AuthenticationManager <span class="title">authenticationManagerBean</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.authenticationManagerBean();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> UserDetailsService <span class="title">userDetailsServiceBean</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.userDetailsServiceBean();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(AuthenticationManagerBuilder auth)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        auth.inMemoryAuthentication()</span><br><span class="line">                .withUser(<span class="string">"user001"</span>)</span><br><span class="line">                .password(<span class="string">"&#123;noop&#125;pwd001"</span>)</span><br><span class="line">                .roles(<span class="string">"USER"</span>)</span><br><span class="line">                .and()</span><br><span class="line">                .withUser(<span class="string">"admin"</span>)</span><br><span class="line">                .password(<span class="string">"&#123;noop&#125;pwdAdmin"</span>)</span><br><span class="line">                .roles(<span class="string">"USER"</span>, <span class="string">"ADMIN"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        http.csrf().disable();</span><br><span class="line">        http.authorizeRequests()</span><br><span class="line">                .anyRequest()</span><br><span class="line">                .authenticated()</span><br><span class="line">                .and()</span><br><span class="line">                .httpBasic();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In the above code, we still manage using in-memory and create two users:</p>
+<ul>
+<li><strong>user001</strong>: is an ordinary user, only <code>USER</code> role;</li>
+<li><strong>admin</strong>: is an administrator user with <code>USER</code> and <code>ADMIN</code> roles.</li>
+</ul>
+<p>We also specified that all access needs to be secured, and enabled <code>httpBasic</code> authentication. Through this, when an unauthenticated user accesses, an authentication dialog box can pop up through the browser, allowing the user to enter a username and password for authentication.</p>
+<h4 id="1-4-Main-application"><a href="#1-4-Main-application" class="headerlink" title="1.4 Main application"></a>1.4 Main application</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableAuthorizationServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthServerApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(AuthServerApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Adding <code>@EnableAuthorizationServer</code> annotation to main class. With this annotation, the applicatoin will start with <code>Spring Cloud Security</code> and provide us with a series of endpoints to achieve <code>OAuth2.0</code> authentication. These endpoints are:</p>
+<ul>
+<li><code>/oauth/authorize</code>: endpoint for authorization;</li>
+<li><code>/oauth/token</code>: endpoint for getting the access token;</li>
+<li><code>/oauth/confirm_access</code>: endpoint for submit user authorization confirmation;</li>
+<li><code>/oauth/error</code>: endpoint for acquire authentication server error information;</li>
+<li><code>/oauth/check_token</code>: token resolution endpoint for resource server access;</li>
+<li><code>/oauth/token_key</code>: If using a <code>JWT</code> token, expose the public key used for token verification.</li>
+</ul>
+<h4 id="1-5-User-information-loading-endpoint"><a href="#1-5-User-information-loading-endpoint" class="headerlink" title="1.5 User information loading endpoint"></a>1.5 User information loading endpoint</h4><p>For the authentication service, we also need to provide a user information loading endpoint, so that other microservices can use the token to obtain information about the authenticated user from the authentication server, so that user authentication and authentication processing can be achieved.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthEndpoint</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> Logger logger = LoggerFactory.getLogger(AuthEndpoint<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = &#123; <span class="string">"/auth/user"</span> &#125;, produces = <span class="string">"application/json"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title">user</span><span class="params">(OAuth2Authentication user)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, Object&gt; userInfo = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        userInfo.put(<span class="string">"user"</span>, user.getUserAuthentication().getPrincipal());</span><br><span class="line">        userInfo.put(<span class="string">"authorities"</span>, AuthorityUtils.authorityListToSet( user.getUserAuthentication().getAuthorities()));</span><br><span class="line">        <span class="keyword">return</span> userInfo;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This piece of code will obtain the current user information from <code>Spring Security</code> and convert it into a <code>Map</code> object to return.</p>
+<h4 id="1-6-Configuration-file"><a href="#1-6-Configuration-file" class="headerlink" title="1.6 Configuration file"></a>1.6 Configuration file</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># PORT</span><br><span class="line">server.port=8290</span><br><span class="line"></span><br><span class="line">spring.application.name=authserver</span><br><span class="line"></span><br><span class="line">logging.level.org.springframework=INFO</span><br><span class="line">logging.level.springclouddemo.authserver=DEBUG</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-User-service"><a href="#2-User-service" class="headerlink" title="2. User service"></a>2. User service</h3><h4 id="2-1-Dependency"><a href="#2-1-Dependency" class="headerlink" title="2.1 Dependency"></a>2.1 Dependency</h4><p>The user service is a <code>Resource server</code>. When certain resources are accessed, user authentication and authentication are required. Therefore, a dependency on <code>Spring Cloud Security</code> needs to be introduced</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-security<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.security.oauth<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-security-oauth2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>jakarta.xml.bind<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jakarta.xml.bind-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.glassfish.jaxb<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jaxb-runtime<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Similar to <code>authentication server</code>, <code>jakarta.xml.bind-api</code> and <code>jaxb-runtime</code> are needed if using <code>Java11</code>.</p>
+<h4 id="2-2-Main-application"><a href="#2-2-Main-application" class="headerlink" title="2.2 Main application"></a>2.2 Main application</h4><p>In <code>Spring Cloud Security</code>, we only need to add the <code>@EnableResourceServer</code> annotation to applications that need security management to enable security management and control.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableResourceServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(UserServiceApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>When <code>spring-cloud-security</code> is introduced and the <code>@EnableResourceServer</code> annotation is added, the application will start the default security management process. If you want to add more detailed security management to your application, you need to inherit <code>WebSecurityConfigurerAdapter</code> And implement security-related configuration, we will not go into details here.</p>
+<h4 id="2-3-Configuration-file"><a href="#2-3-Configuration-file" class="headerlink" title="2.3 Configuration file"></a>2.3 Configuration file</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">server.port=2200</span><br><span class="line"></span><br><span class="line">spring.application.name=USER-SERVICE</span><br><span class="line"></span><br><span class="line">eureka.client.service-url.defaultZone=http://localhost:8761/eureka</span><br><span class="line"></span><br><span class="line"># OAuth</span><br><span class="line">security.oauth2.resource.user-info-uri=http://localhost:8290/auth/user</span><br></pre></td></tr></table></figure>
+
+<p>We need to add an <code>OAuth2</code> endpoint in the application configuration file to obtain authenticated user information</p>
+<h4 id="2-4-Endpoint-of-the-current-user-information"><a href="#2-4-Endpoint-of-the-current-user-information" class="headerlink" title="2.4 Endpoint of the current user information"></a>2.4 Endpoint of the current user information</h4><p>In order to test, we need to add an endpoint in the <code>user service</code> to get the information of the currently logged in user。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/my"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">myDetail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    String userName = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> User(userName, userName, <span class="string">"/avatar/default.png"</span>, <span class="string">""</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The code is very simple, directly obtain the information of the currently logged-in user from the <code>SecurityContextHolder</code>, construct a <code>User</code> object, and then return.</p>
+<h4 id="2-5-ResourceServerConfig"><a href="#2-5-ResourceServerConfig" class="headerlink" title="2.5 ResourceServerConfig"></a>2.5 ResourceServerConfig</h4><p>As our <code>authenticatoin-server</code> and <code>user-service</code> are seperated service, they need to share the same <code>tokenStore</code> to share and recognize a token. In <code>user-service</code>, we need to tell the service to use the <code>RemoteTokenStore</code> located at <code>authenticatoin-server</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ResourceServerConfig</span> <span class="keyword">extends</span> <span class="title">ResourceServerConfigurerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResourceServerTokenServices <span class="title">tokenService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        RemoteTokenServices tokenServices = <span class="keyword">new</span> RemoteTokenServices();</span><br><span class="line">        tokenServices.setClientId(<span class="string">"demo"</span>);</span><br><span class="line">        tokenServices.setClientSecret(<span class="string">"pgDBd99tOX8d"</span>);</span><br><span class="line">        tokenServices.setCheckTokenEndpointUrl(<span class="string">"http://localhost:8290/oauth/check_token"</span>);</span><br><span class="line">        <span class="keyword">return</span> tokenServices;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        http.authorizeRequests()</span><br><span class="line">                .anyRequest()</span><br><span class="line">                .authenticated()</span><br><span class="line">                .and()</span><br><span class="line">                .requestMatchers()</span><br><span class="line">                .antMatchers(<span class="string">"/users/**"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Ok, now <code>user-service</code> is secured. If we now start the <code>user-service</code> and access: <a href="http://localhost:2200/users/my" target="_blank" rel="noopener">http://localhost:2200/users/my</a>, we will see the following return:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-13-Security/2.png" data-index="1" data-src="/Spring-Cloud-13-Security/2.png">
+<br>
+<br>
+
+<p>That is, permissions are now required to access the endpoint. So how do we provide permissions?</p>
+<p>Earlier when we talked about <code>OAuth2.0</code>, we mentioned that there are four client authorization modes, so let’s take a look at how to use these authorization modes to implement specific user authentication processing.</p>
+<h2 id="Access-through-authorization-code-mode"><a href="#Access-through-authorization-code-mode" class="headerlink" title="Access through authorization code mode"></a>Access through authorization code mode</h2><p>First, let’s take a look at how to implement user authentication through the most comprehensive authorization process authorization code model provided by <code>OAuth2.0</code>.</p>
+<p>Start the service in following order:</p>
+<ol>
+<li>Eureak Server</li>
+<li>Auth Server</li>
+<li>User service</li>
+</ol>
+<p>Firstly, we need tp construct a URL to obtain an access token:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8290/oauth/authorize?response_type=code&amp;client_id=demo&amp;redirect_uri=http://localhost:8761&amp;scope=spring-cloud-demo&amp;state=63879</span><br></pre></td></tr></table></figure>
+
+<p>For this URL:</p>
+<ul>
+<li><code>/oauth/authorize</code>: This is the endpoint to get the authorization code;</li>
+<li><code>client_id</code>: ID of the client. It must be included in the requested URL. Please note that the value we give here is: <code>demo</code>, this is what we configured the client list in the <code>authentication server</code>;</li>
+<li><code>response_type</code>: indicates the authorization type, which is also required. For the authorization code mode, it is fixed as: <code>code</code>;</li>
+<li><code>scope</code>: indicates the scope of the requested authority, which can be omitted. This refers to whether the authorization is reused when there are different clients;</li>
+<li><code>redirect_uri</code>: the URI to redirect to after successful authorization;</li>
+<li><code>state</code>: indicates the current state of the client. Any value can be specified. This value will be returned regardless of whether the authorization is successful or not.</li>
+</ul>
+<p>Visiting the URL, the page as follows:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-13-Security/3.png" data-index="2" data-src="/Spring-Cloud-13-Security/3.png">
+<br>
+<br>
+
+<p>This is the browser’s own user login window. Because we haven’t logged in, the <code>authentication server</code> turns on the browser login mode through <code>httpBasic</code>, so that when the user has not been authenticated, the above login window will pop up.</p>
+<p>Enter <code>user001</code> and <code>pwd001</code> in the login window, which is one of the user configured in the previous <code>authentication server</code>, and then it will jump to the following page:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-13-Security/4.png" data-index="3" data-src="/Spring-Cloud-13-Security/4.png">
+<br>
+<br>
+
+<p>Here is the interface for whether the user is authorized. In this interface we can see that the <code>ID</code> and <code>authorization scope</code> of the incoming client. Here we click <code>Approve</code>, and the browser will jump to the address specified by <code>redirect_uri</code>. At this time, carefully observe the returned address, as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8761/?code=w3ZOlC&amp;state=63879</span><br></pre></td></tr></table></figure>
+
+<p>We can see that the address contains two parameters:</p>
+<ul>
+<li><code>code</code>: The authorization code issued for the authentication service. The validity period of the code is short. The default is <code>10 minutes</code>, and the client can only use the code once, otherwise it will be rejected by the <code>authentication server</code>. The code has a one-to-one correspondence with the <code>client ID</code> and the <code>redirect URI</code>;</li>
+<li><code>state</code>: This is the parameter passed in when we requested above. The <code>authentication server</code> will return unaltered.</li>
+</ul>
+<p>Now that we have obtained the <code>authorization code</code> in the first step. Then the second step is to obtain the <code>access token</code> based on this <code>authorization code</code>.</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-13-Security/5.png" data-index="4" data-src="/Spring-Cloud-13-Security/5.png">
+<br>
+<br>
+
+<p>We need the following parameters to construct the http post request:</p>
+<ul>
+<li><code>/oauth/token</code>: This is the endpoint that gets the access token;</li>
+<li><code>grant_type</code>: indicates the <code>authorization mode</code> to be used, which must be filled in.</li>
+<li><code>code</code>: the <code>authorization code</code> we obtained in the previous step;</li>
+<li><code>redirect_uri</code>: The URI to redirect to after successfully. Similarly, we need to set it to the address given previously;</li>
+<li><code>client_id</code>: Client ID, must be filled in, and it must be the same as before.</li>
+</ul>
+<p>In addition, in the screenshot above, we also need to fill in the authorization information. This is because our <code>authentication server</code> has enabled authorization verification. Here you can fill in the <code>client ID</code> and <code>secret</code>. At this point, the server treats the client as a user and is able to access the <code>/oauth/token</code> endpoint.</p>
+<blockquote>
+<p>Here we mainly simplify the test method, so that we can pop up the authentication dialog box during the previous visit. However, this should not be done in actual production use. You need to define your own user login page and authorization page.</p>
+</blockquote>
+<p>For the above request, we can get the following return</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-13-Security/6.png" data-index="5" data-src="/Spring-Cloud-13-Security/6.png">
+<br>
+<br>
+
+<p>The returned content is as follows:</p>
+<ul>
+<li><code>access_token</code>: this is the access token obtained;</li>
+<li><code>token_type</code>: Token type. The default value returned by <code>Spring Cloud OAuth</code> is <code>bearer</code>;</li>
+<li><code>expires_in</code>: indicates the token expiration time, in seconds, the default is 12 hours;</li>
+<li><code>refresh_token</code>: update token, which can be used to obtain the next access token after expiration;</li>
+<li><code>scope</code>: The scope of the permission, which is generally consistent with the scope applied by the client.</li>
+</ul>
+<p>With the access token next step we can access the <code>user service</code>:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-13-Security/7.png" data-index="6" data-src="/Spring-Cloud-13-Security/7.png">
+<br>
+<br>
+
+<p>The response:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-13-Security/8.png" data-index="7" data-src="/Spring-Cloud-13-Security/8.png">
+<br>
+<br>
+
+<p>When accessing, we need to specify <code>Authorization</code> in the header, and set the value to the <code>access token</code> obtained in the previous step, so that we can get the correct data returned, as shown in the figure above.</p>
+<p>We have completed the test of user authentication through the <code>authorization code</code> mode. To summarize the steps:</p>
+<ol>
+<li>Visit <code>auth-server</code> and obtain <code>authentication code</code>.</li>
+<li>Use <code>authentication code</code> to get a <code>access code</code>.</li>
+<li>Use <code>access code</code> to access <code>resource server</code>.</li>
+</ol>
+<h2 id="Access-through-password-mode"><a href="#Access-through-password-mode" class="headerlink" title="Access through password mode"></a>Access through password mode</h2><p>If the <code>authentication server</code> is third party, using the above process is not a big problem. If the <code>authentication server</code> is built by us, such as this example, the authorization above is a bit complicated. Let’s take a look at how to use <code>password mode</code> to simplify.</p>
+<p>We directly request the <code>authentication server</code> to obtain the <code>access token</code>:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-13-Security/9.png" data-index="8" data-src="/Spring-Cloud-13-Security/9.png">
+<br>
+<br>
+
+<p>We need to set the <code>client ID</code>, <code>secret</code>, <code>username</code> and <code>password</code> of the user, and set <code>grant_type</code> to <code>password</code>, so that you can directly obtain the <code>access token</code>, as shown in the following figure:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-13-Security/10.png" data-index="9" data-src="/Spring-Cloud-13-Security/10.png">
+<br>
+<br>
+
+<p>And using the <code>access token</code> to access <code>user service</code>:</p>
+<img class="post-img b-lazy" data-img="/Spring-Cloud-13-Security/11.png" data-index="10" data-src="/Spring-Cloud-13-Security/11.png">
+<br>
+<br>
+
+<p>This shows that user authentication is also successful.</p>
+<p>It can be seen that the <code>password</code> authentication mode can greatly simplify the user authentication process, but it is provided only when the user trusts the client. Therefore, this method is suitable for the case where the client and the authentication server are the same application.</p>
+<p>For other client authorization modes, we will not discuss here.</p>
+<p>Check out the source code here: <a href="https://github.com/nicklee1006/SpringCloudDemo/tree/master/security" target="_blank" rel="noopener">Security demo</a></p>
+
+                </article>
+                <ul class="tags-postTags">
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="Leetcode 89. Gray Code" href="/Leetcode-89-Gray-Code/">
+            Leetcode 89. Gray Code →
+        </a>
+        
+    </nav>
+
+    
+    <div class="inner">
+        <div id="comment"></div>
+    </div>
+    
+</div>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OAuth2-0"><span class="toc-text">OAuth2.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-Project"><span class="toc-text">Example Project</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Authentication-server"><span class="toc-text">1. Authentication server</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-Dependency"><span class="toc-text">1.1 Dependency</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-Client-management"><span class="toc-text">1.2 Client management</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-User-authentication-and-authorization-management"><span class="toc-text">1.3 User authentication and authorization management</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-Main-application"><span class="toc-text">1.4 Main application</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-User-information-loading-endpoint"><span class="toc-text">1.5 User information loading endpoint</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-Configuration-file"><span class="toc-text">1.6 Configuration file</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-User-service"><span class="toc-text">2. User service</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-Dependency"><span class="toc-text">2.1 Dependency</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-Main-application"><span class="toc-text">2.2 Main application</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-Configuration-file"><span class="toc-text">2.3 Configuration file</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-Endpoint-of-the-current-user-information"><span class="toc-text">2.4 Endpoint of the current user information</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-ResourceServerConfig"><span class="toc-text">2.5 ResourceServerConfig</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Access-through-authorization-code-mode"><span class="toc-text">Access through authorization code mode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Access-through-password-mode"><span class="toc-text">Access through password mode</span></a></li></ol>
+    </div>
+</div>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+  <header class="read-next-card-header">
+    <small class="read-next-card-header-sitetitle">&mdash; Nick Li &mdash;</small>
+    <h3 class="read-next-card-header-title">Recent Posts</h3>
+  </header>
+  <div class="read-next-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+      <path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/>
+    </svg>
+  </div>
+  <div class="read-next-card-content">
+    <ul>
+      
+      
+      
+      <li>
+        <a href="/Spring-Cloud-13-Security/">Spring Cloud 13: Security</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Leetcode-89-Gray-Code/">Leetcode 89. Gray Code</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Backtracking-Algorithm/">Backtracking Algorithm</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+  <footer class="read-next-card-footer">
+    <a href="/archives">  MORE  → </a>
+  </footer>
+</article>
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+    <header class="read-next-card-header tagcloud-card">
+        <h3 class="read-next-card-header-title">Categories</h3>
+    </header>
+    <div class="read-next-card-content">
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cloud/">Spring Cloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/how-to-guide/">how-to-guide</a></li></ul>
+    </div>
+</article>
+
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+	<header class="read-next-card-header tagcloud-card">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 15.25px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 15.25px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 22.75px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 17.75px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Depth-First-Search/" style="font-size: 14px;">Leetcode - Depth First Search</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 20.25px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 15.25px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 17.75px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Linked-List/" style="font-size: 16.5px;">Leetcode - Linked List</a> <a href="/tags/Leetcode-Math/" style="font-size: 14px;">Leetcode - Math</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 15.25px;">Leetcode - Sort</a> <a href="/tags/Leetcode-Stack/" style="font-size: 14px;">Leetcode - Stack</a> <a href="/tags/Leetcode-String/" style="font-size: 19px;">Leetcode - String</a> <a href="/tags/Leetcode-Tree/" style="font-size: 17.75px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 21.5px;">Leetcode - Two Pointers</a> <a href="/tags/Stream-API/" style="font-size: 15.25px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 15.25px;">hexo</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay">
+    <div class="search-form">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<div class="copyright">
+			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
+			
+				
+			        <span hidden="true" id="/Spring-Cloud-13-Security/" class="leancloud-visitors" data-flag-title="Spring Cloud 13: Security">
+			            <span>阅读量 </span>
+			            <span class="leancloud-visitors-count">0</span>
+			        </span>
+	    		
+    		
+		</div>
+		<nav class="site-footer-nav">
+			
+			<a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+			<a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+		</nav>
+	</div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister()
+            }
+        })
+    }
+</script>
+
+
+<script id="scriptLoad" src="/js/allinone.min.js" async></script>
+
+
+<script>
+    document.getElementById('scriptLoad').addEventListener('load', function () {
+        
+        
+            var bLazy = new Blazy();
+        
+
+        
+        
+
+        
+        
+        
+            searchFunc("/");
+        
+        
+    })
+</script>
+
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+
+
+<script id="valineScript" src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+<script>
+    document.getElementById('valineScript').addEventListener("load", function() {
+        new Valine({
+            el: '#comment' ,
+            verify: false,
+            notify: false,
+            appId: '3TACGUnsSRuWgqCn3pRpLVwQ-MdYXbMMI',
+            appKey: 'JTo5iyjOyGTEXzAwjaTNqcY0',
+            placeholder: 'Please leave a comment',
+            pageSize: 10,
+            avatar: 'mm',
+            visitor: true,
+            lang: 'en'
+        })
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
