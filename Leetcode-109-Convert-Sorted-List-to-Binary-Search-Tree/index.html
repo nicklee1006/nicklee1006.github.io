@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 33. Search in Rotated Sorted Array | Nick Li</title>
+	<title>Leetcode 109. Convert Sorted List to Binary Search Tree | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 33. Search in Rotated Sorted Array | Nick Li">
+	<meta property="og:title" content="Leetcode 109. Convert Sorted List to Binary Search Tree | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-33-Search-in-Rotated-Sorted-Array/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-109-Convert-Sorted-List-to-Binary-Search-Tree/">
 
 	
-	<meta property="article:published_time" content="2019-11-23T11:11:00+08:00"> 
+	<meta property="article:published_time" content="2020-03-31T19:03:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-33-Search-in-Rotated-Sorted-Array/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-109-Convert-Sorted-List-to-Binary-Search-Tree/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-11-23T01:56:00.000Z">
-                    2019-11-23
+                <time class="post-full-meta-date" datetime="2020-03-31T09:54:10.000Z">
+                    2020-03-31
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 33. Search in Rotated Sorted Array</h1>
+            <h1 class="post-full-title">Leetcode 109. Convert Sorted List to Binary Search Tree</h1>
         </header>
         <div class="post-full ">
             
@@ -157,31 +157,31 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-33-Search-in-Rotated-Sorted-Array/question.png" data-index="0" data-src="/Leetcode-33-Search-in-Rotated-Sorted-Array/question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-109-Convert-Sorted-List-to-Binary-Search-Tree/Question.png" data-index="0" data-src="/Leetcode-109-Convert-Sorted-List-to-Binary-Search-Tree/Question.png">
 <br>
 <br>
-The original array is sorted, but rotated at some pivot index. We need to find the target value in the rotated array in O(logn). As we are looking for an O(logn) solution, we need to make use of binary search.
+Given an ascending linked list and generate a balanced binary search tree.
 
-<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Medium - <a href="/Leetcode-81-Search-in-Rotated-Sorted-Array-II/" title="81. Search in Rotated Sorted Array II">81. Search in Rotated Sorted Array II</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">153. Find Minimum in Rotated Sorted Array</a></li>
+<h3 id="Similar-Question"><a href="#Similar-Question" class="headerlink" title="Similar Question"></a>Similar Question</h3><ul>
+<li>Easy - <a href="https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/" target="_blank" rel="noopener">108. Convert Sorted Array to Binary Search Tree</a></li>
 </ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Observe that for a given array, if we split it into half, at least one half is sorted. For example <code>[4 5 6 7 8 1 2 3]</code>, split from <code>7</code> and get <code>[4 5 6 7]</code> and <code>[8 1 2 3]</code>. The first half is sorted. </p>
-<p>Based on this observation, we can first find out which half is sorted (by comparing the end point values). Then check if target value is in this half. If it is, then discard the other half. If not, discard this half.</p>
-<p>Code:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> start = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> end = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (start &lt;= end) &#123;</span><br><span class="line">    <span class="comment">// get the mid point</span></span><br><span class="line">    <span class="keyword">int</span> mid = (start + end) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find the target!</span></span><br><span class="line">    <span class="keyword">if</span> (target == nums[mid]) &#123;</span><br><span class="line">        <span class="keyword">return</span> mid;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// check which side is in order by comparing end points value</span></span><br><span class="line">    <span class="keyword">if</span> (nums[start] &lt;= nums[mid]) &#123;</span><br><span class="line">        <span class="comment">// left side is in order</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// check if target in sorted half</span></span><br><span class="line">        <span class="comment">// because this half is sorted, just check to see if target is in range</span></span><br><span class="line">        <span class="keyword">if</span> (target &gt;= nums[start] &amp;&amp; target &lt; nums[mid]) &#123;</span><br><span class="line">            <span class="comment">// in this case, target in left side</span></span><br><span class="line">            end = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// in this case, target in right side</span></span><br><span class="line">            start = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// right side is in order</span></span><br><span class="line">        <span class="keyword">if</span> (target &gt; nums[mid] &amp;&amp; target &lt;= nums[end]) &#123;</span><br><span class="line">            start = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            end = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// target no found</span></span><br><span class="line"><span class="keyword">return</span> -<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>The key of the algorithm is to take the mid point as the root node. However, linked list here does not support random access.</p>
+<p>One of the most commonly used method to find mid point in linked list is to use fast and slow pointers.</p>
+<p>The fast pointer and the slow pointer traverse from the head at the same time. The fast pointer takes two steps at a time, and the slow pointer takes one step at a time. When the fast pointer reaches the end of the list, the slow pointer points to the mid position.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">sortedListToBST</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> findMiddle(head, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// need to find the middle node in the linked list</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> TreeNode <span class="title">findMiddle</span><span class="params">(ListNode start, ListNode end)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (start == end) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// slow and fast pointer to find middle node</span></span><br><span class="line">    ListNode slow = start;</span><br><span class="line">    ListNode fast = start;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (fast != end &amp;&amp; fast.next != end) &#123;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// slow is the middle point</span></span><br><span class="line">    TreeNode root = <span class="keyword">new</span> TreeNode(slow.val);</span><br><span class="line">    root.left = findMiddle(start, slow);</span><br><span class="line">    root.right = findMiddle(slow.next, end);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Time complexity O(logn), and space complexity O(1).</p>
+<p>Time complexity: according to the recursive formula, T(n) = 2 * T(n / 2) + n = O(nlog(n)).</p>
+<p>Space complexity: O(log(n)).</p>
 
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
+                        <a href="/tags/Leetcode-Depth-First-Search/" rel="tag"># Leetcode - Depth First Search</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-Binary-Search/" rel="tag"># Leetcode - Binary Search</a>
+                        <a href="/tags/Leetcode-Linked-List/" rel="tag"># Leetcode - Linked List</a>
                     </li>
                     
                 </ul>
@@ -192,14 +192,10 @@ The original array is sorted, but rotated at some pivot index. We need to find t
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 34. Find First and Last Position of Element in Sorted Array" href="/Leetcode-34-Find-First-and-Last-Position-of-Element-in-Sorted-Array/">
-            ← Leetcode 34. Find First and Last Position of Element in Sorted Array
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 31: Next Permutation" href="/Leetcode-31-Next-Permutation/">
-            Leetcode 31: Next Permutation →
+        <a class="next-post" title="Java Static code block" href="/Java-Static-code-block/">
+            Java Static code block →
         </a>
         
     </nav>
@@ -225,7 +221,7 @@ The original array is sorted, but rotated at some pivot index. We need to find t
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Question"><span class="toc-text">Similar Question</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
     </div>
 </div>
 
@@ -546,7 +542,7 @@ The original array is sorted, but rotated at some pivot index. We need to find t
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-33-Search-in-Rotated-Sorted-Array/" class="leancloud-visitors" data-flag-title="Leetcode 33. Search in Rotated Sorted Array">
+			        <span hidden="true" id="/Leetcode-109-Convert-Sorted-List-to-Binary-Search-Tree/" class="leancloud-visitors" data-flag-title="Leetcode 109. Convert Sorted List to Binary Search Tree">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
