@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 19. Remove Nth Node From End of List | Nick Li</title>
+	<title>Java final and static keyword | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 19. Remove Nth Node From End of List | Nick Li">
+	<meta property="og:title" content="Java final and static keyword | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-19-Remove-Nth-Node-From-End-of-List/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Java-final-and-static-keyword/">
 
 	
-	<meta property="article:published_time" content="2020-02-17T20:02:00+08:00"> 
+	<meta property="article:published_time" content="2020-04-05T16:04:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-19-Remove-Nth-Node-From-End-of-List/">
+	<meta property="article:published_first" content="Nick Li, /Java-final-and-static-keyword/">
 	
 
 	
@@ -138,56 +138,69 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-02-17T10:52:32.000Z">
-                    2020-02-17
+                <time class="post-full-meta-date" datetime="2020-04-05T06:20:50.000Z">
+                    2020-04-5
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a>&nbsp;&nbsp;
+                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 19. Remove Nth Node From End of List</h1>
+            <h1 class="post-full-title">Java final and static keyword</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/04/05/PdMZJexmfupV34n.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-19-Remove-Nth-Node-From-End-of-List/Question.png" data-index="0" data-src="/Leetcode-19-Remove-Nth-Node-From-End-of-List/Question.png">
-<br>
-<br>
-Given a linked list, delete the nth node from the end.
+                    <h2 id="Final-keyword"><a href="#Final-keyword" class="headerlink" title="Final keyword"></a>Final keyword</h2><p>According to the context of the program, the Java keyword <code>final</code> has the meaning of “this cannot be changed” or “end state”, which can be used for non-abstract classes, non-abstract class member methods and variables. You may need to prevent change for two reasons: design or efficiency.</p>
+<ul>
+<li>Final class <strong><font color="orange">cannot be inherited and has no subclasses. The methods in the final class are final by default</font></strong>.</li>
+<li>Final methods <strong><font color="orange">cannot be overridden by subclass methods, but can be inherited</font></strong>.</li>
+<li>Final member variable represents a constant and <strong><font color="orange">can only be assigned once, and the value will not change after the assignment</font></strong>.</li>
+<li>Final cannot be used to the construction method.</li>
+</ul>
+<p>Note: The private member methods of the parent class cannot be overridden by subclass methods, so private type methods are final by default.</p>
+<p>In general, final is used to <strong><font color="orange">declare attributes, methods, and classes, respectively, indicating that attributes are immutable, methods cannot be overridden, and classes cannot be inherited</font></strong>.</p>
+<h3 id="Apply-final-to-a-class"><a href="#Apply-final-to-a-class" class="headerlink" title="Apply final to a class"></a>Apply final to a class</h3><p>When a class is modified with final, <strong><font color="orange">it indicates that this class cannot be inherited. The member methods of the final class have no chance to be overwritten, so the default is final</font></strong>. That means this class is a leaf class in the inheritance tree, and the design of this class has been considered perfect without modification or expansion. For member variabbles of the final class, you can define it as final or not final. As for the method, it naturally becomes final. When using final to modify a class, you should choose carefully, unless this class will not be used for inheritance in the future or for safety reasons, try not to design the class as a final class.</p>
+<p><strong><font color="orange">The class that most often modified with final is the utility class</font></strong>. There are a lot of utility classes used in Java projects, such as JDK’s own utility class <code>java.lang.Math</code>, <code>java.util.Collections</code>, etc. The methods and properties of the utility class are static and can be accessed without generating an instance. The utility class has been well designed and does not need to be inherited. Since it does not want to be initialized or inherited, JDK has dealt with this. Let’s take a look at the code of <code>java.lang.Math</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Math</span> </span>&#123;   </span><br><span class="line">    <span class="function"><span class="keyword">private</span>  <span class="title">Math</span><span class="params">()</span> </span>&#123; &#125;  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">double</span> E = <span class="number">2.7182818284590452354</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">double</span> PI = <span class="number">3.14159265358979323846</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">sin</span><span class="params">(<span class="keyword">double</span> a )</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> StrictMath.sin(a);</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="Solution-2-Pass"><a href="#Solution-2-Pass" class="headerlink" title="Solution - 2 Pass"></a>Solution - 2 Pass</h2><p>Deleting a node is nothing more than traversing the linked list and find the node in front of the node to be deleted. However because it is a linked list, we don’t know its length. So we have to traverse the list first to get its length, then subtract <code>n</code> from the length to find the position of the node to be deleted.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line">    ListNode node = head;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (node != <span class="keyword">null</span>) &#123;</span><br><span class="line">        length++;</span><br><span class="line">        node = node.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// only 1 node in the list</span></span><br><span class="line">    <span class="keyword">if</span> (length == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// index to remove, start from 0</span></span><br><span class="line">    <span class="keyword">int</span> indexToRemove = length - n;</span><br><span class="line"></span><br><span class="line">    node = head;</span><br><span class="line">    <span class="comment">// move to the previous node</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; indexToRemove - <span class="number">1</span>; i++) &#123;</span><br><span class="line">        node = node.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    node.next = node.next.next;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Time complexity: assuming the length of the linked list is <code>L</code>, then the first loop is <code>L</code> times, and the second loop is <code>L-n</code> times, for a total of <code>2L-n</code> times, so the time complexity is O (L).</p>
-<p>Space complexity: O (1).</p>
-<h2 id="Solution-1-Pass"><a href="#Solution-1-Pass" class="headerlink" title="Solution - 1 Pass"></a>Solution - 1 Pass</h2><p>So how can we traverse the list only once?</p>
-<p>We set two pointers, let the first pointer traverse forward <code>n</code> steps, and then let them both traverse at the same time. In this case, when the first pointer reaches the end, the second pointer is <code>n</code> steps from the head. So the position of the second pointer is exactly the nth node from the head.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    ListNode dummyNode = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    dummyNode.next = head;</span><br><span class="line"></span><br><span class="line">    ListNode pointer1 = dummyNode;</span><br><span class="line">    ListNode pointer2 = dummyNode;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// move first pointer ahead n steps</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        pointer1 = pointer1.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (pointer1 != <span class="keyword">null</span>) &#123;</span><br><span class="line">        pointer1 = pointer1.next;</span><br><span class="line">        pointer2 = pointer2.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// now pointer2 is the node before the node to be delete</span></span><br><span class="line">    pointer2.next = pointer2.next.next;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dummyNode.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Time complexity:</p>
-<p>The first pointer goes from 0 to n, then “the first pointer goes from n to the end” and “the second pointer goes from 0 to the position of the n-th node down” simultaneously.</p>
-<p>The previous solution is nothing more than going from 0 to the end, and then going from 0 to the position of the n-th node.</p>
-<p>So in fact, the number of times their statements are executed is the same. The position of the n-th node from 0 to the penultimate point is traversed twice, so the total is <code>2L-n</code> times. It’s just that this solution combines the two loops of solution one, so that the second pointer seems to traverse by the way, the idea is very nice.</p>
-<p>So in essence, they are actually the same, and the time complexity is still O(n).</p>
-<p>Space complexity: O (1).</p>
+<h3 id="Apply-final-to-a-method"><a href="#Apply-final-to-a-method" class="headerlink" title="Apply final to a method"></a>Apply final to a method</h3><p>There are two reasons for using the final method:</p>
+<ol>
+<li>To show that <strong><font color="orange">the functions provided by this method have met the requirements, do not need to be extended, and do not allow any subclasses that inherit from this class to override this method, but the inherited class can still use this method directly</font></strong>. </li>
+<li>Efficiency. <strong><font color="orange">When the compiler encounters the call to the final method, it will convert all calls to this method into an inline call mechanism, greatly improving execution efficiency</font></strong>. However, when the method body is very large, or when the method is called in multiple places, the calling code will quickly expand, which may affect efficiency, so final should be used to define the method with caution. Only set the method to final if you want to explicitly prohibit the method from being overridden in subclasses.</li>
+</ol>
+<p>Note: The private method of the class will be implicitly designated as the final method.</p>
+<h3 id="Apply-final-to-a-variable"><a href="#Apply-final-to-a-variable" class="headerlink" title="Apply final to a variable"></a>Apply final to a variable</h3><p>Dinal is used the most to modify variables . For a final variable, if the variable is of primitive data type, its value cannot be changed once it is initialized; if it is a variable of reference type, it cannot point to another object after it is initialized. </p>
+<p><strong><font color="orange">The initialization of variables can be in two places, one is its definition, and the other is in the constructor</font></strong>. </p>
+<p>There are three types of final modified variables: static variables, instance variables and local variables, which represent three types of constants. When the final variable is defined, you can declare it first without giving an initial value. This variable is also called final blank. In any case, <strong><font color="orange">the compiler ensures that the blank final must be initialized before use</font></strong>. With this guarantee, the final data member can be implemented differently according to the object, but has the characteristics of keeping it constant.</p>
+<p>Another usage is to define the parameters in the method as final. <strong><font color="orange">For basic type variables, this has no practical meaning, because the basic type variables are passed by value when calling the method</font></strong>. When you change this parameter variable in the method, the formal parameters are changed, and the actual parameters are not affected. However, <strong><font color="orange">it is very practical for object variables, because object variables are passed by reference</font></strong>. Your modification of the object variable in the method will also affect the actual parameter object. When you restrict the object variable that cannot be changed as a parameter in the method, be sure to explicitly use final to declare it.</p>
+<h2 id="Static-keyword"><a href="#Static-keyword" class="headerlink" title="Static keyword"></a>Static keyword</h2><p><code>Static</code> means “global” or “static”, used to modify member variables and member methods, and can also form static code blocks, but there is no concept of global variables in the Java language. </p>
+<p><strong><font color="orange">Member variables and member methods modified by static are independent of any objects of this class</font></strong>. In other words, it does not depend on a specific instance of the class and is <strong><font color="orange">shared by all instances of the class</font></strong>. As long as the class is loaded, the Java virtual machine can find them in the method area of the runtime data area based on the class name. Therefore, the static object can be accessed before any object of the class to which it belongs is created without reference to any object. There are three types of static members in a class: static member variables, static methods, and static code blocks. They all have the following characteristics:</p>
+<ul>
+<li>When the class is loaded, create and initialize or execute code;</li>
+<li>They have only one copy for a class;</li>
+<li>All instances of the class can access them.</li>
+</ul>
+<p><strong>Static member variable</strong>: it will be created and initialized after the class is loaded. Because of its uniqueness, it is usually used for the data record of the object, for example, reference storage in singleton mode.</p>
+<p><strong>Static method</strong>: it can be accessed by the object or directly by the class name.</p>
+<p><strong>Static code block</strong>: which is decorated with static code surrounded by curly brackets “{…}”. These codes can use static member variables and methods, which are also called when the class is loaded.</p>
+<h3 id="Static-variables"><a href="#Static-variables" class="headerlink" title="Static variables"></a>Static variables</h3><p>There are two types of member variables according to whether they are static: one is a variable modified by static, called <code>static variable</code> or <code>class variable</code>; the other is a variable that is not modified by static, called <code>instance variable</code>. The difference between the two is that <strong><font color="orange">for static variables, they have only one copy in memory (saving memory), the JVM only allocates memory for statics once, and completes the memory allocation of static variables during the class loading process</font></strong>, which can be accessed directly by the class name (convenient), Of course it can also be accessed through objects (but this is not recommended). For instance variables, if an instance is created, the instance variable will be allocated once, and <strong><font color="orange">the instance variable can have multiple copies in memory without affecting each other (flexible)</font></strong>.</p>
+<h3 id="Static-method"><a href="#Static-method" class="headerlink" title="Static method"></a>Static method</h3><p>Static methods can be called directly by the class name, any instance can be called, so <strong><font color="orange">the static method can not use this and super keywords, can not directly access the instance variables and instance methods of the class (that is, non-static member variables and members method)</font></strong>. Static methods can only access the static member variables and static member methods of the class because instance members are associated with specific objects.</p>
+<p>Because the static method is independent of any instance, the static method must be implemented. It can not be an abstract abstract.</p>
+<h3 id="Static-code-block"><a href="#Static-code-block" class="headerlink" title="Static code block"></a>Static code block</h3><p>The static code block is a static statement block in the class that is independent of the class members. There can be more than one, and the position can be placed anywhere. It is not in any method body. These static code blocks will be executed when the JVM loads the class. If there are multiple static code blocks, the JVM will execute them in the order in which they appear in the class, and each code block will only be executed once.</p>
+<p>See details about static code block: <a href="/Java-Static-code-block/" title="Java Static code block">Java Static code block</a>.</p>
+<h2 id="What-does-putting-static-and-final-together-mean"><a href="#What-does-putting-static-and-final-together-mean" class="headerlink" title="What does putting static and final together mean"></a>What does putting static and final together mean</h2><p>When static and final modifies member variables or member methods together, it can be simply understood as a “global constant”! </p>
+<p><strong><font color="orange">For variables, it means that once a value is given, it cannot be modified, and can be accessed by the class name, the variable is shared by all instances of the class</font></strong>. </p>
+<p><strong><font color="orange">For methods, it means that they cannot be overridden and can be accessed directly by the class name</font></strong>. In particular, pay attention to a problem: for instance constants modified by static and final, the instance itself cannot be changed, but for instance variables of some container types (for example, ArrayList, HashMap), the container variable itself cannot be changed, but it can be modified. Objects stored in containers are used a lot in programming.</p>
 
                 </article>
                 <ul class="tags-postTags">
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Linked-List/" rel="tag"># Leetcode - Linked List</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Two-Pointers/" rel="tag"># Leetcode - Two Pointers</a>
-                    </li>
                     
                 </ul>
             </div>
@@ -197,14 +210,10 @@ Given a linked list, delete the nth node from the end.
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 61. Rotate List" href="/Leetcode-61-Rotate-List/">
-            ← Leetcode 61. Rotate List
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Spring Cloud 9: Distributed Tracing Solution - Sleuth" href="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/">
-            Spring Cloud 9: Distributed Tracing Solution - Sleuth →
+        <a class="next-post" title="Leetcode 113. Path Sum II" href="/Leetcode-113-Path-Sum-II/">
+            Leetcode 113. Path Sum II →
         </a>
         
     </nav>
@@ -230,7 +239,7 @@ Given a linked list, delete the nth node from the end.
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-2-Pass"><span class="toc-text">Solution - 2 Pass</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-1-Pass"><span class="toc-text">Solution - 1 Pass</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Final-keyword"><span class="toc-text">Final keyword</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Apply-final-to-a-class"><span class="toc-text">Apply final to a class</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Apply-final-to-a-method"><span class="toc-text">Apply final to a method</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Apply-final-to-a-variable"><span class="toc-text">Apply final to a variable</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Static-keyword"><span class="toc-text">Static keyword</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Static-variables"><span class="toc-text">Static variables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Static-method"><span class="toc-text">Static method</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Static-code-block"><span class="toc-text">Static code block</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-does-putting-static-and-final-together-mean"><span class="toc-text">What does putting static and final together mean</span></a></li></ol>
     </div>
 </div>
 
@@ -555,7 +564,7 @@ Given a linked list, delete the nth node from the end.
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-19-Remove-Nth-Node-From-End-of-List/" class="leancloud-visitors" data-flag-title="Leetcode 19. Remove Nth Node From End of List">
+			        <span hidden="true" id="/Java-final-and-static-keyword/" class="leancloud-visitors" data-flag-title="Java final and static keyword">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
