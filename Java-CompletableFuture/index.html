@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="preconnect" href="//www.googletagmanager.com">
+	<link rel="preconnect" href="//zz.bdstatic.com">
+	<link rel="preconnect" href="//sp0.baidu.com">
+	<link rel="preconnect" href="//www.google-analytics.com">
+	<link rel="preconnect" href="//cdn1.lncld.net">
+	<link rel="preconnect" href="//unpkg.com">
+	<link rel="preconnect" href="//app-router.leancloud.cn">
+	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
+	<link rel="preconnect" href="//gravatar.loli.net">
+
+	<title>Java CompletableFuture | Nick Li</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="Nick Li">
+	<meta name="description" content>
+
+	
+
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="Nick Li">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Java CompletableFuture | Nick Li">
+	<meta property="og:description" content>
+	<meta property="og:url" content="http://nicklee1006.github.io/Java-CompletableFuture/">
+
+	
+	<meta property="article:published_time" content="2020-04-09T12:04:00+08:00"> 
+	<meta property="article:author" content="Nick Li">
+	<meta property="article:published_first" content="Nick Li, /Java-CompletableFuture/">
+	
+
+	
+	
+	<link rel="stylesheet" href="/css/allinonecss.min.css">
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151447201-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-151447201-1');
+	</script>
+	
+	
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header post-site-header outer">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/archives" title="ARCHIVES">ARCHIVES</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button-area">
+        <a href="#search" class="search-button">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="search-button">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    <a class="social-link" title="linkedin" href="https://www.linkedin.com/in/chenzhang-li/" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<div id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <div class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2020-04-09T02:17:51.000Z">
+                    2020-04-9
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
+                
+                
+            </div>
+            <h1 class="post-full-title">Java CompletableFuture</h1>
+        </header>
+        <div class="post-full ">
+            
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/04/09/HDEhSykJmwR85uG.jpg)">
+            </figure>
+            
+            <div class="post-full-content">
+                <article id="photoswipe" class="markdown-body">
+                    <p>In modern software development, system functions are becoming more and more complex, and the method of managing complexity is to divide and conquer. Many functions of the system may be divided into small services, providing Web APIs for external development, deployment, and maintenance. For example, in an e-commerce system, there may be product services, order services, user services, recommendation services, preferential services, search services, etc. When displaying a page externally, multiple services may be called. There may be certain dependencies between calls, for example, to display a product page, you need to call the product service. You may also need to call the recommendation service to obtain other recommendations related to the product, and you may need to call the discount service to obtain the promotional offers related to the product. In order to call the preferential service, you may need to call the user service to obtain the user’s membership level.</p>
+<p>In addition, modern software often depends on many third-party services, such as map services, SMS services, weather services, exchange rate services, etc. When implementing a specific function, you may need to access multiple such services, and there may be dependencies.</p>
+<p>In order to improve performance and make full use of system resources, these calls to external services should generally be <code>asynchronous</code> and as <code>concurrent</code> as possible. Asynchronous task execution service, using <code>ExecutorService</code> can easily submit a single independent asynchronous task, you can easily obtain the result of the asynchronous task through the <code>Future</code> interface when needed, but for multiple asynchronous tasks, especially with certain dependencies, this support is not enough.</p>
+<p>So, there comes <code>CompletableFuture</code>, which is a concrete class that implements two interfaces, one is <code>Future</code> and the other is <code>CompletionStage</code>. <code>Future</code> represents the result of an asynchronous task, and <code>CompletionStage</code> literally means the completion stage, multiple <code>CompletionStage</code> can be pipelined in combination, for one of the <code>CompletionStage</code>, it has a calculation task, but it may need to wait for one or more other stages to complete before it can start. After it is completed, it may trigger other stages to start running. <code>CompletionStage</code> provides a large number of methods. Using them, you can easily respond to task events, build a task pipeline, and implement combined asynchronous programming. How to use it? Below we will explain step by step, <code>CompletableFuture</code> is also a <code>Future</code>, let us first look at the similarities with <code>Future</code>.</p>
+<p><code>Future</code> is a class added by Java5 to describe the result of an asynchronous calculation. You can use the <code>isDone()</code> method to check whether the calculation is complete, or use <code>get()</code> to block the calling thread until the calculation is completed and return the result, or you can use the <code>cancel()</code> method to stop the execution of the task.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BasicFuture</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ExecutionException, InterruptedException </span>&#123;</span><br><span class="line">        ExecutorService es = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line">        Future&lt;Integer&gt; f = es.submit(() -&gt; &#123;</span><br><span class="line">            <span class="comment">// long running asynchronous task</span></span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">            <span class="comment">// return sth</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">        f.get();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Future</code> and related methods provide the ability to execute tasks asynchronously, but it is inconvenient to obtain results, and the task results can only be obtained by blocking or polling. The blocking method is contrary to the asynchronous programming we understand, and polling consumes unnecessary CPU resources. Moreover, the calculation result cannot be obtained in time. Why can’t the observer design mode be used to notify the listener in time when the calculation result is completed?</p>
+<p>In Java 8, a new class with about 50 methods has been added: <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html" target="_blank" rel="noopener">CompletableFuture</a>, which provides a very powerful extension of <code>Future</code>, which can help us simplify the complexity of asynchronous programming, provides the ability of functional programming, and the way to deal with the calculation results, and provides a method to convert and combine <code>CompletableFuture</code>.</p>
+<p>Let’s take a look at its function below.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CompletableFutureSimple</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        CompletableFuture&lt;Double&gt; futurePrice = getPriceAsync();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//do anything you want, current thread is not blocked</span></span><br><span class="line">        System.out.println(<span class="number">111</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// task complete, call the callback without block subsequent operations</span></span><br><span class="line">        futurePrice.whenComplete((aDouble, throwable) -&gt; &#123;</span><br><span class="line">            System.out.println(aDouble);</span><br><span class="line">            <span class="comment">//do something else</span></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="number">222</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> CompletableFuture&lt;Double&gt; <span class="title">getPriceAsync</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        CompletableFuture&lt;Double&gt; futurePrice = <span class="keyword">new</span> CompletableFuture&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            futurePrice.complete(<span class="number">23.55</span>);</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> futurePrice;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>getPriceAsync()</code> is an asynchronous method. It returns a <code>futurePrice</code> immediately after the call. It is simulated as a time-consuming operation with <code>Thread.sleep(5000)</code>. After the thread is executed, it sets <code>futurePrice</code> to the completion state and gives the result.</p>
+<p><code>CompletableFuture</code>‘s <code>whenComplete()</code> is also asynchronous, so we can see the output as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">111</span><br><span class="line">222</span><br><span class="line">23.55</span><br></pre></td></tr></table></figure>
+
+<h2 id="Completion-of-calculations"><a href="#Completion-of-calculations" class="headerlink" title="Completion of calculations"></a>Completion of calculations</h2><p>The <code>CompletableFuture</code> class implements the <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletionStage.html" target="_blank" rel="noopener">CompletionStage</a> and <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html" target="_blank" rel="noopener">Future</a> interfaces, so you can still get the results by blocking or polling as before, although this method is not recommended.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">(<span class="keyword">long</span> timeout, TimeUnit unit)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">getNow</span><span class="params">(T valueIfAbsent)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">join</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+
+<p><code>getNow()</code> is a bit special. If the result has been calculated, it will return the result or throw an exception, otherwise return the given <code>valueIfAbsent</code> value.</p>
+<p><code>join()</code> returns the result of the calculation or throws an unchecked exception(<code>CompletionException</code>), which is slightly different from <code>get()</code>‘s handling of the thrown exception.</p>
+<h2 id="Create-CompletableFuture"><a href="#Create-CompletableFuture" class="headerlink" title="Create CompletableFuture"></a>Create CompletableFuture</h2><p><code>CompletableFuture.completedFuture()</code> is a static helper method used to return an already calculated <code>CompletableFuture</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;U&gt; <span class="function">CompletableFuture&lt;U&gt; <span class="title">completedFuture</span><span class="params">(U value)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>The following four static methods are used to create a <code>CompletableFuture</code> object for an asynchronously executed code:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CompletableFuture&lt;Void&gt;   <span class="title">runAsync</span><span class="params">(Runnable runnable)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CompletableFuture&lt;Void&gt;   <span class="title">runAsync</span><span class="params">(Runnable runnable, Executor executor)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> &lt;U&gt; CompletableFuture&lt;U&gt;  <span class="title">supplyAsync</span><span class="params">(Supplier&lt;U&gt; supplier)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> &lt;U&gt; CompletableFuture&lt;U&gt;  <span class="title">supplyAsync</span><span class="params">(Supplier&lt;U&gt; supplier, Executor executor)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>Methods that end in <code>Async</code> and do not specify <code>Executor</code> will use <code>ForkJoinPool.commonPool()</code> as its thread pool to execute asynchronous code.</p>
+<p>The <code>runAsync()</code> method is also easy to understand. It takes the <code>Runnable</code> functional interface type as a parameter, so the <code>CompletableFuture</code> calculation result is empty.</p>
+<p>The <code>supplyAsync</code> method takes the <code>Supplier&lt;U&gt;</code> functional interface type as a parameter, and the <code>CompletableFuture</code> calculation result type is <code>U</code>.</p>
+<p>Because the parameter types of methods are all functional interfaces, <code>lambda</code> expressions can be used to implement asynchronous tasks, such as:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CompletableFuture&lt;String&gt; future = CompletableFuture.supplyAsync(() -&gt; &#123;</span><br><span class="line">    <span class="comment">// long running task</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"·00"</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Processing-when-the-calculation-is-completed"><a href="#Processing-when-the-calculation-is-completed" class="headerlink" title="Processing when the calculation is completed"></a>Processing when the calculation is completed</h2><p>When the calculation of <code>CompletableFuture</code> is completed, or when an exception is thrown, we can execute a specific <code>Action</code>. The main methods are as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;T&gt; <span class="title">whenComplete</span><span class="params">(BiConsumer&lt;? <span class="keyword">super</span> T,? <span class="keyword">super</span> Throwable&gt; action)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;T&gt; <span class="title">whenCompleteAsync</span><span class="params">(BiConsumer&lt;? <span class="keyword">super</span> T,? <span class="keyword">super</span> Throwable&gt; action)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;T&gt; <span class="title">whenCompleteAsync</span><span class="params">(BiConsumer&lt;? <span class="keyword">super</span> T,? <span class="keyword">super</span> Throwable&gt; action, Executor executor)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;T&gt; <span class="title">exceptionally</span><span class="params">(Function&lt;Throwable,? extends T&gt; fn)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;T&gt; <span class="title">whenComplete</span><span class="params">(BiConsumer&lt;? <span class="keyword">super</span> T,? <span class="keyword">super</span> Throwable&gt; action)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;T&gt; <span class="title">whenCompleteAsync</span><span class="params">(BiConsumer&lt;? <span class="keyword">super</span> T,? <span class="keyword">super</span> Throwable&gt; action)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;T&gt; <span class="title">whenCompleteAsync</span><span class="params">(BiConsumer&lt;? <span class="keyword">super</span> T,? <span class="keyword">super</span> Throwable&gt; action, Executor executor)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;T&gt; <span class="title">exceptionally</span><span class="params">(Function&lt;Throwable,? extends T&gt; fn)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>We can see that the type of <code>Action</code> is <code>BiConsumer&lt;? Super T ,? super Throwable&gt;</code>, which can handle normal calculation results or abnormal exceptions.</p>
+<p>The methods that do not end with <code>Async</code> means that <code>Action</code> uses the same thread to execute, and <code>Async</code> may use other threads to execute (if the same thread pool is used, it may also be selected for execution by the same thread).</p>
+<p>Note that these methods will return <code>CompletableFuture</code>. When the <code>Action</code> is executed, its result will return to the original <code>CompletableFuture</code> calculation result or return an exception.</p>
+<p>The <code>exceptionally()</code> method returns a new <code>CompletableFuture</code>. When the original <code>CompletableFuture</code> throws an exception, it will trigger the calculation of the <code>CompletableFuture</code> and call the function to calculate the value, otherwise if the original <code>CompletableFuture</code> is calculated normally, the new <code>CompletableFuture</code> is also calculated, The value is the same as the calculated value of the original <code>CompletableFuture</code>. So, this <code>exceptionally()</code> method is used to handle abnormal situations.</p>
+<p>Although the following set of methods also returns a <code>CompletableFuture</code> object, the value of the object is different from the value calculated by the original <code>CompletableFuture</code>. When the original <code>CompletableFuture</code> value calculation is completed or an exception is thrown, the <code>CompletableFuture</code> object calculation is triggered, and the result is calculated by the <code>BiFunction</code> parameter. Therefore, this group of methods has both functions of <code>whenComplete</code> and <code>conversion</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;U&gt; <span class="function">CompletableFuture&lt;U&gt; <span class="title">handle</span><span class="params">(BiFunction&lt;? <span class="keyword">super</span> T,Throwable,? extends U&gt; fn)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt; <span class="title">handleAsync</span><span class="params">(BiFunction&lt;? <span class="keyword">super</span> T,Throwable,? extends U&gt; fn)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt; <span class="title">handleAsync</span><span class="params">(BiFunction&lt;? <span class="keyword">super</span> T,Throwable,? extends U&gt; fn, Executor executor)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>Similarly, the method that does not end with <code>Async</code> is calculated by the original thread, and the method that ends with <code>Async</code> is run by the default thread pool <code>ForkJoinPool.commonPool()</code> or the specified thread pool executor.</p>
+<h2 id="Conversion"><a href="#Conversion" class="headerlink" title="Conversion"></a>Conversion</h2><p><code>CompletableFuture</code> can be used as a <code>monad</code> and <code>functor</code>. Due to the implementation of the callback style, we do not have to block the calling thread just waiting for a calculation to complete, but rather tell <code>CompletableFuture</code> to perform a certain function when the calculation is completed. And we can also chain these operations together, or combine <code>CompletableFuture</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;U&gt; <span class="function">CompletableFuture&lt;U&gt; <span class="title">thenApply</span><span class="params">(Function&lt;? <span class="keyword">super</span> T,? extends U&gt; fn)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt; <span class="title">thenApplyAsync</span><span class="params">(Function&lt;? <span class="keyword">super</span> T,? extends U&gt; fn)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt; <span class="title">thenApplyAsync</span><span class="params">(Function&lt;? <span class="keyword">super</span> T,? extends U&gt; fn, Executor executor)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>The function of these methods is to pass the result to the function <code>fn</code> after the original <code>CompletableFuture</code> is calculated, and use the result of <code>fn</code> as the new <code>CompletableFuture</code> calculation result. Therefore, its function is equivalent to converting <code>CompletableFuture&lt;T&gt;</code> into <code>CompletableFuture&lt;U&gt;</code>.</p>
+<p>The difference between these three functions is the same as described above. The method that does not end with <code>Async</code> is calculated by the original thread, and the method that ends with <code>Async</code> is run by the default thread pool <code>ForkJoinPool.commonPool()</code> or the specified thread pool <code>executor</code>. Java’s <code>CompletableFuture</code> class always follows this principle.</p>
+<p>Example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CompletableFuture&lt;Integer&gt; future = CompletableFuture.supplyAsync(() -&gt; <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">CompletableFuture&lt;String&gt; conversion = future.thenApplyAsync(i -&gt; i * <span class="number">10</span>).thenApply(Object::toString);</span><br><span class="line"></span><br><span class="line">System.out.println(conversion.get());</span><br></pre></td></tr></table></figure>
+
+<p>It should be noted that these conversions are not executed immediately and will not block, but will continue to execute after the previous stage is completed.</p>
+<p>The difference between them and the <code>handle()</code> method is that the <code>handle()</code> method will handle normal calculated values and exceptions, so it can shield exceptions and prevent them from being thrown. The <code>thenApply()</code> method is only used to handle normal values, so it will be thrown once there is an exception.</p>
+<h2 id="Pure-consumption-execution-Action"><a href="#Pure-consumption-execution-Action" class="headerlink" title="Pure consumption (execution Action)"></a>Pure consumption (execution Action)</h2><p>The above methods are that when the calculation is completed, a new calculation result(<code>thenApply()</code>, <code>handle()</code>) will be generated, or the same calculation result is returned <code>whenComplete()</code>. <code>CompletableFuture</code> also provides a method of processing the result, only execute <code>Action</code> on the result, and not return new calculated value, so the calculated value is <code>Void</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;Void&gt; <span class="title">thenAccept</span><span class="params">(Consumer&lt;? <span class="keyword">super</span> T&gt; action)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;Void&gt; <span class="title">thenAcceptAsync</span><span class="params">(Consumer&lt;? <span class="keyword">super</span> T&gt; action)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;Void&gt; <span class="title">thenAcceptAsync</span><span class="params">(Consumer&lt;? <span class="keyword">super</span> T&gt; action, Executor executor)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>It is clear by looking at its parameter types. They are functional interface consumers. This interface has only inputs and no return values.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CompletableFuture&lt;Integer&gt; future = CompletableFuture.supplyAsync(() -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">CompletableFuture&lt;Void&gt; f =  future.thenAccept(System.out::println);</span><br><span class="line"></span><br><span class="line">System.out.println(f.get());</span><br></pre></td></tr></table></figure>
+
+<p><code>thenAcceptBoth()</code> and related methods provide similar functions. When the two <code>CompletionStage</code> complete the calculation normally, the provided action will be executed, which is used to combine another asynchronous result.</p>
+<p><code>runAfterBoth()</code> is to execute a <code>Runnable</code> when both <code>CompletionStage</code> finishes the calculation normally. This <code>Runnable</code> does not use the calculation result.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;U&gt; <span class="function">CompletableFuture&lt;Void&gt; <span class="title">thenAcceptBoth</span><span class="params">(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? <span class="keyword">super</span> T,? <span class="keyword">super</span> U&gt; action)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> &lt;U&gt; CompletableFuture&lt;Void&gt; <span class="title">thenAcceptBothAsync</span><span class="params">(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? <span class="keyword">super</span> T,? <span class="keyword">super</span> U&gt; action)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> &lt;U&gt; CompletableFuture&lt;Void&gt; <span class="title">thenAcceptBothAsync</span><span class="params">(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? <span class="keyword">super</span> T,? <span class="keyword">super</span> U&gt; action, Executor executor)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>     CompletableFuture&lt;Void&gt; <span class="title">runAfterBoth</span><span class="params">(CompletionStage&lt;?&gt; other,  Runnable action)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>Example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CompletableFuture&lt;Integer&gt; future = CompletableFuture.supplyAsync(() -&gt; <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">CompletableFuture&lt;Void&gt; f =  future.thenAcceptBoth(CompletableFuture.completedFuture(<span class="number">10</span>), (x, y) -&gt; System.out.println(x * y));</span><br><span class="line"></span><br><span class="line">System.out.println(f.get());  <span class="comment">// null</span></span><br></pre></td></tr></table></figure>
+
+<p>More thoroughly, the following set of methods will execute a <code>Runnable</code> when the calculation is complete. Unlike <code>thenAccept()</code>, <code>Runnable</code> does not use the results of <code>CompletableFuture</code> calculations.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;Void&gt; <span class="title">thenRun</span><span class="params">(Runnable action)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;Void&gt; <span class="title">thenRunAsync</span><span class="params">(Runnable action)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;Void&gt; <span class="title">thenRunAsync</span><span class="params">(Runnable action, Executor executor)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>The result of the previous <code>CompletableFuture</code> calculation is ignored, and this method returns an object of type <code>CompletableFuture&lt;Void&gt;</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CompletableFuture&lt;Integer&gt; future = CompletableFuture.supplyAsync(() -&gt; <span class="number">100</span>);</span><br><span class="line">CompletableFuture&lt;Void&gt; f =  future.thenRun(() -&gt; System.out.println(<span class="string">"finished"</span>));</span><br><span class="line">System.out.println(f.get());  <span class="comment">// null</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>A simple way to memorize the methods based on the type of parameters. <code>Runnable</code> type parameters will ignore the calculation results. <code>Consumer</code> is the pure consumption calculation result (not return value). <code>BiConsumer</code> will combine another <code>CompletionStage</code>. <code>Function</code> will convert the calculation result. <code>BiFunction</code> will combine another <code>CompletionStage</code> calculation result to perform conversion.</p>
+</blockquote>
+<h2 id="Compose"><a href="#Compose" class="headerlink" title="Compose"></a>Compose</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;U&gt; <span class="function">CompletableFuture&lt;U&gt; <span class="title">thenCompose</span><span class="params">(Function&lt;? <span class="keyword">super</span> T,? extends CompletionStage&lt;U&gt;&gt; fn)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt; <span class="title">thenComposeAsync</span><span class="params">(Function&lt;? <span class="keyword">super</span> T,? extends CompletionStage&lt;U&gt;&gt; fn)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt; <span class="title">thenComposeAsync</span><span class="params">(Function&lt;? <span class="keyword">super</span> T,? extends CompletionStage&lt;U&gt;&gt; fn, Executor executor)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>This set of methods accepts a <code>Function</code> as a parameter. The input of this <code>Function</code> is the current <code>CompletableFuture</code> calculation value, and the returned result will be a new <code>CompletableFuture</code>, which will combine the original <code>CompletableFuture</code> and the <code>CompletableFuture</code> returned by the function.</p>
+<p>Remember, the objects returned by <code>thenCompose()</code> are not the objects returned by the function <code>fn</code>. If the original <code>CompletableFuture</code> has not been calculated, it will generate a new combined <code>CompletableFuture</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CompletableFuture&lt;Integer&gt; future = CompletableFuture.supplyAsync(() -&gt; <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">CompletableFuture&lt;String&gt; f =  future.thenCompose( i -&gt; CompletableFuture.supplyAsync(() -&gt; (i * <span class="number">10</span>) + <span class="string">""</span>));</span><br><span class="line">        </span><br><span class="line">System.out.println(f.get()); <span class="comment">//1000</span></span><br></pre></td></tr></table></figure>
+
+<p>The following set of methods <code>thenCombine()</code> is used to compound the results of another <code>CompletionStage</code>.</p>
+<p>The two <code>CompletionStage</code> are executed in parallel, and there is no order of dependency between them. The other does not wait for the previous <code>CompletableFuture</code> to complete before executing.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;U,V&gt; <span class="function">CompletableFuture&lt;V&gt; <span class="title">thenCombine</span><span class="params">(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? <span class="keyword">super</span> T,? <span class="keyword">super</span> U,? extends V&gt; fn)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> &lt;U,V&gt; CompletableFuture&lt;V&gt; <span class="title">thenCombineAsync</span><span class="params">(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? <span class="keyword">super</span> T,? <span class="keyword">super</span> U,? extends V&gt; fn)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> &lt;U,V&gt; CompletableFuture&lt;V&gt; <span class="title">thenCombineAsync</span><span class="params">(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? <span class="keyword">super</span> T,? <span class="keyword">super</span> U,? extends V&gt; fn, Executor executor)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>In fact, in terms of functionality, their function is more similar to <code>thenAcceptBoth()</code>, except that <code>thenAcceptBoth()</code> is pure consumption, its function parameter has no return value, and <code>thenCombine()</code>‘s function parameter <code>fn</code> has a return value.</p>
+<h2 id="Either"><a href="#Either" class="headerlink" title="Either"></a>Either</h2><p><code>thenAcceptBoth()</code> and <code>runAfterBoth()</code> are calculated when both <code>CompletableFutures</code> are completed, and the method we want to understand below is when any <code>CompletableFuture</code> is calculated.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;Void&gt; <span class="title">acceptEither</span><span class="params">(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? <span class="keyword">super</span> T&gt; action)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;Void&gt; <span class="title">acceptEitherAsync</span><span class="params">(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? <span class="keyword">super</span> T&gt; action)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompletableFuture&lt;Void&gt; <span class="title">acceptEitherAsync</span><span class="params">(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? <span class="keyword">super</span> T&gt; action, Executor executor)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt; <span class="title">applyToEither</span><span class="params">(CompletionStage&lt;? extends T&gt; other, Function&lt;? <span class="keyword">super</span> T,U&gt; fn)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt; <span class="title">applyToEitherAsync</span><span class="params">(CompletionStage&lt;? extends T&gt; other, Function&lt;? <span class="keyword">super</span> T,U&gt; fn)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> &lt;U&gt; CompletableFuture&lt;U&gt; <span class="title">applyToEitherAsync</span><span class="params">(CompletionStage&lt;? extends T&gt; other, Function&lt;? <span class="keyword">super</span> T,U&gt; fn, Executor executor)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>The <code>acceptEither()</code> method is that when any <code>CompletionStage</code> is completed, the action consumer will be executed. This method returns <code>CompletableFuture&lt;Void&gt;</code></p>
+<p>The <code>applyToEither()</code> method is when any <code>CompletionStage</code> is completed, <code>fn</code> will be executed, and its return value will be used as the calculation result of the new <code>CompletableFuture&lt;U&gt;</code>.</p>
+<p>The following example sometimes outputs 100 and sometimes 200. Which <code>Future</code> is completed first will be calculated based on its result.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Random rand = <span class="keyword">new</span> Random();</span><br><span class="line"></span><br><span class="line">CompletableFuture&lt;Integer&gt; future = CompletableFuture.supplyAsync(() -&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Thread.sleep(<span class="number">10000</span> + rand.nextInt(<span class="number">1000</span>));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">CompletableFuture&lt;Integer&gt; future2 = CompletableFuture.supplyAsync(() -&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Thread.sleep(<span class="number">10000</span> + rand.nextInt(<span class="number">1000</span>));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">200</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">CompletableFuture&lt;String&gt; f =  future.applyToEither(future2,i -&gt; i.toString());</span><br></pre></td></tr></table></figure>
+
+<h2 id="CompletableFuture-exception-handling"><a href="#CompletableFuture-exception-handling" class="headerlink" title="CompletableFuture exception handling"></a>CompletableFuture exception handling</h2><p>If an exception occurs before setting <code>CompletableFuture.complete(value)</code>, then <code>get()</code> or other callback functions like <code>whenComplete()</code> will wait indefinitely.</p>
+<p>One method is to give a timeout when calling <code>get(timeout)</code>, and get a <code>TimeoutException</code> if no result is obtained within the specified time. Another way is to spread the exception through <code>completeExceptionally(ex)</code> in the thread</p>
+<h2 id="Helper-methods-allOf-and-anyOf"><a href="#Helper-methods-allOf-and-anyOf" class="headerlink" title="Helper methods allOf() and anyOf()"></a>Helper methods allOf() and anyOf()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CompletableFuture&lt;Void&gt;   <span class="title">allOf</span><span class="params">(CompletableFuture&lt;?&gt;... cfs)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CompletableFuture&lt;Object&gt; <span class="title">anyOf</span><span class="params">(CompletableFuture&lt;?&gt;... cfs)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>The <code>allOf()</code> method is to perform calculations after all <code>CompletableFuture</code> have been executed.</p>
+<p>The <code>anyOf()</code> method is to execute a calculation after any <code>CompletableFuture</code> is executed, and the calculation result is the same.</p>
+<p><code>anyOf()</code> and <code>applyToEither()</code> are different. <code>anyOf()</code> accepts any number of <code>CompletableFuture</code> but <code>applyToEither()</code> only has two <code>CompletableFuture</code>. The calculation result of the return value of <code>anyOf()</code> is one of the <code>CompletableFuture</code> calculation parameters. The calculation result of the return value of <code>applyToEither()</code> is processed by <code>fn</code>.</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
+<li><a href="http://colobu.com/2016/02/29/Java-CompletableFuture/" target="_blank" rel="noopener">http://colobu.com/2016/02/29/Java-CompletableFuture/</a></li>
+<li><a href="http://www.cnblogs.com/swiftma/p/7424185.html" target="_blank" rel="noopener">http://www.cnblogs.com/swiftma/p/7424185.html</a></li>
+<li><a href="https://unmi.cc/java-8-completablefuture-brief-touch/" target="_blank" rel="noopener">https://unmi.cc/java-8-completablefuture-brief-touch/</a></li>
+</ol>
+
+                </article>
+                <ul class="tags-postTags">
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="Leetcode 114. Flatten Binary Tree to Linked List" href="/Leetcode-114-Flatten-Binary-Tree-to-Linked-List/">
+            Leetcode 114. Flatten Binary Tree to Linked List →
+        </a>
+        
+    </nav>
+
+    
+    <div class="inner">
+        <div id="comment"></div>
+    </div>
+    
+</div>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Completion-of-calculations"><span class="toc-text">Completion of calculations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Create-CompletableFuture"><span class="toc-text">Create CompletableFuture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Processing-when-the-calculation-is-completed"><span class="toc-text">Processing when the calculation is completed</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conversion"><span class="toc-text">Conversion</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pure-consumption-execution-Action"><span class="toc-text">Pure consumption (execution Action)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Compose"><span class="toc-text">Compose</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Either"><span class="toc-text">Either</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CompletableFuture-exception-handling"><span class="toc-text">CompletableFuture exception handling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Helper-methods-allOf-and-anyOf"><span class="toc-text">Helper methods allOf() and anyOf()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-text">References</span></a></li></ol>
+    </div>
+</div>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+  <header class="read-next-card-header">
+    <small class="read-next-card-header-sitetitle">&mdash; Nick Li &mdash;</small>
+    <h3 class="read-next-card-header-title">Recent Posts</h3>
+  </header>
+  <div class="read-next-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+      <path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/>
+    </svg>
+  </div>
+  <div class="read-next-card-content">
+    <ul>
+      
+      
+      
+      <li>
+        <a href="/Java-CompletableFuture/">Java CompletableFuture</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Leetcode-114-Flatten-Binary-Tree-to-Linked-List/">Leetcode 114. Flatten Binary Tree to Linked List</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Java-final-and-static-keyword/">Java final and static keyword</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+  <footer class="read-next-card-footer">
+    <a href="/archives">  MORE  → </a>
+  </footer>
+</article>
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+    <header class="read-next-card-header tagcloud-card">
+        <h3 class="read-next-card-header-title">Categories</h3>
+    </header>
+    <div class="read-next-card-content">
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cloud/">Spring Cloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/how-to-guide/">how-to-guide</a></li></ul>
+    </div>
+</article>
+
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+	<header class="read-next-card-header tagcloud-card">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 15.25px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 15.25px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 22.75px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 16.5px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Depth-First-Search/" style="font-size: 17.75px;">Leetcode - Depth First Search</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 20.25px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 15.25px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 16.5px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Linked-List/" style="font-size: 16.5px;">Leetcode - Linked List</a> <a href="/tags/Leetcode-Math/" style="font-size: 14px;">Leetcode - Math</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 15.25px;">Leetcode - Sort</a> <a href="/tags/Leetcode-Stack/" style="font-size: 14px;">Leetcode - Stack</a> <a href="/tags/Leetcode-String/" style="font-size: 19px;">Leetcode - String</a> <a href="/tags/Leetcode-Tree/" style="font-size: 19px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 21.5px;">Leetcode - Two Pointers</a> <a href="/tags/Stream-API/" style="font-size: 15.25px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 15.25px;">hexo</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay">
+    <div class="search-form">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<div class="copyright">
+			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
+			
+				
+			        <span hidden="true" id="/Java-CompletableFuture/" class="leancloud-visitors" data-flag-title="Java CompletableFuture">
+			            <span>阅读量 </span>
+			            <span class="leancloud-visitors-count">0</span>
+			        </span>
+	    		
+    		
+		</div>
+		<nav class="site-footer-nav">
+			
+			<a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+			<a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+		</nav>
+	</div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister()
+            }
+        })
+    }
+</script>
+
+
+<script id="scriptLoad" src="/js/allinone.min.js" async></script>
+
+
+<script>
+    document.getElementById('scriptLoad').addEventListener('load', function () {
+        
+        
+            var bLazy = new Blazy();
+        
+
+        
+        
+
+        
+        
+        
+            searchFunc("/");
+        
+        
+    })
+</script>
+
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+
+
+<script id="valineScript" src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+<script>
+    document.getElementById('valineScript').addEventListener("load", function() {
+        new Valine({
+            el: '#comment' ,
+            verify: false,
+            notify: false,
+            appId: '3TACGUnsSRuWgqCn3pRpLVwQ-MdYXbMMI',
+            appKey: 'JTo5iyjOyGTEXzAwjaTNqcY0',
+            placeholder: 'Please leave a comment',
+            pageSize: 10,
+            avatar: 'mm',
+            visitor: true,
+            lang: 'en'
+        })
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
