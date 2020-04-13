@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 49. Group Anagrams | Nick Li</title>
+	<title>Leetcode 120. Triangle | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 49. Group Anagrams | Nick Li">
+	<meta property="og:title" content="Leetcode 120. Triangle | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-49-Group-Anagrams/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-120-Triangle/">
 
 	
-	<meta property="article:published_time" content="2020-02-13T23:02:00+08:00"> 
+	<meta property="article:published_time" content="2020-04-13T13:04:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-49-Group-Anagrams/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-120-Triangle/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-02-13T13:16:07.000Z">
-                    2020-02-13
+                <time class="post-full-meta-date" datetime="2020-04-13T03:20:56.000Z">
+                    2020-04-13
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 49. Group Anagrams</h1>
+            <h1 class="post-full-title">Leetcode 120. Triangle</h1>
         </header>
         <div class="post-full ">
             
@@ -157,25 +157,28 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-49-Group-Anagrams/Question.png" data-index="0" data-src="/Leetcode-49-Group-Anagrams/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-120-Triangle/Question.png" data-index="0" data-src="/Leetcode-120-Triangle/Question.png">
 <br>
 <br>
-Given multiple strings, categorize them. As long as the strings contain exactly the same characters, they are counted as the same class, regardless of order.
 
-<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Easy - <a href="https://leetcode.com/problems/valid-anagram/" target="_blank" rel="noopener">242. Valid Anagram</a></li>
-</ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>We can sort each string alphabetically, then we can map <code>eat</code>, <code>tea</code>, <code>ate</code> to <code>aet</code>. Others are similar.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">HashMap&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// loop all strings</span></span><br><span class="line"><span class="keyword">for</span> (String str : strs) &#123;</span><br><span class="line">    <span class="keyword">char</span>[] charArray = str.toCharArray();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// sort</span></span><br><span class="line">    Arrays.sort(charArray);</span><br><span class="line"></span><br><span class="line">    String key = <span class="keyword">new</span> String(charArray);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (map.containsKey(key)) &#123;</span><br><span class="line">        map.get(key).add(str);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        List&lt;String&gt; tempList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        tempList.add(str);</span><br><span class="line"></span><br><span class="line">        map.put(key, tempList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;(map.values());</span><br></pre></td></tr></table></figure>
+<p>From current layer can only choose two adjacent elements to walk down. For example, the third layer of <code>5</code>, we can only choose the fourth layer of <code>1</code> and <code>8</code>, starting from the top. Take a path to the bottom with the smallest sum.</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>We can construct the result from top to down, get the possible minimum at a specific positon. Lastly the minimum in the last is the answer we want to get.</p>
+<p>There are two options to get to the current position. Choose a smaller one and add the number at the current position.</p>
+<p>The point to note is that the left and right borders need to be considered separately, because there is only one position to reach the left and right borders.</p>
+<p>We are updating layer by layer, and updating the current layer only requires the information of the previous layer, so we do not need a two-dimensional array, only a one-dimensional array.</p>
+<p>E.g</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">    [2],</span><br><span class="line">   [3, 4],</span><br><span class="line">  [6, 5, 7],</span><br><span class="line">[4, 1, 8, 3]</span><br><span class="line">     </span><br><span class="line">Update 2-nd layer:</span><br><span class="line">     [2],</span><br><span class="line">   [5, 6],</span><br><span class="line">  [6, 5, 7],</span><br><span class="line">[4, 1, 8, 3]   </span><br><span class="line"></span><br><span class="line">Update 3-rd layer:</span><br><span class="line">      [2],</span><br><span class="line">     [5, 6],</span><br><span class="line">  [11, 10, 13],</span><br><span class="line">[4,  1,   8,  3] </span><br><span class="line"></span><br><span class="line">Update last layer:</span><br><span class="line">      [2],</span><br><span class="line">     [5, 6],</span><br><span class="line">  [11, 10, 13],</span><br><span class="line">[15, 11, 18, 16]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; triangle)</span> </span>&#123;</span><br><span class="line">    List&lt;Integer&gt; previousRow = triangle.get(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// loop every row</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> row = <span class="number">1</span>; row &lt; triangle.size(); row++) &#123;</span><br><span class="line">        List&lt;Integer&gt; temp = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// loop elements in the row</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; triangle.get(row).size(); i++) &#123;</span><br><span class="line">            <span class="comment">// current element</span></span><br><span class="line">            <span class="keyword">int</span> elementCurrent = triangle.get(row).get(i);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// first or last element, add current one with previous row adjacent elements</span></span><br><span class="line">            <span class="keyword">if</span> (i == <span class="number">0</span>) &#123;</span><br><span class="line">                temp.add(elementCurrent + previousRow.get(i));</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (i == triangle.get(row).size() - <span class="number">1</span>) &#123;</span><br><span class="line">                temp.add(elementCurrent + previousRow.get(previousRow.size() - <span class="number">1</span>));</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                temp.add(Math.min(elementCurrent + previousRow.get(i - <span class="number">1</span>), elementCurrent + previousRow.get(i)));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        previousRow.clear();</span><br><span class="line">        previousRow.addAll(temp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// now previous row is the last row</span></span><br><span class="line">    <span class="comment">// sort and find the minimum one</span></span><br><span class="line">    Collections.sort(previousRow);</span><br><span class="line">    <span class="keyword">return</span> previousRow.get(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-String/" rel="tag"># Leetcode - String</a>
+                        <a href="/tags/Leetcode-Dynamic-Programming/" rel="tag"># Leetcode - Dynamic Programming</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-Hash-Table/" rel="tag"># Leetcode - Hash Table</a>
+                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
                     </li>
                     
                 </ul>
@@ -186,14 +189,10 @@ Given multiple strings, categorize them. As long as the strings contain exactly 
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Spring Cloud 9: Distributed Tracing Solution - Sleuth" href="/Spring-Cloud-9-Distributed-Tracing-Solution-Sleuth/">
-            ← Spring Cloud 9: Distributed Tracing Solution - Sleuth
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 98. Validate Binary Search Tree" href="/Leetcode-98-Validate-Binary-Search-Tree/">
-            Leetcode 98. Validate Binary Search Tree →
+        <a class="next-post" title="Java CompletableFuture" href="/Java-CompletableFuture/">
+            Java CompletableFuture →
         </a>
         
     </nav>
@@ -219,7 +218,7 @@ Given multiple strings, categorize them. As long as the strings contain exactly 
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
     </div>
 </div>
 
@@ -550,7 +549,7 @@ Given multiple strings, categorize them. As long as the strings contain exactly 
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-49-Group-Anagrams/" class="leancloud-visitors" data-flag-title="Leetcode 49. Group Anagrams">
+			        <span hidden="true" id="/Leetcode-120-Triangle/" class="leancloud-visitors" data-flag-title="Leetcode 120. Triangle">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
