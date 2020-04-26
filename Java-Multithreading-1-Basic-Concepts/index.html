@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="preconnect" href="//www.googletagmanager.com">
+	<link rel="preconnect" href="//zz.bdstatic.com">
+	<link rel="preconnect" href="//sp0.baidu.com">
+	<link rel="preconnect" href="//www.google-analytics.com">
+	<link rel="preconnect" href="//cdn1.lncld.net">
+	<link rel="preconnect" href="//unpkg.com">
+	<link rel="preconnect" href="//app-router.leancloud.cn">
+	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
+	<link rel="preconnect" href="//gravatar.loli.net">
+
+	<title>Java Multithreading 1: Basic Concepts | Nick Li</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="Nick Li">
+	<meta name="description" content>
+
+	
+
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="Nick Li">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Java Multithreading 1: Basic Concepts | Nick Li">
+	<meta property="og:description" content>
+	<meta property="og:url" content="http://nicklee1006.github.io/Java-Multithreading-1-Basic-Concepts/">
+
+	
+	<meta property="article:published_time" content="2020-04-26T15:04:00+08:00"> 
+	<meta property="article:author" content="Nick Li">
+	<meta property="article:published_first" content="Nick Li, /Java-Multithreading-1-Basic-Concepts/">
+	
+
+	
+	
+	<link rel="stylesheet" href="/css/allinonecss.min.css">
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151447201-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-151447201-1');
+	</script>
+	
+	
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header post-site-header outer">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/archives" title="ARCHIVES">ARCHIVES</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button-area">
+        <a href="#search" class="search-button">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="search-button">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    <a class="social-link" title="linkedin" href="https://www.linkedin.com/in/chenzhang-li/" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<div id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <div class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2020-04-26T05:33:39.000Z">
+                    2020-04-26
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
+                
+                
+            </div>
+            <h1 class="post-full-title">Java Multithreading 1: Basic Concepts</h1>
+        </header>
+        <div class="post-full ">
+            
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/04/26/2rNyfpW67uOYqHV.jpg)">
+            </figure>
+            
+            <div class="post-full-content">
+                <article id="photoswipe" class="markdown-body">
+                    <p>From today, I will start a series of blogs introducing topics related to multithreading in Java. It will only focus on entry contents rather than in-depth complicated issues.</p>
+<p>In this blog I will disucss the following topics:</p>
+<ul>
+<li>Process and Thread</li>
+<li>State of thread</li>
+<li>Implement multithreading in Java<ul>
+<li>Thread</li>
+<li>Runnable</li>
+</ul>
+</li>
+<li>The difference between start() and run() in Thread</li>
+</ul>
+<h2 id="Process-and-Thread"><a href="#Process-and-Thread" class="headerlink" title="Process and Thread"></a>Process and Thread</h2><p>Let’s first look at the difference between <code>processes</code> and <code>threads</code> in the operating system:</p>
+<ul>
+<li><strong>Process</strong>: Each process has its own code and data space (process context). Switching between processes will have a large overhead. A process contains 1–n threads. (Process is the smallest unit of resource allocation)</li>
+<li><strong>Thread</strong>: The same type of thread shares code and data space, each thread has an independent running stack and program counter (PC), and the thread switching overhead is small. (Thread is the smallest unit of CPU scheduling)</li>
+</ul>
+<p><code>Multi-process</code> means that the operating system can run multiple tasks (programs) at the same time.</p>
+<p><code>Multithreading</code> refers to the execution of multiple sequential streams in the same program.</p>
+<h2 id="State-of-thread"><a href="#State-of-thread" class="headerlink" title="State of thread"></a>State of thread</h2><img class="post-img b-lazy" data-img="/Java-Multithreading-1-Basic-Concepts/1.png" data-index="0" data-src="/Java-Multithreading-1-Basic-Concepts/1.png">
+<br>
+<br>
+
+<p>Thread includes the following 5 states.</p>
+<ol>
+<li><strong>New</strong>: after the thread object is created, it enters the <code>new</code> state. For example, <code>Thread thread = new Thread()</code>.</li>
+<li><strong>Runnable</strong>: also known as “executable state”. After the thread object is created, other threads call the object’s <code>start()</code> method to start the thread. For example, <code>thread.start()</code>. Threads in the <code>runnable</code> state may be scheduled for execution by the CPU at any time.</li>
+<li><strong>Running</strong>: thread obtains CPU permission to execute. It should be noted that the <code>thread can only enter the running state from the runnable state</code>.</li>
+<li><strong>Blocked</strong>: the thread gives up the CPU usage right for some reasons and temporarily stops running. Until the thread enters the <code>runnable</code> state, there is no chance to go to the <code>running</code> state. There are three blocking situations:<ol>
+<li>Waiting blocking - by calling the thread’s <code>wait()</code> method, the thread is allowed to wait for the completion of a job.</li>
+<li>Synchronous blocking - the thread fails to acquire the synchronized lock (because the lock is occupied by other threads), it will enter the synchronized blocking state.</li>
+<li>Other blocking - by calling the thread’s <code>sleep()</code> or <code>join()</code> or issuing an I/O request, the thread will enter the blocking state. When the <code>sleep()</code> state times out, <code>join()</code> waits for the thread to terminate or time out, or the I/O processing is complete, the thread re-enters the <code>runnable</code> state.</li>
+</ol>
+</li>
+<li><strong>Dead</strong>: the thread finishes execution or exits the <code>run()</code> method due to an exception, the thread ends its life cycle.</li>
+</ol>
+<h2 id="Implement-multithreading-in-Java"><a href="#Implement-multithreading-in-Java" class="headerlink" title="Implement multithreading in Java"></a>Implement multithreading in Java</h2><p>To implement multithreading in Java, there are two methods: one is to <code>inherit the Thread class</code>, and the other is to <code>implement the Runable interface</code>. (Actually, there should be three, and one is to <code>implement the Callable interface</code> and use with <code>Future</code> and <code>Thread pool</code>, this blog does not talk about this)</p>
+<h3 id="Introduction-to-Thread-and-Runnable"><a href="#Introduction-to-Thread-and-Runnable" class="headerlink" title="Introduction to Thread and Runnable"></a>Introduction to Thread and Runnable</h3><p><code>Runnable</code> is an interface that contains only one <code>run()</code> method:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Thread</code> is a class. <code>Thread</code> itself implements the <code>Runnable</code> interface:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Thread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Comparing-Thread-and-Runnable"><a href="#Comparing-Thread-and-Runnable" class="headerlink" title="Comparing Thread and Runnable"></a>Comparing Thread and Runnable</h3><p><code>Thread</code> and <code>Runnable</code> are both used to implement multithread.</p>
+<p><strong>Difference</strong>:</p>
+<ul>
+<li><code>Thread</code> is a class, and <code>Runnable</code> is an interface. We know that “a class can only have one parent class, but it can implement multiple interfaces”, so <code>Runnable</code> has better scalability.</li>
+<li><code>Runnable</code> can be used for “resource sharing”. That is, multiple threads are based on a certain <code>Runnable</code> object, they will share the resources on the <code>Runnable</code> object.</li>
+</ul>
+<p>Generally, it is recommended to implement multithreading through <code>Runnable</code></p>
+<ul>
+<li><code>Runnable</code> is suitable for multiple threads of the same program code to process the same resource</li>
+<li>The limitation of single inheritance in Java can be avoided by using <code>Runnable</code></li>
+<li>Using <code>Runnable</code> creases the robustness of the program, the code can be shared by multiple threads. The code and data are independent</li>
+<li>The thread pool can only be put into the thread that implements <code>Runable</code> or <code>Callable</code>, not directly into the class that inherits <code>Thread</code></li>
+</ul>
+<h2 id="Thread-example"><a href="#Thread-example" class="headerlink" title="Thread example"></a>Thread example</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> ticket = <span class="number">10</span>;  </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++)&#123; </span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">this</span>.ticket &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                System.out.println(<span class="keyword">this</span>.getName()+<span class="string">" Selling ticket: ticket"</span> + <span class="keyword">this</span>.ticket--);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadTest</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        <span class="comment">// Create 3 threads t1, t2, t3: every thread sell 10 tickets</span></span><br><span class="line">        MyThread t1=<span class="keyword">new</span> MyThread();</span><br><span class="line">        MyThread t2=<span class="keyword">new</span> MyThread();</span><br><span class="line">        MyThread t3=<span class="keyword">new</span> MyThread();</span><br><span class="line"></span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        t3.start();</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Results:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Thread-0 Selling ticket: ticket10</span><br><span class="line">Thread-1 Selling ticket: ticket10</span><br><span class="line">Thread-2 Selling ticket: ticket10</span><br><span class="line">Thread-1 Selling ticket: ticket9</span><br><span class="line">Thread-0 Selling ticket: ticket9</span><br><span class="line">Thread-1 Selling ticket: ticket8</span><br><span class="line">Thread-2 Selling ticket: ticket9</span><br><span class="line">Thread-1 Selling ticket: ticket7</span><br><span class="line">Thread-0 Selling ticket: ticket8</span><br><span class="line">Thread-1 Selling ticket: ticket6</span><br><span class="line">Thread-2 Selling ticket: ticket8</span><br><span class="line">Thread-1 Selling ticket: ticket5</span><br><span class="line">Thread-0 Selling ticket: ticket7</span><br><span class="line">Thread-1 Selling ticket: ticket4</span><br><span class="line">Thread-2 Selling ticket: ticket7</span><br><span class="line">Thread-1 Selling ticket: ticket3</span><br><span class="line">Thread-0 Selling ticket: ticket6</span><br><span class="line">Thread-1 Selling ticket: ticket2</span><br><span class="line">Thread-2 Selling ticket: ticket6</span><br><span class="line">Thread-2 Selling ticket: ticket5</span><br><span class="line">Thread-2 Selling ticket: ticket4</span><br><span class="line">Thread-1 Selling ticket: ticket1</span><br><span class="line">Thread-0 Selling ticket: ticket5</span><br><span class="line">Thread-2 Selling ticket: ticket3</span><br><span class="line">Thread-0 Selling ticket: ticket4</span><br><span class="line">Thread-2 Selling ticket: ticket2</span><br><span class="line">Thread-0 Selling ticket: ticket3</span><br><span class="line">Thread-2 Selling ticket: ticket1</span><br><span class="line">Thread-0 Selling ticket: ticket2</span><br><span class="line">Thread-0 Selling ticket: ticket1</span><br></pre></td></tr></table></figure>
+
+<p><code>MyThread</code> inherits from <code>Thread</code>, it is a custom thread. Each <code>MyThread</code> will sell 10 tickets.</p>
+<p>The main thread creates and starts three <code>MyThread</code> sub-threads. Each child thread sold 10 tickets.</p>
+<h2 id="Runnable-example"><a href="#Runnable-example" class="headerlink" title="Runnable example"></a>Runnable example</h2><p>Next, we modify the above program: implement <code>Runnable</code> interface to achieve multithreading</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> ticket = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++)&#123; </span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">this</span>.ticket &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" Selling ticket: ticket"</span> + <span class="keyword">this</span>.ticket--);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RunnableTest</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        MyThread mt = <span class="keyword">new</span> MyThread();</span><br><span class="line"></span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(mt);</span><br><span class="line">        Thread t2 = <span class="keyword">new</span> Thread(mt);</span><br><span class="line">        Thread t3 = <span class="keyword">new</span> Thread(mt);</span><br><span class="line"></span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        t3.start();</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Results:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Thread-0 Selling ticket: ticket10</span><br><span class="line">Thread-2 Selling ticket: ticket8</span><br><span class="line">Thread-1 Selling ticket: ticket9</span><br><span class="line">Thread-2 Selling ticket: ticket6</span><br><span class="line">Thread-0 Selling ticket: ticket7</span><br><span class="line">Thread-2 Selling ticket: ticket4</span><br><span class="line">Thread-1 Selling ticket: ticket5</span><br><span class="line">Thread-2 Selling ticket: ticket2</span><br><span class="line">Thread-0 Selling ticket: ticket3</span><br><span class="line">Thread-1 Selling ticket: ticket1</span><br></pre></td></tr></table></figure>
+
+<p>Unlike the above “<code>MyThread</code> inherits from <code>Thread</code>“, <code>MyThread</code> here implements the <code>Runnable</code> interface.</p>
+<p>The main thread creates and starts 3 child threads, and these 3 child threads are all created based on <code>mt</code>. The running result is that these 3 sub-threads sold a total of 10 tickets. This shows that they share the <code>MyThread</code> interface.</p>
+<p>Note that this example could sell more than 10 tickets! <code>T1</code>, <code>t2</code>, and <code>t3</code> share a task and operate on the ticket at the same time. It may cause concurrency problems. For example, the value of the tickets read at the beginning of <code>t1</code> and <code>t2</code> are both <code>10</code>, and after <code>t1</code> sells a ticket, <code>ticket = 9</code>; at this time <code>t2</code> sells tickets, and the number of tickets read before <code>t2</code> is <code>10</code>, so, after <code>t2</code> sells, it is also <code>9</code> tickets. In this case, the problem arises: after the original <code>10</code> tickets, <code>t1</code> and <code>t2</code> each sell one ticket, but there are <code>9</code> tickets left! This leads to “the actual number of tickets sold may be more than 10”! We will discuss how to avoid this in the future blogs.</p>
+<h2 id="The-difference-between-start-and-run-in-Thread"><a href="#The-difference-between-start-and-run-in-Thread" class="headerlink" title="The difference between start() and run() in Thread"></a>The difference between start() and run() in Thread</h2><ul>
+<li><strong>start()</strong>: start a new thread, and the new thread will execute the corresponding <code>run()</code> method. <code>start()</code> cannot be called repeatedly<ul>
+<li>After the <code>start()</code> method is called, the multi-threaded code is not executed immediately, but the thread is made to be <code>Runnable</code>. When to run the code is determined by the operating system</li>
+<li>If the <code>start()</code> method is called repeatedly, a <code>java.lang.IllegalThreadStateException</code> exception will occur</li>
+</ul>
+</li>
+<li><strong>run()</strong>: <code>run()</code> is just like the normal member method and can be called repeatedly. Calling <code>run()</code> alone will execute <code>run()</code> in the current thread without starting a new thread!</li>
+</ul>
+<h2 id="start-and-run-example"><a href="#start-and-run-example" class="headerlink" title="start() and run() example"></a>start() and run() example</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StartAndRun</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Thread myThread=<span class="keyword">new</span> MyThread(<span class="string">"myThread"</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">" call myThread.run()"</span>);</span><br><span class="line">        myThread.run();</span><br><span class="line"></span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">" call myThread.start()"</span>);</span><br><span class="line">        myThread.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyThread</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">" is running"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Results:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">main call myThread.run()</span><br><span class="line">main is running</span><br><span class="line">main call myThread.start()</span><br><span class="line">myThread is running</span><br></pre></td></tr></table></figure>
+
+<p><code>Thread.currentThread().getName()</code> is used to get the name of “current thread”. The current thread refers to the thread that is being scheduled for execution in the CPU.</p>
+<p><code>myThread.run()</code> is called in “main thread”, and the <code>run()</code> method runs directly on “main thread”.</p>
+<p><code>myThread.start()</code> will start “thread myThread”. After “thread myThread” starts, it will call the <code>run()</code> method; the <code>run()</code> method at this time is running on “thread myThread”.</p>
+<h2 id="Source-code-of-start-and-run-based-on-JDK-11-0-5"><a href="#Source-code-of-start-and-run-based-on-JDK-11-0-5" class="headerlink" title="Source code of start() and run() (based on JDK 11.0.5)"></a>Source code of start() and run() (based on JDK 11.0.5)</h2><p>The source code of the <code>start()</code> method in <code>Thread.java</code> is as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// If the thread is not in the "Runnable" state, an exception is thrown!</span></span><br><span class="line">    <span class="keyword">if</span> (threadStatus != <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalThreadStateException();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add the thread to ThreadGroup</span></span><br><span class="line">    group.add(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">boolean</span> started = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// Start the thread via start0()</span></span><br><span class="line">        start0();</span><br><span class="line">        <span class="comment">// Set the started variable</span></span><br><span class="line">        started = <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (!started) &#123;</span><br><span class="line">                group.threadStartFailed(<span class="keyword">this</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable ignore) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Note: <code>start()</code> actually starts the thread through the native method <code>start0()</code>. And <code>start0()</code> will run a new thread, and the new thread will call the <code>run()</code> method.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">start0</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>The source code of the <code>run()</code> method in <code>Thread.java</code> is as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (target != <span class="keyword">null</span>) &#123;</span><br><span class="line">        target.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>target</code> is a <code>Runnable</code> object. <code>run()</code> will directly call the <code>run()</code> method of the <code>Runnable</code> member of the <code>Thread</code>, and does not create a new thread.</p>
+
+                </article>
+                <ul class="tags-postTags">
+                    
+                    <li>
+                        <a href="/tags/Multithreading/" rel="tag"># Multithreading</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="Leetcode 142. Linked List Cycle II" href="/Leetcode-142-Linked-List-Cycle-II/">
+            Leetcode 142. Linked List Cycle II →
+        </a>
+        
+    </nav>
+
+    
+    <div class="inner">
+        <div id="comment"></div>
+    </div>
+    
+</div>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Process-and-Thread"><span class="toc-text">Process and Thread</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#State-of-thread"><span class="toc-text">State of thread</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Implement-multithreading-in-Java"><span class="toc-text">Implement multithreading in Java</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Introduction-to-Thread-and-Runnable"><span class="toc-text">Introduction to Thread and Runnable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Comparing-Thread-and-Runnable"><span class="toc-text">Comparing Thread and Runnable</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Thread-example"><span class="toc-text">Thread example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Runnable-example"><span class="toc-text">Runnable example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-difference-between-start-and-run-in-Thread"><span class="toc-text">The difference between start() and run() in Thread</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#start-and-run-example"><span class="toc-text">start() and run() example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Source-code-of-start-and-run-based-on-JDK-11-0-5"><span class="toc-text">Source code of start() and run() (based on JDK 11.0.5)</span></a></li></ol>
+    </div>
+</div>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+  <header class="read-next-card-header">
+    <small class="read-next-card-header-sitetitle">&mdash; Nick Li &mdash;</small>
+    <h3 class="read-next-card-header-title">Recent Posts</h3>
+  </header>
+  <div class="read-next-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+      <path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/>
+    </svg>
+  </div>
+  <div class="read-next-card-content">
+    <ul>
+      
+      
+      
+      <li>
+        <a href="/Java-Multithreading-1-Basic-Concepts/">Java Multithreading 1: Basic Concepts</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Leetcode-142-Linked-List-Cycle-II/">Leetcode 142. Linked List Cycle II</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Leetcode-139-Word-Break/">Leetcode 139. Word Break</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+  <footer class="read-next-card-footer">
+    <a href="/archives">  MORE  → </a>
+  </footer>
+</article>
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+    <header class="read-next-card-header tagcloud-card">
+        <h3 class="read-next-card-header-title">Categories</h3>
+    </header>
+    <div class="read-next-card-content">
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cloud/">Spring Cloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/how-to-guide/">how-to-guide</a></li></ul>
+    </div>
+</article>
+
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+	<header class="read-next-card-header tagcloud-card">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 15.11px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 17.33px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 22.89px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 17.33px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Breadth-First-Search/" style="font-size: 14px;">Leetcode - Breadth First Search</a> <a href="/tags/Leetcode-Depth-First-Search/" style="font-size: 19.56px;">Leetcode - Depth First Search</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 21.78px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 16.22px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 17.33px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Linked-List/" style="font-size: 18.44px;">Leetcode - Linked List</a> <a href="/tags/Leetcode-Math/" style="font-size: 14px;">Leetcode - Math</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 15.11px;">Leetcode - Sort</a> <a href="/tags/Leetcode-Stack/" style="font-size: 14px;">Leetcode - Stack</a> <a href="/tags/Leetcode-String/" style="font-size: 19.56px;">Leetcode - String</a> <a href="/tags/Leetcode-Tree/" style="font-size: 20.67px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 21.78px;">Leetcode - Two Pointers</a> <a href="/tags/Leetcode-Union-Find/" style="font-size: 14px;">Leetcode - Union Find</a> <a href="/tags/Multithreading/" style="font-size: 14px;">Multithreading</a> <a href="/tags/Stream-API/" style="font-size: 15.11px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 15.11px;">hexo</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay">
+    <div class="search-form">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<div class="copyright">
+			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
+			
+				
+			        <span hidden="true" id="/Java-Multithreading-1-Basic-Concepts/" class="leancloud-visitors" data-flag-title="Java Multithreading 1: Basic Concepts">
+			            <span>阅读量 </span>
+			            <span class="leancloud-visitors-count">0</span>
+			        </span>
+	    		
+    		
+		</div>
+		<nav class="site-footer-nav">
+			
+			<a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+			<a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+		</nav>
+	</div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister()
+            }
+        })
+    }
+</script>
+
+
+<script id="scriptLoad" src="/js/allinone.min.js" async></script>
+
+
+<script>
+    document.getElementById('scriptLoad').addEventListener('load', function () {
+        
+        
+            var bLazy = new Blazy();
+        
+
+        
+        
+
+        
+        
+        
+            searchFunc("/");
+        
+        
+    })
+</script>
+
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+
+
+<script id="valineScript" src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+<script>
+    document.getElementById('valineScript').addEventListener("load", function() {
+        new Valine({
+            el: '#comment' ,
+            verify: false,
+            notify: false,
+            appId: '3TACGUnsSRuWgqCn3pRpLVwQ-MdYXbMMI',
+            appKey: 'JTo5iyjOyGTEXzAwjaTNqcY0',
+            placeholder: 'Please leave a comment',
+            pageSize: 10,
+            avatar: 'mm',
+            visitor: true,
+            lang: 'en'
+        })
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
