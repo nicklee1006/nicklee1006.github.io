@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 98. Validate Binary Search Tree | Nick Li</title>
+	<title>Leetcode 148. Sort List | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 98. Validate Binary Search Tree | Nick Li">
+	<meta property="og:title" content="Leetcode 148. Sort List | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-98-Validate-Binary-Search-Tree/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-148-Sort-List/">
 
 	
-	<meta property="article:published_time" content="2020-02-11T21:02:00+08:00"> 
+	<meta property="article:published_time" content="2020-05-01T13:05:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-98-Validate-Binary-Search-Tree/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-148-Sort-List/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-02-11T11:09:09.000Z">
-                    2020-02-11
+                <time class="post-full-meta-date" datetime="2020-05-01T03:30:50.000Z">
+                    2020-05-1
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 98. Validate Binary Search Tree</h1>
+            <h1 class="post-full-title">Leetcode 148. Sort List</h1>
         </header>
         <div class="post-full ">
             
@@ -157,39 +157,37 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-98-Validate-Binary-Search-Tree/Question.png" data-index="0" data-src="/Leetcode-98-Validate-Binary-Search-Tree/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-148-Sort-List/Question.png" data-index="0" data-src="/Leetcode-148-Sort-List/Question.png">
 <br>
 <br>
-Given a tree, determine if the tree is a valid binary search tree. The binary search tree is defined as follows:
 
-<ul>
-<li>If the left subtree of any node is not empty, the values of all nodes on the left subtree are less than the value of its root node;</li>
-<li>If the right subtree of any node is not empty, the value of all nodes on the right subtree is greater than the value of its root node;</li>
-<li>The left and right subtrees of any node are also binary search trees;</li>
-<li>There are no nodes with equal key values.</li>
+<p>Sort a linked list. Required time complexity is <code>O(nlogn)</code>. The most commonly used method is <code>merge sort</code>.</p>
+<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
+<li>Easy - <a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener">21. Merge Two Sorted Lists</a></li>
+<li>Medium - <a href="/Leetcode-75-Sort-Colors/" title="75. Sort Colors">75. Sort Colors</a></li>
+<li>Medium - <a href="/Leetcode-147-Insertion-Sort-List/" title="147. Insertion Sort List">147. Insertion Sort List</a></li>
 </ul>
-<h3 id="Similar-Question"><a href="#Similar-Question" class="headerlink" title="Similar Question"></a>Similar Question</h3><ul>
-<li>Medium - <a href="/Leetcode-94-Binary-Tree-Inorder-Traversal/" title="94. Binary Tree Inorder Traversal">94. Binary Tree Inorder Traversal</a></li>
-<li>Easy - <a href="https://leetcode.com/problems/find-mode-in-binary-search-tree/" target="_blank" rel="noopener">501. Find Mode in Binary Search Tree</a></li>
-</ul>
-<h2 id="Solution-Recursion"><a href="#Solution-Recursion" class="headerlink" title="Solution - Recursion"></a>Solution - Recursion</h2><p>The idea is that the left subtree is a legal binary search tree, the right subtree is a legal binary search tree, and the root node is larger than the largest number in the left subtree and smaller than the smallest number in the right subtree, then the current tree is a legal binary search tree</p>
-<h2 id="Solution-DFS"><a href="#Solution-DFS" class="headerlink" title="Solution - DFS"></a>Solution - DFS</h2><p>In previous solution, we are judging whether the root node is legal and found the largest number in the left subtree and the smallest number in the right subtree. The left and right subtrees determine whether the current root node is valid.</p>
-<p>But normally, the root node comes first, it is reasonable to say that the root node could be any number rather than limited by the left and right subtrees. On the contrary, the root node determines the legal value range of the left and right subtree.</p>
-<p>Therefore, we can do DFS from the root node, then calculate the value range that each node should take, and return false if the current node does not match.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">      10</span><br><span class="line">    /    \</span><br><span class="line">   5     15</span><br><span class="line">  / \    /  </span><br><span class="line"> 3   6  7 </span><br><span class="line"></span><br><span class="line">Consider 10&apos;s range</span><br><span class="line">    10(-inf,+inf)</span><br><span class="line"></span><br><span class="line">Consider 5&apos;s range</span><br><span class="line">    10(-inf,+inf)</span><br><span class="line">    /</span><br><span class="line">5(-inf,10)</span><br><span class="line"></span><br><span class="line">Consider 3&apos;s range</span><br><span class="line">    10(-inf,+inf)</span><br><span class="line">     /</span><br><span class="line">   5(-inf,10)</span><br><span class="line">    /</span><br><span class="line">  3(-inf,5)  </span><br><span class="line"></span><br><span class="line">Consider 6&apos;s range</span><br><span class="line">    10(-inf,+inf)</span><br><span class="line">     /</span><br><span class="line">   5(-inf,10)</span><br><span class="line">    /       \</span><br><span class="line">3(-inf,5)  6(5,10)</span><br><span class="line"></span><br><span class="line">Consider 15&apos;s range</span><br><span class="line">    10(-inf,+inf)</span><br><span class="line">    /          \</span><br><span class="line">   5(-inf,10) 15(10,+inf）</span><br><span class="line">    /       \</span><br><span class="line">3(-inf,5)  6(5,10)  </span><br><span class="line"></span><br><span class="line">Consider 7&apos;s range, if not match return false</span><br><span class="line">        10(-inf,+inf)</span><br><span class="line">         /           \</span><br><span class="line">    5(-inf,10)     15(10,+inf）</span><br><span class="line">  /       \           /</span><br><span class="line">3(-inf,5)  6(5,10)  7（10,15）</span><br></pre></td></tr></table></figure>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Firstly, merge sort requires a helper method, which is used to merge two sorted linked lists.</p>
+<p>Merge sorting is done half and half, so we need to find the midpoint. The most common method is to find the midpoint with fast and slow pointer.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add a dummy pointer to the start</span></span><br><span class="line"><span class="comment">// so that in the end, the slow pointer always point to the last element of left half</span></span><br><span class="line">ListNode dummy = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">dummy.next = node;</span><br><span class="line"></span><br><span class="line"><span class="comment">// use fast and slow pointer</span></span><br><span class="line">ListNode slow = dummy;</span><br><span class="line">ListNode fast = dummy;</span><br><span class="line"></span><br><span class="line"><span class="comment">// split the list</span></span><br><span class="line"><span class="keyword">while</span> (fast != <span class="keyword">null</span> &amp;&amp; fast.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">    slow = slow.next;</span><br><span class="line">    fast = fast.next.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>It can be observed that the range of the left child is (left boundary of the parent node, the value of the parent node), and the range of the right child is (value of the parent node, the right boundary of the parent node).</p>
-<p>We can pass Integer object, then null means negative infinity and positive infinity. Then use JAVA’s auto boxing and unboxing, the value comparison can be directly used inequality sign.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isValidBST</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> isValid(root, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// every number has a valid range</span></span><br><span class="line"><span class="comment">// For node on left tree: (min of parent node, value of parent node)</span></span><br><span class="line"><span class="comment">// For node on right tree: (value of parent node, max of parent node)</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isValid</span><span class="params">(TreeNode node, Integer min, Integer max)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (min != <span class="keyword">null</span> &amp;&amp; node.val &lt;= min) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (max != <span class="keyword">null</span> &amp;&amp; node.val &gt;= max) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> isValid(node.left, min, node.val) &amp;&amp; isValid(node.right, node.val, max);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In the above code, there is a dummy node. When the number of nodes is even, then <code>slow</code> just point to the last node of the previous half of the node, which is the state below.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1    2    3    4</span><br><span class="line">     ^         ^</span><br><span class="line">    slow      fast</span><br></pre></td></tr></table></figure>
+
+<p>If both <code>slow</code> and <code>fast</code> start from the <code>head</code>, then when <code>fast</code> ends, <code>slow</code> will go to the beginning of the next half of the node.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ListNode <span class="title">sortList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> mergeSort(head);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// helper method to split original list into 2 half</span></span><br><span class="line"><span class="comment">// recursive the left and right half</span></span><br><span class="line"><span class="comment">// merge the left and right half</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> ListNode <span class="title">mergeSort</span><span class="params">(ListNode node)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// reach the end</span></span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span> || node.next == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// add a dummy pointer to the start</span></span><br><span class="line">    <span class="comment">// so that in the end, the slow pointer always point to the last element of left half</span></span><br><span class="line">    ListNode dummy = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    dummy.next = node;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// use fast and slow pointer</span></span><br><span class="line">    ListNode slow = dummy;</span><br><span class="line">    ListNode fast = dummy;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// split the list</span></span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="keyword">null</span> &amp;&amp; fast.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// slow is the last node of left half</span></span><br><span class="line">    ListNode rightHalf = slow.next;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// make slow.next = null so we have 2 split list</span></span><br><span class="line">    slow.next = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// recursive sort the left and right half</span></span><br><span class="line">    ListNode head1 = mergeSort(node);</span><br><span class="line">    ListNode right = mergeSort(rightHalf);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> merge(head1, right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// helper method to merge 2 sorted list</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> ListNode <span class="title">merge</span><span class="params">(ListNode head1, ListNode head2)</span> </span>&#123;</span><br><span class="line">    ListNode dummyHead = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    ListNode lastNode = dummyHead;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (head1 != <span class="keyword">null</span> &amp;&amp; head2 != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (head1.val &lt; head2.val) &#123;</span><br><span class="line">            <span class="comment">// head1 is smaller</span></span><br><span class="line">            <span class="comment">// add head1 to the last</span></span><br><span class="line">            <span class="comment">// move head1 to next</span></span><br><span class="line">            lastNode.next = head1;</span><br><span class="line">            lastNode = lastNode.next;</span><br><span class="line">            head1 = head1.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            lastNode.next = head2;</span><br><span class="line">            lastNode = lastNode.next;</span><br><span class="line">            head2 = head2.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// we exit the while loop because one of the head1 or head2 reach end</span></span><br><span class="line">    <span class="comment">// append the other one to the last</span></span><br><span class="line">    <span class="keyword">if</span> (head1 != <span class="keyword">null</span>) &#123;</span><br><span class="line">        lastNode.next = head1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (head2 != <span class="keyword">null</span>) &#123;</span><br><span class="line">        lastNode.next = head2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dummyHead.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Of course, strictly speaking, the space complexity of the solution above is not <code>O(1)</code>, because pushing the stack in the recursive process consumes space, and takes half each time, so the space complexity is <code>O(logn)</code>.</p>
+
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Tree/" rel="tag"># Leetcode - Tree</a>
+                        <a href="/tags/Leetcode-Linked-List/" rel="tag"># Leetcode - Linked List</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-Depth-First-Search/" rel="tag"># Leetcode - Depth First Search</a>
+                        <a href="/tags/Leetcode-Sort/" rel="tag"># Leetcode - Sort</a>
                     </li>
                     
                 </ul>
@@ -200,14 +198,10 @@ Given a tree, determine if the tree is a valid binary search tree. The binary se
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 49. Group Anagrams" href="/Leetcode-49-Group-Anagrams/">
-            ← Leetcode 49. Group Anagrams
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Java Bit Operations" href="/Java-Bit-Operations/">
-            Java Bit Operations →
+        <a class="next-post" title="Java Multithreading 3: Wait and notify" href="/Java-Multithreading-3-Wait-and-notify/">
+            Java Multithreading 3: Wait and notify →
         </a>
         
     </nav>
@@ -233,7 +227,7 @@ Given a tree, determine if the tree is a valid binary search tree. The binary se
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Question"><span class="toc-text">Similar Question</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Recursion"><span class="toc-text">Solution - Recursion</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-DFS"><span class="toc-text">Solution - DFS</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
     </div>
 </div>
 
@@ -590,7 +584,7 @@ Given a tree, determine if the tree is a valid binary search tree. The binary se
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-98-Validate-Binary-Search-Tree/" class="leancloud-visitors" data-flag-title="Leetcode 98. Validate Binary Search Tree">
+			        <span hidden="true" id="/Leetcode-148-Sort-List/" class="leancloud-visitors" data-flag-title="Leetcode 148. Sort List">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
