@@ -157,7 +157,14 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <p>In this blog I will introduce the thread wait/notify method.</p>
+                    <p>In this blog I will introduce the thread wait/notify method. Contents include:</p>
+<ol>
+<li><code>wait()</code>, <code>notify()</code>, <code>notifyAll()</code> and other methods</li>
+<li><code>wait()</code> and <code>notify()</code></li>
+<li><code>wait(long timeout)</code> and <code>notify()</code></li>
+<li><code>wait()</code> and <code>notifyAll()</code></li>
+<li>Why <code>notify()</code>, <code>wait()</code> and other functions are defined in <code>Object</code> instead of <code>Thread</code></li>
+</ol>
 <h2 id="wait-notify-notifyAll-and-other-methods"><a href="#wait-notify-notifyAll-and-other-methods" class="headerlink" title="wait(), notify(), notifyAll() and other methods"></a>wait(), notify(), notifyAll() and other methods</h2><p><code>Object.java</code> defines interfaces such as <code>wait()</code>, <code>notify()</code> and <code>notifyAll()</code>. The role of <code>wait()</code> is to put the current thread into a wait state. At the same time, <code>wait()</code> will let the current thread release the lock it holds. The role of <code>notify()</code> and <code>notifyAll()</code> is to wake up the waiting thread on the current object; <code>notify()</code> will wake up a single thread, and <code>notifyAll()</code> will wake up all threads.</p>
 <p>The detailed information about the wait/notify API in the <code>Object</code> class is as follows:</p>
 <ul>
@@ -378,6 +385,12 @@
       
       
       <li>
+        <a href="/Java-Multithreading-4-yield/">Java Multithreading 4: yield</a>
+      </li>
+      
+      
+      
+      <li>
         <a href="/Leetcode-148-Sort-List/">Leetcode 148. Sort List</a>
       </li>
       
@@ -388,10 +401,6 @@
       </li>
       
       
-      
-      <li>
-        <a href="/Leetcode-147-Insertion-Sort-List/">Leetcode 147. Insertion Sort List</a>
-      </li>
       
       
       
@@ -604,7 +613,7 @@
 		<h3 class="read-next-card-header-title">Tag Cloud</h3>
 	</header>
 	<div class="read-next-card-content-ext">
-		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 15.25px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 17.75px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 22.75px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 17.75px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Breadth-First-Search/" style="font-size: 14px;">Leetcode - Breadth First Search</a> <a href="/tags/Leetcode-Depth-First-Search/" style="font-size: 19px;">Leetcode - Depth First Search</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 21.5px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 16.5px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 17.75px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Linked-List/" style="font-size: 19px;">Leetcode - Linked List</a> <a href="/tags/Leetcode-Math/" style="font-size: 14px;">Leetcode - Math</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 17.75px;">Leetcode - Sort</a> <a href="/tags/Leetcode-Stack/" style="font-size: 14px;">Leetcode - Stack</a> <a href="/tags/Leetcode-String/" style="font-size: 19px;">Leetcode - String</a> <a href="/tags/Leetcode-Tree/" style="font-size: 20.25px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 21.5px;">Leetcode - Two Pointers</a> <a href="/tags/Leetcode-Union-Find/" style="font-size: 14px;">Leetcode - Union Find</a> <a href="/tags/Multithreading/" style="font-size: 16.5px;">Multithreading</a> <a href="/tags/Stream-API/" style="font-size: 15.25px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 15.25px;">hexo</a>
+		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 15.25px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 17.75px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 22.75px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 17.75px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Breadth-First-Search/" style="font-size: 14px;">Leetcode - Breadth First Search</a> <a href="/tags/Leetcode-Depth-First-Search/" style="font-size: 19px;">Leetcode - Depth First Search</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 21.5px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 16.5px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 17.75px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Linked-List/" style="font-size: 19px;">Leetcode - Linked List</a> <a href="/tags/Leetcode-Math/" style="font-size: 14px;">Leetcode - Math</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 17.75px;">Leetcode - Sort</a> <a href="/tags/Leetcode-Stack/" style="font-size: 14px;">Leetcode - Stack</a> <a href="/tags/Leetcode-String/" style="font-size: 19px;">Leetcode - String</a> <a href="/tags/Leetcode-Tree/" style="font-size: 20.25px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 21.5px;">Leetcode - Two Pointers</a> <a href="/tags/Leetcode-Union-Find/" style="font-size: 14px;">Leetcode - Union Find</a> <a href="/tags/Multithreading/" style="font-size: 17.75px;">Multithreading</a> <a href="/tags/Stream-API/" style="font-size: 15.25px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 15.25px;">hexo</a>
 	</div>
 </article>
 

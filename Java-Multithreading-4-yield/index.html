@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 131. Palindrome Partitioning | Nick Li</title>
+	<title>Java Multithreading 4: yield | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 131. Palindrome Partitioning | Nick Li">
+	<meta property="og:title" content="Java Multithreading 4: yield | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-131-Palindrome-Partitioning/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Java-Multithreading-4-yield/">
 
 	
-	<meta property="article:published_time" content="2020-04-21T11:04:00+08:00"> 
+	<meta property="article:published_time" content="2020-05-02T12:05:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-131-Palindrome-Partitioning/">
+	<meta property="article:published_first" content="Nick Li, /Java-Multithreading-4-yield/">
 	
 
 	
@@ -138,44 +138,56 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-04-21T01:30:56.000Z">
-                    2020-04-21
+                <time class="post-full-meta-date" datetime="2020-05-02T02:42:11.000Z">
+                    2020-05-2
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a>&nbsp;&nbsp;
+                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 131. Palindrome Partitioning</h1>
+            <h1 class="post-full-title">Java Multithreading 4: yield</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/05/02/5TatLdvyfQ4OUmX.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-131-Palindrome-Partitioning/Question.png" data-index="0" data-src="/Leetcode-131-Palindrome-Partitioning/Question.png">
-<br>
-<br>
+                    <p>This blog will introduce the <code>yield()</code> method in <code>Thread</code>. The content involved includes:</p>
+<ol>
+<li>Introduction to <code>yield()</code></li>
+<li><code>yield()</code> example</li>
+<li>Comparison of <code>yield()</code> and <code>wait()</code></li>
+</ol>
+<h2 id="Introduction-to-yield"><a href="#Introduction-to-yield" class="headerlink" title="Introduction to yield()"></a>Introduction to yield()</h2><p>The effect of <code>yield()</code> is to give in. It can make the current thread enter the <code>runnable state</code> from the <code>running state</code>, so that other waiting threads with the same priority can obtain execution rights. However, there is no guarantee that after the current thread calls <code>yield()</code>, others have the same priority will be able to obtain the execution right. It may also be that the current thread enters the <code>running state</code> and continues to run!</p>
+<h2 id="yield-example"><a href="#yield-example" class="headerlink" title="yield() example"></a>yield() example</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">YieldDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>);</span><br><span class="line">        ThreadA t2 = <span class="keyword">new</span> ThreadA(<span class="string">"t2"</span>);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">                System.out.printf(<span class="string">"%s [%d]:%d\n"</span>, <span class="keyword">this</span>.getName(), <span class="keyword">this</span>.getPriority(), i);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (i % <span class="number">4</span> == <span class="number">0</span>)</span><br><span class="line">                    Thread.yield();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Give a string, and then cut several times at arbitrary positions to ensure that each substring after cutting is a palindrome string. Output all cutting results that meet the requirements.</p>
-<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Hard - <a href="https://leetcode.com/problems/palindrome-partitioning-ii/" target="_blank" rel="noopener">132. Palindrome Partitioning II</a></li>
-</ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Break down big problems into small problems, and use the results of small problems to solve current big problems.</p>
-<p>For this question, give an example.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">aabb</span><br><span class="line">First consider cutting at the first position, a | abb</span><br><span class="line">In this way, we only need to know all the results of abb, and then add a to the head of all results</span><br><span class="line">All results of abb are [a b b] [a bb]</span><br><span class="line">Add a to the head of each result, which is [a a b b] [a a bb]</span><br><span class="line"></span><br><span class="line">aabb</span><br><span class="line">Consider cutting at the second position again, aa | bb</span><br><span class="line">In this way, we only need to know all the results of bb, and then add aa to the head of all the results</span><br><span class="line">All results of bb are [b b] [bb]</span><br><span class="line">Add aa to the head of each result, which is [aa b b] [aa bb]</span><br><span class="line"></span><br><span class="line">aabb</span><br><span class="line">Then consider cutting at the third position, aab | b</span><br><span class="line">Because aab is not a palindrome string, skip directly</span><br><span class="line"></span><br><span class="line">aabb</span><br><span class="line">Then consider cutting at the fourth position, aabb |</span><br><span class="line">Because aabb is not a palindrome string, skip directly</span><br><span class="line"></span><br><span class="line">In the end all the results are all added up</span><br><span class="line">[a a b b] [a a bb] [aa b b] [aa bb]</span><br></pre></td></tr></table></figure>
+<p>One of the possible result:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">t1 [5]:0</span><br><span class="line">t2 [5]:0</span><br><span class="line">t1 [5]:1</span><br><span class="line">t1 [5]:2</span><br><span class="line">t1 [5]:3</span><br><span class="line">t1 [5]:4</span><br><span class="line">t1 [5]:5</span><br><span class="line">t1 [5]:6</span><br><span class="line">t1 [5]:7</span><br><span class="line">t1 [5]:8</span><br><span class="line">t1 [5]:9</span><br><span class="line">t2 [5]:1</span><br><span class="line">t2 [5]:2</span><br><span class="line">t2 [5]:3</span><br><span class="line">t2 [5]:4</span><br><span class="line">t2 [5]:5</span><br><span class="line">t2 [5]:6</span><br><span class="line">t2 [5]:7</span><br><span class="line">t2 [5]:8</span><br><span class="line">t2 [5]:9</span><br></pre></td></tr></table></figure>
 
-<p>The intermediate process to get all the results of <code>abb</code>, <code>aab</code>, etc., and can be done with recursion. In the case of recursive exit point, all substrings of an empty string are just an empty list.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; partition(String s) &#123;</span><br><span class="line">    <span class="keyword">return</span> helper(s, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> List&lt;List&lt;String&gt;&gt; helper(String s, <span class="keyword">int</span> start) &#123;</span><br><span class="line">    <span class="comment">// exit recursive</span></span><br><span class="line">    <span class="keyword">if</span> (start == s.length()) &#123;</span><br><span class="line">        List&lt;List&lt;String&gt;&gt; temp = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        temp.add(<span class="keyword">new</span> ArrayList&lt;&gt;());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    List&lt;List&lt;String&gt;&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &lt; s.length(); i++) &#123;</span><br><span class="line">        <span class="comment">// only continue if left part is palindrome</span></span><br><span class="line">        <span class="keyword">if</span> (isPalindrome(s.substring(start, i + <span class="number">1</span>))) &#123;</span><br><span class="line">            String left = s.substring(start, i + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (List&lt;String&gt; temp : helper(s, i + <span class="number">1</span>)) &#123;</span><br><span class="line">                <span class="comment">// append left part in beginning</span></span><br><span class="line">                temp.add(<span class="number">0</span>, left);</span><br><span class="line">                result.add(temp);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// helper method to check whether a string is palindrome</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> j = s.length() - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">        <span class="keyword">if</span> (s.charAt(i) != s.charAt(j)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        i++;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>t1</code> did not switch to <code>t2</code> when it could be divided by 4. This shows that although <code>yield()</code> can make the thread enter the <code>runnable state</code> from the <code>running state</code>, it does not necessarily allow other threads to obtain CPU execution rights (that is, other threads enter the <code>running state</code>), even if other threads have the same priority as the thread currently calling <code>yield()</code>.</p>
+<h2 id="Comparison-of-yield-and-wait"><a href="#Comparison-of-yield-and-wait" class="headerlink" title="Comparison of yield() and wait()"></a>Comparison of yield() and wait()</h2><p>We know that <code>wait()</code> will let the current thread enter the <code>blocked state</code> from the <code>running state</code>, and also release the synchronization lock. <code>yield()</code> will also make the current thread leave the <code>running state</code>. The difference is:</p>
+<ol>
+<li><code>wait()</code> will let the thread enter the <code>blocked state</code> from the <code>running state</code>, while <code>yield()</code> will let the thread enter the <code>runnable state</code> from the <code>running state</code>.</li>
+<li><code>wait()</code> will release the synchronization lock of the object it holds, and the <code>yield()</code> method will <strong>not release the lock</strong>.</li>
+<li><code>yield() will give up the CPU execution time, rather than giving up the resource lock</code></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">YieldDemo2</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Object obj = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>);</span><br><span class="line">        ThreadA t2 = <span class="keyword">new</span> ThreadA(<span class="string">"t2"</span>);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (obj) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">                    System.out.printf(<span class="string">"%s [%d]:%d\n"</span>, <span class="keyword">this</span>.getName(), <span class="keyword">this</span>.getPriority(), i);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (i % <span class="number">4</span> == <span class="number">0</span>)</span><br><span class="line">                        Thread.yield();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Results:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">t1 [5]:0</span><br><span class="line">t1 [5]:1</span><br><span class="line">t1 [5]:2</span><br><span class="line">t1 [5]:3</span><br><span class="line">t1 [5]:4</span><br><span class="line">t1 [5]:5</span><br><span class="line">t1 [5]:6</span><br><span class="line">t1 [5]:7</span><br><span class="line">t1 [5]:8</span><br><span class="line">t1 [5]:9</span><br><span class="line">t2 [5]:0</span><br><span class="line">t2 [5]:1</span><br><span class="line">t2 [5]:2</span><br><span class="line">t2 [5]:3</span><br><span class="line">t2 [5]:4</span><br><span class="line">t2 [5]:5</span><br><span class="line">t2 [5]:6</span><br><span class="line">t2 [5]:7</span><br><span class="line">t2 [5]:8</span><br><span class="line">t2 [5]:9</span><br></pre></td></tr></table></figure>
+
+<p>The main thread started two threads <code>t1</code> and <code>t2</code>. <code>t1</code> and <code>t2</code> will reference the synchronization lock of the same object in <code>run()</code>, namely <code>synchronized(obj)</code>. While <code>t1</code> is running, although it will call <code>Thread.yield()</code>, <code>t2</code> will not get cpu execution rights. Because, <code>t1</code> did not release the synchronous lock of <code>obj</code>!</p>
+
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Backtracking/" rel="tag"># Leetcode - Backtracking</a>
+                        <a href="/tags/Multithreading/" rel="tag"># Multithreading</a>
                     </li>
                     
                 </ul>
@@ -186,14 +198,10 @@
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 134. Gas Station" href="/Leetcode-134-Gas-Station/">
-            ← Leetcode 134. Gas Station
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 130. Surrounded Regions" href="/Leetcode-130-Surrounded-Regions/">
-            Leetcode 130. Surrounded Regions →
+        <a class="next-post" title="Leetcode 148. Sort List" href="/Leetcode-148-Sort-List/">
+            Leetcode 148. Sort List →
         </a>
         
     </nav>
@@ -219,7 +227,7 @@
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction-to-yield"><span class="toc-text">Introduction to yield()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#yield-example"><span class="toc-text">yield() example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Comparison-of-yield-and-wait"><span class="toc-text">Comparison of yield() and wait()</span></a></li></ol>
     </div>
 </div>
 
@@ -578,7 +586,7 @@
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-131-Palindrome-Partitioning/" class="leancloud-visitors" data-flag-title="Leetcode 131. Palindrome Partitioning">
+			        <span hidden="true" id="/Java-Multithreading-4-yield/" class="leancloud-visitors" data-flag-title="Java Multithreading 4: yield">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
