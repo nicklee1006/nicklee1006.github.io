@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 81. Search in Rotated Sorted Array II | Nick Li</title>
+	<title>Leetcode 152. Maximum Product Subarray | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 81. Search in Rotated Sorted Array II | Nick Li">
+	<meta property="og:title" content="Leetcode 152. Maximum Product Subarray | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-81-Search-in-Rotated-Sorted-Array-II/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-152-Maximum-Product-Subarray/">
 
 	
-	<meta property="article:published_time" content="2020-01-13T23:01:00+08:00"> 
+	<meta property="article:published_time" content="2020-05-03T11:05:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-81-Search-in-Rotated-Sorted-Array-II/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-152-Maximum-Product-Subarray/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-01-13T13:20:53.000Z">
-                    2020-01-13
+                <time class="post-full-meta-date" datetime="2020-05-03T01:32:12.000Z">
+                    2020-05-3
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 81. Search in Rotated Sorted Array II</h1>
+            <h1 class="post-full-title">Leetcode 152. Maximum Product Subarray</h1>
         </header>
         <div class="post-full ">
             
@@ -157,30 +157,54 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-81-Search-in-Rotated-Sorted-Array-II/Question.png" data-index="0" data-src="/Leetcode-81-Search-in-Rotated-Sorted-Array-II/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-152-Maximum-Product-Subarray/Question.png" data-index="0" data-src="/Leetcode-152-Maximum-Product-Subarray/Question.png">
 <br>
 <br>
-Follow up question on <a href="/Leetcode-33-Search-in-Rotated-Sorted-Array/" title="33. Search in Rotated Sorted Array">33. Search in Rotated Sorted Array</a>. This time the array may contain duplicates
 
+<p>Given an array, find the continuous sub-array which have the maximum multiplication.</p>
 <h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Medium - <a href="/Leetcode-33-Search-in-Rotated-Sorted-Array/" title="33. Search in Rotated Sorted Array">33. Search in Rotated Sorted Array</a></li>
+<li>Easy - <a href="https://leetcode.com/problems/maximum-subarray/" target="_blank" rel="noopener">53. Maximum Subarray</a></li>
+<li>Easy - <a href="https://leetcode.com/problems/house-robber/" target="_blank" rel="noopener">198. House Robber</a></li>
+<li>Medium - <a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank" rel="noopener">238. Product of Array Except Self</a></li>
+<li>Easy - <a href="https://leetcode.com/problems/maximum-product-of-three-numbers/" target="_blank" rel="noopener">628. Maximum Product of Three Numbers</a></li>
+<li>Medium - <a href="https://leetcode.com/problems/subarray-product-less-than-k/" target="_blank" rel="noopener">713. Subarray Product Less Than K</a></li>
 </ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>For this question we can extend the solution from <a href="/Leetcode-33-Search-in-Rotated-Sorted-Array/" title="33. Search in Rotated Sorted Array">33. Search in Rotated Sorted Array</a>. The algorithm is based on the fact that after splitting an array from any position, it is at least half sorted.</p>
-<p>For example, [4 5 6 7 1 2 3], and split from 7, the left is [4 5 6 7], the right is [7 1 2 3]. So the left part is ordered.</p>
-<p>We can find out which part is in order (by comparing the endpoints). Knowing which part is in order, all we need is the normal binary search and check if the target is in this part. If it is, Then discard the other half. If not, discard this half.</p>
-<p>That is the approach we used for <a href="/Leetcode-33-Search-in-Rotated-Sorted-Array/" title="33. Search in Rotated Sorted Array">33. Search in Rotated Sorted Array</a>. With this question, we need a slight modification. As for this question, we have duplicates in the array. So when we decide which part is in order, there is a problem. </p>
-<p>For example, <code>nums = [ 1, 3, 1, 1, 1 ]</code> and <code>targer = 3</code>. The left half is <code>[1, 3, 1]</code>. By comparing endpoints <code>nums [start] &lt;= nums [mid]</code>, the algorithm thinks that left half is in order, which is not the case.</p>
-<p>So we need to take <code>nums[start] == nums[mid]</code> as a special case. The solution is quite simple, just <code>start++</code> will do.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> start = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> end = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (start &lt;= end) &#123;</span><br><span class="line">    <span class="keyword">int</span> mid = (start + end) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find target</span></span><br><span class="line">    <span class="keyword">if</span> (target == nums[mid]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// left side is ordered</span></span><br><span class="line">    <span class="keyword">if</span> (nums[start] &lt; nums[mid]) &#123;</span><br><span class="line">        <span class="comment">// target in left side</span></span><br><span class="line">        <span class="keyword">if</span> (target &gt;= nums[start] &amp;&amp; target &lt;= nums[mid]) &#123;</span><br><span class="line">            end = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            start = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="comment">// special case like [1, 3, 1]</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[start] == nums[mid]) &#123;</span><br><span class="line">        start++;</span><br><span class="line">    <span class="comment">// right side is ordered    </span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// target in right side</span></span><br><span class="line">        <span class="keyword">if</span> (target &gt;= nums[mid] &amp;&amp; target &lt;= nums[end]) &#123;</span><br><span class="line">            start = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            end = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>We first define an array <code>dpMax</code>, and use <code>dpMax[i]</code> to denote the value of the largest product with the sub-array ending with the i-th element, that is, this array must contain the i-th element.</p>
+<p>Then <code>dpMax[i]</code> has several possible values:</p>
+<ul>
+<li>When <code>nums[i] &gt;= 0</code> and <code>dpMax[i-1] &gt; 0</code>, <code>dpMax[i] = dpMax[i-1] * nums[i]</code></li>
+<li>When <code>nums[i] &gt;= 0</code> and <code>dpMax[i-1] &lt; 0</code>, if it is multiplied by the previous number, it will become a negative number, so <code>dpMax[i] = nums[i]</code></li>
+<li>When <code>nums[i] &lt; 0</code>, if the previous multiplication result is a large negative number, it will become a larger number if it is multiplied with the current negative number. So we also need an array <code>dpMin</code> to record the the smallest product value with sub-array ending in the i-th element, .<ul>
+<li>When <code>dpMin[i-1] &lt; 0</code>, <code>dpMax[i] = dpMin[i-1] * nums[i]</code></li>
+<li>When <code>dpMin[i-1] &gt;= 0</code>, <code>dpMax[i] = nums[i]</code></li>
+</ul>
+</li>
+</ul>
+<p>Of course, how to find <code>dpMin</code> is actually the same as the process of finding <code>dpMax</code> above.</p>
+<p>According to the above analysis, we need to have a lot of if else to determine different situations, here we can use a trick.</p>
+<p>We noticed that the values of <code>dpMax[i]</code> above are nothing more than three types</p>
+<ul>
+<li><code>dpMax[i-1] * nums[i]</code></li>
+<li><code>dpMin[i-1] * nums[i]</code></li>
+<li><code>nums[i]</code></li>
+</ul>
+<p>So when we update, we don’t need to distinguish the current situation, we only need to choose the largest one from the three values:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpMax[i] = max(dpMax[i-<span class="number">1</span>] * nums[i], dpMin[i-<span class="number">1</span>] * nums[i], nums[i]);</span><br></pre></td></tr></table></figure>
+
+<p>The same applis for <code>dpMin[i]</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpMin[i] = min(dpMax[i-<span class="number">1</span>] * nums[i], dpMin[i-<span class="number">1</span>] * nums[i], nums[i]);</span><br></pre></td></tr></table></figure>
+
+<p>Also notice that  when updating <code>dp[i]</code>, we only used <code>dp[i-1]</code>, and the previous information would not be used. So we don’t need an array at all, we just need a variable to repeat overwrite and update.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProduct</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (nums.length == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// need to keep a record of max product and min product ending at index i</span></span><br><span class="line">    <span class="comment">// want to keep min because if current &lt; 0, we want min * current become large if min &lt; 0</span></span><br><span class="line">    <span class="keyword">int</span> preMax = nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">int</span> preMin = nums[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">    result = preMax;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        <span class="comment">// 3 conditions</span></span><br><span class="line">        <span class="comment">//  1 - nums[i] &gt;= 0 and preMax &gt; 0</span></span><br><span class="line">        <span class="comment">//      then we update preMax = preMax * num[i]</span></span><br><span class="line">        <span class="comment">//  2 - nums[i] &gt;= 0 and preMax &lt; 0</span></span><br><span class="line">        <span class="comment">//      then we update preMax = nums[i]</span></span><br><span class="line">        <span class="comment">//  3 - nums[i] &lt; 0</span></span><br><span class="line">        <span class="comment">//      then if preMin &lt; 0, then update preMax = preMin * nums[i]</span></span><br><span class="line">        <span class="comment">//           else preMax = nums[i]</span></span><br><span class="line">        <span class="comment">// we can see there are 3 possible values: preMax * num[i], nums[i], preMin * nums[i]</span></span><br><span class="line">        <span class="keyword">int</span> tempMax = preMax;</span><br><span class="line"></span><br><span class="line">        preMax = Math.max(preMax * nums[i], Math.max(nums[i], preMin * nums[i]));</span><br><span class="line">        preMin = Math.min(tempMax * nums[i], Math.min(nums[i], preMin * nums[i]));</span><br><span class="line"></span><br><span class="line">        result = Math.max(preMax, result);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
+                        <a href="/tags/Leetcode-Dynamic-Programming/" rel="tag"># Leetcode - Dynamic Programming</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-Binary-Search/" rel="tag"># Leetcode - Binary Search</a>
+                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
                     </li>
                     
                 </ul>
@@ -191,14 +215,10 @@ Follow up question on <a href="/Leetcode-33-Search-in-Rotated-Sorted-Array/" tit
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 90. Subsets II" href="/Leetcode-90-Subsets-II/">
-            ← Leetcode 90. Subsets II
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 80. Remove Duplicates from Sorted Array II" href="/Leetcode-80-Remove-Duplicates-from-Sorted-Array-II/">
-            Leetcode 80. Remove Duplicates from Sorted Array II →
+        <a class="next-post" title="Java Multithreading 4: yield" href="/Java-Multithreading-4-yield/">
+            Java Multithreading 4: yield →
         </a>
         
     </nav>
@@ -585,7 +605,7 @@ Follow up question on <a href="/Leetcode-33-Search-in-Rotated-Sorted-Array/" tit
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-81-Search-in-Rotated-Sorted-Array-II/" class="leancloud-visitors" data-flag-title="Leetcode 81. Search in Rotated Sorted Array II">
+			        <span hidden="true" id="/Leetcode-152-Maximum-Product-Subarray/" class="leancloud-visitors" data-flag-title="Leetcode 152. Maximum Product Subarray">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
