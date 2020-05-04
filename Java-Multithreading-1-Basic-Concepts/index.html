@@ -186,9 +186,9 @@
 <li><strong>Runnable</strong>: also known as “executable state”. After the thread object is created, other threads call the object’s <code>start()</code> method to start the thread. For example, <code>thread.start()</code>. Threads in the <code>runnable</code> state may be scheduled for execution by the CPU at any time.</li>
 <li><strong>Running</strong>: thread obtains CPU permission to execute. It should be noted that the <code>thread can only enter the running state from the runnable state</code>.</li>
 <li><strong>Blocked</strong>: the thread gives up the CPU usage right for some reasons and temporarily stops running. Until the thread enters the <code>runnable</code> state, there is no chance to go to the <code>running</code> state. There are three blocking situations:<ol>
-<li>Waiting blocking - by calling the thread’s <code>wait()</code> method, the thread is allowed to wait for the completion of a job.</li>
-<li>Synchronous blocking - the thread fails to acquire the synchronized lock (because the lock is occupied by other threads), it will enter the synchronized blocking state.</li>
-<li>Other blocking - by calling the thread’s <code>sleep()</code> or <code>join()</code> or issuing an I/O request, the thread will enter the blocking state. When the <code>sleep()</code> state times out, <code>join()</code> waits for the thread to terminate or time out, or the I/O processing is complete, the thread re-enters the <code>runnable</code> state.</li>
+<li><em>Waiting blocking</em> - by calling the thread’s <code>wait()</code> method, the thread is allowed to wait for the completion of a job.</li>
+<li><em>Synchronous blocking</em> - the thread fails to acquire the synchronized lock (because the lock is occupied by other threads), it will enter the synchronized blocking state.</li>
+<li><em>Other blocking</em> - by calling the thread’s <code>sleep()</code> or <code>join()</code> or issuing an I/O request, the thread will enter the blocking state. When the <code>sleep()</code> state times out, <code>join()</code> waits for the thread to terminate or time out, or the I/O processing is complete, the thread re-enters the <code>runnable</code> state.</li>
 </ol>
 </li>
 <li><strong>Dead</strong>: the thread finishes execution or exits the <code>run()</code> method due to an exception, the thread ends its life cycle.</li>
@@ -406,6 +406,12 @@
       
       
       <li>
+        <a href="/Java-Multithreading-5-Sleep/">Java Multithreading 5: Sleep</a>
+      </li>
+      
+      
+      
+      <li>
         <a href="/Leetcode-152-Maximum-Product-Subarray/">Leetcode 152. Maximum Product Subarray</a>
       </li>
       
@@ -416,10 +422,6 @@
       </li>
       
       
-      
-      <li>
-        <a href="/Leetcode-148-Sort-List/">Leetcode 148. Sort List</a>
-      </li>
       
       
       
@@ -636,7 +638,7 @@
 		<h3 class="read-next-card-header-title">Tag Cloud</h3>
 	</header>
 	<div class="read-next-card-content-ext">
-		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 15.11px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 17.33px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 22.89px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 17.33px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Breadth-First-Search/" style="font-size: 14px;">Leetcode - Breadth First Search</a> <a href="/tags/Leetcode-Depth-First-Search/" style="font-size: 18.44px;">Leetcode - Depth First Search</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 21.78px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 16.22px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 17.33px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Linked-List/" style="font-size: 18.44px;">Leetcode - Linked List</a> <a href="/tags/Leetcode-Math/" style="font-size: 14px;">Leetcode - Math</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 17.33px;">Leetcode - Sort</a> <a href="/tags/Leetcode-Stack/" style="font-size: 14px;">Leetcode - Stack</a> <a href="/tags/Leetcode-String/" style="font-size: 18.44px;">Leetcode - String</a> <a href="/tags/Leetcode-Tree/" style="font-size: 19.56px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 20.67px;">Leetcode - Two Pointers</a> <a href="/tags/Leetcode-Union-Find/" style="font-size: 14px;">Leetcode - Union Find</a> <a href="/tags/Multithreading/" style="font-size: 17.33px;">Multithreading</a> <a href="/tags/Stream-API/" style="font-size: 15.11px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 15.11px;">hexo</a>
+		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 15px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 17px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 23px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 17px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Breadth-First-Search/" style="font-size: 14px;">Leetcode - Breadth First Search</a> <a href="/tags/Leetcode-Depth-First-Search/" style="font-size: 19px;">Leetcode - Depth First Search</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 22px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 16px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 17px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Linked-List/" style="font-size: 19px;">Leetcode - Linked List</a> <a href="/tags/Leetcode-Math/" style="font-size: 14px;">Leetcode - Math</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 17px;">Leetcode - Sort</a> <a href="/tags/Leetcode-Stack/" style="font-size: 14px;">Leetcode - Stack</a> <a href="/tags/Leetcode-String/" style="font-size: 19px;">Leetcode - String</a> <a href="/tags/Leetcode-Tree/" style="font-size: 20px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 21px;">Leetcode - Two Pointers</a> <a href="/tags/Leetcode-Union-Find/" style="font-size: 14px;">Leetcode - Union Find</a> <a href="/tags/Multithreading/" style="font-size: 18px;">Multithreading</a> <a href="/tags/Stream-API/" style="font-size: 15px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a>
 	</div>
 </article>
 

@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 61. Rotate List | Nick Li</title>
+	<title>Java Multithreading 5: Sleep | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 61. Rotate List | Nick Li">
+	<meta property="og:title" content="Java Multithreading 5: Sleep | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-61-Rotate-List/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Java-Multithreading-5-Sleep/">
 
 	
-	<meta property="article:published_time" content="2020-02-19T21:02:00+08:00"> 
+	<meta property="article:published_time" content="2020-05-04T12:05:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-61-Rotate-List/">
+	<meta property="article:published_first" content="Nick Li, /Java-Multithreading-5-Sleep/">
 	
 
 	
@@ -138,49 +138,55 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-02-19T11:45:21.000Z">
-                    2020-02-19
+                <time class="post-full-meta-date" datetime="2020-05-04T02:13:38.000Z">
+                    2020-05-4
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a>&nbsp;&nbsp;
+                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 61. Rotate List</h1>
+            <h1 class="post-full-title">Java Multithreading 5: Sleep</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/05/04/wNMZFKlXSHfECry.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-61-Rotate-List/Question.png" data-index="0" data-src="/Leetcode-61-Rotate-List/Question.png">
-<br>
-<br>
+                    <p>This blog will introduce the <code>sleep()</code> method in <code>Thread</code>. The content includes:</p>
+<ol>
+<li>Introduction to <code>sleep()</code></li>
+<li><code>Sleep()</code> example</li>
+<li>Comparison of <code>sleep()</code> and <code>wait()</code></li>
+</ol>
+<h2 id="Introduction-to-sleep"><a href="#Introduction-to-sleep" class="headerlink" title="Introduction to sleep()"></a>Introduction to sleep()</h2><p><code>sleep()</code> is defined in <code>Thread.java</code>.</p>
+<p><code>sleep()</code> will make the current thread sleep, that is, the current thread will enter the <code>blocked state (sleep)</code> from the <code>running state</code>. <code>sleep()</code> will specify the sleep time, the thread sleep time will be greater than/equal to the sleep time. When the thread is woken up again, it will change from <code>blocked state (sleep)</code> to <code>runnable state</code>, thereby waiting for the CPU to execute.</p>
+<h2 id="sleep-example"><a href="#sleep-example" class="headerlink" title="sleep() example"></a>sleep() example</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span></span>&#123; </span><br><span class="line">        <span class="keyword">super</span>(name); </span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123; </span><br><span class="line">                System.out.printf(<span class="string">"%s: %d\n"</span>, <span class="keyword">this</span>.getName(), i); </span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> (i%<span class="number">4</span> == <span class="number">0</span>)</span><br><span class="line">                    Thread.sleep(<span class="number">100</span>);</span><br><span class="line">            &#125; </span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SleepDemo</span></span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123; </span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>); </span><br><span class="line">        t1.start(); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Move the last linked list node to the front and repeat the process <code>k</code> times.</p>
-<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Easy - <a href="https://leetcode.com/problems/rotate-array/" target="_blank" rel="noopener">189. Rotate Array</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/split-linked-list-in-parts/" target="_blank" rel="noopener">725. Split Linked List in Parts</a></li>
-</ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Obviously we don’t really need to move nodes one by one. If the length of the linked list is <code>len</code> and <code>n = k % len</code>, we only need to move the last <code>n</code> nodes to the front. We only need to find the pointer of the inverse <code>n + 1</code> node and point it to null, and the pointer at the end to the head node. Finding the last <code>n</code> nodes reminds me of <a href="/Leetcode-19-Remove-Nth-Node-From-End-of-List/" title="19. Remove Nth Node From End of List">19. Remove Nth Node From End of List</a>, using the fast and slow pointers.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ListNode <span class="title">rotateRight</span><span class="params">(ListNode head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// length of the list</span></span><br><span class="line">    <span class="keyword">int</span> length = <span class="number">1</span>;</span><br><span class="line">    ListNode node = head;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (head == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// get length of the list</span></span><br><span class="line">    <span class="keyword">while</span> (node.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">        node = node.next;</span><br><span class="line">        length++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ListNode tail;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// now 'node' is the last node in the last</span></span><br><span class="line">    <span class="comment">// connect tail to head</span></span><br><span class="line">    node.next = head;</span><br><span class="line">    tail = node;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Move right k place = moving head to right by (length - k % length) places</span></span><br><span class="line">    <span class="keyword">int</span> steps = length - k % length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (steps &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        head = head.next;</span><br><span class="line">        tail = tail.next;</span><br><span class="line"></span><br><span class="line">        steps--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    tail.next = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Results:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">t1: 0</span><br><span class="line">t1: 1</span><br><span class="line">t1: 2</span><br><span class="line">t1: 3</span><br><span class="line">t1: 4</span><br><span class="line">t1: 5</span><br><span class="line">t1: 6</span><br><span class="line">t1: 7</span><br><span class="line">t1: 8</span><br><span class="line">t1: 9</span><br></pre></td></tr></table></figure>
 
-<p>Time complexity O(n).</p>
-<p>Space complexity O(1).</p>
+<p>Start thread <code>t1</code> in the main thread. After <code>t1</code> starts, when the calculation <code>i</code> in <code>t1</code> is divisible by <code>4</code>, <code>t1</code> will sleep for 100 milliseconds through <code>Thread.sleep(100)</code>.</p>
+<h2 id="Comparison-of-sleep-and-wait"><a href="#Comparison-of-sleep-and-wait" class="headerlink" title="Comparison of sleep() and wait()"></a>Comparison of sleep() and wait()</h2><p>We know that <code>wait()</code> will let the current thread enter the <code>blocked state (wait)</code> from the <code>running state</code>, and also release the synchronization lock. <code>sleep()</code> will make the current thread enter the <code>blocked state (sleep)</code> from the <code>running state</code>.</p>
+<p><strong><font color="orange">However, wait() will release the synchronization lock of the object, while sleep() will not release the lock.</font></strong></p>
+<p>Example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SleepDemo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object obj = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>);</span><br><span class="line">        ThreadA t2 = <span class="keyword">new</span> ThreadA(<span class="string">"t2"</span>);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="comment">// Acquire synchronization lock of obj</span></span><br><span class="line">            <span class="keyword">synchronized</span> (obj) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">                        System.out.printf(<span class="string">"%s: %d\n"</span>, <span class="keyword">this</span>.getName(), i);</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">if</span> (i % <span class="number">4</span> == <span class="number">0</span>)</span><br><span class="line">                            Thread.sleep(<span class="number">100</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>Results:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">t1: 0</span><br><span class="line">t1: 1</span><br><span class="line">t1: 2</span><br><span class="line">t1: 3</span><br><span class="line">t1: 4</span><br><span class="line">t1: 5</span><br><span class="line">t1: 6</span><br><span class="line">t1: 7</span><br><span class="line">t1: 8</span><br><span class="line">t1: 9</span><br><span class="line">t2: 0</span><br><span class="line">t2: 1</span><br><span class="line">t2: 2</span><br><span class="line">t2: 3</span><br><span class="line">t2: 4</span><br><span class="line">t2: 5</span><br><span class="line">t2: 6</span><br><span class="line">t2: 7</span><br><span class="line">t2: 8</span><br><span class="line">t2: 9</span><br></pre></td></tr></table></figure>
+
+<p>Threads <code>t1</code> and <code>t2</code> are started in the main thread. <code>t1</code> and <code>t2</code> will reference the synchronization lock of the same object in run(), namely <code>synchronized(obj)</code>. While <code>t1</code> is running, although it will call <code>Thread.sleep(100)</code>, <code>t2</code> will not get cpu execution rights, as <code>t1</code> did not release the synchronous lock of <code>obj</code>!</p>
+<p>Note that if we comment out <code>synchronized(obj)</code> and execute the program again, <code>t1</code> and <code>t2</code> can be switched to each other.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">t1: 0</span><br><span class="line">t2: 0</span><br><span class="line">t1: 1</span><br><span class="line">t1: 2</span><br><span class="line">t1: 3</span><br><span class="line">t1: 4</span><br><span class="line">t2: 1</span><br><span class="line">t2: 2</span><br><span class="line">t2: 3</span><br><span class="line">t2: 4</span><br><span class="line">t2: 5</span><br><span class="line">t2: 6</span><br><span class="line">t2: 7</span><br><span class="line">t2: 8</span><br><span class="line">t1: 5</span><br><span class="line">t1: 6</span><br><span class="line">t1: 7</span><br><span class="line">t1: 8</span><br><span class="line">t2: 9</span><br><span class="line">t1: 9</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Linked-List/" rel="tag"># Leetcode - Linked List</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Two-Pointers/" rel="tag"># Leetcode - Two Pointers</a>
+                        <a href="/tags/Multithreading/" rel="tag"># Multithreading</a>
                     </li>
                     
                 </ul>
@@ -191,14 +197,10 @@
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Java TreeMap" href="/Java-TreeMap/">
-            ← Java TreeMap
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 19. Remove Nth Node From End of List" href="/Leetcode-19-Remove-Nth-Node-From-End-of-List/">
-            Leetcode 19. Remove Nth Node From End of List →
+        <a class="next-post" title="Leetcode 152. Maximum Product Subarray" href="/Leetcode-152-Maximum-Product-Subarray/">
+            Leetcode 152. Maximum Product Subarray →
         </a>
         
     </nav>
@@ -224,7 +226,7 @@
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction-to-sleep"><span class="toc-text">Introduction to sleep()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sleep-example"><span class="toc-text">sleep() example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Comparison-of-sleep-and-wait"><span class="toc-text">Comparison of sleep() and wait()</span></a></li></ol>
     </div>
 </div>
 
@@ -587,7 +589,7 @@
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-61-Rotate-List/" class="leancloud-visitors" data-flag-title="Leetcode 61. Rotate List">
+			        <span hidden="true" id="/Java-Multithreading-5-Sleep/" class="leancloud-visitors" data-flag-title="Java Multithreading 5: Sleep">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
