@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 95. Unique Binary Search Trees II | Nick Li</title>
+	<title>Leetcode 162. Find Peak Element | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 95. Unique Binary Search Trees II | Nick Li">
+	<meta property="og:title" content="Leetcode 162. Find Peak Element | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-95-Unique-Binary-Search-Trees-II/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-162-Find-Peak-Element/">
 
 	
-	<meta property="article:published_time" content="2020-01-22T21:01:00+08:00"> 
+	<meta property="article:published_time" content="2020-05-07T10:05:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-95-Unique-Binary-Search-Trees-II/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-162-Find-Peak-Element/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-01-22T11:56:44.000Z">
-                    2020-01-22
+                <time class="post-full-meta-date" datetime="2020-05-07T00:04:18.000Z">
+                    2020-05-7
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 95. Unique Binary Search Trees II</h1>
+            <h1 class="post-full-title">Leetcode 162. Find Peak Element</h1>
         </header>
         <div class="post-full ">
             
@@ -157,34 +157,36 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-95-Unique-Binary-Search-Trees-II/Question.png" data-index="0" data-src="/Leetcode-95-Unique-Binary-Search-Trees-II/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-162-Find-Peak-Element/Question.png" data-index="0" data-src="/Leetcode-162-Find-Peak-Element/Question.png">
 <br>
 <br>
-Given n, use these numbers 1 ... n to generate all possible binary search trees.
 
+<p>Give an array, find any peak. The peak is larger than its left and right neighbors.</p>
 <h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Medium - <a href="/Leetcode-96-Unique-Binary-Search-Trees/" title="96. Unique Binary Search Trees">96. Unique Binary Search Trees</a></li>
-<li>Medium - <a href="https://leetcode.com/problems/different-ways-to-add-parentheses/" target="_blank" rel="noopener">241. Different Ways to Add Parentheses</a></li>
+<li>Easy - <a href="https://leetcode.com/problems/peak-index-in-a-mountain-array/" target="_blank" rel="noopener">852. Peak Index in a Mountain Array</a></li>
 </ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>One of the most important property of binary tree: all values of the left subtree are smaller than the root node, and all values of the right subtree are larger than the root node. We could use it to solve this problem</p>
-<p>Example: <code>1....n</code></p>
-<p>Take <code>1</code> as the root node, <code>[]</code> as the left subtree, and all of <code>[2 ... n]</code> as the right subtree.</p>
-<p>Take <code>2</code> as the root node, <code>[1]</code> as the left subtree, <code>[3 ... n]</code> as the right subtree.</p>
-<p>Take <code>3</code> as the root node, <code>[1 2]</code> as the left subtree, <code>[4 ... n]</code> as the right subtree. Then pair the left and right subtrees.</p>
-<p>Take <code>4</code> as the root node, <code>[1 2 3]</code> as the left subtree, <code>[5 ... n]</code> as the right subtree. Then pair the left and right subtrees.</p>
-<p>…</p>
-<p>Take <code>n</code> as the root node, <code>[1 ... n]</code> as the left subtree, <code>[]</code> as the right subtree.</p>
-<p>If there is only one number, then there is only 1 case, using that number as a tree. If it is [], it returns null.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;TreeNode&gt; <span class="title">generateTrees</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> Collections.emptyList();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> getResults(<span class="number">1</span>, n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// recursive</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;TreeNode&gt; <span class="title">getResults</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">    List&lt;TreeNode&gt; results = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (start &gt; end) &#123;</span><br><span class="line">        results.add(<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> results;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// only 1 node</span></span><br><span class="line">    <span class="keyword">if</span> (start == end) &#123;</span><br><span class="line">        TreeNode node = <span class="keyword">new</span> TreeNode(start);</span><br><span class="line">        results.add(node);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> results;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &lt;= end; i++) &#123;</span><br><span class="line">        <span class="comment">// i is the root node</span></span><br><span class="line">        List&lt;TreeNode&gt; leftNodes = getResults(start, i - <span class="number">1</span>);</span><br><span class="line">        List&lt;TreeNode&gt; rightNodes = getResults(i + <span class="number">1</span>, end);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// combine all possible left and right tree</span></span><br><span class="line">        <span class="keyword">for</span> (TreeNode leftNode : leftNodes) &#123;</span><br><span class="line">            <span class="keyword">for</span> (TreeNode rightNode : rightNodes) &#123;</span><br><span class="line">                TreeNode root = <span class="keyword">new</span> TreeNode(i);</span><br><span class="line"></span><br><span class="line">                root.left = leftNode;</span><br><span class="line">                root.right = rightNode;</span><br><span class="line"></span><br><span class="line">                results.add(root);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> results;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Solution-1-Linear-scan"><a href="#Solution-1-Linear-scan" class="headerlink" title="Solution 1 - Linear scan"></a>Solution 1 - Linear scan</h2><p>Because nums[-1] is regarded as negative infinity, so start from the 0-th element the array must be an upward trend. Since we are looking for the peak, when it first falls, the value before the decline is what we are looking for.</p>
+<p>If it rises to the last value, and because nums[n] is regarded as negative infinity, the last value can be regarded as a peak.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findPeakElement</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">        <span class="comment">// first decline</span></span><br><span class="line">        <span class="keyword">if</span> (nums[i] &gt; nums[i + <span class="number">1</span>]) &#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// always increasing</span></span><br><span class="line">    <span class="keyword">return</span> nums.length - <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-2-Binary-search"><a href="#Solution-2-Binary-search" class="headerlink" title="Solution 2 - Binary search"></a>Solution 2 - Binary search</h2><p>We generally use binary search on ordered arrays, so why can we use it for this problem?</p>
+<p>In any case, the reason why we can use binary search is because we can directly discard half of the elements according to a certain condition, thereby reducing the time complexity to <code>logarithmic</code> level.</p>
+<p>As for this question, because the question tells us that we can return any peak in the array. So as long as there is at least one peak in one half, the other half can be discarded.</p>
+<p>We only need to compare <code>nums[mid]</code> and <code>nums[mid + 1]</code>.</p>
+<p>Consider the first search, <code>start = 0</code>, <code>end = nums.length - 1</code>.</p>
+<p>If <code>nums[mid] &lt; nums[mid + 1]</code>, the left part is in the ascending phase, because <code>nums[n]</code> is regarded as negative infinity, so it will eventually fall, so there will be at least one peak between <code>mid + 1</code> and <code>end</code>, we can discard the left half.</p>
+<p>If <code>nums[mid] &gt; nums[mid + 1]</code>, the right part is in the descending phase, because <code>nums[0]</code> is regarded as negative infinity, it must initially be the ascending phase, so there will be at least one peak between <code>start</code> and <code>mid</code>, we can discard the right half.</p>
+<p>Through the cutting above, we ensure that the subsequent left part must be rising, and the right part must be falling, so the second and third search is the same as the above.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findPeakElement</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// binary search</span></span><br><span class="line">    <span class="keyword">int</span> start = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> end = nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (start &lt; end) &#123;</span><br><span class="line">        <span class="keyword">int</span> mid = (start + end) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// peak in left part</span></span><br><span class="line">        <span class="keyword">if</span> (nums[mid] &gt; nums[mid + <span class="number">1</span>]) &#123;</span><br><span class="line">            end = mid;</span><br><span class="line">        <span class="comment">// peak in right part</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            start = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> start;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Dynamic-Programming/" rel="tag"># Leetcode - Dynamic Programming</a>
+                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-Tree/" rel="tag"># Leetcode - Tree</a>
+                        <a href="/tags/Leetcode-Binary-Search/" rel="tag"># Leetcode - Binary Search</a>
                     </li>
                     
                 </ul>
@@ -195,14 +197,10 @@ Given n, use these numbers 1 ... n to generate all possible binary search trees.
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 96. Unique Binary Search Trees" href="/Leetcode-96-Unique-Binary-Search-Trees/">
-            ← Leetcode 96. Unique Binary Search Trees
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 91. Decode Ways" href="/Leetcode-91-Decode-Ways/">
-            Leetcode 91. Decode Ways →
+        <a class="next-post" title="Java Multithreading 6: Join" href="/Java-Multithreading-6-Join/">
+            Java Multithreading 6: Join →
         </a>
         
     </nav>
@@ -228,7 +226,7 @@ Given n, use these numbers 1 ... n to generate all possible binary search trees.
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-1-Linear-scan"><span class="toc-text">Solution 1 - Linear scan</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-2-Binary-search"><span class="toc-text">Solution 2 - Binary search</span></a></li></ol>
     </div>
 </div>
 
@@ -597,7 +595,7 @@ Given n, use these numbers 1 ... n to generate all possible binary search trees.
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-95-Unique-Binary-Search-Trees-II/" class="leancloud-visitors" data-flag-title="Leetcode 95. Unique Binary Search Trees II">
+			        <span hidden="true" id="/Leetcode-162-Find-Peak-Element/" class="leancloud-visitors" data-flag-title="Leetcode 162. Find Peak Element">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
