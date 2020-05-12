@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Java Multithreading 4: yield | Nick Li</title>
+	<title>Leetcode 179: Largest Number | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Java Multithreading 4: yield | Nick Li">
+	<meta property="og:title" content="Leetcode 179: Largest Number | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Java-Multithreading-4-yield/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-179-Largest-Number/">
 
 	
-	<meta property="article:published_time" content="2020-05-02T12:05:00+08:00"> 
+	<meta property="article:published_time" content="2020-05-12T13:05:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Java-Multithreading-4-yield/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-179-Largest-Number/">
 	
 
 	
@@ -138,56 +138,47 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-05-02T02:42:11.000Z">
-                    2020-05-2
+                <time class="post-full-meta-date" datetime="2020-05-12T03:31:36.000Z">
+                    2020-05-12
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
+                <a href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a>&nbsp;&nbsp;
                 
                 
             </div>
-            <h1 class="post-full-title">Java Multithreading 4: yield</h1>
+            <h1 class="post-full-title">Leetcode 179: Largest Number</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/05/02/5TatLdvyfQ4OUmX.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <p>This blog will introduce the <code>yield()</code> method in <code>Thread</code>. The content involved includes:</p>
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-179-Largest-Number/Question.png" data-index="0" data-src="/Leetcode-179-Largest-Number/Question.png">
+<br>
+<br>
+
+<p>Given an array, arrange the numbers arbitrarily to form a number with the largest value.</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Intuitively, we should choose the number with largest highest number first. For numbers that start with 9, choose 9 first, then choose numbers that start with 8, then choose ones that start with 7 … and so on.</p>
+<p>For example, for <code>5</code>, <code>914</code>, <code>67</code>, choose <code>914</code> first, then <code>67</code>, and then <code>5</code>, to form <code>914675</code>. We try to select the number with largest highest number each time to ensure the final number be the biggest.</p>
+<p>The next question is what if the highest digit is the same?</p>
 <ol>
-<li>Introduction to <code>yield()</code></li>
-<li><code>yield()</code> example</li>
-<li>Comparison of <code>yield()</code> and <code>wait()</code></li>
+<li>If two numbers are equal in length, such as <code>34</code> and <code>30</code>, then obviously, choose the larger one.</li>
+<li>If two numbers are not equal in length, such as <code>3</code> and <code>30</code>, then choose <code>3</code> or <code>30</code> first?</li>
 </ol>
-<h2 id="Introduction-to-yield"><a href="#Introduction-to-yield" class="headerlink" title="Introduction to yield()"></a>Introduction to yield()</h2><p>The effect of <code>yield()</code> is to give in. It can make the current thread enter the <code>runnable state</code> from the <code>running state</code>, so that other waiting threads with the same priority can obtain execution rights. However, there is no guarantee that after the current thread calls <code>yield()</code>, others have the same priority will be able to obtain the execution right. It may also be that the current thread enters the <code>running state</code> and continues to run!</p>
-<h2 id="yield-example"><a href="#yield-example" class="headerlink" title="yield() example"></a>yield() example</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">YieldDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>);</span><br><span class="line">        ThreadA t2 = <span class="keyword">new</span> ThreadA(<span class="string">"t2"</span>);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">                System.out.printf(<span class="string">"%s [%d]:%d\n"</span>, <span class="keyword">this</span>.getName(), <span class="keyword">this</span>.getPriority(), i);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (i % <span class="number">4</span> == <span class="number">0</span>)</span><br><span class="line">                    Thread.yield();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>One of the possible result:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">t1 [5]:0</span><br><span class="line">t2 [5]:0</span><br><span class="line">t1 [5]:1</span><br><span class="line">t1 [5]:2</span><br><span class="line">t1 [5]:3</span><br><span class="line">t1 [5]:4</span><br><span class="line">t1 [5]:5</span><br><span class="line">t1 [5]:6</span><br><span class="line">t1 [5]:7</span><br><span class="line">t1 [5]:8</span><br><span class="line">t1 [5]:9</span><br><span class="line">t2 [5]:1</span><br><span class="line">t2 [5]:2</span><br><span class="line">t2 [5]:3</span><br><span class="line">t2 [5]:4</span><br><span class="line">t2 [5]:5</span><br><span class="line">t2 [5]:6</span><br><span class="line">t2 [5]:7</span><br><span class="line">t2 [5]:8</span><br><span class="line">t2 [5]:9</span><br></pre></td></tr></table></figure>
-
-<p><code>t1</code> did not switch to <code>t2</code> when it could be divided by 4. This shows that although <code>yield()</code> can make the thread enter the <code>runnable state</code> from the <code>running state</code>, it does not necessarily allow other threads to obtain CPU execution rights (that is, other threads enter the <code>running state</code>), even if other threads have the same priority as the thread currently calling <code>yield()</code>.</p>
-<h2 id="Comparison-of-yield-and-wait"><a href="#Comparison-of-yield-and-wait" class="headerlink" title="Comparison of yield() and wait()"></a>Comparison of yield() and wait()</h2><p>We know that <code>wait()</code> will let the current thread enter the <code>blocked state (wait)</code> from the <code>running state</code>, and also release the synchronization lock. <code>yield()</code> will also make the current thread leave the <code>running state</code>. The difference is:</p>
-<ol>
-<li><code>wait()</code> will let the thread enter the <code>blocked state  (wait)</code> from the <code>running state</code>, while <code>yield()</code> will let the thread enter the <code>runnable state</code> from the <code>running state</code>.</li>
-<li><code>wait()</code> will release the synchronization lock of the object it holds, and the <code>yield()</code> method will <strong>not release the lock</strong>.</li>
-<li><code>yield() will give up the CPU execution time, rather than giving up the resource lock</code></li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">YieldDemo2</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Object obj = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>);</span><br><span class="line">        ThreadA t2 = <span class="keyword">new</span> ThreadA(<span class="string">"t2"</span>);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (obj) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">                    System.out.printf(<span class="string">"%s [%d]:%d\n"</span>, <span class="keyword">this</span>.getName(), <span class="keyword">this</span>.getPriority(), i);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (i % <span class="number">4</span> == <span class="number">0</span>)</span><br><span class="line">                        Thread.yield();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Results:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">t1 [5]:0</span><br><span class="line">t1 [5]:1</span><br><span class="line">t1 [5]:2</span><br><span class="line">t1 [5]:3</span><br><span class="line">t1 [5]:4</span><br><span class="line">t1 [5]:5</span><br><span class="line">t1 [5]:6</span><br><span class="line">t1 [5]:7</span><br><span class="line">t1 [5]:8</span><br><span class="line">t1 [5]:9</span><br><span class="line">t2 [5]:0</span><br><span class="line">t2 [5]:1</span><br><span class="line">t2 [5]:2</span><br><span class="line">t2 [5]:3</span><br><span class="line">t2 [5]:4</span><br><span class="line">t2 [5]:5</span><br><span class="line">t2 [5]:6</span><br><span class="line">t2 [5]:7</span><br><span class="line">t2 [5]:8</span><br><span class="line">t2 [5]:9</span><br></pre></td></tr></table></figure>
-
-<p>The main thread started two threads <code>t1</code> and <code>t2</code>. <code>t1</code> and <code>t2</code> will reference the synchronization lock of the same object in <code>run()</code>, namely <code>synchronized(obj)</code>. While <code>t1</code> is running, although it will call <code>Thread.yield()</code>, <code>t2</code> will not get cpu execution rights. Because, <code>t1</code> did not release the synchronous lock of <code>obj</code>!</p>
-
+<p>We only need to contac them together and then compare. That is, compare <code>330</code> and <code>303</code>, it is obviously <code>330</code> big, so we choose <code>3</code> first.</p>
+<p>If we think about it, we can find that all we need to do is sort the array by our rules and contac it afterwards.</p>
+<p>For the comparision rule, all we have to do is compare the combined number and determine which one should comes first. </p>
+<p>For example, for <code>93</code>, <code>234</code>, we will compare <code>93234</code> and <code>23493</code>. Then we will choose <code>93</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">largestNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    Integer[] temp = <span class="keyword">new</span> Integer[nums.length];</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// have a copy of nums in Integer</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        temp[i] = nums[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// sort the array</span></span><br><span class="line">    <span class="comment">// the compare n1, n2, we compare lexicographic of n1n2 and n2n1</span></span><br><span class="line">    Arrays.sort(temp, (o1, o2) -&gt; &#123;</span><br><span class="line">        String s1 = o1 + <span class="string">""</span> + o2;</span><br><span class="line">        String s2 = o2 + <span class="string">""</span> + o1;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> s2.compareTo(s1);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// join the result</span></span><br><span class="line">    String result =  Arrays.stream(temp).map(Object::toString).collect(Collectors.joining());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result.startsWith(<span class="string">"0"</span>) ? <span class="string">"0"</span> : result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Multithreading/" rel="tag"># Multithreading</a>
+                        <a href="/tags/Leetcode-Sort/" rel="tag"># Leetcode - Sort</a>
                     </li>
                     
                 </ul>
@@ -198,14 +189,10 @@
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 152. Maximum Product Subarray" href="/Leetcode-152-Maximum-Product-Subarray/">
-            ← Leetcode 152. Maximum Product Subarray
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 148. Sort List" href="/Leetcode-148-Sort-List/">
-            Leetcode 148. Sort List →
+        <a class="next-post" title="Leetcode 166. Fraction to Recurring Decimal" href="/Leetcode-166-Fraction-to-Recurring-Decimal/">
+            Leetcode 166. Fraction to Recurring Decimal →
         </a>
         
     </nav>
@@ -231,7 +218,7 @@
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction-to-yield"><span class="toc-text">Introduction to yield()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#yield-example"><span class="toc-text">yield() example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Comparison-of-yield-and-wait"><span class="toc-text">Comparison of yield() and wait()</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
     </div>
 </div>
 
@@ -606,7 +593,7 @@
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Java-Multithreading-4-yield/" class="leancloud-visitors" data-flag-title="Java Multithreading 4: yield">
+			        <span hidden="true" id="/Leetcode-179-Largest-Number/" class="leancloud-visitors" data-flag-title="Leetcode 179: Largest Number">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
