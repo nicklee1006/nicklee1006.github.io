@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 3. Longest Substring Without Repeating Characters | Nick Li</title>
+	<title>Leetcode 200. Number of Islands | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 3. Longest Substring Without Repeating Characters | Nick Li">
+	<meta property="og:title" content="Leetcode 200. Number of Islands | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-3-Longest-Substring-Without-Repeating-Characters/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-200-Number-of-Islands/">
 
 	
-	<meta property="article:published_time" content="2020-02-04T22:02:00+08:00"> 
+	<meta property="article:published_time" content="2020-05-14T20:05:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-3-Longest-Substring-Without-Repeating-Characters/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-200-Number-of-Islands/">
 	
 
 	
@@ -138,8 +138,8 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-02-04T12:00:28.000Z">
-                    2020-02-4
+                <time class="post-full-meta-date" datetime="2020-05-14T10:15:06.000Z">
+                    2020-05-14
                 </time>
                 
                 <span class="date-divider">/</span>
@@ -148,7 +148,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 3. Longest Substring Without Repeating Characters</h1>
+            <h1 class="post-full-title">Leetcode 200. Number of Islands</h1>
         </header>
         <div class="post-full ">
             
@@ -157,59 +157,33 @@
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/Question.png" data-index="0" data-src="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/Question.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-200-Number-of-Islands/Question.png" data-index="0" data-src="/Leetcode-200-Number-of-Islands/Question.png">
 <br>
 <br>
-Given a string, find the longest substring without repeated characters and return its length.
 
+<p>Given a two-dimensional array, <code>1</code> as the land and <code>0</code> as the sea, connecting the land to form an island. Think of the area outside the array as the sea, and determine how many islands there are.</p>
 <h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Hard - <a href="https://leetcode.com/problems/subarrays-with-k-different-integers/" target="_blank" rel="noopener">992. Subarrays with K Different Integers</a></li>
+<li>Medium - <a href="/Leetcode-130-Surrounded-Regions/" title="130. Surrounded Regions">130. Surrounded Regions</a></li>
+<li>Medium - <a href="https://leetcode.com/problems/max-area-of-island/" target="_blank" rel="noopener">695. Max Area of Island</a></li>
 </ul>
-<h2 id="Solution-Brute-Force"><a href="#Solution-Brute-Force" class="headerlink" title="Solution - Brute Force"></a>Solution - Brute Force</h2><p>The most straightforward method. We use two loops to exhaust all substrings, and then use a function to determine whether there are duplicate characters in the substring.</p>
-<p>Time complexity: two loops, plus the loop in the function that determines whether the substring satisfies the conditions, O(n<sup>3</sup>).</p>
-<p>Space complexity: A set is used to determine whether there are duplicate characters in the substring. Since there are no repeated characters in the set, the longest possible one is the entire character set. Assuming the size of the character set is <code>m</code>, then the longest length of the set is <code>m</code>. On the other hand, if the length of the string is less than <code>m</code>, it is <code>n</code>. Then the longest set is <code>n</code>. In summary, the space complexity is O(min(m, n)).</p>
-<h2 id="Solution-Sliding-Window"><a href="#Solution-Sliding-Window" class="headerlink" title="Solution - Sliding Window"></a>Solution - Sliding Window</h2><p>In the above solution, we assume that when <code>i</code> takes 0,</p>
-<p><code>j</code> is set to <code>1</code>, to determine whether there are duplicate characters in the string <code>str[0,1)</code>.</p>
-<p><code>j</code> is set to <code>2</code> to determine whether there are duplicate characters in the string <code>str[0,2)</code>.</p>
-<p><code>j</code> is set to <code>3</code> to determine if there are any duplicate characters in the string <code>str[0,3)</code>.</p>
-<p><code>j</code> is set to <code>4</code> to determine whether there are duplicate characters in the string <code>str[0,4)</code>.</p>
-<p>There are a lot of repetitive work, because if there are no repeated characters in <code>str[0,3)</code>, we don’t need to determine whether there are repeated characters in the entire string <code>str[0,4)</code>, but only need to determine whether <code>str[3]</code> is in <code>str[0,3)</code> or not. </p>
-<p>If it’s not, it means that there are no duplicate characters in <code>str[0,4)</code>.</p>
-<p>If it is, then <code>str[0,5)</code>, <code>str[0,6)</code>, <code>str[0,7)</code> must have duplicate characters. So at this time, there is not need to continue loop with <code>j</code>, just <code>i++</code> to enter the next loop.</p>
-<img class="post-img b-lazy" data-img="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/1.png" data-index="1" data-src="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/1.png">
-<br>
-<br>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>The idea is very simple, we only need to traverse the two-dimensional array. When we meet <code>1</code>, just mark the current <code>1</code> and all the <code>1</code>s connected to it as 2. Then record how many <code>1</code> we have met, which means there are several islands. See the example below.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">[1] 1 0 0 0</span><br><span class="line"> 1  1 0 0 0</span><br><span class="line"> 0 0 1 0 0</span><br><span class="line"> 0 0 0 1 1</span><br><span class="line">Meet 1, count = 1;</span><br><span class="line"></span><br><span class="line">Mark 1 and all 1s connected to it as 2</span><br><span class="line">2 2 0 0 0</span><br><span class="line">2 2 0 0 0</span><br><span class="line">0 0 1 0 0</span><br><span class="line">0 0 0 1 1</span><br><span class="line"></span><br><span class="line">2 2  0  0 0</span><br><span class="line">2 2  0  0 0</span><br><span class="line">0 0 [1] 0 0</span><br><span class="line">0 0  0  1 1</span><br><span class="line">Meet next 1, count = 2;</span><br><span class="line"></span><br><span class="line">Mark 1 and all 1s connected to it as 2</span><br><span class="line">2 2 0 0 0</span><br><span class="line">2 2 0 0 0</span><br><span class="line">0 0 2 0 0</span><br><span class="line">0 0 0 1 1   </span><br><span class="line"></span><br><span class="line">2 2 0  0  0</span><br><span class="line">2 2 0  0  0</span><br><span class="line">0 0 2  0  0</span><br><span class="line">0 0 0 [1] 1  </span><br><span class="line">Meet next 1, count = 3;</span><br><span class="line"></span><br><span class="line">Mark 1 and all 1s connected to it as 2</span><br><span class="line">2 2 0 0 0</span><br><span class="line">2 2 0 0 0</span><br><span class="line">0 0 2 0 0</span><br><span class="line">0 0 0 2 2  </span><br><span class="line"></span><br><span class="line">No more 1, so the number of islands =  count = 3</span><br></pre></td></tr></table></figure>
 
-<p>We can see the process as the orange window moving to the right.</p>
-<p>To determine whether a character is in the string, we can put the char in the <code>map</code>. The char is the key and it’s index is the value. So that we know the last occurance of a char in the string.</p>
-<p>We can further optimize it. Let’s look at the example.</p>
-<img class="post-img b-lazy" data-img="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/2.png" data-index="2" data-src="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/2.png">
-<br>
-<br>
-
-<p>When the <code>c</code> pointed to by <code>j</code> exists in the preceding substring <code>abcd</code>, <code>i</code> is moved forward to <code>b</code> at this time, and the substring still contains <code>c</code>, and <code>i</code> must continue to move, so it can be optimized here. We can move <code>i</code> directly to the next position of <code>c</code>!</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">Map&lt;Character, Integer&gt; tempMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>; j &lt; s.length(); j++) &#123;</span><br><span class="line">    <span class="comment">// find repeat, skip i - j'</span></span><br><span class="line">    <span class="keyword">if</span> (tempMap.containsKey(s.charAt(j))) &#123;</span><br><span class="line">        i = Math.max(tempMap.get(s.charAt(j)), i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result = Math.max(result, j - i + <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// j + 1 means next time i will be move directly to here</span></span><br><span class="line">    tempMap.put(s.charAt(j), j + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
-
-<p>Because <code>i</code> is jumping, the characters stored before map are not removed, so <code>Math.max(map.get(s.charAt(j)), i)</code> is used to make sure that the obtained index is not in front of <code>i</code>.</p>
-<p><code>j</code> is incremented by 1 for each loop, because the jump of <code>i</code> already guarantees that there are no duplicate in <code>str[i, j]</code>.</p>
-
+<p>Another problem is how to mark all connected <code>1</code>s. It is also very straightforward. We can directly do a DFS using recursion.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span><span class="params">(<span class="keyword">char</span>[][] grid)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// total number of rows</span></span><br><span class="line">    <span class="keyword">int</span> rows = grid.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (rows == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// total number of columns</span></span><br><span class="line">    <span class="keyword">int</span> columns = grid[<span class="number">0</span>].length;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// loop all points</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rows; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; columns; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (grid[i][j] == <span class="string">'1'</span>) &#123;</span><br><span class="line">                result++;</span><br><span class="line"></span><br><span class="line">                mark(i, j, rows, columns, grid);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// mark all '1' connected with grid[curRow][curCol] as '2'</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">mark</span><span class="params">(<span class="keyword">int</span> curRow, <span class="keyword">int</span> curCol, <span class="keyword">int</span> totalRow, <span class="keyword">int</span> totalCol, <span class="keyword">char</span>[][] grid)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// reach boundary or the point is not '1'</span></span><br><span class="line">    <span class="keyword">if</span> (curRow == -<span class="number">1</span> || curCol == -<span class="number">1</span> || curRow == totalRow || curCol == totalCol || grid[curRow][curCol] != <span class="string">'1'</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// mark as '2'</span></span><br><span class="line">    grid[curRow][curCol] = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// expand up, down, left, right</span></span><br><span class="line">    mark(curRow - <span class="number">1</span>, curCol, totalRow, totalCol, grid);</span><br><span class="line">    mark(curRow + <span class="number">1</span>, curCol, totalRow, totalCol, grid);</span><br><span class="line">    mark(curRow, curCol - <span class="number">1</span>, totalRow, totalCol, grid);</span><br><span class="line">    mark(curRow, curCol + <span class="number">1</span>, totalRow, totalCol, grid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Two-Pointers/" rel="tag"># Leetcode - Two Pointers</a>
+                        <a href="/tags/Leetcode-Depth-First-Search/" rel="tag"># Leetcode - Depth First Search</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-Hash-Table/" rel="tag"># Leetcode - Hash Table</a>
+                        <a href="/tags/Leetcode-Breadth-First-Search/" rel="tag"># Leetcode - Breadth First Search</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/Leetcode-String/" rel="tag"># Leetcode - String</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Sliding-Window/" rel="tag"># Leetcode - Sliding Window</a>
+                        <a href="/tags/Leetcode-Union-Find/" rel="tag"># Leetcode - Union Find</a>
                     </li>
                     
                 </ul>
@@ -220,14 +194,10 @@ Given a string, find the longest substring without repeated characters and retur
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Java PriorityQueue" href="/Java-PriorityQueue/">
-            ← Java PriorityQueue
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 60. Permutation Sequence" href="/Leetcode-60-Permutation-Sequence/">
-            Leetcode 60. Permutation Sequence →
+        <a class="next-post" title="Java Multithreading 8: Thread priority and daemon threads" href="/Java-Multithreading-8-Thread-priority-and-daemon-threads/">
+            Java Multithreading 8: Thread priority and daemon threads →
         </a>
         
     </nav>
@@ -253,7 +223,7 @@ Given a string, find the longest substring without repeated characters and retur
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Brute-Force"><span class="toc-text">Solution - Brute Force</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Sliding-Window"><span class="toc-text">Solution - Sliding Window</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
     </div>
 </div>
 
@@ -632,7 +602,7 @@ Given a string, find the longest substring without repeated characters and retur
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-3-Longest-Substring-Without-Repeating-Characters/" class="leancloud-visitors" data-flag-title="Leetcode 3. Longest Substring Without Repeating Characters">
+			        <span hidden="true" id="/Leetcode-200-Number-of-Islands/" class="leancloud-visitors" data-flag-title="Leetcode 200. Number of Islands">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
