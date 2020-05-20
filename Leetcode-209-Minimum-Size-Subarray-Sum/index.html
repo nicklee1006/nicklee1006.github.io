@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Java Multithreading 6: Join | Nick Li</title>
+	<title>Leetcode 209. Minimum Size Subarray Sum | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Java Multithreading 6: Join | Nick Li">
+	<meta property="og:title" content="Leetcode 209. Minimum Size Subarray Sum | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Java-Multithreading-6-Join/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-209-Minimum-Size-Subarray-Sum/">
 
 	
-	<meta property="article:published_time" content="2020-05-06T08:05:00+08:00"> 
+	<meta property="article:published_time" content="2020-05-20T19:05:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Java-Multithreading-6-Join/">
+	<meta property="article:published_first" content="Nick Li, /Leetcode-209-Minimum-Size-Subarray-Sum/">
 	
 
 	
@@ -138,62 +138,66 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2020-05-05T22:57:17.000Z">
-                    2020-05-6
+                <time class="post-full-meta-date" datetime="2020-05-20T09:56:50.000Z">
+                    2020-05-20
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
+                <a href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a>&nbsp;&nbsp;
                 
                 
             </div>
-            <h1 class="post-full-title">Java Multithreading 6: Join</h1>
+            <h1 class="post-full-title">Leetcode 209. Minimum Size Subarray Sum</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/05/06/EzTBZSRdYDxjtJ9.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <p>This blog will introduce the <code>join()</code> method in <code>Thread</code>. The content includes:</p>
-<ol>
-<li>Introduction to <code>join()</code></li>
-<li><code>join()</code> source code analysis (based on JDK11.0.5)</li>
-<li>Example</li>
-</ol>
-<h2 id="Introduction-to-join"><a href="#Introduction-to-join" class="headerlink" title="Introduction to join()"></a>Introduction to join()</h2><p><code>join()</code> is defined in <code>Thread.java</code>.</p>
-<p><code>join()</code> will let the <code>main thread</code> wait for the end of the <code>sub-thread</code> to continue running. Look at the examples:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Main thread</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Son s = <span class="keyword">new</span> Son();</span><br><span class="line">        s.start();</span><br><span class="line">        s.join();</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// sub thread</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>Son thread</code> is created and started in <code>Father thread</code>, so <code>Father thread</code> is the main thread and <code>Son thread</code> is the sub-thread.</p>
-<p>The <code>Father thread</code> create a new sub-threads through <code>new Son()</code>, and then start sub thread <code>s.start()</code> and call <code>s.join()</code>. After calling <code>s.join()</code>, the <code>Father thread</code> will wait until the sub thread has finished running. After the sub thread <code>s</code> has finished running, the <code>Father thread</code> can continue to run. This is what we mean by <code>join()</code>, so that the main thread will wait for the child thread to finish before continuing to run!</p>
-<h2 id="join-source-code-analysis-based-on-JDK11-0-5"><a href="#join-source-code-analysis-based-on-JDK11-0-5" class="headerlink" title="join() source code analysis (based on JDK11.0.5)"></a>join() source code analysis (based on JDK11.0.5)</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">join</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    join(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">join</span><span class="params">(<span class="keyword">long</span> millis)</span></span></span><br><span class="line"><span class="function"><span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> base = System.currentTimeMillis();</span><br><span class="line">    <span class="keyword">long</span> now = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (millis &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"timeout value is negative"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (millis == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (isAlive()) &#123;</span><br><span class="line">            wait(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (isAlive()) &#123;</span><br><span class="line">            <span class="keyword">long</span> delay = millis - now;</span><br><span class="line">            <span class="keyword">if</span> (delay &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            wait(delay);</span><br><span class="line">            now = System.currentTimeMillis() - base;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>From the code, we can find out that when <code>millis == 0</code>, it will enter <code>while(isAlive ())</code> loop. That is, as long as the child thread is alive, the main thread will keep waiting.</p>
-<p>Let look back at the above example:</p>
-<p>Although <code>s.join()</code> is called in the <code>Father thread</code>, <code>s.join()</code> is the method call on the <code>sub thread s</code>. Then, <code>isAlive()</code> in the <code>join()</code> method should determine whether the <code>sub thread s</code> is in the Alive state. The corresponding <code>wait(0)</code> should also let the <code>sub thread s</code> wait. But if this is the case, how could <code>s.join()</code> make <code>main thread</code> wait until the <code>sub thread s</code> is completed? It should instead make the <code>sub thread s</code> wait (because the wait method of the <code>subb thread s</code> is called)?</p>
-<p>Well, the answer is that <code>wait()</code> will make the <strong>current thread</strong> wait, and the <strong>current thread</strong> here refers to <code>the thread currently running on the CPU</code>. Therefore, although the <code>wait()</code> of the <code>sub thread</code> is called, it is called through the <code>main thread</code>. Therefore, it is the <code>main thread</code> that waits, not the <code>sub thread</code>!</p>
-<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><p>After understanding the function of <code>join()</code>, let’s look at the usage of <code>join()</code> through examples.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JoinDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// start t1</span></span><br><span class="line">            t1.start();</span><br><span class="line">            <span class="comment">// join t1 to main thread，and main thread will wait for t1 to complete</span></span><br><span class="line">            t1.join();</span><br><span class="line">            </span><br><span class="line">            System.out.printf(<span class="string">"%s finish\n"</span>, Thread.currentThread().getName());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.printf(<span class="string">"%s start\n"</span>, <span class="keyword">this</span>.getName());</span><br><span class="line"></span><br><span class="line">            <span class="comment">// delay</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000</span>; i++)</span><br><span class="line">                ;</span><br><span class="line"></span><br><span class="line">            System.out.printf(<span class="string">"%s finish\n"</span>, <span class="keyword">this</span>.getName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Results:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t1 start</span><br><span class="line">t1 finish</span><br><span class="line">main finish</span><br></pre></td></tr></table></figure>
-
-<p>The execution sequence is shown in the figure:</p>
-<ol>
-<li>Create a new <code>thread t1</code> in the <code>main thread</code> with <code>new ThreadA(&quot;t1&quot;)</code>. Next, start <code>thread t1</code> with <code>t1.start()</code> and execute <code>t1.join()</code>.</li>
-<li>After executing <code>t1.join()</code>, the <code>main thread</code> will enter the <code>blocked state</code> and wait for <code>t1</code> to finish running. After <code>t1</code> ends, it will wake up the <code>main thread</code>, and <code>main thread</code> regains the cpu execution right and continues to run.</li>
-</ol>
-<img class="post-img b-lazy" data-img="/Java-Multithreading-6-Join/1.png" data-index="0" data-src="/Java-Multithreading-6-Join/1.png">
+                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-209-Minimum-Size-Subarray-Sum/Question.png" data-index="0" data-src="/Leetcode-209-Minimum-Size-Subarray-Sum/Question.png">
 <br>
 <br>
+
+<p>Find the smallest continuous sub-array such that the sum of the sub-arrays is greater than or equal to <code>s</code>.</p>
+<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
+<li>Hard - <a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank" rel="noopener">76. Minimum Window Substring</a></li>
+<li>Medium - <a href="https://leetcode.com/problems/maximum-length-of-repeated-subarray/" target="_blank" rel="noopener">718. Maximum Length of Repeated Subarray</a></li>
+</ul>
+<h2 id="Solution-Brute-Force"><a href="#Solution-Brute-Force" class="headerlink" title="Solution - Brute Force"></a>Solution - Brute Force</h2><p>Starting from the 0th number, add numbers in sequence, and record the length when the sum is greater than or equal to <code>s</code>.</p>
+<p>Starting from the first number, add numbers in sequence, and record the length when the sum is greater than or equal to <code>s</code>.</p>
+<p>Starting from the second number, add numbers in sequence, and record the length when the sum is greater than or equal to <code>s</code>.</p>
+<p>Starting from the last number, add numbers in sequence, and record the length when the sum is greater than or equal to <code>s</code>.</p>
+<p>Choose the smallest length from the length obtained above.</p>
+<p>Time complexity: O (n<sup>2</sup>)</p>
+<h2 id="Solution-Two-Pointers"><a href="#Solution-Two-Pointers" class="headerlink" title="Solution - Two Pointers"></a>Solution - Two Pointers</h2><p>Use two pointers <code>left</code> and <code>right</code> to indentify a window.</p>
+<ol>
+<li>Move the <code>right</code> forward to increase the window until the number in the window is greater than or equal to <code>s</code>. Go to step 2.</li>
+<li>Record the length at this time, move <code>left</code> forward, and begin to decrease the length, and each time it decreases, the minimum length is updated. Until the sum in the current window is less than <code>s</code>, go back to step 1.</li>
+</ol>
+<p>For example, lets’ simulate the process of sliding windows:</p>
+<p><code>s = 7</code>, <code>nums = [2,3,1,2,4,3]</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">2 3 1 2 4 3</span><br><span class="line">^</span><br><span class="line">l</span><br><span class="line">r</span><br><span class="line">The sum of all numbers in the upper window 2 is less than 7, so r moves forward</span><br><span class="line"></span><br><span class="line">2 3 1 2 4 3</span><br><span class="line">^ ^</span><br><span class="line">l r</span><br><span class="line">The sum of all numbers in the upper window 2 + 3 is less than 7, so r moves forward</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2 3 1 2 4 3</span><br><span class="line">^   ^</span><br><span class="line">l   r</span><br><span class="line">The sum of all numbers in the upper window 2 + 3 + 1 is less than 7, so r moves forward</span><br><span class="line"></span><br><span class="line">2 3 1 2 4 3</span><br><span class="line">^     ^</span><br><span class="line">l     r</span><br><span class="line">The sum of all numbers in the upper window 2 + 3 + 1 + 2 is greater than 7, record the length min = 4, l moves forward</span><br><span class="line"></span><br><span class="line">2 3 1 2 4 3</span><br><span class="line">  ^   ^</span><br><span class="line">  l   r</span><br><span class="line">The sum of all numbers in the upper window 3 + 1 + 2 is less than 7, so r moves forward</span><br><span class="line"></span><br><span class="line">2 3 1 2 4 3</span><br><span class="line">  ^     ^</span><br><span class="line">  l     r</span><br><span class="line">The sum of all numbers in the upper window 3 + 1 + 2 + 4 is greater than 7, record the length min = 4, l moves forward</span><br><span class="line"></span><br><span class="line">2 3 1 2 4 3</span><br><span class="line">    ^   ^</span><br><span class="line">    l   r</span><br><span class="line">The sum of all numbers in the upper window 1 + 2 + 4 is greater than or equal to 7, record the length and update min = 3, l moves forward</span><br><span class="line"></span><br><span class="line">2 3 1 2 4 3</span><br><span class="line">      ^ ^</span><br><span class="line">      l r</span><br><span class="line">The sum of all numbers in the upper window 2 + 4 is less than 7, so r moves forward</span><br><span class="line"></span><br><span class="line">2 3 1 2 4 3</span><br><span class="line">      ^   ^</span><br><span class="line">      l   r</span><br><span class="line">The sum of all numbers in the upper window 2 + 4 + 3 is greater than or equal tp 7, record the length and update min = 3, l moves forward</span><br><span class="line"></span><br><span class="line">2 3 1 2 4 3</span><br><span class="line">        ^ ^</span><br><span class="line">        l r</span><br><span class="line">The sum of all numbers in the upper window 4 + 3 is greater than or equal tp 7, record the length and update min = 2, l moves forward</span><br><span class="line"></span><br><span class="line">2 3 1 2 4 3</span><br><span class="line">          ^</span><br><span class="line">          r</span><br><span class="line">          l</span><br><span class="line">The sum of all numbers in the upper window 3 is less than 7, so r moves forward，end</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minSubArrayLen</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.length == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// result</span></span><br><span class="line">    <span class="keyword">int</span> result = Integer.MAX_VALUE;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2 pointers</span></span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (right &lt; nums.length) &#123;</span><br><span class="line">        <span class="comment">// moving right pointer forward until sum &gt;= s</span></span><br><span class="line">        sum += nums[right];</span><br><span class="line">        right++;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// if sum &gt;= s, start moving left forward until sum &lt; s</span></span><br><span class="line">        <span class="keyword">while</span> (sum &gt;= s) &#123;</span><br><span class="line">            result = Math.min(result, right - left);</span><br><span class="line"></span><br><span class="line">            sum -= nums[left];</span><br><span class="line">            left++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result == Integer.MAX_VALUE ? <span class="number">0</span> : result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Time complexity: O(n)</p>
+
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Multithreading/" rel="tag"># Multithreading</a>
+                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/Leetcode-Two-Pointers/" rel="tag"># Leetcode - Two Pointers</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/Leetcode-Binary-Search/" rel="tag"># Leetcode - Binary Search</a>
                     </li>
                     
                 </ul>
@@ -204,14 +208,10 @@
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 162. Find Peak Element" href="/Leetcode-162-Find-Peak-Element/">
-            ← Leetcode 162. Find Peak Element
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 153. Find Minimum in Rotated Sorted Array" href="/Leetcode-153-Find-Minimum-in-Rotated-Sorted-Array/">
-            Leetcode 153. Find Minimum in Rotated Sorted Array →
+        <a class="next-post" title="Java Multithreading 10: AtomicInteger" href="/Java-Multithreading-10-AtomicInteger/">
+            Java Multithreading 10: AtomicInteger →
         </a>
         
     </nav>
@@ -237,7 +237,7 @@
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction-to-join"><span class="toc-text">Introduction to join()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#join-source-code-analysis-based-on-JDK11-0-5"><span class="toc-text">join() source code analysis (based on JDK11.0.5)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example"><span class="toc-text">Example</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Brute-Force"><span class="toc-text">Solution - Brute Force</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Two-Pointers"><span class="toc-text">Solution - Two Pointers</span></a></li></ol>
     </div>
 </div>
 
@@ -624,7 +624,7 @@
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Java-Multithreading-6-Join/" class="leancloud-visitors" data-flag-title="Java Multithreading 6: Join">
+			        <span hidden="true" id="/Leetcode-209-Minimum-Size-Subarray-Sum/" class="leancloud-visitors" data-flag-title="Leetcode 209. Minimum Size Subarray Sum">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
