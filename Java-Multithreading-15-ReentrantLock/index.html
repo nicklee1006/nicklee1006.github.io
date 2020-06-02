@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="preconnect" href="//www.googletagmanager.com">
+	<link rel="preconnect" href="//zz.bdstatic.com">
+	<link rel="preconnect" href="//sp0.baidu.com">
+	<link rel="preconnect" href="//www.google-analytics.com">
+	<link rel="preconnect" href="//cdn1.lncld.net">
+	<link rel="preconnect" href="//unpkg.com">
+	<link rel="preconnect" href="//app-router.leancloud.cn">
+	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
+	<link rel="preconnect" href="//gravatar.loli.net">
+
+	<title>Java Multithreading 15: ReentrantLock | Nick Li</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="Nick Li">
+	<meta name="description" content>
+
+	
+
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="Nick Li">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Java Multithreading 15: ReentrantLock | Nick Li">
+	<meta property="og:description" content>
+	<meta property="og:url" content="http://nicklee1006.github.io/Java-Multithreading-15-ReentrantLock/">
+
+	
+	<meta property="article:published_time" content="2020-06-02T20:06:00+08:00"> 
+	<meta property="article:author" content="Nick Li">
+	<meta property="article:published_first" content="Nick Li, /Java-Multithreading-15-ReentrantLock/">
+	
+
+	
+	
+	<link rel="stylesheet" href="/css/allinonecss.min.css">
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151447201-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-151447201-1');
+	</script>
+	
+	
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header post-site-header outer">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/archives" title="ARCHIVES">ARCHIVES</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button-area">
+        <a href="#search" class="search-button">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="search-button">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    <a class="social-link" title="linkedin" href="https://www.linkedin.com/in/chenzhang-li/" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<div id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <div class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2020-06-02T10:36:30.000Z">
+                    2020-06-2
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
+                
+                
+            </div>
+            <h1 class="post-full-title">Java Multithreading 15: ReentrantLock</h1>
+        </header>
+        <div class="post-full ">
+            
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/06/02/dmYDpyKsS14MlaH.jpg)">
+            </figure>
+            
+            <div class="post-full-content">
+                <article id="photoswipe" class="markdown-body">
+                    <h2 id="Introduction-to-ReentrantLock"><a href="#Introduction-to-ReentrantLock" class="headerlink" title="Introduction to ReentrantLock"></a>Introduction to ReentrantLock</h2><p><code>ReentrantLock</code> is a reentrant mutex, also known as <code>exclusive lock</code>.</p>
+<p>As the name implies, <code>ReentrantLock</code> locks can only be held by one thread at the same time. Reentrant means that <code>ReentrantLock</code> locks can be acquired multiple times by the same thread.</p>
+<p><code>ReentrantLock</code> is divided into <strong>fair lock</strong>“ and <strong>unfair lock</strong>. The difference is whether the lock acquisition mechanism is fair. Lock is used to protect competing resources and prevent multiple threads from simultaneously operating on the same resources. <code>ReentrantLock</code> can only be acquired by one thread at the same time (when a thread acquires a lock, other threads must wait). It is through a FIFO waiting queue to manage all threads that try to acquire the lock. Under the <strong>fair lock</strong> mechanism, threads queue up to acquire locks in turn, while unfair locks acquire locks regardless of whether they are at the beginning of the queue when the locks are available.</p>
+<h2 id="ReentrantLock-methods-list"><a href="#ReentrantLock-methods-list" class="headerlink" title="ReentrantLock methods list"></a>ReentrantLock methods list</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create a ReentrantLock. By default it's a unfair lock</span></span><br><span class="line">ReentrantLock()</span><br><span class="line"></span><br><span class="line"><span class="comment">// Create a ReentrantLock. fair is true means it's a fair lock, fair is false means it's a unfair lock</span></span><br><span class="line">ReentrantLock(<span class="keyword">boolean</span> fair)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Query the hold count of lock of the current thread</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getHoldCount</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Return the current owner of the lock. If the lock is not owned, it will return null</span></span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> Thread <span class="title">getOwner</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Return a collection of thread that's waiting for the lock</span></span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> Collection&lt;Thread&gt; <span class="title">getQueuedThreads</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Return the numbber of thread that's waiting for the lock</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getQueueLength</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Returns a collection containing those threads that may be waiting on the given condition associated with this lock.</span></span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> Collection&lt;Thread&gt; <span class="title">getWaitingThreads</span><span class="params">(Condition condition)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Returns an estimate of the number of threads waiting on the given condition associated with this lock.</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getWaitQueueLength</span><span class="params">(Condition condition)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Queries whether any threads are waiting to acquire this lock.</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">hasQueuedThread</span><span class="params">(Thread thread)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Queries whether any threads are waiting to acquire this lock.</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">hasQueuedThreads</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Queries whether any threads are waiting on the given condition associated with this lock.</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">hasWaiters</span><span class="params">(Condition condition)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Returns true if this lock is fair.</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isFair</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Return true if current thread holds this lock and false otherwise</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isHeldByCurrentThread</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Queries if this lock is held by any thread.</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isLocked</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Acquire the lock</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Acquires the lock unless the current thread is interrupted</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lockInterruptibly</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Returns a Condition instance for use with this Lock instance.</span></span></span><br><span class="line"><span class="function">Condition <span class="title">newCondition</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Acquires the lock only if it is not held by another thread at the time of invocation.</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// Try release the lock</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="ReentrantLock-example"><a href="#ReentrantLock-example" class="headerlink" title="ReentrantLock example"></a>ReentrantLock example</h2><p>By comparing example 1 and example 2, we can clearly understand the role of lock and unlock</p>
+<h3 id="Example-1"><a href="#Example-1" class="headerlink" title="Example 1"></a>Example 1</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Depot</span> </span>&#123;</span><br><span class="line">    <span class="comment">// size of depot</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line">    <span class="comment">// Exclusive lock</span></span><br><span class="line">    <span class="keyword">private</span> Lock lock;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Depot</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.size = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">this</span>.lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            size += val;</span><br><span class="line">            System.out.printf(<span class="string">"%s produce(%d) --&gt; size=%d\n"</span>, Thread.currentThread().getName(), val, size);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            size -= val;</span><br><span class="line">            System.out.printf(<span class="string">"%s consume(%d) &lt;-- size=%d\n"</span>, Thread.currentThread().getName(), val, size);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Depot depot;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Producer</span><span class="params">(Depot depot)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.depot = depot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create a thread to add products to the depot</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; depot.produce(val)).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Depot depot;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Customer</span><span class="params">(Depot depot)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.depot = depot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create a thread to consume products from the depot</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; depot.consume(val)).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LockTest1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Depot mDepot = <span class="keyword">new</span> Depot();</span><br><span class="line">        Producer mPro = <span class="keyword">new</span> Producer(mDepot);</span><br><span class="line">        Customer mCus = <span class="keyword">new</span> Customer(mDepot);</span><br><span class="line"></span><br><span class="line">        mPro.produce(<span class="number">60</span>);</span><br><span class="line">        mPro.produce(<span class="number">120</span>);</span><br><span class="line">        mCus.consume(<span class="number">90</span>);</span><br><span class="line">        mCus.consume(<span class="number">150</span>);</span><br><span class="line">        mPro.produce(<span class="number">110</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Results:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Thread-0 produce(60) --&gt; size=60</span><br><span class="line">Thread-1 produce(120) --&gt; size=180</span><br><span class="line">Thread-2 consume(90) &lt;-- size=90</span><br><span class="line">Thread-3 consume(150) &lt;-- size=-60</span><br><span class="line">Thread-4 produce(110) --&gt; size=50</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>Depot</code> is a warehouse. <code>Produce()</code> can produce products into the warehouse, and <code>consume()</code> can consume the products from the warehouse. Mutually exclusive access to the warehouse is achieved through an exclusive <code>lock</code>: before operating (production/consumption) products in the warehouse, the warehouse will be locked by <code>lock()</code> and unlocked by <code>unlock()</code> after the operation.</li>
+<li><code>Producer</code> is a producer class. Call the <code>producer()</code> function in <code>Producer</code> to create a new thread to produce products in the warehouse.</li>
+<li><code>Customer</code> is a consumer class. Call the <code>consume()</code> function in <code>Customer</code> to create a new thread to consume products in the warehouse.</li>
+<li>In the main thread main, we will create a new producer <code>mPro</code> and a new consumer <code>mCus</code>. They produce/consume products separately from the warehouse.</li>
+<li>Based on the amount of production/consumption in main, the final product left in the warehouse should be <code>50</code>. The running result is in line with our expectations!</li>
+</ul>
+<p>There are two problems with this model:</p>
+<ol>
+<li>In reality, the capacity of the warehouse cannot be negative. However, the warehouse capacity in this model can be negative, which contradicts reality!</li>
+<li>In reality, the capacity of the warehouse is limited. However, the capacity in this model is indeed unlimited!</li>
+</ol>
+<p>We will talk about how to solve these two problems.</p>
+<p>Now, let’s look at a simple example 2. By comparing “example 1” and “example 2”, we can more clearly understand the purpose of <code>lock()</code> and <code>unlock()</code>.</p>
+<h3 id="Example-2"><a href="#Example-2" class="headerlink" title="Example 2"></a>Example 2</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DepotNoLock</span> </span>&#123;</span><br><span class="line">    <span class="comment">// size of depot</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DepotNoLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.size = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        size += val;</span><br><span class="line">        System.out.printf(<span class="string">"%s produce(%d) --&gt; size=%d\n"</span>, Thread.currentThread().getName(), val, size);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        size -= val;</span><br><span class="line">        System.out.printf(<span class="string">"%s consume(%d) &lt;-- size=%d\n"</span>, Thread.currentThread().getName(), val, size);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> DepotNoLock depot;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Producer</span><span class="params">(DepotNoLock depot)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.depot = depot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create a thread to add products to the depot</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; depot.produce(val)).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> DepotNoLock depot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Customer</span><span class="params">(DepotNoLock depot)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.depot = depot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create a thread to consume products from the depot</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; depot.consume(val)).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LockTest2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        DepotNoLock mDepot = <span class="keyword">new</span> DepotNoLock();</span><br><span class="line">        Producer mPro = <span class="keyword">new</span> Producer(mDepot);</span><br><span class="line">        Customer mCus = <span class="keyword">new</span> Customer(mDepot);</span><br><span class="line"></span><br><span class="line">        mPro.produce(<span class="number">60</span>);</span><br><span class="line">        mPro.produce(<span class="number">120</span>);</span><br><span class="line">        mCus.consume(<span class="number">90</span>);</span><br><span class="line">        mCus.consume(<span class="number">150</span>);</span><br><span class="line">        mPro.produce(<span class="number">110</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Results:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Thread-0 produce(60) --&gt; size=-60</span><br><span class="line">Thread-4 produce(110) --&gt; size=50</span><br><span class="line">Thread-2 consume(90) &lt;-- size=-60</span><br><span class="line">Thread-1 produce(120) --&gt; size=-60</span><br><span class="line">Thread-3 consume(150) &lt;-- size=-60</span><br></pre></td></tr></table></figure>
+
+<p>Example 2 removes the <code>lock</code> on the basis of example 1. In example 2, the final remaining product in the warehouse is <code>-60</code> instead of the <code>50</code> as we expected. The reason is that we have not implemented mutually exclusive access to the warehouse.</p>
+<h3 id="Example-3"><a href="#Example-3" class="headerlink" title="Example 3"></a>Example 3</h3><p>In example 3, we use <code>Condition</code> to solve the two problems in example 1: The size of the warehouse cannot be negative and the capacity of the warehouse is limited.</p>
+<p>The solution to this problem is through <code>Condition</code>. <code>Condition</code> needs to be used in conjunction with <code>Lock</code>: through the <code>await()</code> method in <code>Condition</code>, the thread can be blocked [similar to <code>wait()</code>]. Through the <code>signal()</code> method of <code>Condition</code>, the thread can be woken up [similar to <code>notify()</code>].</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Depot</span> </span>&#123;</span><br><span class="line">    <span class="comment">// capacity of warehouse</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> capacity;</span><br><span class="line">    <span class="comment">// actual size of warehouse</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line">    <span class="comment">// exclusive lock</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Lock lock;</span><br><span class="line">    <span class="comment">// produce condition (not reach full capacity)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Condition fullCondition;</span><br><span class="line">    <span class="comment">// consume condition (not empty size)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Condition emptyCondition;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Depot</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.capacity = capacity;</span><br><span class="line">        <span class="keyword">this</span>.size = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">this</span>.lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">        <span class="keyword">this</span>.fullCondition = lock.newCondition();</span><br><span class="line">        <span class="keyword">this</span>.emptyCondition = lock.newCondition();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// left means the number need to be produced</span></span><br><span class="line">            <span class="keyword">int</span> left = val;</span><br><span class="line">            <span class="keyword">while</span> (left &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// when warehouse is full, wait consumer to consume product</span></span><br><span class="line">                <span class="keyword">while</span> (size &gt;= capacity)</span><br><span class="line">                    fullCondition.await();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// get the actual number to be produced (the number to be added to the warehouse)</span></span><br><span class="line">                <span class="keyword">int</span> inc = (size + left) &gt; capacity ? (capacity - size) : left;</span><br><span class="line">                size += inc;</span><br><span class="line">                left -= inc;</span><br><span class="line">                System.out.printf(<span class="string">"%s produce(%3d) --&gt; left=%3d, inc=%3d, size=%3d\n"</span>, Thread.currentThread().getName(), val, left, inc, size);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// notify consumer to consume product</span></span><br><span class="line">                emptyCondition.signal();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException ignored) &#123;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// left means the number need to be consumed</span></span><br><span class="line">            <span class="keyword">int</span> left = val;</span><br><span class="line">            <span class="keyword">while</span> (left &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// when warehouse size is 0, wait producer to produce product</span></span><br><span class="line">                <span class="keyword">while</span> (size &lt;= <span class="number">0</span>)</span><br><span class="line">                    emptyCondition.await();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// get the actual number to be consumed (the number to be consumed from the warehouse)</span></span><br><span class="line">                <span class="keyword">int</span> dec = Math.min(size, left);</span><br><span class="line">                size -= dec;</span><br><span class="line">                left -= dec;</span><br><span class="line">                System.out.printf(<span class="string">"%s consume(%3d) &lt;-- left=%3d, dec=%3d, size=%3d\n"</span>, Thread.currentThread().getName(), val, left, dec, size);</span><br><span class="line"></span><br><span class="line">                fullCondition.signal();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException ignored) &#123;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"capacity:"</span> + capacity + <span class="string">", actual size:"</span> + size;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Depot depot;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Producer</span><span class="params">(Depot depot)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.depot = depot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create a thread to add products to the depot</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; depot.produce(val)).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Depot depot;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Customer</span><span class="params">(Depot depot)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.depot = depot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create a thread to consume products from the depot</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; depot.consume(val)).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Depot mDepot = <span class="keyword">new</span> Depot(<span class="number">100</span>);</span><br><span class="line">        Producer mPro = <span class="keyword">new</span> Producer(mDepot);</span><br><span class="line">        Customer mCus = <span class="keyword">new</span> Customer(mDepot);</span><br><span class="line"></span><br><span class="line">        mPro.produce(<span class="number">60</span>);</span><br><span class="line">        mPro.produce(<span class="number">120</span>);</span><br><span class="line">        mCus.consume(<span class="number">90</span>);</span><br><span class="line">        mCus.consume(<span class="number">150</span>);</span><br><span class="line">        mPro.produce(<span class="number">110</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Results:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Thread-1 produce(120) --&gt; left= 20, inc=100, size=100</span><br><span class="line">Thread-2 consume( 90) &lt;-- left=  0, dec= 90, size= 10</span><br><span class="line">Thread-3 consume(150) &lt;-- left=140, dec= 10, size=  0</span><br><span class="line">Thread-4 produce(110) --&gt; left= 10, inc=100, size=100</span><br><span class="line">Thread-3 consume(150) &lt;-- left= 40, dec=100, size=  0</span><br><span class="line">Thread-4 produce(110) --&gt; left=  0, inc= 10, size= 10</span><br><span class="line">Thread-3 consume(150) &lt;-- left= 30, dec= 10, size=  0</span><br><span class="line">Thread-1 produce(120) --&gt; left=  0, inc= 20, size= 20</span><br><span class="line">Thread-3 consume(150) &lt;-- left= 10, dec= 20, size=  0</span><br><span class="line">Thread-0 produce( 60) --&gt; left=  0, inc= 60, size= 60</span><br><span class="line">Thread-3 consume(150) &lt;-- left=  0, dec= 10, size= 50</span><br></pre></td></tr></table></figure>
+                </article>
+                <ul class="tags-postTags">
+                    
+                    <li>
+                        <a href="/tags/Multithreading/" rel="tag"># Multithreading</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="Leetcode 216. Combination Sum III" href="/Leetcode-216-Combination-Sum-III/">
+            Leetcode 216. Combination Sum III →
+        </a>
+        
+    </nav>
+
+    
+    <div class="inner">
+        <div id="comment"></div>
+    </div>
+    
+</div>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction-to-ReentrantLock"><span class="toc-text">Introduction to ReentrantLock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ReentrantLock-methods-list"><span class="toc-text">ReentrantLock methods list</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ReentrantLock-example"><span class="toc-text">ReentrantLock example</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-1"><span class="toc-text">Example 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-2"><span class="toc-text">Example 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-3"><span class="toc-text">Example 3</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+  <header class="read-next-card-header">
+    <small class="read-next-card-header-sitetitle">&mdash; Nick Li &mdash;</small>
+    <h3 class="read-next-card-header-title">Recent Posts</h3>
+  </header>
+  <div class="read-next-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+      <path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/>
+    </svg>
+  </div>
+  <div class="read-next-card-content">
+    <ul>
+      
+      
+      
+      <li>
+        <a href="/Java-Multithreading-15-ReentrantLock/">Java Multithreading 15: ReentrantLock</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Leetcode-216-Combination-Sum-III/">Leetcode 216. Combination Sum III</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Java-Multithreading-14-Lock/">Java Multithreading 14: Lock</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+  <footer class="read-next-card-footer">
+    <a href="/archives">  MORE  → </a>
+  </footer>
+</article>
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+    <header class="read-next-card-header tagcloud-card">
+        <h3 class="read-next-card-header-title">Categories</h3>
+    </header>
+    <div class="read-next-card-content">
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cloud/">Spring Cloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/how-to-guide/">how-to-guide</a></li></ul>
+    </div>
+</article>
+
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+	<header class="read-next-card-header tagcloud-card">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 14.83px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 16.5px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 23.17px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 18.17px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Breadth-First-Search/" style="font-size: 16.5px;">Leetcode - Breadth First Search</a> <a href="/tags/Leetcode-Depth-First-Search/" style="font-size: 19.83px;">Leetcode - Depth First Search</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 21.5px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Graph/" style="font-size: 14.83px;">Leetcode - Graph</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 15.67px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 17.33px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Linked-List/" style="font-size: 18.17px;">Leetcode - Linked List</a> <a href="/tags/Leetcode-Math/" style="font-size: 14.83px;">Leetcode - Math</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 17.33px;">Leetcode - Sort</a> <a href="/tags/Leetcode-Stack/" style="font-size: 14px;">Leetcode - Stack</a> <a href="/tags/Leetcode-String/" style="font-size: 18.17px;">Leetcode - String</a> <a href="/tags/Leetcode-Topological-Sort/" style="font-size: 14.83px;">Leetcode - Topological Sort</a> <a href="/tags/Leetcode-Tree/" style="font-size: 19px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 20.67px;">Leetcode - Two Pointers</a> <a href="/tags/Leetcode-Union-Find/" style="font-size: 14.83px;">Leetcode - Union Find</a> <a href="/tags/Multithreading/" style="font-size: 22.33px;">Multithreading</a> <a href="/tags/Stream-API/" style="font-size: 14.83px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 14.83px;">hexo</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay">
+    <div class="search-form">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<div class="copyright">
+			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
+			
+				
+			        <span hidden="true" id="/Java-Multithreading-15-ReentrantLock/" class="leancloud-visitors" data-flag-title="Java Multithreading 15: ReentrantLock">
+			            <span>阅读量 </span>
+			            <span class="leancloud-visitors-count">0</span>
+			        </span>
+	    		
+    		
+		</div>
+		<nav class="site-footer-nav">
+			
+			<a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+			<a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+		</nav>
+	</div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister()
+            }
+        })
+    }
+</script>
+
+
+<script id="scriptLoad" src="/js/allinone.min.js" async></script>
+
+
+<script>
+    document.getElementById('scriptLoad').addEventListener('load', function () {
+        
+        
+            var bLazy = new Blazy();
+        
+
+        
+        
+
+        
+        
+        
+            searchFunc("/");
+        
+        
+    })
+</script>
+
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+
+
+<script id="valineScript" src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+<script>
+    document.getElementById('valineScript').addEventListener("load", function() {
+        new Valine({
+            el: '#comment' ,
+            verify: false,
+            notify: false,
+            appId: '3TACGUnsSRuWgqCn3pRpLVwQ-MdYXbMMI',
+            appKey: 'JTo5iyjOyGTEXzAwjaTNqcY0',
+            placeholder: 'Please leave a comment',
+            pageSize: 10,
+            avatar: 'mm',
+            visitor: true,
+            lang: 'en'
+        })
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
