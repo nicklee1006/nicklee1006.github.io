@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="preconnect" href="//www.googletagmanager.com">
+	<link rel="preconnect" href="//zz.bdstatic.com">
+	<link rel="preconnect" href="//sp0.baidu.com">
+	<link rel="preconnect" href="//www.google-analytics.com">
+	<link rel="preconnect" href="//cdn1.lncld.net">
+	<link rel="preconnect" href="//unpkg.com">
+	<link rel="preconnect" href="//app-router.leancloud.cn">
+	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
+	<link rel="preconnect" href="//gravatar.loli.net">
+
+	<title>Java Multithreading 16: Fair lock - Acquire | Nick Li</title>
+
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="generator" content="hexo">
+	<meta name="author" content="Nick Li">
+	<meta name="description" content>
+
+	
+
+	
+
+	
+	<meta name="theme-color" content="#3c484e">
+	<meta name="msapplication-TileColor" content="#3c484e">
+	
+
+	
+
+	
+
+	<meta property="og:site_name" content="Nick Li">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Java Multithreading 16: Fair lock - Acquire | Nick Li">
+	<meta property="og:description" content>
+	<meta property="og:url" content="http://nicklee1006.github.io/Java-Multithreading-16-Fair-lock-Acquire/">
+
+	
+	<meta property="article:published_time" content="2020-06-04T19:06:00+08:00"> 
+	<meta property="article:author" content="Nick Li">
+	<meta property="article:published_first" content="Nick Li, /Java-Multithreading-16-Fair-lock-Acquire/">
+	
+
+	
+	
+	<link rel="stylesheet" href="/css/allinonecss.min.css">
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151447201-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-151447201-1');
+	</script>
+	
+	
+	
+</head>
+<body class="post-template">
+	<div class="site-wrapper">
+		
+
+
+
+
+<header class="site-header post-site-header outer">
+    <div class="inner">
+        
+<nav class="site-nav"> 
+    <div class="site-nav-left">
+        <ul class="nav">
+            <li>
+                
+                <a href="/" title="Home">HOME</a>
+                
+            </li>
+            
+            
+            <li>
+                <a href="/about" title="ABOUT">ABOUT</a>
+            </li>
+            
+            <li>
+                <a href="/archives" title="ARCHIVES">ARCHIVES</a>
+            </li>
+            
+            
+        </ul> 
+    </div>
+    
+    <div class="search-button-area">
+        <a href="#search" class="search-button">Search ...</a>
+    </div>
+     
+    <div class="site-nav-right">
+        
+        <a href="#search" class="search-button">Search ...</a>
+         
+        
+<div class="social-links">
+    
+    
+    <a class="social-link" title="github" href="https://github.com/nicklee1006" target="_blank" rel="noopener">
+        <svg viewbox="0 0 1049 1024" xmlns="http://www.w3.org/2000/svg"><path d="M524.979332 0C234.676191 0 0 234.676191 0 524.979332c0 232.068678 150.366597 428.501342 358.967656 498.035028 26.075132 5.215026 35.636014-11.299224 35.636014-25.205961 0-12.168395-0.869171-53.888607-0.869171-97.347161-146.020741 31.290159-176.441729-62.580318-176.441729-62.580318-23.467619-60.841976-58.234462-76.487055-58.234463-76.487055-47.804409-32.15933 3.476684-32.15933 3.476685-32.15933 53.019436 3.476684 80.83291 53.888607 80.83291 53.888607 46.935238 79.963739 122.553122 57.365291 152.97411 43.458554 4.345855-33.897672 18.252593-57.365291 33.028501-70.402857-116.468925-12.168395-239.022047-57.365291-239.022047-259.012982 0-57.365291 20.860106-104.300529 53.888607-140.805715-5.215026-13.037566-23.467619-66.926173 5.215027-139.067372 0 0 44.327725-13.906737 144.282399 53.888607 41.720212-11.299224 86.917108-17.383422 131.244833-17.383422s89.524621 6.084198 131.244833 17.383422C756.178839 203.386032 800.506564 217.29277 800.506564 217.29277c28.682646 72.1412 10.430053 126.029806 5.215026 139.067372 33.897672 36.505185 53.888607 83.440424 53.888607 140.805715 0 201.64769-122.553122 245.975415-239.891218 259.012982 19.121764 16.514251 35.636014 47.804409 35.636015 97.347161 0 70.402857-0.869171 126.898978-0.869172 144.282399 0 13.906737 9.560882 30.420988 35.636015 25.205961 208.601059-69.533686 358.967656-265.96635 358.967655-498.035028C1049.958663 234.676191 814.413301 0 524.979332 0z"/></svg>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    <a class="social-link" title="linkedin" href="https://www.linkedin.com/in/chenzhang-li/" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
+    
+</div>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<div id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+        <header class="post-full-header">
+            <div class="post-full-meta">
+                <time class="post-full-meta-date" datetime="2020-06-04T09:38:07.000Z">
+                    2020-06-4
+                </time>
+                
+                <span class="date-divider">/</span>
+                
+                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
+                
+                
+            </div>
+            <h1 class="post-full-title">Java Multithreading 16: Fair lock - Acquire</h1>
+        </header>
+        <div class="post-full ">
+            
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/06/04/MXtheWZyNnOzGST.jpg)">
+            </figure>
+            
+            <div class="post-full-content">
+                <article id="photoswipe" class="markdown-body">
+                    <p>This blog introduces the acquisition mechanism of fair lock, and the content includes:</p>
+<ol>
+<li>Basic concept</li>
+<li>ReentrantLock data structure</li>
+<li>Acquire a fair lock (based on JDK 11.0.5)</li>
+</ol>
+<ul>
+<li>tryAcquire()</li>
+<li>addWaiter()</li>
+<li>acquireQueued()</li>
+<li>selfInterrupt()</li>
+</ul>
+<p>The release mechanism of fair lock will be introduced in the following blog.</p>
+<h2 id="Basic-concept"><a href="#Basic-concept" class="headerlink" title="Basic concept"></a>Basic concept</h2><p>Before explain the acquisition mechanism of fair lock, we need to understand a few basic concepts.</p>
+<h3 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h3><p>Refers to the <code>AbstractQueuedSynchronizer</code> class.</p>
+<p><code>AQS</code> is an abstract class for managing locks in Java. Many public methods of locks are implemented in this class. <code>AQS</code> is a common parent class for exclusive locks (eg, <code>ReentrantLock</code>) and shared locks (eg, <code>Semaphore</code>).</p>
+<h3 id="Types-of-AQS-locks"><a href="#Types-of-AQS-locks" class="headerlink" title="Types of AQS locks"></a>Types of AQS locks</h3><p>Divided into exclusive locks and shared locks.</p>
+<ul>
+<li><p><strong>Exclusive lock</strong> - The lock can only be occupied by one thread at a time. A typical example of an exclusive lock is <code>ReentrantLock</code>. In addition, <code>ReentrantReadWriteLock.WriteLock</code> is also an exclusive lock.According to the lock acquisition mechanism, exclusive lock is divided into fair lock and unfair lock. </p>
+<ul>
+<li><strong>Fair lock</strong> is to acquire the lock fairly according to the rule of first-come-first-served through the <code>CLH</code> waiting thread</li>
+<li><strong>Non-fair lock</strong>, when the thread wants to acquire the lock, it will directly acquire the lock regardless of the <code>CLH</code> waiting queue.</li>
+</ul>
+</li>
+<li><p><strong>Shared lock</strong> - A lock that can be owned by multiple threads at the same time and can be shared. <code>ReentrantReadWriteLock.ReadLock</code>, <code>CyclicBarrier</code>, <code>CountDownLatch</code> and <code>Semaphore</code> in the JUC package are shared locks. The purpose and principle of these locks will be introduced in detail in later blog.</p>
+</li>
+</ul>
+<h3 id="CLH-queue"><a href="#CLH-queue" class="headerlink" title="CLH queue"></a>CLH queue</h3><p>Craig, Landin, and Hagersten lock queue</p>
+<p>The <code>CLH</code> queue is the waiting for lock thread queue in <code>AQS</code>. In multithreading, in order to protect competing resources from being operated by multiple threads at the same time, we often need to protect these resources through locks. In an exclusive lock, competing resources can only be accessed by one thread at a time, other threads need to wait. <code>CLH</code> is to manage the queue of these “waiting for lock” threads.</p>
+<p><code>CLH</code> is a non-blocking <code>FIFO</code> queue. That is to say, when inserting or removing a node in it, it will not block under concurrent conditions, but through spin lock and CAS to ensure the atomicity of node insertion and removal.</p>
+<h3 id="CAS-function"><a href="#CAS-function" class="headerlink" title="CAS function"></a>CAS function</h3><p>Compare And Swap</p>
+<p>The <code>CAS</code> function is a comparison and exchange function, which is an atomic operation function. That is, the data operated by <code>CAS</code> are all performed in an atomic manner. For example, <code>compareAndSetHead()</code>, <code>compareAndSetTail()</code>, c<code>ompareAndSetNext()</code> and other functions. Their common feature is that the operations performed by these functions are performed atomically.</p>
+<h2 id="ReentrantLock-data-structure"><a href="#ReentrantLock-data-structure" class="headerlink" title="ReentrantLock data structure"></a>ReentrantLock data structure</h2><p><code>ReentrantLock</code> UML graph</p>
+<img class="post-img b-lazy" data-img="/Java-Multithreading-16-Fair-lock-Acquire/1.png" data-index="0" data-src="/Java-Multithreading-16-Fair-lock-Acquire/1.png">
+<br>
+<br>
+
+<p><code>ReentrantLock</code> implements the <code>Lock</code> interface.</p>
+<p><code>ReentrantLock</code> and <code>Sync</code> are combined. <code>ReentrantLock</code> contains the <code>Sync</code> object. Moreover, <code>Sync</code> is a subclass of <code>AQS</code>. More importantly, <code>Sync</code> has two subclasses <code>FairSync</code> and <code>NonFairSync</code>. <code>ReentrantLock</code> is an exclusive lock. Whether it is a fair lock or an unfair lock depends on whether the sync object is an instance of <code>FairSync</code> or an instance of <code>NonFairSync</code>.</p>
+<h2 id="Acquire-a-fair-lock-based-on-JDK-11-0-5"><a href="#Acquire-a-fair-lock-based-on-JDK-11-0-5" class="headerlink" title="Acquire a fair lock (based on JDK 11.0.5)"></a>Acquire a fair lock (based on JDK 11.0.5)</h2><p>From <a href="/Java-Multithreading-15-ReentrantLock/" title="Java Multithreading 15: ReentrantLock">Java Multithreading 15: ReentrantLock</a> example 1, we know that the lock is obtained through <code>lock()</code>. Let’s look at how <code>lock()</code> is implemented to acquire a fair lock.</p>
+<h3 id="lock"><a href="#lock" class="headerlink" title="lock()"></a>lock()</h3><p><code>lock()</code> is implemented in <code>ReentrantLock</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    sync.acquire(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The current thread acquires the lock through <code>sync.acquire(1)</code>. <code>sync</code> is a <code>Sync</code> object. It could either be <code>FairSync</code> or <code>NonfairSync</code></p>
+<p>Explain the meaning of <code>1</code> here, it is the parameter to set the <strong>lock state</strong>. For the exclusive lock, when the lock is in the obtainable state, its state value is <code>0</code>. When the lock is acquired by the thread for the first time, its state value becomes <code>1</code>.</p>
+<p>Since <code>ReentrantLock</code> (fair lock/unfair lock) is a reentrant lock, an exclusive lock can be acquired by a single thread multiple times, and the state of the lock is <code>+1</code> every time it is acquired. That is to say, when acquiring the lock for the first time, set the state value of the lock to <code>1</code> through <code>acquire(1)</code>. When acquiring the lock again, set the state value of the lock to <code>2</code>; and so on…</p>
+<p>Reentrant means that the lock can be acquired multiple times by a single thread.</p>
+<h3 id="acquire"><a href="#acquire" class="headerlink" title="acquire()"></a>acquire()</h3><p><code>acquire()</code> is implemented in <code>AQS</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp; </span><br><span class="line">    acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</span><br><span class="line">    selfInterrupt();</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>The current thread first tries to acquire the lock through <code>tryAcquire()</code>. If the acquisition is successful, return directly. If the attempt fails, enter the waiting queue to wait (there may be other thread waiting for the lock in front).</li>
+<li>When the current thread attempt fails, first add the current thread to the end of the <code>CLH</code> queue (non-blocking FIFO queue) through <code>addWaiter(Node.EXCLUSIVE)</code>. The <code>CLH</code> queue is the thread waiting queue.</li>
+<li>After executing <code>addWaiter(Node.EXCLUSIVE)</code>, <code>acquireQueued()</code> will be called to acquire the lock. Since <code>ReentrantLock</code> is a fair lock at this time, it will acquire the lock according to the principle of fairness.</li>
+<li>When executing <code>acquireQueued()</code>, the current thread will enter the <code>CLH</code> queue to sleep and wait until it acquires the lock before returning! If the current thread was interrupted during sleep waiting, <code>acquireQueued()</code> will return <code>true</code>. At this time, the current thread will call <code>selfInterrupt()</code> to generate an interrupt for itself. As for why you should generate an interrupt for yourself, I will introduce it later.</li>
+</ol>
+<p>The above is a general description of <code>acquire()</code>. Below, we divide this function into 4 parts to analyze step by step.</p>
+<h4 id="tryAcquire"><a href="#tryAcquire" class="headerlink" title="tryAcquire()"></a>tryAcquire()</h4><p><code>1. tryAcquire()</code><br>The <code>tryAcquire()</code> of the fair lock is implemented in the <code>FairSync</code> class of <code>ReentrantLock</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// get current thread</span></span><br><span class="line">    <span class="keyword">final</span> Thread current = Thread.currentThread();</span><br><span class="line">    <span class="comment">// get the exclusive lock state</span></span><br><span class="line">    <span class="keyword">int</span> c = getState();</span><br><span class="line">    <span class="comment">// c=0 means the lock is not acquired by any thread</span></span><br><span class="line">    <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// If the lock has not been acquired by any thread</span></span><br><span class="line">        <span class="comment">// Then determine whether the current thread is the first in the CLH queue</span></span><br><span class="line">        <span class="comment">// If it is, then acquire the lock, set lock state, and set the lock owner as current thread</span></span><br><span class="line">        <span class="keyword">if</span> (!hasQueuedPredecessors() &amp;&amp;</span><br><span class="line">            compareAndSetState(<span class="number">0</span>, acquires)) &#123;</span><br><span class="line">            setExclusiveOwnerThread(current);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</span><br><span class="line">        <span class="comment">// If the exclusive lock has already acquired by the current thread</span></span><br><span class="line">        <span class="comment">// Then update state</span></span><br><span class="line">        <span class="keyword">int</span> nextc = c + acquires;</span><br><span class="line">        <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</span><br><span class="line">            setState(nextc);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>The role of <code>tryAcquire()</code> is to try to acquire the lock. Note, just try here!</p>
+<p>If the attempt succeeds, it returns <code>true</code>. If the attempt fails, it returns <code>false</code>, and then the lock is acquired through other methods. Later we will explain how to acquire the lock step by step in the case of failed attempts.</p>
+<p><code>2. hasQueuedPredecessors()</code><br><code>hasQueuedPredecessors()</code> is implemented in <code>AQS</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">hasQueuedPredecessors</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Node h, s;</span><br><span class="line">    <span class="keyword">if</span> ((h = head) != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((s = h.next) == <span class="keyword">null</span> || s.waitStatus &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            s = <span class="keyword">null</span>; <span class="comment">// traverse in case of concurrent cancellation</span></span><br><span class="line">            <span class="keyword">for</span> (Node p = tail; p != h &amp;&amp; p != <span class="keyword">null</span>; p = p.prev) &#123;</span><br><span class="line">                <span class="keyword">if</span> (p.waitStatus &lt;= <span class="number">0</span>)</span><br><span class="line">                    s = p;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (s != <span class="keyword">null</span> &amp;&amp; s.thread != Thread.currentThread())</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>hasQueuedPredecessors()</code> is to determine whether the current thread is at the head of the <code>CLH</code> queue to return whether there is a thread waiting longer than the current thread in <code>AQS</code>.</p>
+<p><code>3. Node</code><br><code>Node</code> is the node of the <code>CLH</code> queue. <code>Node</code> is implemented in <code>AQS</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Node head;    </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Node tail;    </span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Node SHARED = <span class="keyword">new</span> Node();</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Node EXCLUSIVE = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** waitStatus value to indicate thread has cancelled. */</span></span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CANCELLED =  <span class="number">1</span>;</span><br><span class="line">        <span class="comment">/** waitStatus value to indicate successor's thread needs unparking. */</span></span><br><span class="line">        <span class="comment">// Normally: when successor's thread is blocked, and current thread was released or cancelled</span></span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SIGNAL    = -<span class="number">1</span>;</span><br><span class="line">        <span class="comment">/** waitStatus value to indicate thread is waiting on condition. */</span></span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CONDITION = -<span class="number">2</span>;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * waitStatus value to indicate the next acquireShared should</span></span><br><span class="line"><span class="comment">         * unconditionally propagate.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PROPAGATE = -<span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Status field, taking on only the values:</span></span><br><span class="line"><span class="comment">         *   SIGNAL:     The successor of this node is (or will soon be)</span></span><br><span class="line"><span class="comment">         *               blocked (via park), so the current node must</span></span><br><span class="line"><span class="comment">         *               unpark its successor when it releases or</span></span><br><span class="line"><span class="comment">         *               cancels. To avoid races, acquire methods must</span></span><br><span class="line"><span class="comment">         *               first indicate they need a signal,</span></span><br><span class="line"><span class="comment">         *               then retry the atomic acquire, and then,</span></span><br><span class="line"><span class="comment">         *               on failure, block.</span></span><br><span class="line"><span class="comment">         *   CANCELLED:  This node is cancelled due to timeout or interrupt.</span></span><br><span class="line"><span class="comment">         *               Nodes never leave this state. In particular,</span></span><br><span class="line"><span class="comment">         *               a thread with cancelled node never again blocks.</span></span><br><span class="line"><span class="comment">         *   CONDITION:  This node is currently on a condition queue.</span></span><br><span class="line"><span class="comment">         *               It will not be used as a sync queue node</span></span><br><span class="line"><span class="comment">         *               until transferred, at which time the status</span></span><br><span class="line"><span class="comment">         *               will be set to 0. (Use of this value here has</span></span><br><span class="line"><span class="comment">         *               nothing to do with the other uses of the</span></span><br><span class="line"><span class="comment">         *               field, but simplifies mechanics.)</span></span><br><span class="line"><span class="comment">         *   PROPAGATE:  A releaseShared should be propagated to other</span></span><br><span class="line"><span class="comment">         *               nodes. This is set (for head node only) in</span></span><br><span class="line"><span class="comment">         *               doReleaseShared to ensure propagation</span></span><br><span class="line"><span class="comment">         *               continues, even if other operations have</span></span><br><span class="line"><span class="comment">         *               since intervened.</span></span><br><span class="line"><span class="comment">         *   0:          None of the above</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * The values are arranged numerically to simplify use.</span></span><br><span class="line"><span class="comment">         * Non-negative values mean that a node doesn't need to</span></span><br><span class="line"><span class="comment">         * signal. So, most code doesn't need to check for particular</span></span><br><span class="line"><span class="comment">         * values, just for sign.</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * The field is initialized to 0 for normal sync nodes, and</span></span><br><span class="line"><span class="comment">         * CONDITION for condition nodes.  It is modified using CAS</span></span><br><span class="line"><span class="comment">         * (or when possible, unconditional volatile writes).</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">volatile</span> <span class="keyword">int</span> waitStatus;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Link to predecessor node</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">volatile</span> Node prev;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Link to the successor node</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">volatile</span> Node next;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * The thread that enqueued this node.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">volatile</span> Thread thread;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Link to next node waiting on condition, or the special</span></span><br><span class="line"><span class="comment">         * value SHARED.  Because condition queues are accessed only</span></span><br><span class="line"><span class="comment">         * when holding in exclusive mode, we just need a simple</span></span><br><span class="line"><span class="comment">         * linked queue to hold nodes while they are waiting on</span></span><br><span class="line"><span class="comment">         * conditions. They are then transferred to the queue to</span></span><br><span class="line"><span class="comment">         * re-acquire. And because conditions can only be exclusive,</span></span><br><span class="line"><span class="comment">         * we save a field by using special value to indicate shared</span></span><br><span class="line"><span class="comment">         * mode.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        Node nextWaiter;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Returns true if node is waiting in shared mode.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">isShared</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> nextWaiter == SHARED;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Returns previous node</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">final</span> Node <span class="title">predecessor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            Node p = prev;</span><br><span class="line">            <span class="keyword">if</span> (p == <span class="keyword">null</span>)</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">return</span> p;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** Establishes initial head or SHARED marker. */</span></span><br><span class="line">        Node() &#123;&#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** Constructor used by addWaiter. */</span></span><br><span class="line">        Node(Node nextWaiter) &#123;</span><br><span class="line">            <span class="keyword">this</span>.nextWaiter = nextWaiter;</span><br><span class="line">            THREAD.set(<span class="keyword">this</span>, Thread.currentThread());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** Constructor used by addConditionWaiter. */</span></span><br><span class="line">        Node(<span class="keyword">int</span> waitStatus) &#123;</span><br><span class="line">            WAITSTATUS.set(<span class="keyword">this</span>, waitStatus);</span><br><span class="line">            THREAD.set(<span class="keyword">this</span>, Thread.currentThread());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** CASes waitStatus field. */</span></span><br><span class="line">        <span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">compareAndSetWaitStatus</span><span class="params">(<span class="keyword">int</span> expect, <span class="keyword">int</span> update)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> WAITSTATUS.compareAndSet(<span class="keyword">this</span>, expect, update);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** CASes next field. */</span></span><br><span class="line">        <span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">compareAndSetNext</span><span class="params">(Node expect, Node update)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> NEXT.compareAndSet(<span class="keyword">this</span>, expect, update);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setPrevRelaxed</span><span class="params">(Node p)</span> </span>&#123;</span><br><span class="line">            PREV.set(<span class="keyword">this</span>, p);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// VarHandle mechanics</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> VarHandle NEXT;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> VarHandle PREV;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> VarHandle THREAD;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> VarHandle WAITSTATUS;</span><br><span class="line">        <span class="keyword">static</span> &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                MethodHandles.Lookup l = MethodHandles.lookup();</span><br><span class="line">                NEXT = l.findVarHandle(Node.class, "next", Node.class);</span><br><span class="line">                PREV = l.findVarHandle(Node.class, "prev", Node.class);</span><br><span class="line">                THREAD = l.findVarHandle(Node.class, "thread", Thread.class);</span><br><span class="line">                WAITSTATUS = l.findVarHandle(Node.class, "waitStatus", int.class);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ReflectiveOperationException e) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> ExceptionInInitializerError(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Node</code> is a node of the <code>CLH</code> queue, which stands for thread queue waiting for lock.</p>
+<ul>
+<li>Each <code>Node</code> will correspond to a thread.</li>
+<li>Each <code>Node</code> will point to the previous node and the next node through <code>prev</code> and nex`t respectively, which represents the previous waiting thread and the next waiting thread, respectively.</li>
+<li><code>Node</code> saves the wait state of the thread through <code>waitStatus</code>.</li>
+<li><code>Node</code> uses <code>nextWaiter</code> to distinguish whether a thread is an <strong>exclusive lock</strong> thread or a <strong>shared lock</strong> thread. If it is an <strong>exclusive lock</strong> thread, the value of <code>nextWaiter</code> is <code>EXCLUSIVE</code>; if it is a <code>shared lock</code> thread, the value of <code>nextWaiter</code> is <code>SHARED</code>.</li>
+</ul>
+<p><code>4. compareAndSetState()</code><br><code>compareAndSetState()</code> is implemented in <code>AQS</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">compareAndSetState</span><span class="params">(<span class="keyword">int</span> expect, <span class="keyword">int</span> update)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> STATE.compareAndSet(<span class="keyword">this</span>, expect, update);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>We need to understand that <code>compareAndSetState(expect, update)</code> is to operate the current thread atomically. If the current thread’s state is <code>expect</code>, then set its state to <code>update</code>.</p>
+<p><code>5. setExclusiveOwnerThread()</code><br><code>setExclusiveOwnerThread()</code> is implemented in <code>AbstractOwnableSynchronizer</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> Thread exclusiveOwnerThread;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setExclusiveOwnerThread</span><span class="params">(Thread thread)</span> </span>&#123;</span><br><span class="line">    exclusiveOwnerThread = thread;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The role of <code>setExclusiveOwnerThread()</code> is to set thread <code>t</code> to the thread that currently owns the exclusive lock.</p>
+<p><code>6. getState(), setState()</code><br>getState() and setState() is implemented in <code>AQS</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> state;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getState</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> state;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setState</span><span class="params">(<span class="keyword">int</span> newState)</span> </span>&#123;</span><br><span class="line">    state = newState;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>state</code> indicates the state of the lock. For exclusive locks, <code>state = 0</code> indicates that the lock is available (that is, the lock is not held by any thread). Since the exclusive lock in java is reentrant, the value of state can be <code>&gt; 1</code>.</p>
+<h4 id="addWaiter-Node-EXCLUSIVE"><a href="#addWaiter-Node-EXCLUSIVE" class="headerlink" title="addWaiter(Node.EXCLUSIVE)"></a>addWaiter(Node.EXCLUSIVE)</h4><p><code>addWaiter(Node.EXCLUSIVE)</code> is to create a current thread <code>Node</code>, and the lock corresponding to the current thread recorded in the <code>Node</code> is an <strong>exclusive lock</strong> type, and add the node to the end of the <code>CLH</code> queue.</p>
+<p><code>1. addWaiter()</code><br><code>addWaiter()</code> is implemented in <code>AQS</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">addWaiter</span><span class="params">(Node mode)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// create a Node, correspon to current thread, lock mode is `mode`</span></span><br><span class="line">    Node node = <span class="keyword">new</span> Node(mode);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        Node oldTail = tail;</span><br><span class="line">        <span class="comment">// if CLH queue is not empty, then add current thread to the tail of the queue</span></span><br><span class="line">        <span class="keyword">if</span> (oldTail != <span class="keyword">null</span>) &#123;</span><br><span class="line">            node.setPrevRelaxed(oldTail);</span><br><span class="line">            <span class="keyword">if</span> (compareAndSetTail(oldTail, node)) &#123;</span><br><span class="line">                oldTail.next = node;</span><br><span class="line">                <span class="keyword">return</span> node;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            initializeSyncQueue();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>For fair lock, <code>addWaiter(Node.EXCLUSIVE)</code> will first create a <code>Node</code>, the node type is exclusive lock <code>(Node.EXCLUSIVE)</code> type. Then, add the node to the end of the <code>CLH</code> queue.</p>
+<p><code>2. compareAndSetTail()</code><br><code>compareAndSetTail()</code> is implemented in <code>AQS</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">compareAndSetTail</span><span class="params">(Node expect, Node update)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> TAIL.compareAndSet(<span class="keyword">this</span>, expect, update);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>compareAndSetTail()</code> also belongs to the <code>CAS</code> function. <code>compareAndSetTail(expect, update)</code> will operate atomically. Its role is to determine whether the tail of the <code>CLH</code> queue is <code>expect</code>. If so, set the tail to <code>update</code>.</p>
+<h4 id="acquireQueued"><a href="#acquireQueued" class="headerlink" title="acquireQueued()"></a>acquireQueued()</h4><p>Earlier, we have added the current thread to the <code>CLH</code> queue. The role of <code>acquireQueued()</code> is to gradually execute the thread of the <code>CLH</code> queue. If the current thread acquires the lock, it returns. Otherwise, the current thread sleeps and does not return until it wakes up and reacquires the lock. Below, we look at the specific flow of <code>acquireQueued()</code>.</p>
+<p><code>1. acquireQueued()</code><br><code>acquireQueued()</code> is implemented in <code>AQS</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">acquireQueued</span><span class="params">(<span class="keyword">final</span> Node node, <span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// interrupted means in CLH queue, current thread is never interrupted while sleep</span></span><br><span class="line">    <span class="keyword">boolean</span> interrupted = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="comment">// Get the predecessor node</span></span><br><span class="line">            <span class="comment">// node correspond to the current thread, here means "get last thread that is wait for the lock"</span></span><br><span class="line">            <span class="keyword">final</span> Node p = node.predecessor();</span><br><span class="line">            <span class="keyword">if</span> (p == head &amp;&amp; tryAcquire(arg)) &#123;</span><br><span class="line">                setHead(node);</span><br><span class="line">                p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></span><br><span class="line">                <span class="keyword">return</span> interrupted;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node))</span><br><span class="line">                interrupted |= parkAndCheckInterrupt();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">        cancelAcquire(node);</span><br><span class="line">        <span class="keyword">if</span> (interrupted)</span><br><span class="line">            selfInterrupt();</span><br><span class="line">        <span class="keyword">throw</span> t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The purpose of <code>acquireQueued()</code> is to acquire a lock from the queue.</p>
+<p><code>2. shouldParkAfterFailedAcquire()</code><br><code>shouldParkAfterFailedAcquire()</code> is implemented in <code>AQS</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">shouldParkAfterFailedAcquire</span><span class="params">(Node pred, Node node)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// status of pred node</span></span><br><span class="line">    <span class="keyword">int</span> ws = pred.waitStatus;</span><br><span class="line">    <span class="keyword">if</span> (ws == Node.SIGNAL)</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * This node has already set status asking a release</span></span><br><span class="line"><span class="comment">         * to signal it, so it can safely park.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (ws &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * Predecessor was cancelled. Skip over predecessors and</span></span><br><span class="line"><span class="comment">         * indicate retry.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            node.prev = pred = pred.prev;</span><br><span class="line">        &#125; <span class="keyword">while</span> (pred.waitStatus &gt; <span class="number">0</span>);</span><br><span class="line">        pred.next = node;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * waitStatus must be 0 or PROPAGATE.  Indicate that we</span></span><br><span class="line"><span class="comment">         * need a signal, but don't park yet.  Caller will need to</span></span><br><span class="line"><span class="comment">         * retry to make sure it cannot acquire before parking.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        pred.compareAndSetWaitStatus(ws, Node.SIGNAL);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Please refer to the table below for <code>waitStatus</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CANCELLED[1]  -- Current thread is cancelled</span><br><span class="line">SIGNAL[-1]    -- Current thread need to unpard. </span><br><span class="line">CONDITION[-2] -- Current(under COndition sleep) is waiting Condition to be awake</span><br><span class="line">PROPAGATE[-3] -- (Share lock)Other thread acquire &quot;share lock&quot;</span><br><span class="line">[0]           -- Current thread doesn&apos;t belong to above status</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>shouldParkAfterFailedAcquire()</code> uses the following rules to determine whether the current thread needs to be blocked.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Rule 1: If the status of the predecessor node is SIGNAL, it means that the current node needs to be unparked (wake up), then return true.</span><br><span class="line">Rule 2: If the status of the predecessor node is CANCELLED (ws&gt;0), indicating that the predecessor node has been cancelled, then find a valid (non-CANCELLED state) node through the previous traceback and return false.</span><br><span class="line">Rule 3: If the state of the predecessor node is non-SIGNAL and non-CANCELLED, set the state of the predecessor to SIGNAL and return false.</span><br></pre></td></tr></table></figure>
+
+<p>If rule 1 occurs, that is, the “predecessor node is SIGNAL” state, it means that the current thread needs to be blocked. Next, <code>parkAndCheckInterrupt()</code> will be called to block the current thread, and it will not return from <code>parkAndCheckInterrupt()</code> until it is first awakened.</p>
+<p><code>3. parkAndCheckInterrupt()</code><br><code>parkAndCheckInterrupt()</code> is implemented in <code>AQS</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">parkAndCheckInterrupt</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Through LockSupport's park() block current thread</span></span><br><span class="line">    LockSupport.park(<span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">// return interrupted state</span></span><br><span class="line">    <span class="keyword">return</span> Thread.interrupted();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>parkAndCheckInterrupt()</code> is to block the current thread and return to the interrupted state after the thread is woken up.</p>
+<p>It will first block the current thread via <code>LockSupport.park()</code>, and then return to the thread’s interrupted status via <code>Thread.interrupted()</code>.</p>
+<p>Here is how to wake up after the thread is blocked. There are generally 2 situations:</p>
+<ol>
+<li>The first case: <code>unpark()</code> wake up. After using the lock, the thread corresponding to the previous node wakes up the current thread through <code>unpark()</code>.</li>
+<li>The second case: interrupt wake up. Other threads interrupt the current thread through <code>interrupt()</code>.</li>
+</ol>
+<p>Supplement: <code>park()</code> and <code>unpark()</code> in <code>LockSupport()</code> are similar to those of <code>wait()</code> and <code>notify()</code> in <code>Object</code>, which are blocking/waking up.</p>
+<p>Their usage is different, <code>park()</code> and <code>unpark()</code> are lightweight, and <code>wait()</code> and <code>notify()</code> must first obtain synchronization lock through <code>Synchronized</code>.</p>
+<p><code>4. tryAcquire() again</code><br>After understanding the <code>shouldParkAfterFailedAcquire()</code> and <code>parkAndCheckInterrupt()</code> functions. We then analyze the for loop part of <code>acquireQueued()</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Node p = node.predecessor();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (p == head &amp;&amp; tryAcquire(arg)) &#123;</span><br><span class="line">    setHead(node);</span><br><span class="line">    p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></span><br><span class="line">    <span class="keyword">return</span> interrupted;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>Get the predecessor node through <code>node.predecessor()</code>.</li>
+<li>p == head &amp;&amp; tryAcquire(arg)<ul>
+<li>First, determine whether the predecessor node is the <code>CHL</code> header. If so, try to acquire the lock through <code>tryAcquire()</code>.</li>
+<li>In fact, the purpose of this is to let the current thread acquire the lock, but why do we need to judge <code>p==head</code> first? Understanding this is important to understanding the fair lock mechanism, because the reason for this is to ensure fairness!<ul>
+<li>Earlier, we use <code>shouldParkAfterFailedAcquire()</code> to determine whether the current thread needs to be blocked;</li>
+<li>Then, if the current thread is blocked, <code>parkAndCheckInterrupt()</code> will be called to block the thread. When the thread is unblocked, we return to the interrupted state of the thread. The blocking of the thread is resolved, either because the thread was interrupted or because the other thread called the <code>unpark()</code> function of the thread.</li>
+<li>Return to <code>p==head</code> here. If the current thread was awakened because another thread called the <code>unpark()</code> function, then the thread that awakened it should be the thread corresponding to its predecessor node (on this point, we will see later in the process of releasing the lock). OK, the previous node called <code>unpark()</code> to wake up the current thread!</li>
+</ul>
+</li>
+<li>At this point, it is very simple to understand <code>p==head</code>: the current successor node is the head node of the <code>CLH</code> queue, and after it releases the lock, it is the turn of the current node to acquire the lock. Then, the current node acquires the lock through <code>tryAcquire()</code>. If the acquisition is successful, set the current node as the head node through <code>setHead(node)</code> and return.</li>
+</ul>
+</li>
+</ol>
+<p>In short, if the predecessor node calls <code>unpark()</code> to wake up the current thread and the predecessor node is the <code>CLH</code> queue header, then <code>p==head</code> is satisfied, which is in line with the principle of fairness. Otherwise, if the current thread is woken up because the thread was interrupted, then it is obviously not fair. This is why <code>p==head</code> is to ensure fairness!    </p>
+<h4 id="selfInterrupt"><a href="#selfInterrupt" class="headerlink" title="selfInterrupt()"></a>selfInterrupt()</h4><p><code>selfInterrupt()</code> is implemented in <code>AQS</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">selfInterrupt</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread.currentThread().interrupt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The code for <code>selfInterrupt()</code> is very simple, that is, the current thread generates an interrupt by itself. But why do you need to do this?</p>
+<p>This must be analyzed in conjunction with <code>acquireQueued()</code>. If the current thread is interrupted in <code>acquireQueued()</code>, execute <code>selfInterrupt()</code>. Otherwise, it will not execute.</p>
+<p>In <code>acquireQueued()</code>, even if the thread is interrupted and woken up in the blocked state to obtain cpu execution rights. However, if there are other threads waiting for the lock in front of the thread, according to the principle of fairness, the thread still cannot acquire the lock. It will block again! The thread blocks again until the thread is woken up by the thread lock in front of it.</p>
+<p>In other words, before the thread acquires the lock successfully and actually executes, its interrupt will be ignored and the interrupt flag will be cleared! Because in <code>parkAndCheckInterrupt()</code>, we call <code>Thread.interrupted()</code> when the interrupted state of our thread. This function is different from Thread’s <code>isInterrupted()</code> function. <code>isInterrupted()</code> only returns the interrupted state, and <code>interrupted()</code> will also clear the interrupted state after returning to the current interrupted state. Because the previous interrupt status was cleared, so here you need to call <code>selfInterrupt()</code> to regenerate an interrupt!</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>Looking back at the <code>acquire()</code> function, its ultimate purpose is to acquire a lock!</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp;</span><br><span class="line">        acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</span><br><span class="line">        selfInterrupt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>First try to acquire the lock through <code>tryAcquire()</code>. If the acquisition is successful, return directly. If the attempt fails, then acquire the lock through <code>acquireQueued()</code>.</p>
+</li>
+<li><p>If the attempt fails, the current thread will be added to the end of the <code>CLH</code> queue through <code>addWaiter()</code>. Then the <code>acquireQueued()</code> is called to wait for the lock to be sorted in the <code>CLH</code> queue. During this process, the thread is dormant . Do not return until the lock is acquired. If it was interrupted during the sleep waiting process, call <code>selfInterrupt()</code> to generate an interrupt by itself.</p>
+</li>
+</ul>
+
+                </article>
+                <ul class="tags-postTags">
+                    
+                    <li>
+                        <a href="/tags/Multithreading/" rel="tag"># Multithreading</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav id="gobottom" class="pagination">
+        
+        <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="Leetcode 220. Contains Duplicate III" href="/Leetcode-220-Contains-Duplicate-III/">
+            Leetcode 220. Contains Duplicate III →
+        </a>
+        
+    </nav>
+
+    
+    <div class="inner">
+        <div id="comment"></div>
+    </div>
+    
+</div>
+
+<div class="toc-bar">
+    <div class="toc-btn-bar">
+        <a href="#site-main" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M793.024 710.272a32 32 0 1 0 45.952-44.544l-310.304-320a32 32 0 0 0-46.4 0.48l-297.696 320a32 32 0 0 0 46.848 43.584l274.752-295.328 286.848 295.808z"/></svg>
+        </a>
+        <div class="toc-btn toc-switch">
+            <svg class="toc-open" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M779.776 480h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M779.776 672h-387.2a32 32 0 0 0 0 64h387.2a32 32 0 0 0 0-64M256 288a32 32 0 1 0 0 64 32 32 0 0 0 0-64M392.576 352h387.2a32 32 0 0 0 0-64h-387.2a32 32 0 0 0 0 64M256 480a32 32 0 1 0 0 64 32 32 0 0 0 0-64M256 672a32 32 0 1 0 0 64 32 32 0 0 0 0-64"/></svg>
+            <svg class="toc-close hide" viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"/><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"/></svg>
+        </div>
+        <a href="#gobottom" class="toc-btn">
+            <svg viewbox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M231.424 346.208a32 32 0 0 0-46.848 43.584l297.696 320a32 32 0 0 0 46.4 0.48l310.304-320a32 32 0 1 0-45.952-44.544l-286.848 295.808-274.752-295.36z"/></svg>
+        </a>
+    </div>
+    <div class="toc-main">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-concept"><span class="toc-text">Basic concept</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AQS"><span class="toc-text">AQS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Types-of-AQS-locks"><span class="toc-text">Types of AQS locks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CLH-queue"><span class="toc-text">CLH queue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAS-function"><span class="toc-text">CAS function</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ReentrantLock-data-structure"><span class="toc-text">ReentrantLock data structure</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Acquire-a-fair-lock-based-on-JDK-11-0-5"><span class="toc-text">Acquire a fair lock (based on JDK 11.0.5)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#lock"><span class="toc-text">lock()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#acquire"><span class="toc-text">acquire()</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#tryAcquire"><span class="toc-text">tryAcquire()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#addWaiter-Node-EXCLUSIVE"><span class="toc-text">addWaiter(Node.EXCLUSIVE)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#acquireQueued"><span class="toc-text">acquireQueued()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#selfInterrupt"><span class="toc-text">selfInterrupt()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-text">Summary</span></a></li></ol>
+    </div>
+</div>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+	</div>
+	
+
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+  <header class="read-next-card-header">
+    <small class="read-next-card-header-sitetitle">&mdash; Nick Li &mdash;</small>
+    <h3 class="read-next-card-header-title">Recent Posts</h3>
+  </header>
+  <div class="read-next-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+      <path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/>
+    </svg>
+  </div>
+  <div class="read-next-card-content">
+    <ul>
+      
+      
+      
+      <li>
+        <a href="/Java-Multithreading-16-Fair-lock-Acquire/">Java Multithreading 16: Fair lock - Acquire</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Leetcode-220-Contains-Duplicate-III/">Leetcode 220. Contains Duplicate III</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/Java-Multithreading-15-ReentrantLock/">Java Multithreading 15: ReentrantLock</a>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+  <footer class="read-next-card-footer">
+    <a href="/archives">  MORE  → </a>
+  </footer>
+</article>
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+    <header class="read-next-card-header tagcloud-card">
+        <h3 class="read-next-card-header-title">Categories</h3>
+    </header>
+    <div class="read-next-card-content">
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cloud/">Spring Cloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/how-to-guide/">how-to-guide</a></li></ul>
+    </div>
+</article>
+
+
+            
+            
+            
+
+<article class="read-next-card" style="background-image: url(https://i.loli.net/2017/11/26/5a19c56faa29f.jpg)">
+	<header class="read-next-card-header tagcloud-card">
+		<h3 class="read-next-card-header-title">Tag Cloud</h3>
+	</header>
+	<div class="read-next-card-content-ext">
+		<a href="/tags/Cron-Expression/" style="font-size: 14px;">Cron Expression</a> <a href="/tags/Intellij/" style="font-size: 14px;">Intellij</a> <a href="/tags/Jackson/" style="font-size: 14px;">Jackson</a> <a href="/tags/Java-8-New-Features/" style="font-size: 14.83px;">Java 8 New Features</a> <a href="/tags/Java-Collections/" style="font-size: 16.5px;">Java Collections</a> <a href="/tags/Leetcode-Array/" style="font-size: 24px;">Leetcode - Array</a> <a href="/tags/Leetcode-Backtracking/" style="font-size: 23.17px;">Leetcode - Backtracking</a> <a href="/tags/Leetcode-Binary-Search/" style="font-size: 19px;">Leetcode - Binary Search</a> <a href="/tags/Leetcode-Bit-Manipulation/" style="font-size: 14px;">Leetcode - Bit Manipulation</a> <a href="/tags/Leetcode-Breadth-First-Search/" style="font-size: 16.5px;">Leetcode - Breadth First Search</a> <a href="/tags/Leetcode-Depth-First-Search/" style="font-size: 20.67px;">Leetcode - Depth First Search</a> <a href="/tags/Leetcode-Divde-and-Conquer/" style="font-size: 14px;">Leetcode - Divde and Conquer</a> <a href="/tags/Leetcode-Dynamic-Programming/" style="font-size: 22.33px;">Leetcode - Dynamic Programming</a> <a href="/tags/Leetcode-Graph/" style="font-size: 14.83px;">Leetcode - Graph</a> <a href="/tags/Leetcode-Greedy/" style="font-size: 15.67px;">Leetcode - Greedy</a> <a href="/tags/Leetcode-Hash-Table/" style="font-size: 17.33px;">Leetcode - Hash Table</a> <a href="/tags/Leetcode-Linked-List/" style="font-size: 19px;">Leetcode - Linked List</a> <a href="/tags/Leetcode-Math/" style="font-size: 14.83px;">Leetcode - Math</a> <a href="/tags/Leetcode-Ordered-Map/" style="font-size: 14px;">Leetcode - Ordered Map</a> <a href="/tags/Leetcode-Sliding-Window/" style="font-size: 14px;">Leetcode - Sliding Window</a> <a href="/tags/Leetcode-Sort/" style="font-size: 18.17px;">Leetcode - Sort</a> <a href="/tags/Leetcode-Stack/" style="font-size: 14px;">Leetcode - Stack</a> <a href="/tags/Leetcode-String/" style="font-size: 19px;">Leetcode - String</a> <a href="/tags/Leetcode-Topological-Sort/" style="font-size: 14.83px;">Leetcode - Topological Sort</a> <a href="/tags/Leetcode-Tree/" style="font-size: 19.83px;">Leetcode - Tree</a> <a href="/tags/Leetcode-Two-Pointers/" style="font-size: 21.5px;">Leetcode - Two Pointers</a> <a href="/tags/Leetcode-Union-Find/" style="font-size: 14.83px;">Leetcode - Union Find</a> <a href="/tags/Multithreading/" style="font-size: 23.17px;">Multithreading</a> <a href="/tags/Stream-API/" style="font-size: 14.83px;">Stream API</a> <a href="/tags/hexo/" style="font-size: 14.83px;">hexo</a>
+	</div>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+	
+
+
+
+
+<div id="search" class="search-overlay">
+    <div class="search-form">
+        
+        <input id="local-search-input" class="search-input" type="text" name="search" placeholder="Search ...">
+        <a class="search-overlay-close" href="#"></a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+<footer class="site-footer outer">
+	<div class="site-footer-content inner">
+		<div class="copyright">
+			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
+			
+				
+			        <span hidden="true" id="/Java-Multithreading-16-Fair-lock-Acquire/" class="leancloud-visitors" data-flag-title="Java Multithreading 16: Fair lock - Acquire">
+			            <span>阅读量 </span>
+			            <span class="leancloud-visitors-count">0</span>
+			        </span>
+	    		
+    		
+		</div>
+		<nav class="site-footer-nav">
+			
+			<a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+			<a href="https://github.com/xzhih/hexo-theme-casper" title="Casper" target="_blank" rel="noopener">Casper</a>
+		</nav>
+	</div>
+</footer>
+	
+
+
+<script>
+    if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister()
+            }
+        })
+    }
+</script>
+
+
+<script id="scriptLoad" src="/js/allinone.min.js" async></script>
+
+
+<script>
+    document.getElementById('scriptLoad').addEventListener('load', function () {
+        
+        
+            var bLazy = new Blazy();
+        
+
+        
+        
+
+        
+        
+        
+            searchFunc("/");
+        
+        
+    })
+</script>
+
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+
+
+<script id="valineScript" src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+<script>
+    document.getElementById('valineScript').addEventListener("load", function() {
+        new Valine({
+            el: '#comment' ,
+            verify: false,
+            notify: false,
+            appId: '3TACGUnsSRuWgqCn3pRpLVwQ-MdYXbMMI',
+            appKey: 'JTo5iyjOyGTEXzAwjaTNqcY0',
+            placeholder: 'Please leave a comment',
+            pageSize: 10,
+            avatar: 'mm',
+            visitor: true,
+            lang: 'en'
+        })
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
