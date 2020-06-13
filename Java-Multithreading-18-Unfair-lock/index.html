@@ -20,7 +20,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Leetcode 74. Search a 2D Matrix | Nick Li</title>
+	<title>Java Multithreading 18: Unfair lock | Nick Li</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -43,14 +43,14 @@
 
 	<meta property="og:site_name" content="Nick Li">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Leetcode 74. Search a 2D Matrix | Nick Li">
+	<meta property="og:title" content="Java Multithreading 18: Unfair lock | Nick Li">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://nicklee1006.github.io/Leetcode-74-Search-a-2D-Matrix/">
+	<meta property="og:url" content="http://nicklee1006.github.io/Java-Multithreading-18-Unfair-lock/">
 
 	
-	<meta property="article:published_time" content="2019-12-29T14:12:00+08:00"> 
+	<meta property="article:published_time" content="2020-06-13T20:06:00+08:00"> 
 	<meta property="article:author" content="Nick Li">
-	<meta property="article:published_first" content="Nick Li, /Leetcode-74-Search-a-2D-Matrix/">
+	<meta property="article:published_first" content="Nick Li, /Java-Multithreading-18-Unfair-lock/">
 	
 
 	
@@ -138,44 +138,79 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-12-29T04:48:11.000Z">
-                    2019-12-29
+                <time class="post-full-meta-date" datetime="2020-06-13T10:03:12.000Z">
+                    2020-06-13
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/Data-Structure-and-Algorithms/">Data Structure and Algorithms</a>&nbsp;&nbsp;
+                <a href="/categories/Java/">Java</a>&nbsp;&nbsp;
                 
                 
             </div>
-            <h1 class="post-full-title">Leetcode 74. Search a 2D Matrix</h1>
+            <h1 class="post-full-title">Java Multithreading 18: Unfair lock</h1>
         </header>
         <div class="post-full ">
             
-            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2019/11/11/EloJ1zbq4YV2RTf.jpg)">
+            <figure class="post-full-image" style="background-image: url(https://i.loli.net/2020/06/13/iAPhBcRr8jtmp1z.jpg)">
             </figure>
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><img class="post-img b-lazy" data-img="/Leetcode-74-Search-a-2D-Matrix/Question.png" data-index="0" data-src="/Leetcode-74-Search-a-2D-Matrix/Question.png">
-<br>
-<br>
-Search a value in an m x n matrix, determine if it exists.
+                    <p>The previous two blogs analyzed the fair lock acquisition and release mechanism, this blog we will start to analyze the process of unfair lock acquisition and release.</p>
+<h2 id="Acquire-unfair-lock-based-on-JDK-11-0-5"><a href="#Acquire-unfair-lock-based-on-JDK-11-0-5" class="headerlink" title="Acquire unfair lock (based on JDK 11.0.5)"></a>Acquire unfair lock (based on JDK 11.0.5)</h2><p>The process of acquiring locks is the same for unfair locks and fair locks. The difference between them is different mechanisms for trying to obtain locks. To put it simply, <code>fair lock</code> uses a fair strategy (ordering and waiting according to the waiting queue) every time it tries to acquire a lock. <code>Unfair lock</code> ignore the waiting queue, try to acquire the lock directly. If the lock is idle, you can acquire the status, then acquire the lock.</p>
+<p>Next, let’s look at process to obtain the unfair lock.</p>
+<p><code>1. lock()</code><br><code>lock()</code> is implemented in the <code>NonfairSync</code> class of <code>ReentrantLock</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, <span class="number">1</span>))</span><br><span class="line">        setExclusiveOwnerThread(Thread.currentThread());</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        acquire(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="Similar-Questions"><a href="#Similar-Questions" class="headerlink" title="Similar Questions"></a>Similar Questions</h3><ul>
-<li>Medium - <a href="https://leetcode.com/problems/search-a-2d-matrix-ii/" target="_blank" rel="noopener">240. Search a 2D Matrix II</a></li>
+<p><code>lock()</code> will first determine whether the lock is idle by <code>compareAndSet(0, 1)</code>. If it is, the current thread directly acquires the lock. Otherwise, it calls <code>acquire(1)</code> to acquire the lock.</p>
+<ol>
+<li><code>compareAndSetState()</code> is a <code>CAS</code> function. Its role is to compare and set the current lock state. If the lock state value is <code>0</code>, set the lock state value to <code>1</code>.</li>
+<li>The role of <code>setExclusiveOwnerThread(Thread.currentThread())</code> is to set current thread as the holder of lock.</li>
+</ol>
+<p><strong>Comparison of <code>lock()</code> between fair lock and unfair lock</strong></p>
+<ul>
+<li><code>Fair lock</code> - the <code>lock()</code> function of fair lock directly calls <code>acquire(1)</code>.</li>
+<li><code>Unfair locks</code> - Unfair locks first determine whether the current lock status is idle, and if so, they do not queue and acquire the lock directly.</li>
 </ul>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>As the martix is ordered, there is no doubt that we need to use binary search. First find which row the target belongs to, then use binary search to determine. We just need to consider how to convert the index into the row and column of the matrix. To do so, we can use division and mod.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// matrix is empty</span></span><br><span class="line"><span class="keyword">if</span> (matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> col = matrix[<span class="number">0</span>].length;</span><br><span class="line"></span><br><span class="line"><span class="comment">// loop each row, find which row the target belongs to</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span>[] ints : matrix) &#123;</span><br><span class="line">    <span class="comment">// target in this row</span></span><br><span class="line">    <span class="keyword">if</span> (target &gt;= ints[<span class="number">0</span>] &amp;&amp; target &lt;= ints[col - <span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="comment">// use binary search to this row</span></span><br><span class="line">        <span class="keyword">int</span> low = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> high = col - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (low &lt;= high) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (low + high) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (target == ints[mid]) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (target &lt; ints[mid]) &#123;</span><br><span class="line">                high = mid - <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                low = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</span><br></pre></td></tr></table></figure>
+<p><code>2. acquire()</code><br><code>acquire()</code> is implemented in <code>AQS</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp;</span><br><span class="line">        acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</span><br><span class="line">        selfInterrupt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Current thread first tries to acquire the lock through <code>tryAcquire()</code>. If the acquisition is successful, return directly. If the attempt fails, enter the waiting queue and sort in sequence, and then acquire the lock.</li>
+<li>If the current thread attempt fails, the current thread will be added to the end of the <code>CLH</code> queue (non-blocking FIFO queue) through <code>addWaiter(Node.EXCLUSIVE)</code>.</li>
+<li>Then, call <code>acquireQueued()</code> to acquire the lock. In <code>acquireQueued()</code>, the current thread will wait for all threads in the <code>CLH</code> queue to execute and release the lock before it can acquire the lock and return. If the current thread was interrupted during the sleep waiting process, call <code>selfInterrupt()</code> to generate an interrupt by itself.</li>
+</ul>
+<p><strong>Comparison of <code>acquire()</code> between fair lock and unfair lock</strong><br>Fair locks and unfair locks differ only in the implementation of the <code>tryAcquire()</code> function. That is, they have different mechanisms for trying to acquire locks.</p>
+<p>The <code>tryAcquire()</code> of the unfair lock is implemented in the <code>NonfairSync</code> class of <code>ReentrantLock</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> nonfairTryAcquire(acquires);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>nonfairTryAcquire()</code> is implemented in the <code>Sync</code> class of <code>ReentrantLock</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">nonfairTryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// get current thread</span></span><br><span class="line">    <span class="keyword">final</span> Thread current = Thread.currentThread();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// get lock state</span></span><br><span class="line">    <span class="keyword">int</span> c = getState();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// c == 0 means lock is not owned by any thread!</span></span><br><span class="line">    <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// If the lock is not owned by any thread , set the state of lock through the CAS function.</span></span><br><span class="line">        <span class="comment">// At the same time, set current thread as the lock holder.</span></span><br><span class="line">        <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, acquires)) &#123;</span><br><span class="line">            setExclusiveOwnerThread(current);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</span><br><span class="line">        <span class="comment">// If the holder of lock is already current thread</span></span><br><span class="line">        <span class="comment">// The status of the lock will be updated.</span></span><br><span class="line">        <span class="keyword">int</span> nextc = c + acquires;</span><br><span class="line">        <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>) <span class="comment">// overflow</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</span><br><span class="line">        setState(nextc);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The role of <code>tryAcquire()</code> is to try to acquire the lock.</p>
+<ul>
+<li>If the lock is not owned by any thread, set the state of the lock through the <code>CAS</code> function, and at the same time, set the current thread as the lock holder, and then return true.</li>
+<li>If the holder of the lock is already the current thread, the status of the lock will be updated.</li>
+<li>If the above two cases are not used, the attempt is considered to have failed.</li>
+</ul>
+<p><strong>Comparison of <code>tryAcquire()</code> between fair lock and unfair lock</strong><br>Fair locks and unfair locks have different ways of trying to acquire locks.</p>
+<p>When <code>fair lock</code> tries to acquire the lock, even if the lock is not held by any thread, it will determine whether it is the head of the <code>CLH</code> waiting queue. If it is, it will acquire the lock.</p>
+<p>When <code>unfair lock</code> tries to acquire a lock, if the lock is not held by any thread, it will directly acquire the lock no matter where it is in the CLH queue.</p>
+<h2 id="Release-unfair-lock-based-on-JDK-11-0-5"><a href="#Release-unfair-lock-based-on-JDK-11-0-5" class="headerlink" title="Release unfair lock (based on JDK 11.0.5)"></a>Release unfair lock (based on JDK 11.0.5)</h2><p>Unfair locks and fair locks have the same method and strategy for releasing locks.</p>
+<p>The release mechanism has been introduced in <a href="/Java-Multithreading-17-Fair-lock-Release/" title="Java-Multithreading-17-Fair-lock-Release">Java-Multithreading-17-Fair-lock-Release</a>, so I will not repeat here.</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>The difference between fair lock and unfair lock is the difference in the mechanism of acquiring a lock. </p>
+<p>When trying to acquire a lock</p>
+<ul>
+<li><code>Fair lock</code>: the lock is only acquired when the current thread is the head of the <code>CLH</code> waiting queue</li>
+<li><code>Unfair lock</code>: as long as the current lock is idle, the lock is directly acquired, regardless of <code>CLH</code> Wait for the order in the queue. Only when the unfair lock attempts to acquire the lock fails, it will enter the <code>CLH</code> waiting queue and sort like the fair lock.</li>
+</ul>
+
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/Leetcode-Array/" rel="tag"># Leetcode - Array</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/tags/Leetcode-Binary-Search/" rel="tag"># Leetcode - Binary Search</a>
+                        <a href="/tags/Multithreading/" rel="tag"># Multithreading</a>
                     </li>
                     
                 </ul>
@@ -186,14 +221,10 @@ Search a value in an m x n matrix, determine if it exists.
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Leetcode 75. Sort Colors" href="/Leetcode-75-Sort-Colors/">
-            ← Leetcode 75. Sort Colors
-        </a>
-        
         <span class="prev-next-post">·</span>
         
-        <a class="next-post" title="Leetcode 64. Minimum Path Sum" href="/Leetcode-64-Minimum-Path-Sum/">
-            Leetcode 64. Minimum Path Sum →
+        <a class="next-post" title="Leetcode 223. Rectangle Area" href="/Leetcode-223-Rectangle-Area/">
+            Leetcode 223. Rectangle Area →
         </a>
         
     </nav>
@@ -219,7 +250,7 @@ Search a value in an m x n matrix, determine if it exists.
         </a>
     </div>
     <div class="toc-main">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Question"><span class="toc-text">Question</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Similar-Questions"><span class="toc-text">Similar Questions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Acquire-unfair-lock-based-on-JDK-11-0-5"><span class="toc-text">Acquire unfair lock (based on JDK 11.0.5)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Release-unfair-lock-based-on-JDK-11-0-5"><span class="toc-text">Release unfair lock (based on JDK 11.0.5)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-text">Summary</span></a></li></ol>
     </div>
 </div>
 
@@ -636,7 +667,7 @@ Search a value in an m x n matrix, determine if it exists.
 			<a href="/" title="Nick Li">Nick Li &copy; 2020</a>
 			
 				
-			        <span hidden="true" id="/Leetcode-74-Search-a-2D-Matrix/" class="leancloud-visitors" data-flag-title="Leetcode 74. Search a 2D Matrix">
+			        <span hidden="true" id="/Java-Multithreading-18-Unfair-lock/" class="leancloud-visitors" data-flag-title="Java Multithreading 18: Unfair lock">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
